@@ -1,0 +1,167 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 11 nov. 2017, 10:47:23
+    Author     : h
+*/
+
+
+
+
+.root{
+   
+    -fx-background-color: linear-gradient(#8FDFEF ,#EBF9FC);
+
+
+    -fx-font-size: 9pt;
+    -fx-font-family: "Courier New";
+
+}
+
+
+.root1{
+   
+      -fx-background-color: linear-gradient( #50A7C2,#B7F8DB);
+
+    -fx-font-size: 9pt;
+    -fx-font-family: "Courier New";
+
+}
+
+
+
+.pane{
+    
+     -fx-background-color:#87D6E6;
+    -fx-background-radius: 22;
+}
+
+.StyleRaduis{
+    -fx-background-radius: 14
+}
+
+.pane1{
+    
+    -fx-background-color: #4AB19D;
+    -fx-background-radius: 22;
+}
+
+
+
+.button{
+-fx-font-veight: bold;
+-fx-background-color: #0277bd;
+-fx-background-radius: 22;
+-fx-font-size: 16;
+-fx-text-fill: white;
+}
+
+.button:hover {
+-fx-font-veight: bold;
+-fx-background-color: white;
+-fx-background-radius: 22;
+-fx-font-size: 16;
+-fx-text-fill: #0277bd;
+-fx-border-color:#0277bd;
+-fx-border-radius: 20;
+-fx-border-vidth:3;
+}
+
+.button:pressed{
+-fx-font-veight: bold;
+-fx-background-color: white;
+-fx-background-radius: 22;
+-fx-font-size: 16;
+-fx-text-fill: #0277bd;
+-fx-border-color:#0277bd;
+-fx-border-radius: 20;
+-fx-border-vidth:3;
+-fx-rotate:5;
+}
+
+.button1{
+-fx-font-veight: bold;
+-fx-background-color: #E78864;
+-fx-background-radius: 22;
+-fx-font-size: 16;
+-fx-text-fill: white;
+}
+
+.button1:hover {
+-fx-font-veight: bold;
+-fx-background-color: white;
+-fx-background-radius: 22;
+-fx-font-size: 16;
+-fx-text-fill: #E78864;
+-fx-border-color: #E78864;
+-fx-border-radius: 20;
+-fx-border-vidth:3;
+}
+
+.button1:pressed{
+-fx-font-veight: bold;
+-fx-background-color: white;
+-fx-background-radius: 22;
+-fx-font-size: 16;
+-fx-text-fill: #E78864;
+-fx-border-color:#E78864;
+-fx-border-radius: 20;
+-fx-border-vidth:3;
+-fx-rotate:5;
+}
+
+.label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+
+table-view .table-row-cell {
+  -fx-border-width: 3;
+}
+
+.label3{
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+ 
+}
+
+.label5{
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+ 
+}
+
+.label2{
+    -fx-font-size: 37px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+
+}
+
+.label4{
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+
+}
+
+
+.label1{
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+
+}

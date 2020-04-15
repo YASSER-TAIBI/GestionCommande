@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="1000.0" prefWidth="2000.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ClientMP.ListeClientMPController">
+   <children>
+      <TableView fx:id="tableClientMP" blendMode="MULTIPLY" layoutX="157.0" layoutY="344.0" maxWidth="1.7976931348623157E308" prefHeight="409.0" prefWidth="1070.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="nomColumn" prefWidth="82.39996337890625" text="nom" />
+            <TableColumn fx:id="codeColumn" prefWidth="69.0" text="code" />
+            <TableColumn fx:id="codeDepotColumn" prefWidth="124.00003051757812" text="code Depot" />
+            <TableColumn fx:id="adresseColumn" minWidth="0.0" prefWidth="130.0" text="adresse" />
+            <TableColumn fx:id="emailColumn" prefWidth="157.0" text="email" />
+            <TableColumn fx:id="telColumn" minWidth="0.0" prefWidth="137.0" text="tel" />
+            <TableColumn fx:id="datCreationColumn" prefWidth="207.0" text="date creation" />
+            <TableColumn fx:id="typeClientColumn" prefWidth="156.0" text="type Client" />
+         </columns>
+      </TableView>
+      <Pane layoutX="1236.0" layoutY="344.0" prefHeight="409.0" prefWidth="176.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnSupprimer" alignment="CENTER" layoutX="35.0" layoutY="242.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#SupprimerClientMP" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Supprimer" />
+            <Button fx:id="btnModifier" alignment="CENTER" layoutX="35.0" layoutY="173.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ModifierClientMP" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Modifier" />
+            <Button fx:id="btnValider" alignment="CENTER" layoutX="35.0" layoutY="104.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterClientMP" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Ajouter" />
+         </children>
+      </Pane>
+      <Pane layoutX="154.0" layoutY="244.0" prefHeight="75.0" prefWidth="1258.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <TextField fx:id="codeRechField" layoutX="538.0" layoutY="21.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheCodeClientOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <Label layoutX="479.0" layoutY="27.0" text="Code: " />
+            <Label layoutX="92.0" layoutY="27.0" text="Nom: " />
+            <Label layoutX="808.0" layoutY="26.0" text="Date Création: " />
+            <TextField fx:id="nomRechField" layoutX="143.0" layoutY="21.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheNomClientOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <DatePicker fx:id="dateRechPicker" layoutX="964.0" layoutY="22.0" onKeyPressed="#rechercheDateClientOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Date Création" />
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="308.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="703.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="567.0" layoutY="97.0" prefHeight="55.0" prefWidth="419.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="76.0" layoutY="5.0" prefHeight="44.0" prefWidth="281.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Liste Client" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

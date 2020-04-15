@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane id="AnchorPane" prefHeight="1000.0" prefWidth="2000.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Livraision.SuiviCommandeOulmesController">
+   <children>
+      <TableView fx:id="tableCommande" accessibleRole="CHECK_BOX" blendMode="MULTIPLY" layoutX="203.0" layoutY="218.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailOnMouseClicked" prefHeight="211.0" prefWidth="933.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="nComColumn" prefWidth="308.00001525878906" text="N Commande" />
+            <TableColumn fx:id="dateCreationColumn" prefWidth="417.0" text="Date Creation" />
+            <TableColumn fx:id="etatColumn" prefWidth="205.0" text="Etat" />
+         </columns>
+      </TableView>
+      <Pane layoutX="204.0" layoutY="154.0" prefHeight="55.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <TextField fx:id="numComRechField" layoutX="227.0" layoutY="10.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheNumComOnKeyPressed" prefHeight="32.0" prefWidth="207.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <DatePicker fx:id="dateCreationPicker" layoutX="778.0" layoutY="12.0" onAction="#creationDate" prefHeight="31.0" prefWidth="205.0" promptText="Sélectionner Date..." />
+            <Label layoutX="121.0" layoutY="16.0" text="N Command: " />
+            <Label layoutX="634.0" layoutY="16.0" text="Date Création: " />
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="403.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="1148.0" layoutY="219.0" prefHeight="211.0" prefWidth="181.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnRecu" layoutX="25.0" layoutY="26.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#recuCommande" prefHeight="38.0" prefWidth="131.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Reçu" />
+            <Button fx:id="btnSuivi" layoutX="25.0" layoutY="87.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#SuiviCommande" prefHeight="38.0" prefWidth="131.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Rafraichir" />
+            <Button fx:id="btnImprimerBc" layoutX="25.0" layoutY="147.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerBcOnAction" prefHeight="38.0" prefWidth="131.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer BC" />
+         </children>
+      </Pane>
+      <TableView fx:id="tableDetailCommande" blendMode="MULTIPLY" layoutX="204.0" layoutY="601.0" maxWidth="1.7976931348623157E308" prefHeight="226.0" prefWidth="926.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeArtColumn" prefWidth="126.0" text="Code Article" />
+            <TableColumn fx:id="libelleColumn" prefWidth="293.0" text="Libelle" />
+            <TableColumn fx:id="quantiteColumn" prefWidth="113.0" text="Qte" />
+            <TableColumn fx:id="quantiteRecuColumn" prefWidth="122.0" text="Qte Reçu " />
+            <TableColumn fx:id="quantiteRestantColumn" prefWidth="140.0" text="Qte Restant" />
+            <TableColumn fx:id="quantiteLivreeColumn" onEditCommit="#editCommitQuantiteLivreeColumn" prefWidth="132.0" text="Qte Livrée" />
+         </columns>
+      </TableView>
+      <Pane layoutX="1143.0" layoutY="601.0" prefHeight="226.0" prefWidth="181.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnValider" layoutX="26.0" layoutY="58.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#btnValiderOnAction" prefHeight="38.0" prefWidth="131.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Valider" />
+            <Button fx:id="btnImprimer" layoutX="26.0" layoutY="125.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="38.0" prefWidth="131.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer BR" />
+         </children>
+      </Pane>
+      <Pane layoutX="202.0" layoutY="506.0" prefHeight="85.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <ComboBox fx:id="magasinCombo" layoutX="797.0" layoutY="46.0" prefHeight="31.0" prefWidth="226.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="710.0" layoutY="52.0" text="Magasin: " />
+            <DatePicker fx:id="dateLivraisonPicker" layoutX="798.0" layoutY="7.0" prefHeight="31.0" prefWidth="223.0" promptText="Sélectionner Date..." />
+            <Label layoutX="653.0" layoutY="12.0" text="Date Livaison: " />
+            <ComboBox fx:id="depotCombo" layoutX="220.0" layoutY="46.0" onAction="#depotComboOnAction" prefHeight="31.0" prefWidth="220.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="151.0" layoutY="52.0" text="Depot: " />
+            <CheckBox fx:id="checkSc" layoutX="447.0" layoutY="28.0" mnemonicParsing="false" onAction="#checkDdOnAction" prefHeight="18.0" prefWidth="157.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Sans Commande" />
+            <CheckBox fx:id="checkDd" layoutX="447.0" layoutY="5.0" mnemonicParsing="false" onAction="#checkDdOnAction" prefHeight="18.0" prefWidth="157.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Déclaration Depot" />
+            <TextField fx:id="nLivraisonField" layoutX="220.0" layoutY="7.0" prefHeight="31.0" prefWidth="220.0" promptText="N Livraison" styleClass="StyleRaduis" />
+            <Label layoutX="85.0" layoutY="12.0" text="N° Livraison: " />
+         </children>
+      </Pane>
+      <Pane layoutX="506.0" layoutY="96.0" prefHeight="48.0" prefWidth="544.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="24.0" layoutY="2.0" prefHeight="44.0" prefWidth="495.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Suivi Livraison Oulmes" />
+         </children>
+      </Pane>
+      <Pane layoutX="206.0" layoutY="440.0" prefHeight="55.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <GridPane layoutX="86.0" layoutY="-2.0" prefHeight="55.0" prefWidth="940.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="161.0" minWidth="10.0" prefWidth="130.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="271.0" minWidth="10.0" prefWidth="222.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="331.0" minWidth="10.0" prefWidth="275.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.40000000000003" minWidth="10.0" prefWidth="85.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.80000000000007" minWidth="10.0" prefWidth="221.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.20000000000005" minWidth="0.0" prefWidth="13.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label prefHeight="20.0" prefWidth="122.0" text="Fournisseur:" />
+                  <TextField fx:id="fournisseurField" alignment="CENTER" disable="true" prefHeight="31.0" prefWidth="202.0" styleClass="StyleRaduis" GridPane.columnIndex="1" />
+                  <Label text="Client:" GridPane.columnIndex="3" />
+                  <TextField fx:id="clientField" alignment="CENTER" disable="true" prefHeight="31.0" prefWidth="202.0" styleClass="StyleRaduis" GridPane.columnIndex="4" />
+               </children>
+            </GridPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ArticleEtrangere.ListeArticleEtrangereController">
+   <children>
+      <TableView fx:id="tableArticle" blendMode="MULTIPLY" layoutX="248.0" layoutY="393.0" maxWidth="1.7976931348623157E308" onMouseClicked="#clickChargeOnMouseEntered" prefHeight="323.0" prefWidth="1118.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeColumn" prefWidth="106.0" text="Code" />
+            <TableColumn fx:id="libelleColumn" prefWidth="371.0" text="libelle" />
+            <TableColumn fx:id="uniteColumn" prefWidth="81.0" text="Unite" />
+            <TableColumn fx:id="typeArtDouColumn" prefWidth="126.0" text="Type Art" />
+            <TableColumn fx:id="fournisserColumn" prefWidth="160.0" text="Fournisseur" />
+            <TableColumn fx:id="deviseColumn" prefWidth="126.0" text="Devise" />
+            <TableColumn fx:id="prixColumn" prefWidth="148.0" text="Prix" />
+         </columns>
+      </TableView>
+      <Pane layoutX="249.0" layoutY="726.0" prefHeight="61.0" prefWidth="1118.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnAjouter" alignment="CENTER" layoutX="315.0" layoutY="8.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterVille" prefHeight="44.0" prefWidth="116.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Ajouter" />
+            <Button fx:id="btnModifier" alignment="CENTER" layoutX="499.0" layoutY="8.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ModifierVille" prefHeight="44.0" prefWidth="116.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Modifier" />
+            <Button fx:id="btnSupprimer" alignment="CENTER" layoutX="678.0" layoutY="8.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#SupprimerVille" prefHeight="44.0" prefWidth="116.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Supprimer" />
+         </children>
+      </Pane>
+      <Pane layoutX="246.0" layoutY="178.0" prefHeight="196.0" prefWidth="1118.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <TextField fx:id="txtCode" alignment="CENTER" layoutX="194.0" layoutY="14.0" maxWidth="1.7976931348623157E308" onKeyReleased="#searche" prefHeight="32.0" prefWidth="234.0" promptText="code" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <TextField fx:id="txtLibelle" alignment="CENTER" layoutX="724.0" layoutY="14.0" maxWidth="1.7976931348623157E308" onKeyReleased="#searche" prefHeight="32.0" prefWidth="234.0" promptText="libelle" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <Label layoutX="637.0" layoutY="20.0" text="Libelle:" />
+            <Label layoutX="137.0" layoutY="19.0" text="Code:" />
+            <Label fx:id="msgCode" layoutX="971.0" layoutY="37.0" prefHeight="32.0" prefWidth="25.0" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <ImageView fx:id="btnRafrechaire" fitHeight="38.0" fitWidth="42.0" layoutX="1069.0" layoutY="148.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="118.0" layoutY="113.0" text="Devise:" />
+            <ComboBox fx:id="deviseCombo" layoutX="194.0" layoutY="108.0" prefHeight="31.0" prefWidth="234.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="136.0" layoutY="69.0" text="Prix:" />
+            <TextField fx:id="prixField" alignment="CENTER" layoutX="194.0" layoutY="62.0" prefHeight="31.0" prefWidth="234.0" promptText="prix" styleClass="StyleRaduis" />
+            <Label layoutX="599.0" layoutY="66.0" text="Fournisseur:" />
+            <ComboBox fx:id="fourCombo" layoutX="723.0" layoutY="61.0" prefHeight="31.0" prefWidth="234.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <RadioButton fx:id="offreArtDo" layoutX="734.0" layoutY="157.0" mnemonicParsing="false" styleClass="label" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Offre">
+               <toggleGroup>
+                  <ToggleGroup fx:id="typArtDouane" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="normalArtDou" layoutX="851.0" layoutY="158.0" mnemonicParsing="false" styleClass="label" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Normal">
+               <toggleGroup>
+                  <ToggleGroup fx:id="typArtDouane" />
+               </toggleGroup>
+            </RadioButton>
+            <Label layoutX="589.0" layoutY="159.0" text="Type Article: " />
+            <TextField fx:id="txtUnite" alignment="CENTER" layoutX="722.0" layoutY="108.0" maxWidth="1.7976931348623157E308" onKeyReleased="#searche" prefHeight="32.0" prefWidth="234.0" promptText="unité" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <Label layoutX="654.0" layoutY="115.0" text="Unité:" />
+         </children>
+      </Pane>
+      <Pane layoutX="583.0" layoutY="99.0" prefHeight="55.0" prefWidth="419.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="68.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Liste Article" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

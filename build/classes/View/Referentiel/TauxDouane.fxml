@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.PrixArticleFourController">
+   <children>
+      <TableView fx:id="tablePrixArtFou" blendMode="MULTIPLY" layoutX="241.0" layoutY="378.0" onMouseClicked="#clickChargeOnMouseEntered" prefHeight="357.0" prefWidth="1075.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+        <columns>
+          <TableColumn fx:id="codeColumn" prefWidth="136.0" text="Code" />
+          <TableColumn fx:id="libelleColumn" prefWidth="447.0" text="Libelle" />
+            <TableColumn fx:id="fournisserColumn" prefWidth="193.0" text="Fournisseur" />
+            <TableColumn fx:id="prixColumn" prefWidth="150.0" text="Prix" />
+            <TableColumn fx:id="deviseColumn" prefWidth="149.0" text="Devise" />
+        </columns>
+      </TableView>
+      <Pane layoutX="237.0" layoutY="748.0" prefHeight="65.0" prefWidth="1075.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnModifier" layoutX="478.0" layoutY="10.0" mnemonicParsing="false" onAction="#btnModifierOnAction" prefHeight="44.0" prefWidth="116.0" text="Modifier" />
+            <Button fx:id="btnSupprimer" layoutX="609.0" layoutY="10.0" mnemonicParsing="false" onAction="#btnSupprimerOnAction" prefHeight="44.0" prefWidth="116.0" text="Supprimer" />
+            <Button fx:id="btnAjouter" layoutX="348.0" layoutY="10.0" mnemonicParsing="false" onAction="#btnAjouterOnAction" prefHeight="44.0" prefWidth="116.0" text="Ajouter" />
+         </children>
+      </Pane>
+      <Pane layoutX="237.0" layoutY="199.0" prefHeight="169.0" prefWidth="1075.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="101.0" layoutY="28.0" text="Code: " />
+            <Label layoutX="558.0" layoutY="27.0" text="Libelle: " />
+            <TextField fx:id="codeField" alignment="CENTER" layoutX="168.0" layoutY="21.0" onKeyReleased="#codeArticleOnAction" prefHeight="31.0" prefWidth="218.0" promptText="Code" styleClass="StyleRaduis" />
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1034.0" layoutY="127.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="libelleField" alignment="CENTER" disable="true" layoutX="653.0" layoutY="21.0" prefHeight="31.0" prefWidth="353.0" promptText="Libelle" styleClass="StyleRaduis" />
+            <Label layoutX="81.0" layoutY="120.0" text="Devise: " />
+            <ComboBox fx:id="deviseCombo" layoutX="168.0" layoutY="115.0" prefHeight="31.0" prefWidth="218.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="100.0" layoutY="75.0" text="Prix: " />
+            <TextField fx:id="prixField" alignment="CENTER" layoutX="168.0" layoutY="68.0" prefHeight="31.0" prefWidth="218.0" promptText="Prix" styleClass="StyleRaduis" />
+            <Label layoutX="517.0" layoutY="73.0" text="Fournisseur: " />
+            <ComboBox fx:id="fourCombo" layoutX="652.0" layoutY="68.0" prefHeight="31.0" prefWidth="218.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+         </children>
+      </Pane>
+      <Pane layoutX="485.0" layoutY="99.0" prefHeight="55.0" prefWidth="585.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="26.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Prix Article Fournisseur" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

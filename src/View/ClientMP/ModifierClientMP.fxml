@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="432.0" prefWidth="737.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ClientMP.ModifierClientMPController">
+   <children>
+      <Label layoutX="46.0" layoutY="279.0" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" text="Type Client: " />
+      <ComboBox fx:id="typeClientCombo" layoutX="171.0" layoutY="273.0" prefHeight="31.0" prefWidth="181.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+      <Label layoutX="122.0" layoutY="134.0" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" text="Nom: " />
+      <Label layoutX="112.0" layoutY="181.0" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" text="Code: " />
+      <Label layoutX="56.0" layoutY="230.0" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" text="Code Depot: " />
+      <Label layoutX="406.0" layoutY="136.0" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" text="Adresse: " />
+      <TextField fx:id="nomField" alignment="CENTER" layoutX="171.0" layoutY="128.0" prefHeight="32.0" prefWidth="181.0" promptText="nom" styleClass="StyleRaduis" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" />
+      <TextField fx:id="codeField" alignment="CENTER" layoutX="171.0" layoutY="174.0" prefHeight="32.0" prefWidth="181.0" promptText="code" styleClass="StyleRaduis" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" />
+      <TextField fx:id="codeDepotField" alignment="CENTER" layoutX="172.0" layoutY="224.0" prefHeight="32.0" prefWidth="181.0" promptText="code depot" styleClass="StyleRaduis" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" />
+      <PasswordField fx:id="adresseField" accessibleRole="TEXT_FIELD" alignment="CENTER" layoutX="493.0" layoutY="128.0" prefHeight="32.0" prefWidth="181.0" promptText="adresse" styleClass="StyleRaduis" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" />
+      <Button fx:id="btnModif" alignment="CENTER" layoutX="245.0" layoutY="358.0" mnemonicParsing="false" onAction="#ModifierClientAction" prefHeight="39.0" prefWidth="125.0" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" text="Modifier" />
+      <Label layoutX="444.0" layoutY="182.0" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" text="Tel: " />
+      <TextField fx:id="telField" alignment="CENTER" layoutX="493.0" layoutY="175.0" prefHeight="32.0" prefWidth="181.0" promptText="tel" styleClass="StyleRaduis" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" />
+      <TextField fx:id="emailField" alignment="CENTER" layoutX="492.0" layoutY="224.0" prefHeight="32.0" prefWidth="181.0" promptText="email" styleClass="StyleRaduis" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" />
+      <Label layoutX="415.0" layoutY="231.0" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" text="E-Mail: " />
+      <Separator layoutX="367.0" layoutY="123.0" orientation="VERTICAL" prefHeight="191.0" prefWidth="24.0" />
+      <Pane layoutX="199.0" layoutY="25.0" prefHeight="47.0" prefWidth="358.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="44.0" layoutY="5.0" prefHeight="36.0" prefWidth="284.0" styleClass="label5" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Modifier Client" />
+         </children>
+      </Pane>
+      <Button fx:id="btnRafraichir" alignment="CENTER" layoutX="385.0" layoutY="359.0" mnemonicParsing="false" onAction="#rafraichirClientAction" prefHeight="39.0" prefWidth="125.0" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" text="Rafraîchir" />
+   </children>
+</AnchorPane>

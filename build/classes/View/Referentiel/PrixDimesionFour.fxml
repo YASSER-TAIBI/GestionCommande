@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.PrixDimesionFourController">
+   <children>
+      <Pane layoutX="301.0" layoutY="222.0" prefHeight="112.0" prefWidth="908.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <GridPane layoutX="54.0" layoutY="13.0" prefHeight="84.0" prefWidth="818.0">
+               <columnConstraints>
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="240.0" minWidth="10.0" prefWidth="200.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="371.0" minWidth="10.0" prefWidth="283.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="262.0" minWidth="10.0" prefWidth="135.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="406.5999633789063" minWidth="10.0" prefWidth="220.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="61.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <ComboBox fx:id="sousCatCombo" onAction="#subCatigorieAction" prefHeight="31.0" prefWidth="213.0" promptText="Sélectionner..." styleClass="StyleRaduis" GridPane.columnIndex="1" />
+                  <Label prefHeight="20.0" prefWidth="154.0" text="Sous Categorie: " />
+                  <Label prefHeight="20.0" prefWidth="156.0" text="Fournisseur: " GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="fourCombo" onAction="#fourComboOnAction" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <Label prefHeight="20.0" prefWidth="154.0" text="Type Categorie: " GridPane.rowIndex="1" />
+                  <ComboBox fx:id="typeCategorieCombo" onAction="#CatigorieAction" prefHeight="31.0" prefWidth="213.0" promptText="Sélectionner..." styleClass="StyleRaduis" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="artCombo" onAction="#artComboOnAction" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" GridPane.columnIndex="3" />
+                  <Label prefHeight="20.0" prefWidth="88.0" text="Article: " GridPane.columnIndex="2" />
+               </children>
+            </GridPane>
+         </children>
+      </Pane>
+      <Pane layoutX="587.0" layoutY="109.0" prefHeight="55.0" prefWidth="466.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="58.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Prix Fournisseur" />
+         </children>
+      </Pane>
+      <Pane layoutX="301.0" layoutY="344.0" prefHeight="382.0" prefWidth="1110.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <GridPane layoutX="104.0" layoutY="8.0" prefHeight="91.0" prefWidth="971.0">
+               <columnConstraints>
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="343.0" minWidth="10.0" prefWidth="166.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="476.0" minWidth="10.0" prefWidth="306.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="273.0" minWidth="10.0" prefWidth="165.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="406.5999633789063" minWidth="10.0" prefWidth="330.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="61.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="148.0" text="Intervalle:" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="IntervalleCombo" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label prefHeight="20.0" prefWidth="112.0" text="Grammage:" GridPane.columnIndex="2" />
+                  <ComboBox fx:id="grammageCombo" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" GridPane.columnIndex="3" />
+                  <Label alignment="CENTER" text="Dimension:  " />
+                  <ComboBox fx:id="dimCombo" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" GridPane.columnIndex="1" />
+                  <Label prefHeight="20.0" prefWidth="120.0" text="Type Film: " GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="TypeFilmCombo" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <Label layoutX="89.0" layoutY="113.0" prefHeight="20.0" prefWidth="166.0" text="Type Carton Box :" />
+            <ComboBox fx:id="TypeCarBoxCombo" layoutX="271.0" layoutY="109.0" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="591.0" layoutY="114.0" prefHeight="20.0" prefWidth="154.0" text="Grammage Film:" />
+            <ComboBox fx:id="grammageFilmCombo" layoutX="745.0" layoutY="107.0" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="127.0" layoutY="162.0" prefHeight="20.0" prefWidth="143.0" text="Type Carton :" />
+            <ComboBox fx:id="TypeCarCombo" layoutX="271.0" layoutY="158.0" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="562.0" layoutY="161.0" text="Remise d'Achat %:  " />
+            <TextField fx:id="remiseAchatField" alignment="CENTER" layoutX="745.0" layoutY="155.0" prefHeight="31.0" prefWidth="211.0" promptText="Remise d'Achat" styleClass="StyleRaduis" />
+            <Label layoutX="562.0" layoutY="207.0" text="Remise d'Avoir %:  " />
+            <TextField fx:id="remiseAvoirField" alignment="CENTER" layoutX="744.0" layoutY="201.0" prefHeight="31.0" prefWidth="211.0" promptText="Remise d'Avoir" styleClass="StyleRaduis" />
+            <RadioButton fx:id="radPiece" layoutX="273.0" layoutY="208.0" mnemonicParsing="false" onAction="#radPieceOnAction" styleClass="label" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Piece">
+               <toggleGroup>
+                  <ToggleGroup fx:id="radPackPiece" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radPack" layoutX="390.0" layoutY="208.0" mnemonicParsing="false" onAction="#radPackOnAction" styleClass="label" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Pack" toggleGroup="$radPackPiece" />
+            <Label layoutX="127.0" layoutY="211.0" text="Type Article:  " />
+            <Label layoutX="98.0" layoutY="255.0" text="Conditionnement:" />
+            <TextField fx:id="conditionnementField" alignment="CENTER" layoutX="270.0" layoutY="249.0" prefHeight="31.0" prefWidth="211.0" promptText="Conditionnement" styleClass="StyleRaduis" />
+            <Label layoutX="203.0" layoutY="344.0" text="Prix: " />
+            <TextField fx:id="prixField" alignment="CENTER" layoutX="270.0" layoutY="340.0" prefHeight="31.0" prefWidth="211.0" promptText="Prix" styleClass="StyleRaduis" />
+            <Label layoutX="505.0" layoutY="253.0" text="Conditionnement Caisse:" />
+            <TextField fx:id="conditionnementCaisseField" alignment="CENTER" layoutX="744.0" layoutY="247.0" prefHeight="31.0" prefWidth="211.0" promptText="Conditionnement Caisse" styleClass="StyleRaduis" />
+            <RadioButton fx:id="radClientOui" layoutX="272.0" layoutY="299.0" mnemonicParsing="false" onAction="#radClientOuiOnAction" styleClass="label" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Oui">
+               <toggleGroup>
+                  <ToggleGroup fx:id="radOuiNon" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radClientNon" layoutX="389.0" layoutY="299.0" mnemonicParsing="false" onAction="#radClientNonOnAction" styleClass="label" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Non" toggleGroup="$radOuiNon" />
+            <Label layoutX="184.0" layoutY="301.0" prefHeight="20.0" prefWidth="88.0" text="Client:" />
+            <Label layoutX="659.0" layoutY="300.0" text="Client:" />
+            <ComboBox fx:id="clientCombo" layoutX="746.0" layoutY="294.0" onAction="#clientOnAction" prefHeight="31.0" prefWidth="211.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <TextField fx:id="lieuLivraisonField" alignment="CENTER" layoutX="746.0" layoutY="340.0" prefHeight="31.0" prefWidth="211.0" promptText="Lieu Livraison" styleClass="StyleRaduis" />
+            <Label layoutX="585.0" layoutY="345.0" text="Lieu Livraison:" />
+         </children>
+      </Pane>
+      <Pane layoutX="1219.0" layoutY="222.0" prefHeight="112.0" prefWidth="189.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <RadioButton fx:id="radioPrixMp" layoutX="13.0" layoutY="26.0" mnemonicParsing="false" onAction="#radioPrixMpOnAction" styleClass="label" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Prix MP">
+               <toggleGroup>
+                  <ToggleGroup fx:id="groupeType1" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="radioPrixArt" layoutX="13.0" layoutY="63.0" mnemonicParsing="false" onAction="#radioPrixArtOnAction" styleClass="label" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Prix Article" toggleGroup="$groupeType1" />
+         </children>
+      </Pane>
+      <Pane layoutX="301.0" layoutY="737.0" prefHeight="62.0" prefWidth="1110.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnRefrech" layoutX="564.0" layoutY="9.0" mnemonicParsing="false" onAction="#btnRefrechOnAction" prefHeight="44.0" prefWidth="128.0" text="Refrech" />
+            <Button fx:id="btnValider" layoutX="419.0" layoutY="9.0" mnemonicParsing="false" onAction="#btnValiderOnAction" prefHeight="44.0" prefWidth="128.0" text="Valider" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

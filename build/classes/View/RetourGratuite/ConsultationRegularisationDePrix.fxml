@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.RetourGratuite.ConsultationRegularisationController">
+   <children>
+      <TableView fx:id="tableRegularisation" blendMode="MULTIPLY" layoutX="188.0" layoutY="245.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailAndStockProdOnMouseClicked" prefHeight="443.0" prefWidth="1258.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="numFactureColumn" prefWidth="217.0" text="Num Facture" />
+            <TableColumn fx:id="typeColumn" prefWidth="210.0" text="Type Régularisation" />
+            <TableColumn fx:id="clientColumn" prefWidth="204.0" text="Client" />
+            <TableColumn fx:id="fourColumn" prefWidth="219.0" text="Fournisseur" />
+            <TableColumn fx:id="numTraiteColumn" onEditCommit="#numTraiteOnEditCommit" prefWidth="189.0" text="Num Traite" />
+            <TableColumn fx:id="montantColumn" minWidth="4.0" prefWidth="219.0" text="Montant" />
+         </columns>
+      </TableView>
+      <Pane layoutX="188.0" layoutY="181.0" prefHeight="55.0" prefWidth="1258.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="208.0" layoutY="18.0" text="Client: " />
+            <Label layoutX="692.0" layoutY="18.0" text=" Fournissuer: " />
+            <ComboBox fx:id="fourCombo" layoutX="826.0" layoutY="11.0" onAction="#fournisseurOnAction" prefHeight="31.0" prefWidth="241.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <ComboBox fx:id="clientCombo" layoutX="306.0" layoutY="12.0" onAction="#clientOnAction" prefHeight="31.0" prefWidth="241.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="1149.0" layoutY="6.0" onMouseClicked="#recherchMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="416.0" layoutY="109.0" prefHeight="55.0" prefWidth="822.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="21.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Consultation Régularisation de Prix" />
+         </children>
+      </Pane>
+      <Pane layoutX="188.0" layoutY="698.0" prefHeight="62.0" prefWidth="1258.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="879.0" layoutY="21.0" text="Montant Total: " />
+            <TextField fx:id="montantTotalField" alignment="CENTER" disable="true" layoutX="1037.0" layoutY="15.0" prefHeight="31.0" prefWidth="203.0" promptText="montant Total" styleClass="StyleRaduis" />
+            <Button fx:id="btnImprimer" alignment="CENTER" layoutX="627.0" layoutY="8.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer" />
+            <Button fx:id="btnRefrech" alignment="CENTER" layoutX="489.0" layoutY="8.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#refrechOnAction" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Refrech" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Reglement.SutiationGlobalAvoirController">
+   <children>
+      <TableView fx:id="tableSituationAvoir" blendMode="MULTIPLY" layoutX="117.0" layoutY="185.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailOnMouseClicked" prefHeight="232.0" prefWidth="1371.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeColumn" prefWidth="77.0" text="Code" />
+            <TableColumn fx:id="libelleColumn" prefWidth="326.0" text="Libelle" />
+            <TableColumn fx:id="avoirColumn" prefWidth="187.0" text="Avoir" />
+            <TableColumn fx:id="factureAvoirColumn" minWidth="0.0" prefWidth="163.0" text="Facture Avoir" />
+            <TableColumn fx:id="qteResteeColumn" minWidth="0.0" prefWidth="125.0" text="Qte Restee" />
+            <TableColumn fx:id="prixColumn" minWidth="0.0" prefWidth="114.0" text="Prix" />
+            <TableColumn fx:id="montantColumn" minWidth="0.0" prefWidth="126.0" text="Montant HT" />
+            <TableColumn fx:id="MontantTvaColumn" minWidth="0.0" prefWidth="127.0" text="Montant TVA" />
+            <TableColumn fx:id="MontantTtcColumn" minWidth="0.0" prefWidth="126.0" text="Montant TTC" />
+         </columns>
+      </TableView>
+      <Pane layoutX="446.0" layoutY="111.0" prefHeight="55.0" prefWidth="708.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="55.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Situation Global des Avoirs" />
+         </children>
+      </Pane>
+      <Pane layoutX="120.0" layoutY="426.0" prefHeight="55.0" prefWidth="1371.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="949.0" layoutY="18.0" text="Montant Total TTC: " />
+            <TextField fx:id="montantTotalField" alignment="CENTER" disable="true" layoutX="1141.0" layoutY="12.0" prefHeight="31.0" prefWidth="203.0" promptText="montant Total" styleClass="StyleRaduis" />
+         </children>
+      </Pane>
+      <TableView fx:id="detailTableSituationAvoir" blendMode="MULTIPLY" layoutX="117.0" layoutY="490.0" maxWidth="1.7976931348623157E308" prefHeight="232.0" prefWidth="1371.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="detailCodeColumn" prefWidth="74.99996948242188" text="Code" />
+            <TableColumn fx:id="detailLibelleColumn" prefWidth="277.0" text="Libelle" />
+            <TableColumn fx:id="clientColumn" minWidth="0.0" prefWidth="172.0" text="Client" />
+            <TableColumn fx:id="detailAvoirColumn" prefWidth="120.0" text="Avoir" />
+            <TableColumn fx:id="detailFactureAvoirColumn" minWidth="0.0" prefWidth="144.0" text="Facture Avoir" />
+            <TableColumn fx:id="detailQteResteeColumn" minWidth="0.0" prefWidth="106.0" text="Qte Restee" />
+            <TableColumn fx:id="detailPrixColumn" minWidth="0.0" prefWidth="99.0" text="Prix" />
+            <TableColumn fx:id="detailMontantColumn" minWidth="0.0" prefWidth="126.0" text="Montant HT" />
+            <TableColumn fx:id="detailMontantTvaColumn" minWidth="0.0" prefWidth="126.0" text="Montant TVA" />
+            <TableColumn fx:id="detailMontantTtcColumn" minWidth="0.0" prefWidth="126.0" text="Montant TTC" />
+         </columns>
+      </TableView>
+      <Pane layoutX="117.0" layoutY="731.0" prefHeight="55.0" prefWidth="1371.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="951.0" layoutY="18.0" text="Montant Total TTC: " />
+            <TextField fx:id="detailMontantTotalField" alignment="CENTER" disable="true" layoutX="1142.0" layoutY="12.0" prefHeight="31.0" prefWidth="203.0" promptText="montant Total" styleClass="StyleRaduis" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

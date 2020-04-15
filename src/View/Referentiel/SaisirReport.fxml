@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.SaisirReportController">
+   <children>
+      <TableView fx:id="tableDetailCompte" blendMode="MULTIPLY" layoutX="158.0" layoutY="491.0" maxWidth="1.7976931348623157E308" onMouseClicked="#clickChargeOnMouseEntered" prefHeight="315.0" prefWidth="1062.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="CompteColumn" prefWidth="140.0" text="Compte" />
+            <TableColumn fx:id="dateColumn" prefWidth="142.00003051757812" text="Date Operation" />
+            <TableColumn fx:id="DesignationColumn" prefWidth="340.0" text="Designation" />
+            <TableColumn fx:id="montantCreditColumn" prefWidth="157.0" text="Montant Credit" />
+            <TableColumn fx:id="montantDebitColumn" prefWidth="141.0" text="Montant Debit" />
+            <TableColumn fx:id="clientColumn" prefWidth="137.0" text="Client" />
+         </columns>
+      </TableView>
+      <Pane layoutX="1232.0" layoutY="492.0" prefHeight="315.0" prefWidth="186.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnSupprimer" layoutX="40.0" layoutY="219.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#SupprimerFournisseur" prefHeight="44.0" prefWidth="109.0" text="Supprimer" />
+            <Button fx:id="btnValider" alignment="CENTER" layoutX="39.0" layoutY="49.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterCompte" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Ajouter" textAlignment="CENTER" />
+            <Button fx:id="btnModifier" layoutX="40.0" layoutY="134.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ModifierFournisseur" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Modifier" />
+         </children>
+      </Pane>
+      <Pane fx:id="paneMontant" layoutX="158.0" layoutY="298.0" prefHeight="182.0" prefWidth="1258.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="178.0" layoutY="83.0" text="Montant credit: " />
+            <Label layoutX="720.0" layoutY="83.0" text="Montant debit: " />
+            <TextField fx:id="montantCreditField" layoutX="341.0" layoutY="78.0" maxWidth="1.7976931348623157E308" onMouseClicked="#montantCreditOnMouseClick" prefHeight="32.0" prefWidth="220.0" promptText="montant credit" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <TextField fx:id="montantDebitField" layoutX="873.0" layoutY="78.0" maxWidth="1.7976931348623157E308" onMouseClicked="#montantDebitOnMouseClick" prefHeight="32.0" prefWidth="220.0" promptText="montant debit" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <Label layoutX="168.0" layoutY="27.0" text="Année de Report: " />
+            <ComboBox fx:id="clientCombo" layoutX="873.0" layoutY="20.0" prefHeight="31.0" prefWidth="220.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="787.0" layoutY="26.0" text="Client: " />
+            <ComboBox fx:id="anneeReportCombo" layoutX="339.0" layoutY="22.0" prefHeight="31.0" prefWidth="220.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1211.0" layoutY="104.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="120.0" layoutY="139.0" text="Date Création Report: " />
+            <DatePicker fx:id="dateCreation" layoutX="340.0" layoutY="134.0" prefHeight="31.0" prefWidth="220.0" promptText="Sélectionner Date..." />
+         </children>
+      </Pane>
+      <Pane layoutX="576.0" layoutY="109.0" prefHeight="55.0" prefWidth="419.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="56.0" layoutY="5.0" prefHeight="44.0" prefWidth="307.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Saisir Report" />
+         </children>
+      </Pane>
+      <Pane layoutX="158.0" layoutY="207.0" prefHeight="76.0" prefWidth="1258.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="456.0" layoutY="29.0" text="Compte: " />
+            <ComboBox fx:id="compteCombo" layoutX="547.0" layoutY="23.0" onAction="#compteOnAction" prefHeight="31.0" prefWidth="236.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HomeController">
+  <children>
+    <AnchorPane fx:id="centrePane" maxHeight="1000.0" maxWidth="2232.0" prefHeight="900.0" prefWidth="1600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+            <ImageView fitHeight="900.0" fitWidth="1600.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.28118896484375" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../Styles/img/GestionCommande_HOME.jpg" />
+               </image></ImageView>
+            <ImageView fx:id="alerticone" fitHeight="45.0" fitWidth="45.0" layoutX="57.0" layoutY="96.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Styles/img/alert-icon.png" />
+               </image></ImageView>
+        <Button layoutX="434.0" layoutY="701.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="75.0" text="Button" visible="false" />
+            <ListView fx:id="listeViewAlertMax" layoutX="10.0" layoutY="145.0" prefHeight="148.0" prefWidth="377.0" />
+            <Text layoutX="114.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alert Produit Max">
+               <font>
+                  <Font name="Andalus" size="22.0" />
+               </font>
+            </Text>
+            <ImageView fx:id="alerticone1" fitHeight="45.0" fitWidth="45.0" layoutX="286.0" layoutY="96.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Styles/img/alert-icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="alerticone2" fitHeight="45.0" fitWidth="45.0" layoutX="1262.0" layoutY="96.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Styles/img/alert-icon.png" />
+               </image>
+            </ImageView>
+            <ListView fx:id="listeViewAlertMin" layoutX="1212.0" layoutY="145.0" prefHeight="148.0" prefWidth="377.0" />
+            <Text layoutX="1319.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Alert Produit Min">
+               <font>
+                  <Font name="Andalus" size="22.0" />
+               </font>
+            </Text>
+            <ImageView fx:id="alerticone11" fitHeight="45.0" fitWidth="45.0" layoutX="1489.0" layoutY="96.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Styles/img/alert-icon.png" />
+               </image>
+            </ImageView>
+      </children>
+    </AnchorPane>
+    <AnchorPane fx:id="menuPane" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="78.0" prefWidth="1600.0">
+      <children>
+        <MenuBar maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="32.0" prefWidth="1600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <menus>
+            <Menu fx:id="commandeMenu" mnemonicParsing="false" text="Commande">
+              <items>
+                        <Menu fx:id="commandeInterneMenu" mnemonicParsing="false" text="Commande Interne">
+                          <items>
+                              <Menu fx:id="commandeRegionMenu" mnemonicParsing="false" text="Commande Région">
+                                <items>
+                                    <MenuItem fx:id="saisirCommandeRegionMenu" mnemonicParsing="false" onAction="#menuSaisirCommandeRegion" text="Saisir Commande Région" />
+                                </items>
+                              </Menu>
+                              <Menu fx:id="saisirCommandeOulmesMenu" mnemonicParsing="false" text="Commande Oulmes">
+                                <items>
+                                    <MenuItem fx:id="saisirCommandeOulmesMenu" mnemonicParsing="false" onAction="#menuSaisirOulmes" text="Saisir Commande Oulmes" />
+                                  <MenuItem fx:id="validerCommandeOulmesMenu" mnemonicParsing="false" onAction="#menuValiderOulmesCommande" text="Valider Commande Oulmes" />
+                                    <MenuItem fx:id="envoyerCommandeOulmesMenu" mnemonicParsing="false" onAction="#menuEnvoyerOulmesCommande" text="Envoyer Commande Oulmes" />
+                                </items>
+                              </Menu>
+                              <Menu fx:id="commandeSiegeMenu" mnemonicParsing="false" text="Commande Siége">
+                                <items>
+                            <MenuItem fx:id="saisirCommandeMenu" mnemonicParsing="false" onAction="#menuSaisir" text="Saisir Commande Siége" />
+                                    <MenuItem fx:id="validerCommandeMenu" mnemonicParsing="false" onAction="#menuValiderCommande" text="Valider Commande Siége" />
+                                    <MenuItem fx:id="envoyerCommandeMenu" mnemonicParsing="false" onAction="#menuEnvoyerCommande" text="Envoyer Commande" />
+                                    <MenuItem fx:id="validerCommandeRegionMenu" mnemonicParsing="false" onAction="#menuValiderCommandeRegion" text="Valider Commande Région" />
+                                </items>
+                              </Menu>
+                          </items>
+                        </Menu>
+                        <Menu fx:id="commandeExterneMenu" mnemonicParsing="false" text="Commande Externe">
+                          <items>
+                            <MenuItem fx:id="saisirCommandeEtrangereMenu" mnemonicParsing="false" onAction="#menuSaisirCommandeEtrangere" text="Saisir Commande Étrangère" />
+                              <MenuItem fx:id="chargementEtrangereMenu" mnemonicParsing="false" onAction="#menuChargementEtrangare" text="Chargement Étrangère" />
+                              <MenuItem fx:id="enPortEtrangereMenu" mnemonicParsing="false" onAction="#menuEnPortEtrangare" text="En Port Étrangère" />
+                              <MenuItem fx:id="dossierDouaneMenu" mnemonicParsing="false" onAction="#menuDossierDouane" text="Dossier Douane" />
+                          </items>
+                        </Menu>
+              </items>
+            </Menu>
+            <Menu fx:id="livraisonMenu" mnemonicParsing="false" text="Livraison">
+                     <items>
+                        <MenuItem fx:id="suiviLivraisonMenu" mnemonicParsing="false" onAction="#menuSuiviCommande" text="Suivi Livraison" />
+                        <MenuItem fx:id="suiviLivraisonOulmesMenu" mnemonicParsing="false" onAction="#menuSuiviOulmesCommande" text="Suivi Livraison Oulmes" />
+                        <MenuItem fx:id="situationGlobalCommandeMenu" mnemonicParsing="false" onAction="#menuSituationGlobalCommande" text="Situation Global Commande" />
+                        <MenuItem fx:id="recuCommandeMenu" mnemonicParsing="false" onAction="#menuRecuCommande" text="Reçu Commande" />
+                        <MenuItem fx:id="recuCommandeOulmesMenu" mnemonicParsing="false" onAction="#menuRecuCommandeOulmes" text="Reçu Commande Oulmes" />
+                     </items></Menu>
+                  <Menu fx:id="douaneMenu" mnemonicParsing="false" text="Douane">
+                     <items>
+                        <MenuItem fx:id="suiviDouaneMenu" mnemonicParsing="false" onAction="#menuSuiviDouane" text="Suivi Douane" />
+                     </items>
+                  </Menu>
+                  <Menu fx:id="receptionMenu" mnemonicParsing="false" text="Réception">
+                    <items>
+                      <MenuItem fx:id="suiviReceptionMenu" mnemonicParsing="false" onAction="#menuSuiviReception" text="Suivi Réception" />
+                        <MenuItem fx:id="suiviReceptionOulmesMenu" mnemonicParsing="false" onAction="#menuSuiviReceptionOulmes" text="Suivi Réception Oulmes" />
+                    </items>
+                  </Menu>
+                  <Menu fx:id="retourGratuiteMenu" mnemonicParsing="false" text="Retour &amp; Manque">
+                     <items>
+                        <MenuItem fx:id="suiviRetourGratuiteMenu" mnemonicParsing="false" onAction="#menuSuiviRetour" text="Suivi Retour/Manque " />
+                        <MenuItem fx:id="suiviManqueFourMenu" mnemonicParsing="false" onAction="#menuSuiviManqueFourMenu" text="Suivi Manque &quot;Déclaration Fournisseur&quot;" />
+                        <MenuItem fx:id="consultationBonRetourGratuiteMenu" mnemonicParsing="false" onAction="#menuBonRetGra" text="Consultation Bon Retour/Manque" />
+                        <MenuItem fx:id="consultationManqueMpMenu" mnemonicParsing="false" onAction="#menuconsultationManqueMp" text="Consultation Manque Matière première" />
+                        <MenuItem fx:id="regularisationDesPrixMenu" mnemonicParsing="false" onAction="#menuRegularisationDesPrix" text="Regularisation de Différence des Prix" />
+                        <MenuItem fx:id="ConsultationRegularisationPrixMenu" mnemonicParsing="false" onAction="#menuConsultationRegularisationPrix" text="Consultation Regularisation de Différence des Prix" />
+                     </items>
+                  </Menu>
+            <Menu fx:id="reglementMenu" mnemonicParsing="false" text="Réglement">
+                     <items>
+                        <Menu fx:id="reglementMpMenu" mnemonicParsing="false" text="Réglement MP">
+                           <items>
+                              <MenuItem fx:id="suiviEtatReglementMenu" mnemonicParsing="false" onAction="#menuEtatReglement" text="Suivi Etat Réglement" />
+                              <MenuItem fx:id="suiviReglementMenu" mnemonicParsing="false" onAction="#menuReglement" text="Suivi Réglement" />
+                           </items>
+                        </Menu>
+                        <Menu fx:id="reglementOulmesMenu" mnemonicParsing="false" text="Réglement Oulmes">
+                          <items>
+                              <MenuItem fx:id="suiviEtatReglementOulmesMenu" mnemonicParsing="false" onAction="#menuEtatOulmesReglement" text="Suivi Etat Réglement Oulmes" />
+                              <MenuItem fx:id="suiviReglementOulmesMenu" mnemonicParsing="false" onAction="#menuReglementOulmes" text="Suivi Réglement Oulmes" />
+                              <MenuItem fx:id="avoirOulmesMenu" mnemonicParsing="false" onAction="#menuAvoirOulmes" text="Avoir Oulmes" />
+                              <MenuItem fx:id="factureAvoirOulmesMenu" mnemonicParsing="false" onAction="#menuFactureAvoirOulmes" text="Facture Avoir Oulmes" />
+                              <MenuItem fx:id="situationGlobalAvoirOulmesMenu" mnemonicParsing="false" onAction="#menuSituationGlobalAvoirOulmes" text="Situation Global Avoir &quot;Article&quot; Oulmes" />
+                              <MenuItem fx:id="detailFactureAvoirBonAvoirOulmesMenu" mnemonicParsing="false" onAction="#menuDetailFactureAvoirBonAvoirOulmes" text="Detail Facture Avoir &amp; Bon d'Avoir" />
+                              <MenuItem fx:id="situationGlobalAvoirClientOulmesMenu" mnemonicParsing="false" onAction="#menuSituationGlobalAvoirClientOulmes" text="Situation Global Avoir &quot;Client&quot; Oulmes" />
+                          </items>
+                        </Menu>
+                        <MenuItem fx:id="reglementReportMenu" mnemonicParsing="false" onAction="#menuReglementReport" text="Réglement Report" />
+                        <MenuItem fx:id="consultationReglementMenu" mnemonicParsing="false" onAction="#consultationReglementOnAction" text="Consultation Réglement" />
+                     </items></Menu>
+                  <Menu fx:id="stockMenu" mnemonicParsing="false" text="Stock">
+                    <items>
+                      <MenuItem fx:id="consultationStockMenu" mnemonicParsing="false" onAction="#menuConsultationStock" text="Consultation Stock" />
+                        <MenuItem fx:id="consultationStockOulmesMenu" mnemonicParsing="false" onAction="#menuConsultationStockOulmes" text="Consultation Stock Oulmes" />
+                    </items>
+                  </Menu>
+                  <Menu fx:id="clientMenu" mnemonicParsing="false" text="Client">
+                    <items>
+                      <MenuItem fx:id="ajouterClientMenu" mnemonicParsing="false" onAction="#menuAjtClient" text="Ajouter Client" />
+                        <MenuItem fx:id="consultationSoldeClientMenu" mnemonicParsing="false" onAction="#consultationSoldeClientOnAction" text="Consultation Solde" />
+                    </items>
+                  </Menu>
+                  <Menu fx:id="fournisseurMenu" mnemonicParsing="false" text="Fournisseur">
+                    <items>
+                      <MenuItem fx:id="ajouterFournisseurMenu" mnemonicParsing="false" onAction="#menuAjtFournisseur" text="Ajouter Fournisseur" />
+                        <MenuItem fx:id="consultationSoldeFourMenu" mnemonicParsing="false" onAction="#consultationSoldeOnAction" text="Consultation Solde" />
+                    </items>
+                  </Menu>
+                  <Menu fx:id="referentielMenu" mnemonicParsing="false" text="Référentiel">
+                     <items>
+                        <Menu fx:id="materielBoxMenu" mnemonicParsing="false" text="Matériel Box">
+                          <items>
+                              <MenuItem fx:id="typeCartonBoxMenu" mnemonicParsing="false" onAction="#menuTypeCartonBox" text="Type Carton Box" />
+                              <MenuItem fx:id="gammageMenu" mnemonicParsing="false" onAction="#menuGrammage" text="Grammage" />
+                          </items>
+                        </Menu>
+                        <Menu fx:id="materielCartonMenu" mnemonicParsing="false" text="Matériel Carton">
+                          <items>
+                              <MenuItem fx:id="typeCartonMenu" mnemonicParsing="false" onAction="#menuTypeCarton" text="Type Carton" />
+                          </items>
+                        </Menu>
+                        <Menu fx:id="materielFilmMenu" mnemonicParsing="false" text="Matériel Film">
+                          <items>
+                              <MenuItem fx:id="typeFilmMenu" mnemonicParsing="false" onAction="#menuTypeFilm" text="Type Film" />
+                              <MenuItem fx:id="gammageFilmMenu" mnemonicParsing="false" onAction="#menuGrammageFilm" text="Grammage Film" />
+                          </items>
+                        </Menu>
+                        <Menu fx:id="matierePremiereMenu" mnemonicParsing="false" text="Matière Première">
+                          <items>
+                              <MenuItem fx:id="saisirMatierePremiereMenu" mnemonicParsing="false" onAction="#menuSaisirMatierePremiere" text="Saisir Matière Première" />
+                              <MenuItem fx:id="categorieMatierePremiereMenu" mnemonicParsing="false" onAction="#menuCategorieMatierePremiere" text="Catégorie Matière Première" />
+                              <MenuItem fx:id="subCategorieMatierePremiereMenu" mnemonicParsing="false" onAction="#menuSubCategorieMatierePremiere" text="Sub Catégorie Matière Première" />
+                          </items>
+                        </Menu>
+                        <Menu fx:id="materialCommandeEtrangereMenu" mnemonicParsing="false" text="Matérial Commande Etrangere">
+                          <items>
+                              <MenuItem fx:id="articleEtrangereMenu" mnemonicParsing="false" onAction="#menuArticleEtrangere" text="Article Etrangere" />
+                              <MenuItem fx:id="sousFamilleArticleEtrangereMenu" mnemonicParsing="false" onAction="#menuSousFamilleArticleEtrangere" text="Sous Famille Article Etrangere" />
+                              <MenuItem fx:id="familleArticleEtrangereMenu" mnemonicParsing="false" onAction="#menuFamilleArticleEtrangere" text="Famille Article Etrangere" />
+                          </items>
+                        </Menu>
+                        <MenuItem fx:id="articleOulmesMenu" mnemonicParsing="false" onAction="#menuMajArticleOulmes" text="Article Oulmes" />
+                        <MenuItem fx:id="dimensionMenu" mnemonicParsing="false" onAction="#menuDimension" text="Dimension" />
+                        <MenuItem fx:id="intervalleMenu" mnemonicParsing="false" onAction="#menuIntervalle" text="Intervalle" />
+                        <MenuItem fx:id="villeMenu" mnemonicParsing="false" onAction="#menuMajVille" text="Ville" />
+                        <MenuItem fx:id="compteMenu" mnemonicParsing="false" onAction="#menuCompteUse" text="Compte" />
+                        <MenuItem fx:id="saisirReportMenu" mnemonicParsing="false" onAction="#menuSaisirReport" text="Saisir Report" />
+                     </items></Menu>
+                  <Menu fx:id="parametreMenu" mnemonicParsing="false" text="Paramètre">
+                     <items>
+                        <MenuItem fx:id="prixDimensionFourMenu" mnemonicParsing="false" onAction="#menuPrixDimFour" text="Prix Dimension Fournisseur" />
+                        <MenuItem fx:id="consultationPrixCategorieMenu" mnemonicParsing="false" onAction="#menuConsultationPrixCategorie" text="Consultation Prix Categorie" />
+                        <MenuItem fx:id="ajouteUtilisateurMenu" mnemonicParsing="false" onAction="#menuAjouUtilisateur" text="Ajouter Utilisateur" />
+                        <MenuItem fx:id="gererAuthorisationMenu" mnemonicParsing="false" onAction="#menuGererAuthorisation" text="Gérer Authorisation" />
+                     </items>
+                  </Menu>
+          </menus>
+        </MenuBar>
+        <ToolBar layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="1600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0">
+          <items>
+                  <AnchorPane>
+                     <children>
+                        <Label layoutX="728.0" layoutY="8.0" text="Bonjour " textFill="#021225" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="728.0" AnchorPane.rightAnchor="792.0" AnchorPane.topAnchor="8.0">
+                           <font>
+                              <Font name="Andalus" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="utilisateurConnecte" layoutX="792.0" layoutY="8.0" prefHeight="23.0" prefWidth="112.0" textFill="#3a81d3" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="792.0" AnchorPane.topAnchor="8.0">
+                           <font>
+                              <Font name="Andalus" size="18.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="deconnecterUtilisBtn" fitHeight="45.0" fitWidth="53.0" layoutX="1499.0" onMouseClicked="#deconnecterUtilisOnMouseClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1499.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@../Styles/img/logging-out-2355227_640-ConvertImage.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="45.0" fitWidth="53.0" layoutX="1444.0" onMouseClicked="#fermerAppOnMouseClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1444.0" AnchorPane.rightAnchor="95.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@../Styles/img/shut-down-1540631_640-ConvertImage.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="45.0" fitWidth="53.0" layoutX="1334.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1334.0" AnchorPane.rightAnchor="205.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@../Styles/img/flag-1095057_640-ConvertImage.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="45.0" fitWidth="53.0" layoutX="1389.0" onMouseClicked="#homeOnMouseClick" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1389.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="0.0">
+                           <image>
+                              <Image url="@../Styles/img/home-1110868_640-ConvertImage.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+          </items>
+        </ToolBar>
+      </children>
+    </AnchorPane>
+  </children>
+</AnchorPane>

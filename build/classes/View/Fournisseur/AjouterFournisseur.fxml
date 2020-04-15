@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<fx:root id="AnchorPane" prefHeight="400.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="432.0" prefWidth="737.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <TextField fx:id="codeField" alignment="CENTER" disable="true" layoutX="129.0" layoutY="138.0" prefHeight="32.0" prefWidth="203.0" promptText="code" styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <TextField fx:id="nomField" alignment="CENTER" layoutX="130.0" layoutY="191.0" prefHeight="32.0" prefWidth="203.0" promptText="nom" styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <ComboBox fx:id="villeCombo" layoutX="131.0" layoutY="242.0" prefHeight="32.0" prefWidth="203.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <TextField fx:id="adresseField" alignment="CENTER" layoutX="131.0" layoutY="294.0" prefHeight="32.0" prefWidth="203.0" promptText="adresse" styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <TextField fx:id="telField" alignment="CENTER" layoutX="498.0" layoutY="138.0" prefHeight="32.0" prefWidth="203.0" promptText="tel" styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <TextField fx:id="emailField" alignment="CENTER" layoutX="498.0" layoutY="191.0" prefHeight="32.0" prefWidth="203.0" promptText="email" styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <ComboBox fx:id="compteCombo" layoutX="498.0" layoutY="242.0" prefHeight="31.0" prefWidth="203.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <Button fx:id="btnAjou" alignment="CENTER" layoutX="227.0" layoutY="365.0" mnemonicParsing="false" onAction="#ajouterFournisserOnAction" prefHeight="39.0" prefWidth="125.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Ajouter">
+               <opaqueInsets>
+                  <Insets right="7.0" />
+               </opaqueInsets></Button>
+            <Label layoutX="60.0" layoutY="144.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Code: " />
+            <Label layoutX="70.0" layoutY="196.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Nom: " />
+            <Label layoutX="52.0" layoutY="248.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Ville: " />
+            <Label layoutX="34.0" layoutY="299.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Adresse: " />
+            <Label layoutX="432.0" layoutY="144.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Tél: " />
+            <Label layoutX="404.0" layoutY="197.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="E-Mail: " />
+            <Label layoutX="405.0" layoutY="248.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Compte: " />
+            <Label layoutX="180.0" layoutY="93.0" text="Type Fournisseur:" />
+            <Label layoutX="387.0" layoutY="291.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Delai de" />
+            <TextField fx:id="nombreDuJour" alignment="CENTER" layoutX="498.0" layoutY="295.0" prefHeight="31.0" prefWidth="203.0" promptText="Delai Paiement" styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <Pane layoutX="164.0" layoutY="23.0" prefHeight="47.0" prefWidth="409.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+               <children>
+                  <Label layoutX="30.0" layoutY="6.0" prefHeight="36.0" prefWidth="351.0" styleClass="label5" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Ajouter Fournisseur" />
+               </children>
+            </Pane>
+            <Label layoutX="386.0" layoutY="307.0" prefHeight="20.0" prefWidth="103.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Paiement: " />
+            <Button fx:id="btnRafraichir" alignment="CENTER" layoutX="375.0" layoutY="365.0" mnemonicParsing="false" onAction="#rafraichirFourAction" prefHeight="39.0" prefWidth="125.0" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" text="Rafraîchir" />
+            <RadioButton fx:id="marocainFour" layoutX="367.0" layoutY="95.0" mnemonicParsing="false" text="Marocaine">
+               <toggleGroup>
+                  <ToggleGroup fx:id="typeFour" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="etrangerFour" layoutX="476.0" layoutY="95.0" mnemonicParsing="false" text="Etranger" toggleGroup="$typeFour" />
+         </children>
+      </AnchorPane>
+      <Separator layoutX="352.0" layoutY="131.0" orientation="VERTICAL" prefHeight="206.0" prefWidth="24.0" />
+   </children>
+</fx:root>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<fx:root id="AnchorPane" prefHeight="260.0" prefWidth="421.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="432.0" prefWidth="737.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnajou" layoutX="231.0" layoutY="363.0" mnemonicParsing="false" onAction="#ajouterUtilisateurOnAction" prefHeight="41.0" prefWidth="125.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Ajouter" AnchorPane.leftAnchor="231.0" />
+            <Label fx:id="msgNom" layoutX="321.0" layoutY="61.0" prefHeight="31.0" prefWidth="143.0" textFill="#f7230c" />
+            <RadioButton fx:id="siegeRadio" layoutX="367.0" layoutY="104.0" mnemonicParsing="false" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Siège ">
+               <toggleGroup>
+                  <ToggleGroup fx:id="typeUtil" />
+               </toggleGroup>
+            </RadioButton>
+            <Label layoutX="173.0" layoutY="102.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Type Utilisateur:" />
+            <RadioButton fx:id="regionRadio" layoutX="468.0" layoutY="104.0" mnemonicParsing="false" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Région" toggleGroup="$typeUtil" />
+            <Label layoutX="61.0" layoutY="188.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Depot:" />
+            <ComboBox fx:id="depotCombo" layoutX="129.0" layoutY="181.0" onAction="#depotComboOnAction" prefHeight="32.0" prefWidth="203.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <TextField fx:id="nomField" alignment="CENTER" layoutX="129.0" layoutY="234.0" prefHeight="32.0" prefWidth="203.0" promptText="nom" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css" />
+            <Label layoutX="80.0" layoutY="240.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Nom:" />
+            <TextField fx:id="loginField" alignment="CENTER" layoutX="498.0" layoutY="182.0" prefHeight="31.0" prefWidth="203.0" promptText="Login" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css" />
+            <Label layoutX="430.0" layoutY="188.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Login:" />
+            <PasswordField fx:id="passwordField" alignment="CENTER" layoutX="498.0" layoutY="234.0" prefHeight="32.0" prefWidth="203.0" promptText="password" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css" />
+            <Label layoutX="401.0" layoutY="241.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Password:" />
+            <Button fx:id="btnRafraichir" alignment="CENTER" layoutX="372.0" layoutY="364.0" mnemonicParsing="false" onAction="#rafraichirFourAction" prefHeight="39.0" prefWidth="125.0" stylesheets="@../../../../../../Desktop/NetBeansProjects/GestionCommande/src/View/Styles/css/FigureDeStyle.css" text="Rafraîchir" />
+            <Pane layoutX="164.0" layoutY="23.0" prefHeight="47.0" prefWidth="409.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+               <children>
+                  <Label layoutX="31.0" layoutY="6.0" prefHeight="36.0" prefWidth="351.0" styleClass="label5" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Ajouter Utilisateur" />
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+      <Separator layoutX="352.0" layoutY="146.0" orientation="VERTICAL" prefHeight="182.0" prefWidth="24.0" />
+   </children>
+</fx:root>

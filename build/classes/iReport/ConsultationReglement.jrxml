@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="145"/>
+	<parameter name="totalCredit" class="java.lang.Double"/>
+	<parameter name="totalDebit" class="java.lang.Double"/>
+	<parameter name="solde" class="java.lang.Double"/>
+	<field name="date" class="java.util.Date"/>
+	<field name="codeReglement" class="java.lang.String"/>
+	<field name="montantReglement" class="java.math.BigDecimal"/>
+	<field name="numFacture" class="java.lang.String"/>
+	<field name="designation" class="java.lang.String"/>
+	<field name="modeReglement" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="195" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="0" y="0" width="555" height="20" backcolor="#8FDFEF"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="8" y="0" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="393" y="0" width="74" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Facture]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="465" y="0" width="81" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mode Reglement]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="57" y="0" width="67" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="124" y="0" width="54" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Montant]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="179" y="0" width="214" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Designation]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<rectangle>
+				<reportElement x="8" y="21" width="538" height="4" backcolor="#8FDFEF"/>
+			</rectangle>
+			<textField>
+				<reportElement x="58" y="0" width="66" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="8" y="0" width="49" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{codeReglement}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="124" y="0" width="54" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{montantReglement}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="393" y="0" width="72" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{numFacture}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="179" y="0" width="214" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="465" y="0" width="81" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{modeReglement}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="412">
+			<staticText>
+				<reportElement x="19" y="326" width="452" height="48"/>
+				<textElement>
+					<font size="9" isBold="true" isItalic="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Nous vous souhaitons bonne réception et restons disponibles si nécessaire,
+
+Cordialement,]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

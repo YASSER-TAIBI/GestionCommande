@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/GESTION_COMMANDE_FINAL</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">pass</property>
+    <!-- 
+    <property name="hibernate.connection.url">jdbc:mysql://192.168.1.5:3306/GESTION_COMMANDE_FINAL</property>
+    <property name="hibernate.connection.username">user</property>
+    <property name="hibernate.connection.password">!kal!0687*</property> 
+    -->
+    <property name="hibernate.current_session_context_class">thread</property>
+    <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+    <!-- <property name="hbm2ddl.auto">create</property> -->
+    <property name="hbm2ddl.auto">update</property>
+    <property name="show_sql">true</property>
+    <mapping class="dao.Entity.Utilisateur"/>
+    <mapping class="dao.Entity.Fournisseur"/>
+    <mapping class="dao.Entity.ClientMP"/>
+    <mapping class="dao.Entity.DetailCommande"/>
+    <mapping class="dao.Entity.Commande"/>
+    <mapping class="dao.Entity.CategorieMp"/>
+    <mapping class="dao.Entity.MatierePremier"/>
+    <mapping class="dao.Entity.SubCategorieMp"/>
+    <mapping class="dao.Entity.DetailReception"/>
+    <mapping class="dao.Entity.Ville"/>
+    <mapping class="dao.Entity.Dimension"/>
+    <mapping class="dao.Entity.PrixDimFour"/>
+    <mapping class="dao.Entity.CompteFourMP"/>
+    <mapping class="dao.Entity.Reglement"/>
+    <mapping class="dao.Entity.Depot"/>
+    <mapping class="dao.Entity.Magasin"/>
+    <mapping class="dao.Entity.StockMP"/>
+    <mapping class="dao.Entity.StockArt"/>
+    <mapping class="dao.Entity.StockPF"/>
+    <mapping class="dao.Entity.BonLivraison"/>
+    <mapping class="dao.Entity.DetailCompte"/>
+    <mapping class="dao.Entity.Menu"/>
+    <mapping class="dao.Entity.Habilitation"/>
+    <mapping class="dao.Entity.BonRetour"/>
+    <mapping class="dao.Entity.DetailBonRetour"/>
+    <mapping class="dao.Entity.DetailBonLivraison"/>
+    <mapping class="dao.Entity.TypeCartonBox"/>
+    <mapping class="dao.Entity.Intervalle"/>
+    <mapping class="dao.Entity.Grammage"/>
+    <mapping class="dao.Entity.PrixBox"/>
+    <mapping class="dao.Entity.PrixCarton"/>
+    <mapping class="dao.Entity.PrixFilm"/>
+    <mapping class="dao.Entity.PrixBoxMetal"/>
+    <mapping class="dao.Entity.TypeFilm"/>
+    <mapping class="dao.Entity.GrammageFilm"/>
+    <mapping class="dao.Entity.TypeCarton"/>
+    <mapping class="dao.Entity.PrixAdhesif"/>
+    <mapping class="dao.Entity.Sequenceur"/>
+    <mapping class="dao.Entity.CommandeEtrangere"/>
+    <mapping class="dao.Entity.DetailCommandeEtrangere"/>
+    <mapping class="dao.Entity.Devise"/>
+    <mapping class="dao.Entity.TauxDevise"/>
+    <mapping class="dao.Entity.Article"/>
+    <mapping class="dao.Entity.DetailDossier"/>
+    <mapping class="dao.Entity.DetailCommandeRegion"/>
+    <mapping class="dao.Entity.CommandeRegion"/>
+    <mapping class="dao.Entity.Produit"/>
+    <mapping class="dao.Entity.PrixOulmes"/>
+    <mapping class="dao.Entity.AvoirOulmes"/>
+    <mapping class="dao.Entity.FactureAvoirOulmes"/>
+    <mapping class="dao.Entity.FamilleArticle"/>
+    <mapping class="dao.Entity.SousFamilleArticle"/>
+    <mapping class="dao.Entity.DetailReceptionEtrangere"/>
+    <mapping class="dao.Entity.DetailManqueFour"/>
+  </session-factory>
+</hibernate-configuration>

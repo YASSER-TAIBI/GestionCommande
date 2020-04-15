@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bea7dbc6-ec35-40b7-93b6-ec43b5c41249">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<parameter name="Fournisseur" class="java.lang.String"/>
+	<parameter name="NumCommande" class="java.lang.String"/>
+	<parameter name="Ville" class="java.lang.String"/>
+	<parameter name="DateLiv" class="java.util.Date"/>
+	<parameter name="MontantHT" class="java.lang.String"/>
+	<parameter name="MontantTVA" class="java.lang.String"/>
+	<parameter name="MontantTTC" class="java.lang.String"/>
+	<field name="livraisonFour" class="java.lang.String"/>
+	<field name="dateLivraison" class="java.util.Date"/>
+	<field name="datePaiement" class="java.util.Date"/>
+	<field name="montant" class="java.math.BigDecimal"/>
+	<field name="montantTVA" class="java.math.BigDecimal"/>
+	<field name="montantTTC" class="java.math.BigDecimal"/>
+	<field name="etat" class="java.lang.String"/>
+	<variable name="montantHt" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{montant}]]></variableExpression>
+	</variable>
+	<variable name="montantTVA" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{montantHt}.multiply( new BigDecimal(0.2) )]]></variableExpression>
+	</variable>
+	<variable name="montantTTC" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{montantHt}.add( $V{montantTVA} )]]></variableExpression>
+	</variable>
+	<title>
+		<band height="53" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="272" y="21" width="282" height="24" backcolor="#8FDFEF" uuid="f53611c5-a768-4b0a-8ab7-ba76346fff4a"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Transparent" x="300" y="18" width="228" height="27" backcolor="#CCCCCC" uuid="46f7c606-09e7-4346-9bfb-a19a13f054cb"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="20" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Etat de Réglement Oulmes]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="36"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="12" y="0" width="779" height="20" backcolor="#8FDFEF" uuid="70a82888-796e-476d-bff4-bfcbda550c98"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="29" y="1" width="100" height="20" uuid="b839d1ab-b170-4f16-9bcf-f511dbef1e67"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LivraisonFour]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="134" y="1" width="100" height="20" uuid="b0e9d6de-64a5-4414-ae2e-d997ca53ee71"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date Livraison]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="238" y="1" width="100" height="20" uuid="8b163afe-6b92-4767-8bda-ded197f93864"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date Paiement]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="1" width="113" height="20" uuid="ecbab088-9a91-4ecb-9102-12a83e0dbd16"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Montant]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="548" y="0" width="111" height="20" uuid="311a001d-06ea-49a7-bd48-a7c6f9a2e38b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Montant TVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="664" y="1" width="109" height="20" uuid="3b408947-152d-48fd-882b-1ca3181852b1"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Montant TTC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="342" y="0" width="83" height="20" uuid="db36c1c9-ad93-4109-80b0-ca4892aa8572"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Etat]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<rectangle>
+				<reportElement x="18" y="23" width="773" height="3" backcolor="#8FDFEF" uuid="d2fb7d68-ac5c-49cb-b258-0aef9bcbae11"/>
+			</rectangle>
+			<textField>
+				<reportElement x="29" y="1" width="100" height="20" uuid="f84e49cd-44bb-480a-930b-8c7adb553191"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{livraisonFour}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="1" width="100" height="20" uuid="eb75f39b-be3f-4bcf-b937-9418d45b63c8"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dateLivraison}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="242" y="1" width="96" height="20" uuid="621fccb5-c438-4269-885c-127fa97a3897"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datePaiement}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="342" y="1" width="83" height="20" uuid="6fb56717-e90f-4651-8b54-91f82884bfb9"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{etat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="1" width="113" height="20" uuid="5094ca08-b732-4ce2-b4f4-b8f1b4c15472"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montant}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="548" y="1" width="111" height="20" uuid="6826776a-62c1-4330-94ef-6474bb73b53b"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montantTVA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="664" y="1" width="109" height="20" uuid="b0939b30-495f-4010-8d86-cb8a706b9d02"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montantTTC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="136">
+			<staticText>
+				<reportElement x="509" y="26" width="150" height="18" uuid="8ac8d860-5dfd-4aca-abf4-485f9eaae716"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Montant TVA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="509" y="4" width="150" height="18" uuid="469bab97-e20b-416e-b374-eeea12f1b8a4"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Montant HT:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="509" y="48" width="150" height="18" uuid="664dfd1e-1664-4c75-af46-223b8dc99b25"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Montant TTC:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="664" y="4" width="109" height="18" uuid="9defa440-ff42-4e4c-aa1c-83b8b832a560"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{MontantHT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="664" y="26" width="109" height="18" uuid="734aa15f-169d-491f-81fa-894543d8d470"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{MontantTVA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="664" y="48" width="109" height="18" uuid="b6cd21b4-3136-442f-a52f-ea487526365c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{MontantTTC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

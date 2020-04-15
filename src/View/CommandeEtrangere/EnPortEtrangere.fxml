@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CommandeEtrangere.EnPortEtrangereController">
+   <children>
+      <TableView fx:id="tableCommandeEtr" blendMode="MULTIPLY" layoutX="223.0" layoutY="218.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailOnMouseClicked" prefHeight="214.0" prefWidth="1118.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="numCommandeColumn" prefWidth="148.0" text="N° Commande" />
+            <TableColumn fx:id="dateCommandeColumn" prefWidth="145.0" text="Date Commande" />
+            <TableColumn fx:id="fournisseurColumn" minWidth="0.0" prefWidth="150.0" text="Fournisseur" />
+            <TableColumn fx:id="lieuDepartColumn" minWidth="0.0" prefWidth="139.0" text="Lieu Depart" />
+            <TableColumn fx:id="lieuArriveeColumn" minWidth="0.0" prefWidth="141.0" text="Lieu Arrivee" />
+            <TableColumn fx:id="dateDepartColumn" minWidth="0.0" prefWidth="136.0" text="Date Depart" />
+            <TableColumn fx:id="dateArriveeColumn" minWidth="0.0" prefWidth="139.0" text="Date Arrivee" />
+            <TableColumn fx:id="etatColumn" minWidth="8.0" prefWidth="120.0" text="Etat" />
+         </columns>
+      </TableView>
+      <TableView fx:id="tableDetailCommandeEtr" blendMode="MULTIPLY" layoutX="219.0" layoutY="505.0" maxWidth="1.7976931348623157E308" onMouseClicked="#tableDetailClicked" prefHeight="228.0" prefWidth="1125.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeColumn" prefWidth="108.0" text="Code" />
+            <TableColumn fx:id="articleColumn" prefWidth="416.0" text="Article" />
+            <TableColumn fx:id="deviseColumn" prefWidth="142.0" text="Devise" />
+            <TableColumn fx:id="qteColumn" prefWidth="150.0" text="Quantite" />
+            <TableColumn fx:id="prixColumn" prefWidth="151.0" text="Prix" />
+            <TableColumn fx:id="montantColumn" prefWidth="158.0" text="Montant" />
+         </columns>
+      </TableView>
+      <Pane layoutX="219.0" layoutY="155.0" prefHeight="53.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="134.0" layoutY="16.0" text="N° Commande:" />
+            <TextField fx:id="numComRech" layoutX="258.0" layoutY="11.0" onKeyPressed="#rechercheNumLivKeyPressed" prefHeight="31.0" prefWidth="195.0" promptText="Recherche" styleClass="StyleRaduis" />
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="423.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="968.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+            <DatePicker fx:id="dateComRech" layoutX="803.0" layoutY="11.0" prefHeight="31.0" prefWidth="203.0" promptText="Recherche Date" />
+            <Label layoutX="659.0" layoutY="16.0" text="Date Commande:" />
+         </children>
+      </Pane>
+      <Pane layoutX="495.0" layoutY="99.0" prefHeight="46.0" prefWidth="627.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="24.0" layoutY="1.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="En Port Commande Etrangere" />
+         </children>
+      </Pane>
+      <Pane layoutX="219.0" layoutY="442.0" prefHeight="53.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <DatePicker fx:id="dateEnPort" layoutX="521.0" layoutY="10.0" prefHeight="31.0" prefWidth="203.0" promptText="Date En Port" />
+            <Label layoutX="386.0" layoutY="15.0" text="Date En Port:" />
+         </children>
+      </Pane>
+      <Pane layoutX="219.0" layoutY="743.0" prefHeight="60.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnAjouter" layoutX="362.0" layoutY="11.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterOnAction" prefHeight="38.0" prefWidth="125.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Ajouter" />
+            <Button fx:id="btnSupprimer" layoutX="632.0" layoutY="11.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#supprimerOnAction" prefHeight="38.0" prefWidth="125.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Supprimer" />
+            <Button fx:id="btnModifier" layoutX="497.0" layoutY="11.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#modifierOnAction" prefHeight="38.0" prefWidth="125.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Modifier" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

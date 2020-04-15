@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f002493c-aece-4324-a753-2231675ae036">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Fournisseur" class="java.lang.String"/>
+	<field name="categorieMp.nom" class="java.lang.String"/>
+	<field name="typeFilm.libelle" class="java.lang.String"/>
+	<field name="grammageFilm.libelle" class="java.lang.String"/>
+	<field name="fournisseur.nom" class="java.lang.String"/>
+	<field name="intervalle.libelle" class="java.lang.String"/>
+	<field name="prix" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="48" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="279" y="18" width="245" height="24" backcolor="#8FDFEF" uuid="342ac1a4-cbf2-44be-b489-676752144a61"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="330" y="15" width="141" height="32" uuid="dfc8791e-ae0d-4ae7-8c55-dbd1c597335b"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Liste Prix Film]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="96" y="9" width="100" height="20" uuid="f6d3b0f8-8696-4695-9059-707d80e40f58"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Fournisseur}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="29" y="9" width="67" height="20" uuid="b82aa41c-f04a-43ab-aafa-f84f202e517c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fournisseur: ]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="10" y="0" width="783" height="20" backcolor="#8FDFEF" uuid="dd7fe7e7-79d7-4268-9c8b-9512fb9c2fb8"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="659" y="0" width="102" height="20" uuid="149aad69-f3a2-48ab-8d8f-958dd3ed86ec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prix]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="0" width="144" height="20" uuid="8e49d4b9-6ba3-4360-960b-215bd5725a42"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Categorie Mp]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="315" y="0" width="106" height="20" uuid="e9ca9ad3-6925-4706-9708-eb4ff809c702"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grammage Film]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="425" y="0" width="108" height="20" uuid="7b328ef6-91ce-40af-bdb7-ec0b50eab8b1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fournisseur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="537" y="0" width="117" height="20" uuid="0b728c9e-d79b-4495-a359-7c4deb229d4f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Intervalle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="189" y="0" width="122" height="20" uuid="3d4a4661-c23d-41f6-b0de-99a47929c44a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Type Film]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="41" y="4" width="144" height="18" uuid="9f0878da-18e6-420f-aaaf-6b5b864c2c8b"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{categorieMp.nom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="425" y="4" width="108" height="18" uuid="a94a7f10-7df3-4e2f-9615-a39753692a3d"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fournisseur.nom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="537" y="4" width="117" height="18" uuid="3c124d28-f98c-4fdc-8c9f-f0d1ffea89d8"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{intervalle.libelle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="659" y="4" width="102" height="18" uuid="f39d7dda-7755-401d-aff6-639ed3574c92"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prix}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="189" y="4" width="122" height="18" uuid="243d6aea-331c-4665-aaae-ee9a701af3f7"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{typeFilm.libelle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="315" y="4" width="106" height="18" uuid="e13f8996-8da0-4ce8-83b9-dd33d484fce2"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{grammageFilm.libelle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="60">
+			<rectangle>
+				<reportElement x="10" y="1" width="783" height="4" backcolor="#8FDFEF" uuid="ef293a58-f6ad-4c39-bf86-f687c3618ce9"/>
+			</rectangle>
+		</band>
+	</columnFooter>
+</jasperReport>

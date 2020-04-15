@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.DimensionController">
+   <children>
+      <TableView fx:id="tableDimension" blendMode="MULTIPLY" layoutX="241.0" layoutY="475.0" onMouseClicked="#clickChargeOnMouseEntered" prefHeight="315.0" prefWidth="881.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+        <columns>
+          <TableColumn fx:id="codeColumn" prefWidth="280.0" text="Code" />
+          <TableColumn fx:id="familleColumn" prefWidth="312.0" text="Famille" />
+            <TableColumn fx:id="libelleColumn" prefWidth="278.0" text="Libelle" />
+        </columns>
+      </TableView>
+      <Pane layoutX="1133.0" layoutY="475.0" prefHeight="315.0" prefWidth="181.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnModifier" layoutX="35.0" layoutY="135.0" mnemonicParsing="false" onAction="#btnModifierOnAction" prefHeight="44.0" prefWidth="116.0" text="Modifier" />
+            <Button fx:id="btnSupprimer" layoutX="35.0" layoutY="221.0" mnemonicParsing="false" onAction="#btnSupprimerOnAction" prefHeight="44.0" prefWidth="116.0" text="Supprimer" />
+            <Button fx:id="btnAjouter" layoutX="33.0" layoutY="47.0" mnemonicParsing="false" onAction="#btnAjouterOnAction" prefHeight="44.0" prefWidth="116.0" text="Ajouter" />
+         </children>
+      </Pane>
+      <Pane layoutX="237.0" layoutY="319.0" prefHeight="135.0" prefWidth="1075.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="149.0" layoutY="25.0" text="Code: " />
+            <Label layoutX="594.0" layoutY="25.0" text="Famille: " />
+            <Label layoutX="118.0" layoutY="88.0" text="Libelle: " />
+            <TextField fx:id="codeField" alignment="CENTER" disable="true" layoutX="223.0" layoutY="21.0" prefHeight="31.0" prefWidth="218.0" promptText="Code" styleClass="StyleRaduis" />
+            <ComboBox fx:id="familleCombo" layoutX="701.0" layoutY="21.0" prefHeight="31.0" prefWidth="211.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1030.0" layoutY="92.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="libelleMod" alignment="CENTER" layoutX="223.0" layoutY="83.0" prefHeight="31.0" prefWidth="218.0" promptText="Dimension" styleClass="StyleRaduis" />
+         </children>
+      </Pane>
+      <Pane layoutX="238.0" layoutY="226.0" prefHeight="71.0" prefWidth="1075.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <TextField fx:id="codeRechField" layoutX="221.0" layoutY="20.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheCodeVilleOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <TextField fx:id="libelleRechField" layoutX="700.0" layoutY="21.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheLibelleVilleOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <Label layoutX="596.0" layoutY="25.0" text="Libelle: " />
+            <Label layoutX="152.0" layoutY="25.0" text="Code: " />
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="386.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="864.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="566.0" layoutY="99.0" prefHeight="55.0" prefWidth="419.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="44.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Liste Dimension" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

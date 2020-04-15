@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="1000.0" prefWidth="2000.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Reception.SuiviReceptionOulmesController">
+   <children>
+      <TableView fx:id="tableCommande" accessibleRole="CHECK_BOX" blendMode="MULTIPLY" layoutX="203.0" layoutY="215.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailOnMouseClicked" prefHeight="197.0" prefWidth="1125.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="nComColumn" prefWidth="308.00001525878906" text="Num Commande" />
+            <TableColumn fx:id="dateCreationColumn" prefWidth="600.0" text="Date Creation" />
+            <TableColumn fx:id="etatColumn" prefWidth="216.0" text="Etat" />
+         </columns>
+      </TableView>
+      <Pane layoutX="204.0" layoutY="153.0" prefHeight="55.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <TextField fx:id="numComRechField" layoutX="262.0" layoutY="12.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheNumComOnKeyPressed" prefHeight="32.0" prefWidth="204.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <DatePicker fx:id="dateCreationPicker" layoutX="801.0" layoutY="12.0" prefHeight="31.0" prefWidth="194.0" />
+            <Label layoutX="124.0" layoutY="17.0" text="N° Commande: " />
+            <Label layoutX="647.0" layoutY="16.0" text="Date Creation: " />
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="436.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <TableView fx:id="tableDetailCommande" blendMode="MULTIPLY" layoutX="203.0" layoutY="422.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherReceptionOnMouseClicked" prefHeight="197.0" prefWidth="1125.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeArtColumn" prefWidth="137.0" text="Code Article" />
+            <TableColumn fx:id="libelleColumn" prefWidth="458.0" text="Libelle" />
+            <TableColumn fx:id="quantiteColumn" prefWidth="173.0" text="Qte" />
+            <TableColumn fx:id="quantiteRecuColumn" prefWidth="183.0" text="Qte Reçu " />
+            <TableColumn fx:id="quantiteRestantColumn" prefWidth="174.0" text="Qte Restant" />
+         </columns>
+      </TableView>
+      <Pane layoutX="541.0" layoutY="96.0" prefHeight="48.0" prefWidth="531.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="22.0" layoutY="2.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Suivi Réception Oulmes" />
+         </children>
+      </Pane>
+      <TableView fx:id="tableReception" blendMode="MULTIPLY" layoutX="203.0" layoutY="629.0" maxWidth="1.7976931348623157E308" prefHeight="197.0" prefWidth="1125.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="numRecepColumn" prefWidth="142.0" text="Num Réception" />
+            <TableColumn fx:id="codeArtRecepColumn" prefWidth="143.0" text="Code Article" />
+            <TableColumn fx:id="libelleRecepColumn" prefWidth="510.0" text="Libelle" />
+            <TableColumn fx:id="numLivrColumn" prefWidth="158.0" text="Num Livraison" />
+            <TableColumn fx:id="quantiteRecuRecepColumn" prefWidth="167.0" text="Qte Reçu " />
+         </columns>
+      </TableView>
+      <ImageView fitHeight="133.0" fitWidth="151.0" layoutX="61.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Styles/img/Sans%20titre-1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="133.0" fitWidth="151.0" layoutX="1338.0" layoutY="447.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Styles/img/Sans%20titre-3.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="133.0" fitWidth="151.0" layoutX="62.0" layoutY="653.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Styles/img/Sans%20titre-2.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

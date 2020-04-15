@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.MatierePremierController">
+   <children>
+      <TableView fx:id="tableMP" blendMode="MULTIPLY" layoutX="241.0" layoutY="451.0" onMouseClicked="#clickChargeOnMouseEntered" prefHeight="315.0" prefWidth="884.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+        <columns>
+          <TableColumn fx:id="codeColumn" prefWidth="70.0" text="Code" />
+          <TableColumn fx:id="nomColumn" prefWidth="460.0" text="Nom" />
+            <TableColumn fx:id="dimColumn" prefWidth="141.0" text="Dimansion" />
+            <TableColumn fx:id="CategorieColumn" prefWidth="142.0" text="Catégorie" />
+            <TableColumn fx:id="actionColumn" prefWidth="71.0" text="Action" />
+        </columns>
+      </TableView>
+      <Pane layoutX="1144.0" layoutY="453.0" prefHeight="315.0" prefWidth="170.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnModifier" layoutX="28.0" layoutY="102.0" mnemonicParsing="false" onAction="#btnModifierOnAction" prefHeight="44.0" prefWidth="116.0" text="Modifier" />
+            <Button fx:id="btnSupprimer" layoutX="28.0" layoutY="169.0" mnemonicParsing="false" onAction="#btnSupprimerOnAction" prefHeight="44.0" prefWidth="116.0" text="Supprimer" />
+            <Button fx:id="btnAjouter" layoutX="26.0" layoutY="35.0" mnemonicParsing="false" onAction="#btnAjouterOnAction" prefHeight="44.0" prefWidth="116.0" text="Ajouter" />
+            <Button fx:id="btnImprimer" layoutX="29.0" layoutY="235.0" mnemonicParsing="false" onAction="#btnImprimerOnAction" prefHeight="44.0" prefWidth="116.0" text="Imprimer" />
+         </children>
+      </Pane>
+      <Pane layoutX="238.0" layoutY="229.0" prefHeight="135.0" prefWidth="1075.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="134.0" layoutY="28.0" text="Code MP: " />
+            <Label layoutX="115.0" layoutY="78.0" text="Dimansion: " />
+            <Label layoutX="544.0" layoutY="28.0" text="Nom MP: " />
+            <TextField fx:id="codeMpField" alignment="CENTER" layoutX="220.0" layoutY="22.0" prefHeight="31.0" prefWidth="218.0" promptText="Code MP" styleClass="StyleRaduis" />
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1026.0" layoutY="87.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="nomMpField" alignment="CENTER" layoutX="620.0" layoutY="22.0" prefHeight="31.0" prefWidth="384.0" promptText="Nom MP" styleClass="StyleRaduis" />
+            <ComboBox fx:id="dimCombo" layoutX="221.0" layoutY="73.0" prefHeight="31.0" prefWidth="218.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="515.0" layoutY="79.0" text="Catégorie: " />
+            <ComboBox fx:id="categorieCombo" layoutX="621.0" layoutY="73.0" prefHeight="31.0" prefWidth="218.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <CheckBox fx:id="checkDim" layoutX="234.0" layoutY="110.0" mnemonicParsing="false" onAction="#checkDimOnAction" text="Sans Dimension" />
+            <Button fx:id="btnExel" layoutX="870.0" layoutY="84.0" mnemonicParsing="false" onAction="#btnExelOnAction" prefHeight="44.0" prefWidth="116.0" text="Excel" visible="false" />
+         </children>
+      </Pane>
+      <Pane layoutX="238.0" layoutY="381.0" prefHeight="55.0" prefWidth="1075.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <TextField fx:id="rechCode" layoutX="221.0" layoutY="11.0" maxWidth="1.7976931348623157E308" onKeyReleased="#rechercheCodeVilleOnKeyPressed" prefHeight="32.0" prefWidth="218.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css" text="MP_">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <TextField fx:id="rechNom" layoutX="719.0" layoutY="12.0" maxWidth="1.7976931348623157E308" onKeyReleased="#rechercheNonMpOnKeyReleased" prefHeight="32.0" prefWidth="218.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <Label layoutX="575.0" layoutY="18.0" text="Recherche Nom: " />
+            <Label layoutX="67.0" layoutY="17.0" text="Recherche Code: " />
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="409.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="907.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="580.0" layoutY="99.0" prefHeight="55.0" prefWidth="410.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="31.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Matière Première" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

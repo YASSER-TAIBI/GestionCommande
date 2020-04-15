@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.commande.ValiderCommandeRegionController">
+   <children>
+      <TableView fx:id="tableCommande" accessibleRole="CHECK_BOX" blendMode="MULTIPLY" layoutX="241.0" layoutY="217.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailOnMouse" prefHeight="166.0" prefWidth="1021.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="nCommandeColumn" prefWidth="191.0" text="N Commande" />
+            <TableColumn fx:id="dateCreationColumn" minWidth="0.0" prefWidth="383.0" text="Date Creation" />
+            <TableColumn fx:id="depotColumn" prefWidth="251.0" text="Depot" />
+            <TableColumn fx:id="etatColumn" prefWidth="196.0" text="Etat" />
+         </columns>
+      </TableView>
+      <TableView fx:id="tableDetailCommande" blendMode="MULTIPLY" layoutX="240.0" layoutY="618.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherChampsOnMouse" prefHeight="166.0" prefWidth="1021.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeMPColumn" prefWidth="106.0" text="Code MP " />
+            <TableColumn fx:id="libelleColumn" prefWidth="425.0" text="Libelle" />
+            <TableColumn fx:id="quantiteColumn" prefWidth="123.0" text="Qte" />
+            <TableColumn fx:id="qteRecColumn" prefWidth="123.0" text="Qte Reçu" />
+            <TableColumn fx:id="qteResColumn" prefWidth="123.0" text="Qte Restant" />
+            <TableColumn fx:id="qteLivColumn" onEditCommit="#editCommitQuantiteLivreeColumn" prefWidth="121.0" text="Qte Livrée" />
+         </columns>
+      </TableView>
+      <Pane layoutX="241.0" layoutY="164.0" prefHeight="44.0" prefWidth="1021.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="114.0" layoutY="12.0" text="Client: " />
+            <Label layoutX="589.0" layoutY="12.0" text="Fournisseur: " />
+            <ComboBox fx:id="fornisseurCombo" layoutX="725.0" layoutY="5.0" onAction="#fourOnAction" prefHeight="31.0" prefWidth="213.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <ComboBox fx:id="clientCombo" layoutX="200.0" layoutY="5.0" prefHeight="31.0" prefWidth="215.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+         </children>
+      </Pane>
+      <Pane layoutX="241.0" layoutY="792.0" prefHeight="44.0" prefWidth="1021.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnModifierDC" layoutX="519.0" layoutY="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#modifierDetailCommande" prefHeight="31.0" prefWidth="115.0" text="Refrech" />
+            <Button fx:id="btnModifier" layoutX="358.0" layoutY="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ValiderCommande" prefHeight="31.0" prefWidth="115.0" text="Valider" />
+         </children>
+      </Pane>
+      <Pane layoutX="458.0" layoutY="99.0" prefHeight="55.0" prefWidth="584.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="40.0" layoutY="6.0" prefHeight="44.0" prefWidth="520.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Valider Commande Région" />
+         </children>
+      </Pane>
+      <Pane layoutX="240.0" layoutY="390.0" prefHeight="221.0" prefWidth="1021.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <ComboBox fx:id="GrammageCombo" layoutX="200.0" layoutY="136.0" prefHeight="31.0" prefWidth="215.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="102.0" layoutY="140.0" text="Grammage: " />
+            <ComboBox fx:id="typeCartonCombo" layoutX="733.0" layoutY="180.0" prefHeight="31.0" prefWidth="210.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="570.0" layoutY="186.0" prefHeight="20.0" prefWidth="154.0" text="Type Carton Box:" />
+            <Label layoutX="92.0" layoutY="98.0" prefHeight="20.0" prefWidth="106.0" text="Type Film: " />
+            <ComboBox fx:id="TypeFilmCombo" layoutX="199.0" layoutY="93.0" prefHeight="31.0" prefWidth="215.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="587.0" layoutY="145.0" prefHeight="20.0" prefWidth="135.0" text="Grammage Film:" />
+            <ComboBox fx:id="grammageFilmCombo" layoutX="732.0" layoutY="138.0" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <ComboBox fx:id="typeCarCombo" layoutX="200.0" layoutY="179.0" prefHeight="31.0" prefWidth="215.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="76.0" layoutY="184.0" text="Type Carton:" />
+            <ComboBox fx:id="intervalleCombo" layoutX="732.0" layoutY="95.0" onMouseClicked="#intervalleOnMouseClicked" prefHeight="31.0" prefWidth="213.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="615.0" layoutY="102.0" text="Intervalle:" />
+            <Label layoutX="98.0" layoutY="57.0" text="Quantite:" />
+            <TextField fx:id="quantiteField" disable="true" layoutX="200.0" layoutY="51.0" onKeyReleased="#qteByIntervalleOnAction" prefHeight="31.0" prefWidth="215.0" styleClass="StyleRaduis" />
+            <TextField fx:id="codeMPField" disable="true" layoutX="200.0" layoutY="9.0" onKeyPressed="#chargeL0ibelleKeyPressed" prefHeight="31.0" prefWidth="215.0" styleClass="StyleRaduis" />
+            <DatePicker fx:id="dateSaisie" disable="true" layoutX="730.0" layoutY="9.0" prefHeight="31.0" prefWidth="215.0" />
+            <ComboBox fx:id="dimCombo" layoutX="731.0" layoutY="51.0" prefHeight="31.0" prefWidth="213.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="625.0" layoutY="59.0" text="Dimention:" />
+            <Label layoutX="605.0" layoutY="15.0" text="Date Saisie:" />
+            <Label layoutX="112.0" layoutY="15.0" text="Code MP:" />
+            <Button fx:id="ajouterSaisie" layoutX="439.0" layoutY="177.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterSaisieAction" prefHeight="31.0" prefWidth="106.0" text="Reglé CM" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

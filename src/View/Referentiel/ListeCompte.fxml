@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.ListeCompteController">
+   <children>
+      <TableView fx:id="tableCompte" blendMode="MULTIPLY" layoutX="148.0" layoutY="477.0" maxWidth="1.7976931348623157E308" onMouseClicked="#clickChargeOnMouseEntered" prefHeight="338.0" prefWidth="1077.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeColumn" prefWidth="135.00003051757812" text="Code" />
+            <TableColumn fx:id="libelleColumn" prefWidth="234.0" text="libelle" />
+            <TableColumn fx:id="soldeColumn" prefWidth="239.0" text="Solde" />
+            <TableColumn fx:id="soldeReportColumn" prefWidth="237.0" text="Solde Report" />
+            <TableColumn fx:id="totalColumn" prefWidth="228.0" text="Total" />
+         </columns>
+      </TableView>
+      <Pane layoutX="1234.0" layoutY="476.0" prefHeight="338.0" prefWidth="174.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnSupprimer" layoutX="30.0" layoutY="235.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#SupprimerFournisseur" prefHeight="44.0" prefWidth="120.0" text="Supprimer" />
+            <Button fx:id="btnValider" alignment="CENTER" layoutX="29.0" layoutY="55.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterCompte" prefHeight="44.0" prefWidth="120.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Ajouter" textAlignment="CENTER" />
+            <Button fx:id="btnModifier" layoutX="29.0" layoutY="147.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ModifierFournisseur" prefHeight="44.0" prefWidth="120.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Modifier" />
+         </children>
+      </Pane>
+      <Pane layoutX="150.0" layoutY="238.0" prefHeight="75.0" prefWidth="1258.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="163.0" layoutY="28.0" text="Code: " />
+            <TextField fx:id="codeRechField" layoutX="340.0" layoutY="22.0" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <TextField fx:id="libelleRechField" layoutX="867.0" layoutY="25.0" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <Label layoutX="720.0" layoutY="30.0" prefHeight="20.0" prefWidth="104.0" text="libelle: " />
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="504.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="1031.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="147.0" layoutY="346.0" prefHeight="98.0" prefWidth="1258.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <GridPane layoutX="175.0" layoutY="27.0" prefHeight="44.0" prefWidth="897.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="249.0" minWidth="10.0" prefWidth="166.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="196.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="204.0" minWidth="10.0" prefWidth="183.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="148.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.80000000000007" minWidth="10.0" prefWidth="200.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label prefHeight="20.0" prefWidth="75.0" text="Code: " />
+                  <TextField fx:id="codeField" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="194.0" promptText="code" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css" GridPane.columnIndex="1">
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </TextField>
+                  <TextField fx:id="libelleField" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="256.0" promptText="libelle" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css" GridPane.columnIndex="4">
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </TextField>
+                  <Label text="libelle: " GridPane.columnIndex="3" />
+               </children>
+            </GridPane>
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1209.0" layoutY="54.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="566.0" layoutY="99.0" prefHeight="55.0" prefWidth="419.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="82.0" layoutY="5.0" prefHeight="44.0" prefWidth="281.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Liste Compte" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

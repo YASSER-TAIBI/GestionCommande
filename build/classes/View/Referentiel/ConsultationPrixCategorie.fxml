@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.ConsultationPrixCategorieController">
+   <children>
+      <TabPane layoutY="82.0" prefHeight="819.0" prefWidth="1600.0" stylesheets="@../../Styles/css/FigureDeStyle.css" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="prixBoxConsultation" text="Consultation Prix Box">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="759.0" prefWidth="1552.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css">
+                     <children>
+                        <Pane layoutX="568.0" layoutY="21.0" prefHeight="56.0" prefWidth="433.0" styleClass="pane">
+                           <children>
+                              <Label layoutX="56.0" layoutY="2.0" prefHeight="52.0" prefWidth="337.0" styleClass="label2" text="Liste Prix Box" />
+                           </children>
+                        </Pane>
+                        <TableView fx:id="tablePrixBox" blendMode="MULTIPLY" layoutX="167.0" layoutY="204.0" onMouseClicked="#clickTablePrixBox" prefHeight="416.0" prefWidth="1235.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+                          <columns>
+                            <TableColumn fx:id="CategorieColumn" prefWidth="131.0" text="Categorie Mp" />
+                            <TableColumn fx:id="typeCartonColumn" minWidth="0.0" prefWidth="184.0" text="Type Carton Box" />
+                              <TableColumn fx:id="grammageColumn" minWidth="0.0" prefWidth="160.0" text="Grammage" />
+                              <TableColumn fx:id="dimensionColumn" minWidth="0.0" prefWidth="193.0" text="Dimension" />
+                              <TableColumn fx:id="fournisseurColumn" minWidth="0.0" prefWidth="233.0" text="Fournisseur" />
+                              <TableColumn fx:id="intervalleColumn" minWidth="0.0" prefWidth="177.0" text="Intervalle" />
+                              <TableColumn fx:id="prixColumn" minWidth="0.0" prefWidth="157.0" text="Prix" />
+                          </columns>
+                        </TableView>
+                        <Pane layoutX="168.0" layoutY="101.0" prefHeight="92.0" prefWidth="1233.0" styleClass="pane">
+                           <children>
+                              <ComboBox fx:id="fourCombo" layoutX="537.0" layoutY="29.0" onAction="#fourComboOnAction" prefHeight="31.0" prefWidth="226.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+                              <Label layoutX="397.0" layoutY="35.0" text="Fournisseur: " />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="167.0" layoutY="632.0" prefHeight="86.0" prefWidth="1235.0" styleClass="pane">
+                           <children>
+                              <Button fx:id="modifierBtn" layoutX="777.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" />
+                              <Button fx:id="supprimerBtn" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#supprimerBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                              <Button fx:id="imprimerBtn" layoutX="194.0" layoutY="21.0" mnemonicParsing="false" onAction="#imprimerBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
+                              <Button fx:id="refrechBtn" layoutX="336.0" layoutY="20.0" mnemonicParsing="false" onAction="#refrechBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Consultation Prix Carton">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css">
+                     <children>
+                        <Pane layoutX="568.0" layoutY="21.0" prefHeight="56.0" prefWidth="433.0" styleClass="pane">
+                           <children>
+                              <Label layoutX="30.0" layoutY="2.0" prefHeight="52.0" prefWidth="406.0" styleClass="label2" text="Liste Prix Carton" />
+                           </children>
+                        </Pane>
+                        <TableView fx:id="tablePrixCarton" blendMode="MULTIPLY" layoutX="167.0" layoutY="204.0" onMouseClicked="#clickTablePrixCarton" prefHeight="416.0" prefWidth="1235.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+                           <columns>
+                              <TableColumn fx:id="CategorieCarColumn" prefWidth="234.0" text="Categorie Mp" />
+                              <TableColumn fx:id="typeCartonCarColumn" minWidth="0.0" prefWidth="188.0" text="Type Carton" />
+                              <TableColumn fx:id="dimensionCarColumn" minWidth="0.0" prefWidth="224.0" text="Dimension" />
+                              <TableColumn fx:id="fournisseurCarColumn" minWidth="0.0" prefWidth="209.0" text="Fournisseur" />
+                              <TableColumn fx:id="intervalleCarColumn" minWidth="0.0" prefWidth="212.0" text="Intervalle" />
+                              <TableColumn fx:id="prixCarColumn" minWidth="0.0" prefWidth="167.0" text="Prix" />
+                           </columns>
+                        </TableView>
+                        <Pane layoutX="168.0" layoutY="101.0" prefHeight="92.0" prefWidth="1233.0" styleClass="pane">
+                           <children>
+                              <ComboBox fx:id="fourCarCombo" layoutX="537.0" layoutY="29.0" onAction="#fourCarComboOnAction" prefHeight="31.0" prefWidth="226.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+                              <Label layoutX="398.0" layoutY="35.0" text="Fournisseur: " />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="167.0" layoutY="632.0" prefHeight="86.0" prefWidth="1235.0" styleClass="pane">
+                           <children>
+                              <Button fx:id="modifierCarBtn" layoutX="777.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierCarBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" />
+                              <Button fx:id="supprimerCarBtn" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#supprimerCarBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                              <Button fx:id="refrechCarBtn" layoutX="333.0" layoutY="20.0" mnemonicParsing="false" onAction="#refrechCarBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
+                              <Button fx:id="imprimerCarBtn" layoutX="192.0" layoutY="21.0" mnemonicParsing="false" onAction="#imprimerCarBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Consultation Prix Film">
+              <content>
+                <AnchorPane fx:id="consultationPrixFilm" minHeight="0.0" minWidth="0.0" prefHeight="774.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css">
+                     <children>
+                        <Pane layoutX="568.0" layoutY="21.0" prefHeight="56.0" prefWidth="433.0" styleClass="pane">
+                           <children>
+                              <Label layoutX="56.0" layoutY="2.0" prefHeight="52.0" prefWidth="337.0" styleClass="label2" text="Liste Prix Film" />
+                           </children>
+                        </Pane>
+                        <TableView fx:id="tablePrixFilm" blendMode="MULTIPLY" layoutX="166.0" layoutY="204.0" onMouseClicked="#clickTablePrixFilm" prefHeight="416.0" prefWidth="1235.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+                           <columns>
+                              <TableColumn fx:id="CategorieFlmColumn" prefWidth="214.0" text="Categorie Mp" />
+                              <TableColumn fx:id="typeFlmColumn" minWidth="0.0" prefWidth="203.0" text="Type Film" />
+                              <TableColumn fx:id="grammageFlmColumn" minWidth="0.0" prefWidth="217.0" text="Grammage Film" />
+                              <TableColumn fx:id="fournisseurFlmColumn" minWidth="0.0" prefWidth="215.0" text="Fournisseur" />
+                              <TableColumn fx:id="intervalleFlmColumn" minWidth="0.0" prefWidth="213.0" text="Intervalle" />
+                              <TableColumn fx:id="prixFlmColumn" minWidth="0.0" prefWidth="172.0" text="Prix" />
+                           </columns>
+                        </TableView>
+                        <Pane layoutX="168.0" layoutY="101.0" prefHeight="92.0" prefWidth="1233.0" styleClass="pane">
+                           <children>
+                              <ComboBox fx:id="fourFilmCombo" layoutX="537.0" layoutY="29.0" onAction="#fourFilmComboOnAction" prefHeight="31.0" prefWidth="226.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+                              <Label layoutX="398.0" layoutY="35.0" text="Fournisseur: " />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="166.0" layoutY="632.0" prefHeight="86.0" prefWidth="1235.0" styleClass="pane">
+                           <children>
+                              <Button fx:id="imprimerFlmBtn" layoutX="192.0" layoutY="21.0" mnemonicParsing="false" onAction="#imprimerFlmBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
+                              <Button fx:id="refrechFlmBtn" layoutX="334.0" layoutY="20.0" mnemonicParsing="false" onAction="#refrechFlmBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
+                              <Button fx:id="modifierFlmBtn" layoutX="777.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierFlmBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" />
+                              <Button fx:id="supprimerFlmBtn" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#supprimerFlmBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Consultation Prix Adhesif">
+               <content>
+                  <AnchorPane fx:id="consultationPrixFilm1" minHeight="0.0" minWidth="0.0" prefHeight="774.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css">
+                     <children>
+                        <Pane layoutX="568.0" layoutY="21.0" prefHeight="56.0" prefWidth="447.0" styleClass="pane">
+                           <children>
+                              <Label layoutX="22.0" layoutY="2.0" prefHeight="52.0" prefWidth="404.0" styleClass="label2" text="Liste Prix Adhesif" />
+                           </children>
+                        </Pane>
+                        <TableView fx:id="tablePrixAdhesif" blendMode="MULTIPLY" layoutX="167.0" layoutY="204.0" onMouseClicked="#clickTablePrixFilm" prefHeight="416.0" prefWidth="1235.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+                           <columns>
+                              <TableColumn fx:id="CategorieAdhesifColumn" prefWidth="297.0000305175781" text="Categorie Mp" />
+                              <TableColumn fx:id="dimAdhesifColumn" minWidth="0.0" prefWidth="331.0" text="Dimension" />
+                              <TableColumn fx:id="fournisseurAdhesifColumn" minWidth="0.0" prefWidth="350.0" text="Fournisseur" />
+                              <TableColumn fx:id="prixAdhesifColumn" minWidth="0.0" prefWidth="257.0" text="Prix" />
+                           </columns>
+                        </TableView>
+                        <Pane layoutX="168.0" layoutY="101.0" prefHeight="92.0" prefWidth="1233.0" styleClass="pane">
+                           <children>
+                              <ComboBox fx:id="fourAdhesifCombo" layoutX="537.0" layoutY="29.0" onAction="#fourAdhesifComboOnAction" prefHeight="31.0" prefWidth="226.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+                              <Label layoutX="398.0" layoutY="35.0" text="Fournisseur: " />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="167.0" layoutY="631.0" prefHeight="86.0" prefWidth="1235.0" styleClass="pane">
+                           <children>
+                              <Button fx:id="imprimerAdhesifBtn" layoutX="192.0" layoutY="21.0" mnemonicParsing="false" onAction="#imprimerAdhesifBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
+                              <Button fx:id="refrechAdhesifBtn" layoutX="334.0" layoutY="20.0" mnemonicParsing="false" onAction="#refrechAdhesifBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
+                              <Button fx:id="modifierAdhesifBtn" layoutX="777.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierAdhesifBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" />
+                              <Button fx:id="supprimerAdhesifBtn" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#supprimerAdhesifBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Consultation Prix Box Metal">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="547.0" layoutY="21.0" prefHeight="56.0" prefWidth="511.0" styleClass="pane">
+                           <children>
+                              <Label layoutX="33.0" layoutY="2.0" prefHeight="52.0" prefWidth="451.0" styleClass="label2" text="Liste Prix Box Metal" />
+                           </children>
+                        </Pane>
+                        <TableView fx:id="tablePrixBoxMetal" blendMode="MULTIPLY" layoutX="167.0" layoutY="204.0" onMouseClicked="#clickTablePrixFilm" prefHeight="416.0" prefWidth="1235.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+                           <columns>
+                              <TableColumn fx:id="CategorieBoxMetalColumn" prefWidth="356.0" text="Categorie Mp" />
+                              <TableColumn fx:id="fournisseurBoxMetalColumn" minWidth="0.0" prefWidth="572.0" text="Fournisseur" />
+                              <TableColumn fx:id="prixBoxMetalColumn" minWidth="0.0" prefWidth="305.0" text="Prix" />
+                           </columns>
+                        </TableView>
+                        <Pane layoutX="168.0" layoutY="101.0" prefHeight="92.0" prefWidth="1233.0" styleClass="pane">
+                           <children>
+                              <ComboBox fx:id="fourBoxMetalCombo" layoutX="537.0" layoutY="29.0" onAction="#fourBoxMetalComboOnAction" prefHeight="31.0" prefWidth="226.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+                              <Label layoutX="398.0" layoutY="35.0" text="Fournisseur: " />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="167.0" layoutY="631.0" prefHeight="86.0" prefWidth="1235.0" styleClass="pane">
+                           <children>
+                              <Button fx:id="imprimerBoxMetalBtn" layoutX="192.0" layoutY="21.0" mnemonicParsing="false" onAction="#imprimerBoxMetalBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
+                              <Button fx:id="refrechBoxMetalBtn" layoutX="334.0" layoutY="20.0" mnemonicParsing="false" onAction="#refrechBoxMetalBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
+                              <Button fx:id="modifierBoxMetalBtn" layoutX="777.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierBoxMetalBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" />
+                              <Button fx:id="supprimerBoxMetalBtn" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#supprimerBoxMetalBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Consultation Prix Oulmes">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="600.0" layoutY="21.0" prefHeight="56.0" prefWidth="440.0" styleClass="pane">
+                           <children>
+                              <Label layoutX="33.0" layoutY="2.0" prefHeight="52.0" prefWidth="390.0" styleClass="label2" text="Liste Prix Oulmes" />
+                           </children>
+                        </Pane>
+                        <TableView fx:id="tablePrixOulmes" blendMode="MULTIPLY" layoutX="167.0" layoutY="204.0" onMouseClicked="#clickTablePrixFilm" prefHeight="416.0" prefWidth="1235.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+                           <columns>
+                              <TableColumn fx:id="codeOulmesColumn" prefWidth="86.0" text="Code" />
+                              <TableColumn fx:id="libelleOulmesColumn" prefWidth="335.9999694824219" text="Libelle" />
+                              <TableColumn fx:id="conditionnementOulmesColumn" minWidth="0.0" prefWidth="149.0" text="Conditionnement" />
+                              <TableColumn fx:id="conditionnementCaisseOulmesColumn" minWidth="0.0" prefWidth="220.0" text="Conditionnement Caisse" />
+                              <TableColumn fx:id="remiseAchatOulmesColumn" minWidth="0.0" prefWidth="122.0" text="Remise Achat" />
+                              <TableColumn fx:id="remiseAvoirOulmesColumn" minWidth="0.0" prefWidth="125.0" text="Remise Avoir" />
+                              <TableColumn fx:id="typeOulmesColumn" minWidth="0.0" prefWidth="99.0" text="Type" />
+                              <TableColumn fx:id="prixOulmesColumn" minWidth="0.0" prefWidth="98.0" text="Prix" />
+                           </columns>
+                        </TableView>
+                        <Pane layoutX="168.0" layoutY="101.0" prefHeight="92.0" prefWidth="1233.0" styleClass="pane">
+                           <children>
+                              <ComboBox fx:id="fourOulmesCombo" layoutX="537.0" layoutY="29.0" onAction="#fourOulmesComboOnAction" prefHeight="31.0" prefWidth="226.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+                              <Label layoutX="398.0" layoutY="35.0" text="Fournisseur: " />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="167.0" layoutY="631.0" prefHeight="86.0" prefWidth="1235.0" styleClass="pane">
+                           <children>
+                              <Button fx:id="imprimerOulmesBtn" layoutX="192.0" layoutY="21.0" mnemonicParsing="false" onAction="#imprimerOulmesBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
+                              <Button fx:id="refrechOulmesBtn" layoutX="334.0" layoutY="20.0" mnemonicParsing="false" onAction="#refrechOulmesBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
+                              <Button fx:id="modifierOulmesBtn" layoutX="777.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierOulmesBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" />
+                              <Button fx:id="supprimerOulmesBtn" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#supprimerOulmesBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

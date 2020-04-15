@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Reglement.DetailFactureAvoirBonAvoirOulmesController">
+   <children>
+      <TableView fx:id="detailFactureAvoirOulmestable" blendMode="MULTIPLY" layoutX="217.0" layoutY="308.0" prefHeight="402.0" prefWidth="1088.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+        <columns>
+          <TableColumn fx:id="dateSaisieColumn" prefWidth="190.0" text="Date Saisie" />
+          <TableColumn fx:id="designationColumn" prefWidth="498.0" text="Designation" />
+            <TableColumn fx:id="blAvoirColumn" prefWidth="203.0" text="BL Avoir" />
+            <TableColumn fx:id="factureAvoirColumn" prefWidth="197.0" text="Facture Avoir" />
+        </columns>
+      </TableView>
+      <Pane layoutX="218.0" layoutY="185.0" prefHeight="114.0" prefWidth="1088.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <TextField fx:id="codeArtField" alignment="CENTER" layoutX="223.0" layoutY="18.0" onKeyPressed="#chargeL0ibelleKeyPressed" prefHeight="31.0" prefWidth="233.0" promptText="Code Article" styleClass="StyleRaduis" />
+            <Label layoutX="574.0" layoutY="23.0" text="Libelle:" />
+            <Label layoutX="85.0" layoutY="23.0" text="Code Article:" />
+            <ComboBox fx:id="LibelleCombo" layoutX="661.0" layoutY="18.0" onAction="#LibelleComboOnAction" prefHeight="31.0" prefWidth="318.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <Label layoutX="146.0" layoutY="67.0" text="Client:" />
+            <ComboBox fx:id="clientCombo" layoutX="223.0" layoutY="61.0" onAction="#clientOnAction" prefHeight="31.0" prefWidth="233.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <ImageView fitHeight="44.0" fitWidth="48.0" layoutX="1033.0" layoutY="61.0" onMouseClicked="#rechercheMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
+               </image>
+            </ImageView>
+         </children></Pane>
+      <Pane layoutX="279.0" layoutY="110.0" prefHeight="48.0" prefWidth="974.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="32.0" layoutY="2.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Detail Facture Avoir &amp; Bon d'Avoir Oulmes" />
+         </children>
+      </Pane>
+      <Pane layoutX="222.0" layoutY="721.0" prefHeight="83.0" prefWidth="1088.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label fx:id="montantFacture" alignment="CENTER" contentDisplay="CENTER" layoutX="898.0" layoutY="12.0" prefHeight="24.0" prefWidth="174.0" />
+            <Label fx:id="montantAvoir" alignment="CENTER" contentDisplay="CENTER" layoutX="699.0" layoutY="12.0" prefHeight="24.0" prefWidth="174.0" />
+            <Label fx:id="montantEcart" alignment="CENTER" contentDisplay="CENTER" layoutX="700.0" layoutY="45.0" prefHeight="24.0" prefWidth="373.0" />
+            <Label layoutX="553.0" layoutY="14.0" text="Montant Total:" />
+            <Label layoutX="611.0" layoutY="47.0" text="l'Ecart:" />
+         </children>
+      </Pane>
+      <Label fx:id="qteAfficchage" contentDisplay="CENTER" layoutX="228.0" layoutY="89.0" prefHeight="24.0" prefWidth="203.0" />
+   </children>
+</AnchorPane>
