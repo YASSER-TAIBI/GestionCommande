@@ -96,6 +96,7 @@ public class navigation {
     private final String modifierPrixFilm="/View/Referentiel/ModifierPrixFilm.fxml";
     private final String modifierPrixAdhesif="/View/Referentiel/ModifierPrixAdhesif.fxml";
     private final String modifierPrixBoxMetal="/View/Referentiel/ModifierPrixBoxMetal.fxml";
+    private final String modifierPrixOulmes="/View/Referentiel/ModifierPrixOulmes.fxml";
     private final String subCategorieMp="/View/Referentiel/SubCategorieMp.fxml";
     private final String MatierePremier="/View/Referentiel/MatierePremier.fxml";
     private final String CategorieMp="/View/Referentiel/CategorieMp.fxml";
@@ -223,6 +224,10 @@ public class navigation {
 
     public String getSaisirArticleOulmes() {
         return saisirArticleOulmes;
+    }
+
+    public String getModifierPrixOulmes() {
+        return modifierPrixOulmes;
     }
 
     public String getValiderCommandeRegion() {

@@ -40,6 +40,10 @@ public class Reglement implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
      private Date date;
     
+    @Column(name="DATE_ECHEANCE")
+    @Temporal(javax.persistence.TemporalType.DATE)
+     private Date dateEcheance;
+    
     @Column(name="CODE_REGLEMENT")
     private String codeReglement;
     
@@ -96,6 +100,14 @@ public class Reglement implements Serializable {
 
     public void setNumCritique(String numCritique) {
         this.numCritique = numCritique;
+    }
+
+    public Date getDateEcheance() {
+        return dateEcheance;
+    }
+
+    public void setDateEcheance(Date dateEcheance) {
+        this.dateEcheance = dateEcheance;
     }
 
     public String getModeReglement() {

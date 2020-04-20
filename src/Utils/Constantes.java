@@ -116,6 +116,7 @@ public class Constantes {
     public static String DESIGNATION_COMMANDE_N="Commande N° ";
     
     public static String MANQUE_RETOUR_N="N° ";
+    public static String SUR_DATE_ECHEANCE="sur Date d'Echéance ";
     public static String SUR_COMMANDE_N="sur Commande N° ";
     public static String RECEPTION_BON_LIVRAISON="_Reception Bon Livraison N°  ";
     

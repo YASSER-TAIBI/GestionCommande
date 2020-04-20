@@ -1231,6 +1231,46 @@ public class ConsultationPrixCategorieController implements Initializable {
 
     @FXML
     private void modifierOulmesBtnOnAction(ActionEvent event) {
+                if (tablePrixOulmes.getSelectionModel().getSelectedItem() != null) {
+              
+              PrixOulmes prixOulmes = tablePrixOulmes.getSelectionModel().getSelectedItem();
+              
+            FXMLLoader fXMLLoader = new FXMLLoader();
+            fXMLLoader.setLocation(getClass().getResource(nav.getModifierPrixOulmes()));
+            try {
+                fXMLLoader.load();
+                Parent parent = fXMLLoader.getRoot();
+                Scene scene = new Scene(parent);
+
+                ModifierPrixOulmesController modifierPrixOulmesController = fXMLLoader.getController();
+               
+//                typeVenteMixteController.detailTournee = detailTournee;
+//                typeVenteMixteController.chargerLesDonnees();
+//                typeVenteMixteController.listeDetailTourneeTMP = listeDetailTournee;
+//                typeVenteMixteController.loadDetail();
+
+                modifierPrixOulmesController.prixOulmes = prixOulmes;
+                modifierPrixOulmesController.chargerLesDonnees();
+                modifierPrixOulmesController.listePrixOulmesTMP=listePrixOulmes ;
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.initModality(Modality.APPLICATION_MODAL);
+           
+                
+                
+                
+                
+                
+                stage.show();
+            } catch (IOException ex) {
+              
+                System.err.println("!!!!!!!!" +ex);
+            }
+
+        } else {
+             nav.showAlert(Alert.AlertType.ERROR, "Erreur", Constantes.SELECTION_ERREUR, Constantes.SELECTION_LIGNE_MODIFIER);
+       }
+        
     }
 
     @FXML

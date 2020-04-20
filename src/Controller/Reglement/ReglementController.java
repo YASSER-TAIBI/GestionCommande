@@ -233,6 +233,8 @@ public class ReglementController implements Initializable {
     private TextField numFacture;
     @FXML
     private DatePicker dateLivraison;
+    @FXML
+    private DatePicker dateEcheance;
     
 
      void Incrementation (){
@@ -945,9 +947,12 @@ sommeTotal= BigDecimal.ZERO;
               
               
            LocalDate localDate=dateReglement.getValue();
-            
                 Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
       
+               LocalDate localDateTMP=dateEcheance.getValue();
+                Date dateEche=new SimpleDateFormat("yyyy-MM-dd").parse(localDateTMP.toString());  
+                String strDate = localDateTMP.toString();
+                
          Reglement reglement = new Reglement();
          
              reglement.setDate(dateSaisie);
@@ -968,7 +973,8 @@ sommeTotal= BigDecimal.ZERO;
              if (valeur == Constantes.CHEQUE || valeur == Constantes.ORDER_DE_VIREMENT || valeur == Constantes.TRAITE){
              
              reglement.setNumCritique(numCritique.getText());
-             reglement.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+" "+Constantes.MANQUE_RETOUR_N+numCritique.getText());
+             reglement.setDateEcheance(dateEche);
+             reglement.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+" "+Constantes.MANQUE_RETOUR_N+numCritique.getText()+" "+Constantes.SUR_DATE_ECHEANCE+strDate);
              }
              else{
                 reglement.setNumCritique("###");
@@ -990,7 +996,7 @@ sommeTotal= BigDecimal.ZERO;
               
              if (valeur == Constantes.CHEQUE || valeur == Constantes.ORDER_DE_VIREMENT || valeur == Constantes.TRAITE){
              
-                detailCompte.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+" "+Constantes.MANQUE_RETOUR_N+numCritique.getText());
+                detailCompte.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+" "+Constantes.MANQUE_RETOUR_N+numCritique.getText()+" "+Constantes.SUR_DATE_ECHEANCE+strDate);
              }
              else{
                    

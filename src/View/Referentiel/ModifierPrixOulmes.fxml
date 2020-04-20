@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="455.0" prefWidth="901.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.ModifierPrixOulmesController">
+   <children>
+      <Button fx:id="modifierBtn" layoutX="373.0" layoutY="391.0" mnemonicParsing="false" onAction="#modifierBtnOnAction" prefHeight="41.0" prefWidth="116.0" text="Modifier" />
+      <Pane layoutX="233.0" layoutY="24.0" prefHeight="47.0" prefWidth="441.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="38.0" layoutY="6.0" prefHeight="36.0" prefWidth="366.0" styleClass="label5" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Modifier Prix Oulmes" />
+         </children>
+      </Pane>
+      <Separator layoutX="396.0" layoutY="91.0" orientation="VERTICAL" prefHeight="275.0" prefWidth="33.0" />
+      <Label layoutX="487.0" layoutY="129.0" text="Remise d'Achat %:" />
+      <TextField fx:id="remiseAchatField" alignment="CENTER" layoutX="661.0" layoutY="123.0" prefHeight="31.0" prefWidth="211.0" promptText="Remise d'Achat" styleClass="StyleRaduis" />
+      <Label layoutX="486.0" layoutY="175.0" text="Remise d'Avoir %:" />
+      <TextField fx:id="remiseAvoirField" alignment="CENTER" layoutX="660.0" layoutY="169.0" prefHeight="31.0" prefWidth="211.0" promptText="Remise d'Avoir" styleClass="StyleRaduis" />
+      <RadioButton fx:id="radPiece" layoutX="180.0" layoutY="176.0" mnemonicParsing="false" onAction="#radPieceOnAction" styleClass="label" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Piece">
+         <toggleGroup>
+            <ToggleGroup fx:id="radPackPiece" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="radPack" layoutX="297.0" layoutY="176.0" mnemonicParsing="false" onAction="#radPackOnAction" styleClass="label" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Pack">
+         <toggleGroup>
+            <ToggleGroup fx:id="radPackPiece" />
+         </toggleGroup>
+      </RadioButton>
+      <Label layoutX="45.0" layoutY="178.0" text="Type Article:" />
+      <Label layoutX="498.0" layoutY="267.0" text="Conditionnement:" />
+      <TextField fx:id="conditionnementField" alignment="CENTER" layoutX="661.0" layoutY="261.0" prefHeight="31.0" prefWidth="211.0" promptText="Conditionnement" styleClass="StyleRaduis" />
+      <Label layoutX="429.0" layoutY="221.0" text="Conditionnement Caisse:" />
+      <TextField fx:id="conditionnementCaisseField" alignment="CENTER" layoutX="660.0" layoutY="215.0" prefHeight="31.0" prefWidth="211.0" promptText="Conditionnement Caisse" styleClass="StyleRaduis" />
+      <ComboBox fx:id="artCombo" layoutX="178.0" layoutY="124.0" onAction="#artComboOnAction" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+      <Label layoutX="90.0" layoutY="130.0" prefHeight="20.0" prefWidth="78.0" text="Article:" />
+      <Label layoutX="602.0" layoutY="312.0" text="Prix:" />
+      <TextField fx:id="prixField" alignment="CENTER" layoutX="661.0" layoutY="308.0" prefHeight="31.0" prefWidth="211.0" promptText="Prix" styleClass="StyleRaduis" />
+      <Label layoutX="100.0" layoutY="226.0" text="Client:" />
+      <ComboBox fx:id="clientCombo" layoutX="178.0" layoutY="220.0" onAction="#clientOnAction" prefHeight="31.0" prefWidth="211.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+      <TextField fx:id="lieuLivraisonField" alignment="CENTER" layoutX="178.0" layoutY="268.0" prefHeight="31.0" prefWidth="211.0" promptText="Lieu Livraison" styleClass="StyleRaduis" />
+      <Label layoutX="24.0" layoutY="272.0" text="Lieu Livraison:" />
+   </children>
+</AnchorPane>
