@@ -35,7 +35,7 @@
             <TableColumn fx:id="codeMPColumn" prefWidth="135.0" text="Code MP" />
             <TableColumn fx:id="libelleColumn" prefWidth="302.0" text="Libelle" />
             <TableColumn fx:id="qteColumn" prefWidth="162.0" text="Quantite" />
-            <TableColumn fx:id="prixColumn" prefWidth="163.0" text="Prix Un" />
+            <TableColumn fx:id="prixColumn" onEditCommit="#prixUnitOnEditCommit" prefWidth="163.0" text="Prix Un" />
             <TableColumn fx:id="totalColumn" prefWidth="163.0" text="Total " />
          </columns>
       </TableView>
@@ -118,7 +118,7 @@
       <Pane layoutX="220.0" layoutY="676.0" prefHeight="86.0" prefWidth="1118.0" styleClass="pane">
          <children>
             <Label layoutX="115.0" layoutY="53.0" text="Qte:" />
-            <TextField fx:id="prixTxt" alignment="CENTER" layoutX="448.0" layoutY="47.0" prefHeight="31.0" prefWidth="204.0" promptText="prix" styleClass="StyleRaduis" />
+            <TextField fx:id="prixTxt" alignment="CENTER" disable="true" layoutX="448.0" layoutY="47.0" prefHeight="31.0" prefWidth="204.0" promptText="prix" styleClass="StyleRaduis" />
             <TextField fx:id="qteTxt" alignment="CENTER" disable="true" layoutX="160.0" layoutY="47.0" prefHeight="31.0" prefWidth="204.0" promptText="qte" styleClass="StyleRaduis" />
             <Label layoutX="391.0" layoutY="53.0" text="Prix:" />
             <TextField fx:id="totalTxt" alignment="CENTER" disable="true" layoutX="772.0" layoutY="47.0" prefHeight="31.0" prefWidth="204.0" promptText="total" styleClass="StyleRaduis" />

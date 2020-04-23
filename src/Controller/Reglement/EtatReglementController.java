@@ -68,6 +68,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,7 +86,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -320,7 +323,7 @@ public class EtatReglementController implements Initializable {
       etatColumn.setCellValueFactory(new PropertyValueFactory<>("etat"));
       
       datePaiementColumn.setCellValueFactory(new PropertyValueFactory<BonLivraison, Date>("datePaiement"));
-       setColumnTextFieldConverter(getConverter(),datePaiementColumn);
+       setColumnTextFieldConverterDate(getConverterDate(),datePaiementColumn);
       
       nombreJourColumn.setCellValueFactory(new PropertyValueFactory<>("nombreJour"));
       dateLivraisonColumn.setCellValueFactory(new PropertyValueFactory<BonLivraison, Date>("dateLivraison"));
@@ -368,7 +371,7 @@ public class EtatReglementController implements Initializable {
     }
 
 
-        public static void setColumnTextFieldConverter(StringConverter converter, TableColumn... columns) {
+        public static void setColumnTextFieldConverterDate(StringConverter converter, TableColumn... columns) {
 
         for (TableColumn tableColumn : columns) {
 
@@ -378,7 +381,7 @@ public class EtatReglementController implements Initializable {
     }
 
         
-    private StringConverter getConverter() {
+    private StringConverter getConverterDate() {
         StringConverter<Date> converter = new StringConverter<Date>() {
             @Override
             public Date fromString(String string) {
@@ -409,7 +412,6 @@ public class EtatReglementController implements Initializable {
     void loadDetailBonLiv(){
     
        listeDetailBonLivraison.clear();
-        detailBonLivraisonDAO.ViderSession();
        listeDetailBonLivraison.addAll(detailBonLivraisonDAO.findDetaiBonLivraisonBycode(tableBonLivraison.getSelectionModel().getSelectedItem().getLivraisonFour(),tableBonLivraison.getSelectionModel().getSelectedItem().getNumCommande()));
        tableDetailBonLivraison.setItems(listeDetailBonLivraison);
     }
@@ -428,21 +430,20 @@ public class EtatReglementController implements Initializable {
        listeDetailBonLivraison.addAll(detailBonLivraisonDAO.findDetaiBonLivraisonBycode(tableBonLivraison.getSelectionModel().getSelectedItem().getLivraisonFour(),tableBonLivraison.getSelectionModel().getSelectedItem().getNumCommande() ));
 
 
-              for( int i = 0;i<listeDetailBonLivraison.size() ;i++ ){
-              
-                  DetailBonLivraison detailBonLivraison = listeDetailBonLivraison.get(i);
-                  
-                  if (detailBonLivraison.getQuantite().equals(BigDecimal.ZERO.setScale(2))){
-                  
-                  detailBonLivraisonDAO.delete(detailBonLivraison);
-                  }
-              
-              }
+//              for( int i = 0;i<listeDetailBonLivraison.size() ;i++ ){
+//              
+//                  DetailBonLivraison detailBonLivraison = listeDetailBonLivraison.get(i);
+//                  
+//                  if (detailBonLivraison.getQuantite().equals(BigDecimal.ZERO.setScale(2))){
+//                  
+//                  detailBonLivraisonDAO.delete(detailBonLivraison);
+//                  }
+//              
+//              }
          
        loadDetailBonLiv();
        setColumnPropertiesDetailReception();
-  
-       
+       tableDetailBonLivraison.setEditable(true);
     }
          
        
@@ -480,20 +481,9 @@ public class EtatReglementController implements Initializable {
            
 
            
-             prixColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailBonLivraison, BigDecimal>, ObservableValue<BigDecimal>>() {
-                @Override
-                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<DetailBonLivraison, BigDecimal> p) {
-                    
-                       DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
-                dfs.setDecimalSeparator(',');
-                dfs.setGroupingSeparator('.');
-                DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
-                df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getPrix()));
-                }
-                
-             });
+             prixColumn.setCellValueFactory(new PropertyValueFactory<>("prix"));
            
+               setColumnTextFieldConverter(getConverter(), prixColumn);
            
              totalColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailBonLivraison, BigDecimal>, ObservableValue<BigDecimal>>() {
                 @Override
@@ -504,7 +494,7 @@ public class EtatReglementController implements Initializable {
                 dfs.setGroupingSeparator('.');
                 DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
                 df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getTotal()));
+                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getMontant()));
                 }
                 
              });
@@ -785,7 +775,6 @@ public class EtatReglementController implements Initializable {
   
        }
     
-    
     @FXML
     private void datePaiementOnEditCommit(CellEditEvent<BonLivraison, Date> event) throws ParseException {
         
@@ -1009,7 +998,6 @@ public class EtatReglementController implements Initializable {
                 btnOffre.setDisable(true);
                 offreCheck.setSelected(false);
                 qteTxt.setDisable(true);
-                prixTxt.setDisable(false);
                 
                 monHT.setText("");
                 monTTC.setText("");
@@ -1191,73 +1179,48 @@ public class EtatReglementController implements Initializable {
                     }
                 }else{
                    
-        DetailBonLivraison detailBonLivraisonsTmp = tableDetailBonLivraison.getSelectionModel().getSelectedItem();        
-                
-        BigDecimal  valeur=BigDecimal.ZERO;
-        
-        valeur = (new BigDecimal(prixTxt.getText()).multiply(new BigDecimal(qteTxt.getText())));
-        
-        totalTxt.setText(valeur.setScale(2,RoundingMode.FLOOR)+"");
-        
-       detailBonLivraisonsTmp.setQuantite(new BigDecimal(qteTxt.getText()));
-       detailBonLivraisonsTmp.setPrix(new BigDecimal(prixTxt.getText()));
-       detailBonLivraisonsTmp.setMontant(valeur);
-      
-       detailBonLivraisonDAO.edit(detailBonLivraisonsTmp);
-        
-    //_______________________________________________________________________________________________________________________________________________________________________
-    
-        BigDecimal montantHT= BigDecimal.ZERO;
+                      BigDecimal montantHT =BigDecimal.ZERO;
+                    for (int i = 0; i < listeDetailBonLivraison.size(); i++) {
+                        
+                        DetailBonLivraison detailBonLivraisonsTmp = listeDetailBonLivraison.get(i);
+                        
+                       montantHT= montantHT.add(detailBonLivraisonsTmp.getMontant());
+                       
+                        detailBonLivraisonDAO.edit(detailBonLivraisonsTmp);
+                    }
+
+//_______________________________________________________________________________________________________________________________________________________________________
+
         BigDecimal montantTVA =BigDecimal.ZERO;
         BigDecimal montantTTC =BigDecimal.ZERO;
-        BigDecimal somme= BigDecimal.ZERO;
-        
 
           BonLivraison bonLivraison = tableBonLivraison.getSelectionModel().getSelectedItem();
 
-          montantHT = detailBonLivraisonsTmp.getTotal().setScale(2,RoundingMode.FLOOR);
+       
 
-                for(int i=0;i<listeDetailBonLivraison.size(); i++ ){
-
-          montantHT = listeDetailBonLivraison.get(i).getTotal().setScale(2,RoundingMode.FLOOR);
-
-          somme = somme.add(montantHT);
-
-        }
-
-             montantTVA =somme.multiply(Constantes.TAUX_TVA_20).setScale(2,RoundingMode.FLOOR);
-             montantTTC =somme.add(montantTVA).setScale(2,RoundingMode.FLOOR) ;
+             montantTVA =montantHT.multiply(Constantes.TAUX_TVA_20).setScale(2,RoundingMode.FLOOR);
+             montantTTC =montantHT.add(montantTVA).setScale(2,RoundingMode.FLOOR) ;
         
-          bonLivraison.setMontant(somme);
+          bonLivraison.setMontant(montantHT);
           bonLivraison.setMontantTVA(montantTVA);
           bonLivraison.setMontantTTC(montantTTC);
           
         bonLivraisonDAO.edit(bonLivraison);
 
-        BigDecimal MontantHTSpecial = BigDecimal.ZERO;
-        BigDecimal MontantTVASpecial= BigDecimal.ZERO;
-        BigDecimal MontantTTCSpecial= BigDecimal.ZERO;
-        
- for(int j=0;j<listeDetailBonLivraison.size(); j++ ){
+//______________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
-                      String designation = Constantes.DESIGNATION_RECEPTION_BON_LIVRAISION+" "+bonLivraison.getLivraisonFour()+"_"+Constantes.DESIGNATION_COMMANDE_N+" "+listeDetailBonLivraison.get(j).getNumCommande();
+                      String designation = Constantes.DESIGNATION_RECEPTION_BON_LIVRAISION+" "+bonLivraison.getLivraisonFour()+"_"+Constantes.DESIGNATION_COMMANDE_N+" "+bonLivraison.getNumCommande();
 
      
          DetailCompte detailCompte = detailCompteDAO.findByDetailCompte(designation);
-        
-         MontantHTSpecial = listeDetailBonLivraison.get(j).getMontant().setScale(2,RoundingMode.FLOOR);
-         MontantTVASpecial =MontantHTSpecial.multiply(Constantes.TAUX_TVA_20).setScale(2,RoundingMode.FLOOR);
-         MontantTTCSpecial =MontantHTSpecial.add(MontantTVASpecial).setScale(2,RoundingMode.FLOOR) ;
 
-
-        detailCompte.setMontantCredit(MontantTTCSpecial);
+        detailCompte.setMontantCredit(montantTTC);
 
         detailCompteDAO.edit(detailCompte);
 
        loadDetailBonLiv();
        loadDetailCombo();
-            
- }
+
                 }
         }else {
          nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.VERIFIER_QTE_PRIX);
@@ -1269,10 +1232,8 @@ public class EtatReglementController implements Initializable {
     private void offreCheckOnAction(ActionEvent event) {
         if (offreCheck.isSelected()== true){
         qteTxt.setDisable(false);
-        prixTxt.setDisable(true);
         }else {
         qteTxt.setDisable(true);
-        prixTxt.setDisable(false);
         }
     }
 
@@ -1421,6 +1382,87 @@ public class EtatReglementController implements Initializable {
     }
 
 
+    @FXML
+    private void prixUnitOnEditCommit(CellEditEvent<DetailBonLivraison, BigDecimal> event) {
+        
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_VALIDER_QTE_LIVRAISON);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+
+                    BigDecimal prix = BigDecimal.ZERO;
+                    BigDecimal qte= BigDecimal.ZERO;
+                    BigDecimal calculeTotal= BigDecimal.ZERO; 
+                
+                    
+
+                    
+                ((DetailBonLivraison) event.getTableView().getItems().get(event.getTablePosition().getRow()))
+                        .setPrix(event.getNewValue());
+               
+                
+                    tableDetailBonLivraison.refresh();  
+
+  
+                 prix = prixColumn.getCellData(event.getTablePosition().getRow());
+                
+                 qte =  listeDetailBonLivraison.get(tableDetailBonLivraison.getSelectionModel().getSelectedIndex()).getQuantite();
+
+                 calculeTotal = qte.multiply(prix).setScale(2, RoundingMode.FLOOR);
+               
+
+                 listeDetailBonLivraison.get(tableDetailBonLivraison.getSelectionModel().getSelectedIndex()).setPrix(prix);
+                 listeDetailBonLivraison.get(tableDetailBonLivraison.getSelectionModel().getSelectedIndex()).setMontant(calculeTotal);
+                 
+                 
+                setColumnProperties();
+
+           
+
+            } else if (result.get() == ButtonType.CANCEL) {
+                tableDetailBonLivraison.refresh();
+            }
+        
+    }
+
+ public static void setColumnTextFieldConverter(StringConverter converter, TableColumn... columns) {
+
+        for (TableColumn tableColumn : columns) {
+
+            tableColumn.setCellFactory(TextFieldTableCell.forTableColumn(converter));
+
+        }
+    }
+
+    private StringConverter getConverter() {
+        StringConverter<BigDecimal> converter = new StringConverter<BigDecimal>(){
+            @Override
+            public BigDecimal fromString(String string) {
+
+                try {
+                    BigDecimal valeur;
+                    valeur= new BigDecimal(string);
+                    
+                    return valeur;
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+
+            @Override
+            public String toString(BigDecimal object) {
+
+                if (object == null) {
+                    return null;
+                }
+                return  String.valueOf(object);
+            }
+        };
+
+        return converter;
+    }
  
   
 

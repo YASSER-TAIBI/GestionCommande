@@ -3,10 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/GestionCommande/src/Controller/Referentiel/PrixDimesionFourController.java</file>
-            <file>file:/D:/GestionCommande/src/Controller/Referentiel/ConsultationPrixCategorieController.java</file>
-            <file>file:/D:/GestionCommande/src/Controller/Referentiel/ModifierPrixOulmesController.java</file>
-            <file>file:/D:/GestionCommande/src/Controller/Referentiel/ModifierPrixBoxController.java</file>
+            <file>file:/D:/GestionCommande/src/Config/hibernate.cfg.xml</file>
+            <file>file:/D:/GestionCommande/src/Controller/Reglement/EtatReglementController.java</file>
+            <file>file:/D:/GestionCommande/src/Controller/Livraision/SuiviCommandeController.java</file>
         </group>
     </open-files>
 </project-private>

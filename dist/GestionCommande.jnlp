@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="GestionCommande.jar" size="39859152" download="eager" />
+    <jar href="GestionCommande.jar" size="39859107" download="eager" />
     <jar href="lib\Enzo-0.3.6.jar" size="2504009" download="eager" />
     <jar href="lib\antlr-2.7.7.jar" size="445288" download="eager" />
     <jar href="lib\com-jaspersoft-ireport.jar" size="8959460" download="eager" />

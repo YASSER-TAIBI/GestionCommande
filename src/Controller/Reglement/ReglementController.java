@@ -469,7 +469,7 @@ public class ReglementController implements Initializable {
                 dfs.setGroupingSeparator('.');
                 DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
                 df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getTotal()));
+                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getMontant()));
                 }
                 
              });
