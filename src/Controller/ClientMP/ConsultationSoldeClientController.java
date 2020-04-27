@@ -118,6 +118,10 @@ public class ConsultationSoldeClientController implements Initializable {
              private final  ObservableList<DetailCompte> listMontantCreditDebit = FXCollections.observableArrayList();  
                DetailCompteDAO detailCompteDAO = new DetailCompteDAOImpl();
                  navigation nav = new navigation();
+    @FXML
+    private Label soldeTotal;
+        
+    BigDecimal soldeAn = BigDecimal.ZERO;
   
 
     
@@ -161,6 +165,7 @@ public class ConsultationSoldeClientController implements Initializable {
           BigDecimal calculCreditTotal= BigDecimal.ZERO;
              BigDecimal calculDebitTotal= BigDecimal.ZERO;
              BigDecimal somme=BigDecimal.ZERO;
+             BigDecimal sommeTotal=BigDecimal.ZERO;
              
            for( int rows = 0;rows<listeDetailCompte.size() ;rows++ ){
 
@@ -193,8 +198,13 @@ public class ConsultationSoldeClientController implements Initializable {
 
          somme = calculCreditTotal.subtract(calculDebitTotal) ;
           
+         sommeTotal= somme.add(soldeAn);
+         
          solde.setText(df.format(somme));  
+         soldeTotal.setText(df.format(sommeTotal));  
         
+         
+         
     }
     
    void setColumnProperties(){
@@ -440,9 +450,7 @@ public class ConsultationSoldeClientController implements Initializable {
                     BigDecimal debit =(BigDecimal)object[0];
                     BigDecimal credit = (BigDecimal)object[1]; 
            
-                    BigDecimal solde = BigDecimal.ZERO;
-                    
-                    solde= credit.subtract(debit);
+                    soldeAn= credit.subtract(debit);
                     
                     if(credit == null && debit == null){
                     
@@ -458,12 +466,12 @@ public class ConsultationSoldeClientController implements Initializable {
                         
                totalCreditAncien.setText(df.format(credit));
                totalDebitAncien.setText(df.format(debit));
-               soldeAncien.setText(df.format(solde));
+               soldeAncien.setText(df.format(soldeAn));
                         
                     }
             }
         
-        
+           calcule ();
         
     }
 
@@ -500,6 +508,8 @@ public class ConsultationSoldeClientController implements Initializable {
       
         
     }
+
+ 
     
 
 }

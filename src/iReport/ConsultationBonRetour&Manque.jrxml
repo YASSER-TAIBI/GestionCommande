@@ -33,6 +33,20 @@
 				</textElement>
 				<text><![CDATA[Consultation Bon Retour & Bon Manque]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="34" y="28" width="17" height="20" uuid="2e1fb633-f577-4a9e-a9c2-8ce29a27b38a"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<text><![CDATA[Le:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="51" y="28" width="100" height="20" uuid="e07294c0-33c8-410d-882f-5113220e189a"/>
+				<textElement>
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

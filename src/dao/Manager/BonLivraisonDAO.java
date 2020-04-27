@@ -69,6 +69,6 @@ public interface BonLivraisonDAO {
 
                 public List<BonLivraison> findNumCommandeByDateLivraisonAndNumLivraisonAndNumFacOulmes(Date dateLiv, String code,String fac ,String four,String clt,String etat,String etat1,String type,String type1);
 
-
+                  public List<BonLivraison> findFilterBonLivraisonByDateLivraisonAndFourAndClient(Date dateDebut,Date dateFin, String four, String client);
 
 }

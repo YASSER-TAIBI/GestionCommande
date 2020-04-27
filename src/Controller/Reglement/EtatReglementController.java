@@ -256,6 +256,10 @@ public class EtatReglementController implements Initializable {
     
    
   int pos = 0;
+    @FXML
+    private DatePicker dateDebut;
+    @FXML
+    private DatePicker dateFin;
 
     /**
      * Initializes the controller class.
@@ -282,6 +286,9 @@ public class EtatReglementController implements Initializable {
         numLivRech.setDisable(true);
         dateLivraison.setDisable(true);
 
+        dateDebut.setDisable(true);
+        dateFin.setDisable(true);
+        
         Incrementation ();
     
          List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
@@ -562,6 +569,8 @@ public class EtatReglementController implements Initializable {
              monTVA.setText("");
              monTTC.setText("");
              numLivRech.clear();
+             dateDebut.setValue(null);
+             dateFin.setValue(null);
              dateLivraison.setValue(null);
              
     }}}
@@ -816,6 +825,8 @@ public class EtatReglementController implements Initializable {
         
         numLivRech.setDisable(false);
         dateLivraison.setDisable(false);
+        dateDebut.setDisable(false);
+        dateFin.setDisable(false);
         refrech();
         
     }
@@ -995,6 +1006,10 @@ public class EtatReglementController implements Initializable {
                
                 numLivRech.setDisable(false);
                 dateLivraison.setDisable(false);
+                
+                dateDebut.setDisable(false);
+                dateFin.setDisable(false);
+                
                 btnOffre.setDisable(true);
                 offreCheck.setSelected(false);
                 qteTxt.setDisable(true);
@@ -1013,6 +1028,9 @@ public class EtatReglementController implements Initializable {
                 numFacture.clear();
                 numLivRech.clear();
                 dateLivraison.setValue(null);
+                
+                dateDebut.setValue(null);
+                dateFin.setValue(null);
                 
                 refrech();
                 
@@ -1070,6 +1088,10 @@ public class EtatReglementController implements Initializable {
              monHT.setText("");
              monTVA.setText("");
              monTTC.setText("");
+             
+             dateDebut.setValue(null);
+             dateFin.setValue(null);
+             
              numLivRech.clear();
              dateLivraison.setValue(null);
              
@@ -1269,6 +1291,8 @@ public class EtatReglementController implements Initializable {
           HashMap para = new HashMap();
             JasperReport report = (JasperReport) JRLoader.loadObject(EtatReglementController.class.getResource(nav.getiReportEtatReglement()));
                       
+            para.put("Client",clientCombo.getSelectionModel().getSelectedItem());
+            para.put("Fournisseur",fourCombo.getSelectionModel().getSelectedItem());
             para.put("MontantHT",monHT.getText());
             para.put("MontantTVA",monTVA.getText());
             para.put("MontantTTC",monTTC.getText());
@@ -1337,6 +1361,10 @@ public class EtatReglementController implements Initializable {
              monHT.setText("");
              monTVA.setText("");
              monTTC.setText("");
+             
+             dateDebut.setValue(null);
+             dateFin.setValue(null);
+             
              numLivRech.clear();
              dateLivraison.setValue(null);
              clientCombo.getSelectionModel().clearSelection();
@@ -1462,6 +1490,77 @@ public class EtatReglementController implements Initializable {
         };
 
         return converter;
+    }
+
+    @FXML
+    private void dateDebutOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void dateFinOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void recherchDateMouseClicked(MouseEvent event) throws ParseException {
+        
+        if(
+          dateDebut.getValue()== null||
+          dateFin.getValue()== null||
+                fourCombo.getSelectionModel().getSelectedIndex()== -1 ||
+                clientCombo.getSelectionModel().getSelectedIndex()==-1
+          )
+          {
+         nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.REMPLIR_CHAMPS);
+     }
+        
+        
+        else if(dateDebut.getValue()!=null && dateFin.getValue()!=null)
+		    		{
+
+		    		if(!dateDebut.getValue().equals(dateFin.getValue()))
+		    		{
+		    			if(dateFin.getValue().compareTo(dateDebut.getValue())<0)
+		    			{
+		    				  nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
+		    				return;
+		    			}
+		    			
+		    		}
+
+		    		}
+        
+        
+        
+        else if (dateDebut.getValue()==null){
+        
+            dateFin.setValue(null);
+            
+        }
+            listeBonLivraison.clear();
+           Fournisseur fournisseur=mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
+           ClientMP client=mapClientMP.get(clientCombo.getSelectionModel().getSelectedItem());
+           
+           LocalDate localDate=dateDebut.getValue();
+           Date dateOperaDebut =null;
+           if(localDate!=null)
+           {
+          dateOperaDebut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
+           }
+                 localDate=dateFin.getValue();
+                  Date dateOperaFin =null;
+              if(localDate!=null)
+           {     
+          dateOperaFin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
+           } 
+         
+       
+        List<BonLivraison> listBonLiv = bonLivraisonDAO.findFilterBonLivraisonByDateLivraisonAndFourAndClient(dateOperaDebut, dateOperaFin, fournisseur.getNom(), client.getNom());
+        
+        
+        listeBonLivraison.addAll(listBonLiv);
+        tableBonLivraison.setItems(listeBonLivraison);
+        setColumnProperties();
+        
     }
  
   

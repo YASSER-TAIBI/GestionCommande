@@ -330,4 +330,20 @@ public class BonLivraisonDAOImpl implements BonLivraisonDAO {
                 return query.list();
  }
  
+                     
+                           public List<BonLivraison> findFilterBonLivraisonByDateLivraisonAndFourAndClient(Date dateDebut,Date dateFin, String four, String client) {
+               
+         Query query= null;
+         
+         if (dateDebut!=null && dateFin !=null){
+        
+         query= session.createQuery("select c from BonLivraison c where c.dateLivraison BETWEEN :dateDebut and :dateFin and c.fourisseur =:four and c.client =:client ");
+         query.setParameter("dateDebut", dateDebut);
+         query.setParameter("dateFin", dateFin);
+         query.setParameter("four", four);
+         query.setParameter("client", client);
+         
+         }
+           return query.list();
+    }
 }
