@@ -4,6 +4,11 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<parameter name="Fournisseur" class="java.lang.String"/>
+	<parameter name="BonRetMnq" class="java.lang.String"/>
+	<parameter name="RespUsin" class="java.lang.String"/>
+	<parameter name="Etat" class="java.lang.String"/>
+	<parameter name="Stock" class="java.lang.String"/>
 	<field name="numRetour" class="java.lang.String"/>
 	<field name="numCommande" class="java.lang.String"/>
 	<field name="numLivraison" class="java.lang.String"/>
@@ -50,7 +55,78 @@
 		</band>
 	</title>
 	<pageHeader>
-		<band height="24" splitType="Stretch"/>
+		<band height="101" splitType="Stretch">
+			<staticText>
+				<reportElement x="81" y="22" width="117" height="20" uuid="746ca2bc-9503-4175-bc4b-083f25daff3a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bon Retour/Manque:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="42" width="117" height="20" uuid="acc7e72e-6c95-4532-9122-8fd601ace1cc"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reception/Usine:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="62" width="117" height="20" uuid="1f9ec71d-10b3-4a77-817f-8c29d783078f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Etat:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="467" y="22" width="117" height="20" uuid="9cf6a399-d60b-4d7f-800b-042642779a4f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fournisseur:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="467" y="42" width="117" height="20" uuid="acbcdad5-2deb-48f7-bc9c-0d1bcfce1fad"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[En Stock:  ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="584" y="42" width="142" height="20" uuid="6af383e1-4c2c-49c5-b7ce-ff46d7542da4"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Stock}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="198" y="62" width="143" height="20" uuid="23e340cc-4643-4ebc-ba5b-86d9b70002e5"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Etat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="198" y="42" width="143" height="20" uuid="5b7db809-7694-4e58-a4d1-23f2d5dd62b6"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RespUsin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="198" y="22" width="143" height="20" uuid="df0a43a1-2339-45a6-b002-79d5ae7b7253"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{BonRetMnq}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="584" y="22" width="142" height="20" uuid="4708fbd2-ab37-4173-b0f8-999069ad7778"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Fournisseur}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="21" splitType="Stretch">

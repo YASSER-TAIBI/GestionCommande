@@ -632,6 +632,7 @@ public class ConsultationPrixCategorieController implements Initializable {
                 return new ReadOnlyObjectWrapper(p.getValue().getTypeArticle());
             }
 
+            
         });
        
         

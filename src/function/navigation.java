@@ -74,7 +74,8 @@ public class navigation {
     private final String ModifierPrixReglement="/View/Reglement/ModifierPrixReglement.fxml";
     private final String consultationReglement="/View/Reglement/ConsultationReglement.fxml";
     private final String reglementReport="/View/Reglement/ReglementReport.fxml";
-
+    private final String prixMoyen="/View/Reglement/prixMoyen.fxml";
+      
     private final String stock="/View/Stock/ConsultationStock.fxml";
     private final String stockOulmes="/View/Stock/ConsultationStockOulmes.fxml";
 
@@ -224,6 +225,10 @@ public class navigation {
 
     public String getSaisirArticleOulmes() {
         return saisirArticleOulmes;
+    }
+
+    public String getPrixMoyen() {
+        return prixMoyen;
     }
 
     public String getModifierPrixOulmes() {

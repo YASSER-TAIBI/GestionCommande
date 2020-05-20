@@ -1782,4 +1782,22 @@ public class HomeController implements Initializable {
         
     }
 
+    private void prixMoyenOnAction(ActionEvent event) {
+        
+                                  try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getPrixMoyen()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+        
+    }
+
 }

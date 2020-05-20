@@ -903,16 +903,21 @@ sommeTotal= BigDecimal.ZERO;
        }
                
                      
-               if (etatColumn.getCellData(rows).equals(Constantes.ETAT_A_PAYER)){
+               if (bonLivraisonTmp.getEtat().equals(Constantes.ETAT_A_PAYER)){
                
                 detailCompte = new DetailCompte();
               detailCompte.setDateOperation(new Date());
               
+              System.out.println("bonLivraisonTmp.getLivraisonFour() "+bonLivraisonTmp.getLivraisonFour());
+              System.out.println("bonLivraisonTmp.getNumFacture() "+bonLivraisonTmp.getNumFacture());
+              
+            List<DetailBonLivraison> detaiBonLivraison= detailBonLivraisonDAO.findDetaiBonLivraisonBycode(bonLivraisonTmp.getLivraisonFour(),bonLivraisonTmp.getNumCommande());;
+  
+            System.out.println("listDetaiBonLivraison "+detaiBonLivraison.size());
             
-             
-                detailCompte.setDesignation(Constantes.FACTURE_AVOIR_N+numLivraisonColumn.getCellData(rows));
-              detailCompte.setDateBonLivraison(dateLivraisonColumn.getCellData(rows));
-              detailCompte.setMontantCredit(montantTTCColumn.getCellData(rows).multiply(new BigDecimal(-1)));
+                detailCompte.setDesignation(Constantes.FACTURE_AVOIR_N+bonLivraisonTmp.getLivraisonFour()+Constantes.SUR_BON_AVOIR_N+detaiBonLivraison.get(0).getBonAvoir()+Constantes.SUR_FACTURE_N+detaiBonLivraison.get(0).getNumFacture());
+              detailCompte.setDateBonLivraison(bonLivraisonTmp.getDateLivraison());
+              detailCompte.setMontantCredit(bonLivraisonTmp.getMontantTTC().multiply(new BigDecimal(-1)));
               detailCompte.setMontantDebit(BigDecimal.ZERO);
               detailCompte.setClientMP(clientMP);
 //              detailCompte.setCode(codeReglement);
@@ -946,9 +951,7 @@ sommeTotal= BigDecimal.ZERO;
            LocalDate localDate=dateReglement.getValue();
            Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
       
-           LocalDate localDateTMP=dateEcheance.getValue();
-            Date dateEche=new SimpleDateFormat("yyyy-MM-dd").parse(localDateTMP.toString());  
-             String strDate = localDateTMP.toString();
+         
   
             
          Reglement reglement = new Reglement();
@@ -970,6 +973,10 @@ sommeTotal= BigDecimal.ZERO;
              
              if (valeur == Constantes.CHEQUE || valeur == Constantes.ORDER_DE_VIREMENT || valeur == Constantes.TRAITE){
              
+                   LocalDate localDateTMP=dateEcheance.getValue();
+            Date dateEche=new SimpleDateFormat("yyyy-MM-dd").parse(localDateTMP.toString());  
+             String strDate = localDateTMP.toString();
+                 
              reglement.setNumCritique(numCritique.getText());
              reglement.setDateEcheance(dateEche);
              reglement.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+" "+Constantes.MANQUE_RETOUR_N+numCritique.getText()+" "+Constantes.SUR_DATE_ECHEANCE+strDate);
@@ -996,6 +1003,9 @@ sommeTotal= BigDecimal.ZERO;
               
              if (valeur == Constantes.CHEQUE || valeur == Constantes.ORDER_DE_VIREMENT || valeur == Constantes.TRAITE){
              
+                   LocalDate localDateTMP=dateEcheance.getValue();
+             String strDate = localDateTMP.toString();
+                 
                 detailCompte.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+" "+Constantes.MANQUE_RETOUR_N+numCritique.getText()+" "+Constantes.SUR_DATE_ECHEANCE+strDate);
              }
              else{

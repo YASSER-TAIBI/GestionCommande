@@ -668,7 +668,7 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
                 detailReception.setNumReception(codeReception);
 
                 detailReceptionDAO.add(detailReception);
-               }
+               
 //------------------------------- Traitement Compte par Four ------------------------------------------------------------------------------------------------------------------------------------------
 
        BigDecimal montant = BigDecimal.ZERO;
@@ -740,9 +740,8 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
 
                 montantTotal = montantTotal.add((quantiteLivreeColumn.getCellData(rows).multiply(detailCommande.getPrixUnitaire())).subtract(((quantiteLivreeColumn.getCellData(rows).multiply(detailCommande.getPrixUnitaire())).multiply(detailCommande.getRemiseAchat())).divide(new BigDecimal(100))));  
                 }
-                
-         
-        
+
+               }
     }
         
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");

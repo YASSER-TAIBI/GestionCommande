@@ -318,7 +318,7 @@ public class ConsultationSoldeClientController implements Initializable {
     }
 
     @FXML
-    private void imprimerOnAction(ActionEvent event) {
+    private void imprimerOnAction(ActionEvent event) throws ParseException {
        try {
           HashMap para = new HashMap(); 
             JasperReport report = (JasperReport) JRLoader.loadObject(ConsultationSoldeClientController.class.getResource(nav.getiReportConsultationSoldeClientFour()));
@@ -335,11 +335,38 @@ public class ConsultationSoldeClientController implements Initializable {
             }
 
    
+           LocalDate localDate=dateDebut.getValue();
+           Date Debut =null;
+           if(localDate!=null)
+           {
+          Debut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
+           }
+                
+            localDate=dateFin.getValue();
+                  Date Fin =null;
+              if(localDate!=null)
+           {     
+          Fin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
+           }    
+                     if(dateDebut.getValue()!=null && dateFin.getValue()!=null){
+                         
+                       para.put("DateDebut",Debut);
+                       para.put("DateFin",Fin);     
+                     }
+                     
+                     if(!totalCreditAncien.getText().equals("") && !totalDebitAncien.getText().equals("") && !soldeAncien.getText().equals("")){
+                     
+                            para.put("totalCreditAncien",totalCreditAncien.getText());
+                            para.put("totalDebitAncien",totalDebitAncien.getText());
+                            para.put("soldeAncien",soldeAncien.getText());
+                     
+                     }
                      
             para.put("totalCredit",totalCredit.getText());
             para.put("totalDebit",totalDebit.getText());
             para.put("solde",solde.getText());
-
+            para.put("soldeTotal",soldeTotal.getText());
+            
              JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(tableDetailCompte.getItems()));
                JasperViewer.viewReport(jp, false);
             

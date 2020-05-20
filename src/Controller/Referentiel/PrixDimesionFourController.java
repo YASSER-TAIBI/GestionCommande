@@ -59,6 +59,7 @@ import dao.ManagerImpl.TypeCartonDAOImpl;
 import dao.ManagerImpl.TypeFilmDAOImpl;
 import function.navigation;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -721,7 +722,7 @@ public class PrixDimesionFourController implements Initializable {
               prixOulmes.setProduit(produit);
               prixOulmes.setFournisseur(fournisseur.getNom());
               prixOulmes.setUtilisateurCreation(nav.getUtilisateur());
-              prixOulmes.setPrix(new BigDecimal(prixField.getText()));
+              prixOulmes.setPrix(new BigDecimal(prixField.getText()).setScale(6, RoundingMode.FLOOR));
               prixOulmes.setRemiseAchat(new BigDecimal(remiseAchatField.getText()));
               prixOulmes.setRemiseAvoir(new BigDecimal(remiseAvoirField.getText()));
               prixOulmes.setConditionnement(new BigDecimal(conditionnementField.getText()));

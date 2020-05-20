@@ -60,12 +60,13 @@ public class DetailBonLivraisonDAOImpl implements DetailBonLivraisonDAO {
 		return session.createQuery("select c from DetailBonRetour c").list();
 		}
 	
-//    public List<DetailBonLivraison>  findDetaiBonLivraisonBycode (String code) {
-//
-//		Query query= session.createQuery("select c from DetailBonLivraison c where c.livraisonFour=:code");
-//		query.setParameter("code", code);
-//		return query.list();
-//}
+    public List<DetailBonLivraison>  findDetaiBonLivraisonByNumLivAndNumFac(String numLiv ,String numFact) {
+
+		Query query= session.createQuery("select c from DetailBonLivraison c where c.livraisonFour=:numLiv and c.numFacture =:numFact");
+		query.setParameter("numLiv", numLiv);
+                query.setParameter("numFact", numFact);
+		return query.list();
+}
 
     
         public List<DetailBonLivraison>  findDetaiBonLivraisonBycode (String code , String cmd) {
@@ -74,6 +75,14 @@ public class DetailBonLivraisonDAOImpl implements DetailBonLivraisonDAO {
 		query.setParameter("code", code);
                 query.setParameter("cmd", cmd);
 		return query.list();
+}
+        
+                public DetailBonLivraison  findDetaiBonLivraisonByNumlivAndNumCo (String code , String cmd) {
+
+		Query query= session.createQuery("select c from DetailBonLivraison c where c.livraisonFour=:code and c.numCommande =:cmd");
+		query.setParameter("code", code);
+                query.setParameter("cmd", cmd);
+		return (DetailBonLivraison) query.uniqueResult();
 }
         
     public void ViderSession()
@@ -103,6 +112,18 @@ public class DetailBonLivraisonDAOImpl implements DetailBonLivraisonDAO {
                 
  }
     
+           public List<DetailBonLivraison> findByDetailBonLivraisonAndBl() {
+		
+		Query query = session.createQuery("select c from DetailBonLivraison c where c.numReception like 'RCP %'" );
+
+                return query.list();
+                
+ }
     
-    
+                  public List<Object[]> findByPrixMoyen() {
+        Query query=  session.createQuery("select c.matierePremier.code, c.matierePremier.nom  ,sum(c.quantite), (0*c.prix) from DetailBonLivraison c where c.numReception like 'RCP %' group by c.matierePremier");
+
+        return query.list();
+    }
+           
 }

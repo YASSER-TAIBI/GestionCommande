@@ -436,17 +436,6 @@ public class EtatReglementController implements Initializable {
           
        listeDetailBonLivraison.addAll(detailBonLivraisonDAO.findDetaiBonLivraisonBycode(tableBonLivraison.getSelectionModel().getSelectedItem().getLivraisonFour(),tableBonLivraison.getSelectionModel().getSelectedItem().getNumCommande() ));
 
-
-//              for( int i = 0;i<listeDetailBonLivraison.size() ;i++ ){
-//              
-//                  DetailBonLivraison detailBonLivraison = listeDetailBonLivraison.get(i);
-//                  
-//                  if (detailBonLivraison.getQuantite().equals(BigDecimal.ZERO.setScale(2))){
-//                  
-//                  detailBonLivraisonDAO.delete(detailBonLivraison);
-//                  }
-//              
-//              }
          
        loadDetailBonLiv();
        setColumnPropertiesDetailReception();
@@ -487,7 +476,6 @@ public class EtatReglementController implements Initializable {
              });
            
 
-           
              prixColumn.setCellValueFactory(new PropertyValueFactory<>("prix"));
            
                setColumnTextFieldConverter(getConverter(), prixColumn);
@@ -929,8 +917,6 @@ public class EtatReglementController implements Initializable {
         
     }
 
-    
-  
 
     @FXML
     private void offreOnAction(ActionEvent event) throws ParseException {
@@ -1217,8 +1203,6 @@ public class EtatReglementController implements Initializable {
         BigDecimal montantTTC =BigDecimal.ZERO;
 
           BonLivraison bonLivraison = tableBonLivraison.getSelectionModel().getSelectedItem();
-
-       
 
              montantTVA =montantHT.multiply(Constantes.TAUX_TVA_20).setScale(2,RoundingMode.FLOOR);
              montantTTC =montantHT.add(montantTVA).setScale(2,RoundingMode.FLOOR) ;

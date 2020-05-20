@@ -108,7 +108,9 @@ public class Constantes {
     public static String ETAT_REGLEMENT_AVOIR="RGL Avoir";
     
     public static String FACTURE_AVOIR_N="Facture Avoir N° ";
-     
+    public static String SUR_BON_AVOIR_N=" sur Bon d'Avoir N° "; 
+    public static String SUR_FACTURE_N=" sur Facture N° ";
+    
     public static String REGULARISATION_AUGMENTATION_FACTURE ="Regularisation d'augmentation des prix sur Facture N° ";
     public static String REGULARISATION_DIMINUTION_FACTURE ="Regularisation de diminution des prix sur Facture N° ";
     

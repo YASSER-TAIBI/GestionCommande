@@ -3,9 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/GestionCommande/src/Utils/Constantes.java</file>
+            <file>file:/D:/GestionCommande/src/Controller/Referentiel/PrixDimesionFourController.java</file>
+            <file>file:/D:/GestionCommande/src/dao/ManagerImpl/DetailBonLivraisonDAOImpl.java</file>
             <file>file:/D:/GestionCommande/src/Config/hibernate.cfg.xml</file>
-            <file>file:/D:/GestionCommande/src/Controller/Reglement/EtatReglementController.java</file>
-            <file>file:/D:/GestionCommande/src/Controller/Livraision/SuiviCommandeController.java</file>
+            <file>file:/D:/GestionCommande/src/dao/ManagerImpl/CommandeDAOImpl.java</file>
+            <file>file:/D:/GestionCommande/src/Controller/Reglement/ReglementOulmesController.java</file>
+            <file>file:/D:/GestionCommande/src/Controller/Livraision/SuiviCommandeOulmesController.java</file>
+            <file>file:/D:/GestionCommande/src/dao/Manager/DetailBonLivraisonDAO.java</file>
         </group>
     </open-files>
 </project-private>

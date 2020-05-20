@@ -15,6 +15,7 @@ import dao.ManagerImpl.ProduitDAOImpl;
 import function.navigation;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -156,7 +157,7 @@ public class ModifierPrixOulmesController implements Initializable {
                 prixOulmes.setTypeArticle(Constantes.PIECE);
               }
               
-               prixOulmes.setPrix(new BigDecimal(prixField.getText()));
+               prixOulmes.setPrix(new BigDecimal(prixField.getText()).setScale(6, RoundingMode.FLOOR));
                
                prixOulmesDAO.edit(prixOulmes);
                
@@ -167,8 +168,6 @@ public class ModifierPrixOulmesController implements Initializable {
                
                listePrixOulmesTMP.clear();
                listePrixOulmesTMP.addAll(prixOulmesDAO.findAll());
-               
-  
 
 
          nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, "Modifier avec Succès");

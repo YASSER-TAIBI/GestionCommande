@@ -412,7 +412,7 @@ public class SuiviCommandeController implements Initializable {
                 detailReception.setNumReception(codeReception);
 
                 detailReceptionDAO.add(detailReception);
-              }
+              
 //------------------------------- Traitement Compte par Four ------------------------------------------------------------------------------------------------------------------------------------------
 
        BigDecimal montant = BigDecimal.ZERO;
@@ -468,8 +468,8 @@ public class SuiviCommandeController implements Initializable {
 
             montantTotal = montantTotal.add(quantiteLivreeColumn.getCellData(rows).multiply(detailCommande.getPrixUnitaire()));  
         
+              }
     }
-        
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
         String date ="00-00-0000 00:00:00";
        
@@ -1008,13 +1008,9 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
                 MatierePremier matierePremier = detailReceptionTmp.getDetailCommande().getMatierePremier();
 
                 BigDecimal prixU = detailReceptionTmp.getDetailCommande().getPrixUnitaire();
-
-                  
-                  
+ 
                 BigDecimal QteLivree = detailReceptionTmp.getQuantiteRecu();
                
-            
-                
                 StockMP stockMP = stockMPDAO.findStockByMagasinMP(matierePremier.getId(), magasin.getId());
 
                 if (stockMP == null) {
@@ -1032,11 +1028,11 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
                 } else if (stockMP != null) {
 
                     BigDecimal Qte = stockMP.getStock();
+                    
                     BigDecimal prix = stockMP.getPrixUnitaire();
  
                     BigDecimal pmc = ((QteLivree.multiply(prixU)).add(Qte.multiply(prix))).divide(QteLivree.add(Qte),2);
 
-                    
                     BigDecimal QteTotal = QteLivree.add(Qte).setScale(2,RoundingMode.FLOOR);
                     stockMP.setPrixUnitaire(pmc);
                     stockMP.setStock(QteTotal);

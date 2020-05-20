@@ -118,7 +118,7 @@ public List<Commande>  findCommandeByEtat(String etat, String typeCommande) {
 
 	 public List<Commande> findFourByRechercheNumCommande(String nCommande,String etat) {
 		
-		Query query = session.createQuery("select u from Commande u where etat=:etat and nCommande like:nCommande ");
+		Query query = session.createQuery("select u from Commande u where u.etat=:etat and u.nCommande like:nCommande and u.typeCommande='Interne Art' ");
 		query.setParameter("nCommande","%"+nCommande+"%");
                 query.setParameter("etat",etat);
                
@@ -129,7 +129,7 @@ public List<Commande>  findCommandeByEtat(String etat, String typeCommande) {
   
                	 public Commande findCommandeByNumCommande(String nCommande,String etat) {
 		
-		Query query = session.createQuery("select u from Commande u where u.etat <> :etat and u.nCommande =:nCommande ");
+		Query query = session.createQuery("select u from Commande u where u.etat <> :etat and u.nCommande =:nCommande and u.typeCommande ='Interne'");
 		query.setParameter("nCommande",nCommande);
                 query.setParameter("etat",etat);
 	

@@ -1535,7 +1535,42 @@ public class ConsultationBonRetourGratuite implements Initializable {
           HashMap para = new HashMap();
             JasperReport report = (JasperReport) JRLoader.loadObject(ConsultationBonRetourGratuite.class.getResource(nav.getiReportConsultationBonRetourGratuite()));
 
+            
+                 Fournisseur fournisseur = mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
+                     if(fournisseur!=null){
+                 para.put("Fournisseur",fournisseur.getNom());
+            }else {
+                 para.put("Fournisseur","TOUT FOURNISSEUR");
+            }
 
+                     String bonRetGraMnq = bonRetGraMnqCombo.getSelectionModel().getSelectedItem();
+                        if(bonRetGraMnq!=null){
+                 para.put("BonRetMnq",bonRetGraMnq);
+            }else {
+                 para.put("BonRetMnq","TOUT BON RETOUR/MANQUE");
+            }    
+                        
+                    String respUsin = respUsinCombo.getSelectionModel().getSelectedItem();    
+                     if(respUsin!=null){
+                 para.put("RespUsin",respUsin);
+            }else {
+                 para.put("RespUsin","TOUT RECEPTION/USINE");
+            }  
+                     
+               String etat = etatCombo.getSelectionModel().getSelectedItem();    
+                     if(etat!=null){
+                 para.put("Etat",etat);
+            }else {
+                 para.put("Etat","TOUT ETAT");
+            }  
+                     
+                     String stock = stockCombo.getSelectionModel().getSelectedItem();    
+                     if(stock!=null){
+                 para.put("Stock",stock);
+            }else {
+                 para.put("Stock","TOUT STOCK");
+            }  
+                     
              JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(tableBonRtr.getItems()));
                JasperViewer.viewReport(jp, false);
                

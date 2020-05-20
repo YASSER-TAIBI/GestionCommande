@@ -337,7 +337,7 @@ public class BonLivraisonDAOImpl implements BonLivraisonDAO {
          
          if (dateDebut!=null && dateFin !=null){
         
-         query= session.createQuery("select c from BonLivraison c where c.dateLivraison BETWEEN :dateDebut and :dateFin and c.fourisseur =:four and c.client =:client ");
+         query= session.createQuery("select c from BonLivraison c where c.dateLivraison BETWEEN :dateDebut and :dateFin and c.fourisseur =:four and c.client =:client and c.etat='Non Régler' ");
          query.setParameter("dateDebut", dateDebut);
          query.setParameter("dateFin", dateFin);
          query.setParameter("four", four);
