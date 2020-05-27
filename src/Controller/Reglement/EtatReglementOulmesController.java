@@ -927,17 +927,17 @@ public class EtatReglementOulmesController implements Initializable {
                 
                if (detailBonLivraisonsTmp.getPrixOulmes().getProduit().getPalette() == true){
                 
-                valeur = (new BigDecimal(prixTxt.getText()).multiply(new BigDecimal(qteTxt.getText())));
+                valeur = (new BigDecimal(prixTxt.getText()).setScale(6, RoundingMode.FLOOR).multiply(new BigDecimal(qteTxt.getText())));
                 
                 }else{ 
                    
-                 valeur = (new BigDecimal(prixTxt.getText()).multiply(new BigDecimal(qteTxt.getText()))).subtract(((new BigDecimal(prixTxt.getText()).multiply(new BigDecimal(qteTxt.getText()))).multiply(detailBonLivraisonsTmp.getRemiseAchat())).divide(new BigDecimal(100)));
+                 valeur = (new BigDecimal(prixTxt.getText()).setScale(6, RoundingMode.FLOOR).multiply(new BigDecimal(qteTxt.getText()))).subtract(((new BigDecimal(prixTxt.getText()).setScale(6, RoundingMode.FLOOR).multiply(new BigDecimal(qteTxt.getText()))).multiply(detailBonLivraisonsTmp.getRemiseAchat())).divide(new BigDecimal(100)));
                 }
 
-        totalTxt.setText(valeur.setScale(2,RoundingMode.FLOOR)+"");
+        totalTxt.setText(valeur.setScale(6,RoundingMode.FLOOR)+"");
         
        detailBonLivraisonsTmp.setQuantite(new BigDecimal(qteTxt.getText()));
-       detailBonLivraisonsTmp.setPrix(new BigDecimal(prixTxt.getText()));
+       detailBonLivraisonsTmp.setPrix(new BigDecimal(prixTxt.getText()).setScale(6, RoundingMode.FLOOR));
        detailBonLivraisonsTmp.setMontant(valeur);
       
        detailBonLivraisonDAO.edit(detailBonLivraisonsTmp);
@@ -958,11 +958,11 @@ public class EtatReglementOulmesController implements Initializable {
                     
                if (detailBonLivraison.getPrixOulmes().getProduit().getPalette() == true){
                 
-                montantPalette = montantPalette.add(detailBonLivraison.getTotal().setScale(2,RoundingMode.FLOOR));
+                montantPalette = montantPalette.add(detailBonLivraison.getMontant().setScale(2,RoundingMode.FLOOR));
                 
                 }else{ 
                    
-                montantNormal = montantNormal.add(detailBonLivraison.getTotal().subtract(((detailBonLivraison.getTotal()).multiply(detailBonLivraison.getRemiseAchat())).divide(new BigDecimal(100))));
+                montantNormal = montantNormal.add(detailBonLivraison.getMontant().subtract(((detailBonLivraison.getMontant()).multiply(detailBonLivraison.getRemiseAchat())).divide(new BigDecimal(100))));
                 }
 
         }
@@ -994,11 +994,11 @@ public class EtatReglementOulmesController implements Initializable {
         
             if (detailBonLivraison.getPrixOulmes().getProduit().getPalette() == true){
                 
-                montantPaletteSpecial = montantPaletteSpecial.add(detailBonLivraison.getTotal().setScale(2,RoundingMode.FLOOR));
+                montantPaletteSpecial = montantPaletteSpecial.add(detailBonLivraison.getMontant().setScale(2,RoundingMode.FLOOR));
                 
                 }else{ 
                    
-                montantNormalSpecial =  montantNormalSpecial.add(detailBonLivraison.getTotal().subtract(((detailBonLivraison.getTotal()).multiply(detailBonLivraison.getRemiseAchat())).divide(new BigDecimal(100)))); 
+                montantNormalSpecial =  montantNormalSpecial.add(detailBonLivraison.getMontant().subtract(((detailBonLivraison.getMontant()).multiply(detailBonLivraison.getRemiseAchat())).divide(new BigDecimal(100)))); 
                 }
          
          MontantHTSpecial = montantNormal.add(montantPalette);
@@ -1145,14 +1145,16 @@ public class EtatReglementOulmesController implements Initializable {
                 prixOulmesDAO.edit(prixOulmes);
 
   //================================================================================================================================================================================================================================================================================================================================================              
-     DetailBonLivraison detailBonLivraisonTMP = tableDetailBonLivraison.getSelectionModel().getSelectedItem();               
+  
+  DetailBonLivraison detailBonLivraisonTMP = tableDetailBonLivraison.getSelectionModel().getSelectedItem();               
   
   detailBonLivraisonTMP.setRemiseAchat(remise);
   detailBonLivraisonTMP.setMontant(calculeMontant);
                  
   detailBonLivraisonDAO.edit(detailBonLivraisonTMP);
 //================================================================================================================================================================================================================================================================================================================================================
-     BigDecimal montantHT= BigDecimal.ZERO;
+    
+        BigDecimal montantHT= BigDecimal.ZERO;
         BigDecimal montantTVA =BigDecimal.ZERO;
         BigDecimal montantTTC =BigDecimal.ZERO;
         BigDecimal montantNormal = BigDecimal.ZERO;
@@ -1197,41 +1199,5 @@ public class EtatReglementOulmesController implements Initializable {
             }
         }
 
-
-
-
-  
-  
-
-  
-
-   
-
-
-
-
-
- 
-
-
-
-    
-
-
-
-   
-
- 
-
-  
-
-
- 
-
-  
-
-
-
- 
     
 }

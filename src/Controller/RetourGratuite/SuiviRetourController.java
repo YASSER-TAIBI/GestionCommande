@@ -196,6 +196,7 @@ public class SuiviRetourController implements Initializable {
         radioOui.setDisable(true);
         radioNon.setDisable(true);
 
+        btnImprimer.setDisable(true);
     }    
 
         void IncrementationRtr (){
@@ -347,6 +348,7 @@ public class SuiviRetourController implements Initializable {
             }
             else{
            
+            
                 
                 if(radioBonRetour.isSelected()){
                     
@@ -496,7 +498,7 @@ BigDecimal montant = BigDecimal.ZERO;
                        bonRetourDAO.edit(bonRetour);
                       
                       
-               
+                    btnImprimer.setDisable(false);
                        
     
                   }else if (radioManque.isSelected()){
@@ -724,7 +726,9 @@ BigDecimal montant = BigDecimal.ZERO;
                        bonRetour.setMontantTotal(montantTotal);
                        bonRetourDAO.edit(bonRetour);
                   
+                        btnImprimer.setDisable(false);
                   }
+                      
                   } 
                 nav.showAlert(Alert.AlertType.WARNING, "Attention", null, Constantes.TRAITEMENT_BIEN_ENREGESTRE);
             }

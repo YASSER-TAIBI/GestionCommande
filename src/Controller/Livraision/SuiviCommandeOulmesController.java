@@ -474,7 +474,7 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
             
     listeCommande.clear();
    
-   listeCommande.addAll(commandeDAO.findFourByRechercheNumCommande(numComRechField.getText(),Constantes.ETAT_COMMANDE_ENCOURS));
+   listeCommande.addAll(commandeDAO.findFourByRechercheNumCommandeOulmes(numComRechField.getText(),Constantes.ETAT_COMMANDE_ENCOURS));
    
    tableCommande.setItems(listeCommande);
         

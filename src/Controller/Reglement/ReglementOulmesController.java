@@ -979,11 +979,11 @@ sommeTotal= BigDecimal.ZERO;
                  
              reglement.setNumCritique(numCritique.getText());
              reglement.setDateEcheance(dateEche);
-             reglement.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+" "+Constantes.MANQUE_RETOUR_N+numCritique.getText()+" "+Constantes.SUR_DATE_ECHEANCE+strDate);
+             reglement.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+" "+Constantes.MANQUE_RETOUR_N+numCritique.getText()+" "+Constantes.SUR_DATE_ECHEANCE+strDate+Constantes.SUR_FACTURE_N+fac);
              }
              else{
                 reglement.setNumCritique("###");
-                reglement.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem());
+                reglement.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+Constantes.SUR_FACTURE_N+fac);
              }
 
             
@@ -1006,11 +1006,11 @@ sommeTotal= BigDecimal.ZERO;
                    LocalDate localDateTMP=dateEcheance.getValue();
              String strDate = localDateTMP.toString();
                  
-                detailCompte.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+" "+Constantes.MANQUE_RETOUR_N+numCritique.getText()+" "+Constantes.SUR_DATE_ECHEANCE+strDate);
+                detailCompte.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+" "+Constantes.MANQUE_RETOUR_N+numCritique.getText()+" "+Constantes.SUR_DATE_ECHEANCE+strDate+Constantes.SUR_FACTURE_N+fac);
              }
              else{
                    
-                detailCompte.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem());
+                detailCompte.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+Constantes.SUR_FACTURE_N+fac);
              }
              
               detailCompte.setDateBonLivraison(dateSaisie);

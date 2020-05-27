@@ -211,7 +211,10 @@ public class ConsultationSoldeClientController implements Initializable {
         
     
         dateOperationColumn.setCellValueFactory(new PropertyValueFactory<>("dateOperation"));
+        
         designationColumn.setCellValueFactory(new PropertyValueFactory<>("designation"));
+        setColumnTextFieldConverterString(designationColumn);
+        
         dateLivraisonColumn.setCellValueFactory(new PropertyValueFactory<DetailCompte, Date>("dateBonLivraison"));
         setColumnTextFieldConverter(getConverter(),dateLivraisonColumn);
         
@@ -294,6 +297,19 @@ public class ConsultationSoldeClientController implements Initializable {
         tableDetailCompte.setItems(listeDetailCompte);
     }
 
+             public static void setColumnTextFieldConverterString(TableColumn... columns) {
+
+        for (TableColumn tableColumn : columns) {
+
+            tableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        }
+    }
+
+            
+        
+
+     
     @FXML
     private void fourOnAction(ActionEvent event) {
     }
@@ -463,7 +479,7 @@ public class ConsultationSoldeClientController implements Initializable {
          calcule ();
         setColumnProperties();
         
- //==================================================================== Montant Credit Debit Ancien ============================================================================================================================
+//==================================================================== Montant Credit Debit Ancien ============================================================================================================================
  
  
             List <Object[]> listeObjectMontant =detailCompteDAO.findBy(dateOperaDebut, client.getId(), fournisseur.getId());
@@ -534,6 +550,40 @@ public class ConsultationSoldeClientController implements Initializable {
               }
       
         
+    }
+
+    @FXML
+    private void designationOnEditCommit(TableColumn.CellEditEvent<DetailCompte, String> event) {
+        
+         System.out.println("event.getNewValue() "+event.getNewValue());
+        
+          
+            ((DetailCompte) event.getTableView().getItems().get(event.getTablePosition().getRow()))
+                        .setDesignation(event.getNewValue());
+            
+            
+            
+            
+              String  designation = designationColumn.getCellData(event.getTablePosition().getRow());
+
+              
+              if (designation== null){
+                  
+                nav.showAlert(Alert.AlertType.ERROR, "Erreur", Constantes.ERREUR , Constantes.SELECTION_ERREUR);
+              
+              }else{
+              
+              tableDetailCompte.refresh();
+              DetailCompte detailCompte = listeDetailCompte.get(event.getTablePosition().getRow());
+              detailCompte.setDesignation(designation);
+              listeDetailCompte.set(event.getTablePosition().getRow(), detailCompte);
+                
+              detailCompteDAO.edit(detailCompte);
+
+              
+              }
+      
+         
     }
 
  

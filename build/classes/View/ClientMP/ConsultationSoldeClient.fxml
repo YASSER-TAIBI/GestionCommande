@@ -21,7 +21,7 @@
          <columns>
             <TableColumn fx:id="dateOperationColumn" prefWidth="170.0" text="Date Operation" />
             <TableColumn fx:id="dateLivraisonColumn" onEditCommit="#dateLivraisonOnEditCommit" prefWidth="176.0" text="Date Livraison" />
-            <TableColumn fx:id="designationColumn" prefWidth="568.0" text="Designation" />
+            <TableColumn fx:id="designationColumn" onEditCommit="#designationOnEditCommit" prefWidth="568.0" text="Designation" />
             <TableColumn fx:id="montantCreditColumn" prefWidth="176.0" text="Montant Credit" />
             <TableColumn fx:id="montantDebitColumn" prefWidth="168.0" text="Montant Debit" />
          </columns>

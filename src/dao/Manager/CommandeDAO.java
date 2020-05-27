@@ -37,6 +37,8 @@ public interface CommandeDAO {
 
                 public List<Commande> findFourByRechercheNumCommande(String nCommande,String etat);
                 
+                public List<Commande> findFourByRechercheNumCommandeOulmes(String nCommande,String etat);
+                
                 public Commande findCommandeByNumCommande(String nCommande,String etat);
                  
                 public void delete(DetailCommande e);
