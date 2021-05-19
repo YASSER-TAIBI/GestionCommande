@@ -46,28 +46,46 @@ public class CategorieMpDAOImpl implements CategorieMpDAO {
         
 	@Override
 	public List<CategorieMp> findAll() {
-		return session.createQuery("select c from CategorieMp c").list();
+		return session.createQuery("select c from CategorieMp c where c.etat = 'Lancé'").list();
 		}
 
         
          public List<CategorieMp> findCategorieMpByID(int id) {
 		
-		Query query = session.createQuery("select u from CategorieMp u where u.subCategorieMp.id =:id ");
+		Query query = session.createQuery("select u from CategorieMp u where u.subCategorieMp.id =:id and u.etat = 'Lancé'");
 		query.setParameter("id", id);
                 return query.list();
 }
          
          public List<CategorieMp> findCategorieMpByBox(String box) {
 		
-		Query query = session.createQuery("select u from CategorieMp u where u.nom like =:BOX");
+		Query query = session.createQuery("select u from CategorieMp u where u.nom like =:BOX and u.etat = 'Lancé'");
 		query.setParameter("BOX", box+"%");
                 return query.list();
 }
          
                 public CategorieMp findCategorieMpByCat(String cat) {
 		
-		Query query = session.createQuery("select u from CategorieMp u where u.nom=:cat");
+		Query query = session.createQuery("select u from CategorieMp u where u.nom=:cat and u.etat = 'Lancé'");
 		query.setParameter("cat", cat);
                 return (CategorieMp)query.uniqueResult();
 }
+                
+                
+                	 public List<CategorieMp> findByCodeCategorieMp(String code) {
+		
+		Query query = session.createQuery("select u from CategorieMp u where u.code like:code and u.etat = 'Lancé'");
+		query.setParameter("code","%"+code+"%");
+		
+                return query.list();
+ }
+    
+         	 public List<CategorieMp> findBylibelleCategorieMp(String lib) {
+		
+		Query query = session.createQuery("select u from CategorieMp u where u.nom like:lib and u.etat = 'Lancé'");
+		query.setParameter("lib","%"+lib+"%");
+		
+                return query.list();
+ }
+
 }

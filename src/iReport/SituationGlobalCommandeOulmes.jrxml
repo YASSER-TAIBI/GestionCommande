@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5a335326-5e6c-4b2e-84a6-787b20d7585b">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<parameter name="produit" class="java.lang.String"/>
+	<field name="commande.fourisseur.nom" class="java.lang.String"/>
+	<field name="commande.nCommande" class="java.lang.String"/>
+	<field name="commande.dateSaisie" class="java.util.Date"/>
+	<field name="quantite" class="java.math.BigDecimal"/>
+	<field name="quantiteRestee" class="java.math.BigDecimal"/>
+	<field name="quantiteRecu" class="java.math.BigDecimal"/>
+	<field name="prixOulmes.produit.code" class="java.lang.String"/>
+	<field name="prixOulmes.produit.libelle" class="java.lang.String"/>
+	<field name="commande.clientMP.nom" class="java.lang.String"/>
+	<variable name="montantRecu" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{quantiteRecu}]]></variableExpression>
+	</variable>
+	<variable name="montantRestant" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{quantiteRestee}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="44" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="234" y="14" width="315" height="24" backcolor="#8FDFEF" uuid="64f7e2d2-18ec-4e41-b295-141fb9a791c4"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="248" y="11" width="288" height="26" uuid="1155e738-b73b-494e-af0b-da3a754df18e"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Situation Global Commande PF]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="2" y="0" width="796" height="20" backcolor="#8FDFEF" uuid="fb80749c-1d5e-41e2-a547-a0ba48f9fc28"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="446" y="-1" width="89" height="20" uuid="b8b209bd-d8fd-46c2-9abd-5509d3b2256b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date Commande]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="369" y="-1" width="75" height="20" uuid="0d0975d2-ac54-43a3-ad7f-b74b9a7962d8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N°Commande]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="292" y="-1" width="75" height="20" uuid="bf3b6fa7-d8a6-4e01-ae1d-a2aeb0d02989"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fournisseur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="64" y="-1" width="226" height="20" uuid="181b28cd-9add-4426-a254-dac4aade3a2b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Designation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="603" y="0" width="60" height="20" uuid="a05ab7f2-9b96-4411-a46a-89447e02da76"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qte]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="665" y="0" width="68" height="20" uuid="363ab2bd-2a67-4db3-a885-58e536de7579"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qte Restante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="0" width="58" height="20" uuid="97ebc2e9-2675-407c-bc94-4c393adf1aa7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="736" y="0" width="59" height="20" uuid="118c18ab-84b9-4b4c-8976-e66c2be358e6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qte Reçu]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="537" y="0" width="63" height="20" uuid="d4f66b5d-f328-45ca-be03-54b9c121691f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Client]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="369" y="1" width="75" height="20" isPrintWhenDetailOverflows="true" uuid="2c3e58b0-f507-43f2-8778-c0c44b034ce1"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{commande.nCommande}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="292" y="1" width="75" height="20" isPrintWhenDetailOverflows="true" uuid="d01d3137-9da3-4a58-9236-61092dd85520"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{commande.fourisseur.nom}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="446" y="1" width="89" height="20" isPrintWhenDetailOverflows="true" uuid="74badea1-47de-443b-9f1a-2043a7e32fce"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{commande.dateSaisie}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="665" y="1" width="68" height="20" isPrintWhenDetailOverflows="true" uuid="b1af6255-fe71-4ae9-847f-f468becf0a65"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantiteRestee}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="603" y="1" width="60" height="20" isPrintWhenDetailOverflows="true" uuid="2dbafe14-1660-4cad-8256-929e62300779"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantite}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="736" y="1" width="59" height="20" isPrintWhenDetailOverflows="true" uuid="737737bb-bcb1-4315-b0cc-f6d81a5f5caa"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantiteRecu}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="4" y="1" width="58" height="20" isPrintWhenDetailOverflows="true" uuid="944c38ad-de65-4cdf-bad2-28efac36c094"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="CALIBRI" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prixOulmes.produit.code}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="64" y="1" width="226" height="20" isPrintWhenDetailOverflows="true" uuid="ee55b1c1-609d-4871-8ce2-663ce0c41a8d"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="CALIBRI" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prixOulmes.produit.libelle}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="538" y="1" width="62" height="20" isPrintWhenDetailOverflows="true" uuid="c5571f4c-152f-4ccc-8a6e-a9c3266fc459"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{commande.clientMP.nom}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="135">
+			<rectangle>
+				<reportElement x="3" y="-1" width="796" height="4" backcolor="#8FDFEF" uuid="1cc6caf3-ce56-4196-9735-fdf39af28dea"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="550" y="11" width="96" height="20" uuid="875a7fcd-30f3-446e-bd5b-f7e7a3056ab8"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qte Reçu Total:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="650" y="11" width="140" height="20" uuid="5e26b1cb-ea24-455f-99a0-3f8c037ce009"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{montantRecu}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="650" y="34" width="140" height="20" uuid="ca0cb736-5fd2-4706-9004-08fcdbea6664"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{montantRestant}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="531" y="34" width="116" height="20" uuid="f49b2a2c-eae8-4134-8ad1-7db89cffd8c4"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qte Restante Total:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

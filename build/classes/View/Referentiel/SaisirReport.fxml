@@ -27,9 +27,8 @@
       </TableView>
       <Pane layoutX="1232.0" layoutY="492.0" prefHeight="315.0" prefWidth="186.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Button fx:id="btnSupprimer" layoutX="40.0" layoutY="219.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#SupprimerFournisseur" prefHeight="44.0" prefWidth="109.0" text="Supprimer" />
-            <Button fx:id="btnValider" alignment="CENTER" layoutX="39.0" layoutY="49.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterCompte" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Ajouter" textAlignment="CENTER" />
-            <Button fx:id="btnModifier" layoutX="40.0" layoutY="134.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ModifierFournisseur" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Modifier" />
+            <Button fx:id="btnValider" alignment="CENTER" layoutX="39.0" layoutY="99.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterCompte" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Ajouter" textAlignment="CENTER" />
+            <Button fx:id="btnModifier" layoutX="40.0" layoutY="184.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ModifierFournisseur" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Modifier" />
          </children>
       </Pane>
       <Pane fx:id="paneMontant" layoutX="158.0" layoutY="298.0" prefHeight="182.0" prefWidth="1258.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">

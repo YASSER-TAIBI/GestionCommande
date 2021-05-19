@@ -29,9 +29,6 @@ public class Magasin implements Serializable {
 	@Column(name="CATEGORIE_MAGASIN") //Magasin de Stockage ou de production
 	private String catMagasin;
 	
-	@Column(name="CODE_MACHINE")
-	private String codeMachine;
-
 	   @ManyToOne
     @JoinColumn(name="ID_UTIL_CREATION")
     private Utilisateur utilisateurCreation;
@@ -95,14 +92,6 @@ public class Magasin implements Serializable {
 
 	public void setTypeMagasin(String typeMagasin) {
 		this.typeMagasin = typeMagasin;
-	}
-
-	public String getCodeMachine() {
-		return codeMachine;
-	}
-
-	public void setCodeMachine(String codeMachine) {
-		this.codeMachine = codeMachine;
 	}
 
 	public String getCatMagasin() {

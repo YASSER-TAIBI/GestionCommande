@@ -66,6 +66,7 @@ public class PrixBox  implements Serializable{
     @JoinColumn(name="ID_UTIL_CREATION")
     private Utilisateur utilisateurCreation;
 
+         private Boolean action;
          
          
          
@@ -83,6 +84,14 @@ public class PrixBox  implements Serializable{
 
     public void setCategorieMp(CategorieMp categorieMp) {
         this.categorieMp = categorieMp;
+    }
+
+    public Boolean getAction() {
+        return action;
+    }
+
+    public void setAction(Boolean action) {
+        this.action = action;
     }
       
     public int getId() {

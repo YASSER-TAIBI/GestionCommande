@@ -55,13 +55,13 @@ public class IntervalleDAOImpl implements IntervalleDAO   {
 
         
 	public List<Intervalle> findAll() {
-		return session.createQuery("select c from Intervalle c").list();
+		return session.createQuery("select c from Intervalle c where c.etat = 'Lancé'").list();
 		}
         
         
            public List<Intervalle> findIntervalleByQte(int qte) {
 		
-		Query query = session.createQuery("select c from Intervalle c where :qte between c.valeurMin and c.valeurMax" );
+		Query query = session.createQuery("select c from Intervalle c where :qte between c.valeurMin and c.valeurMax and c.etat = 'Lancé'" );
 		query.setParameter("qte",qte);
                
            
@@ -73,7 +73,7 @@ public class IntervalleDAOImpl implements IntervalleDAO   {
            
 	public  List<Intervalle> findIntervalleByCode(String code) {
 		
-		Query query = session.createQuery("select u from Intervalle u where  u.code=:code");
+		Query query = session.createQuery("select u from Intervalle u where  u.code=:code and u.etat = 'Lancé'");
 		query.setParameter("code", code);
 	  return query.list();
 	      
@@ -81,7 +81,7 @@ public class IntervalleDAOImpl implements IntervalleDAO   {
         
         public Intervalle findIntervalleByCodeIO(String code) {
 		
-		Query query = session.createQuery("select u from Intervalle u where  u.code=:code");
+		Query query = session.createQuery("select u from Intervalle u where  u.code=:code and u.etat = 'Lancé'");
 		query.setParameter("code", code);
 	  return (Intervalle)  query.uniqueResult();
 	      
@@ -97,4 +97,20 @@ public class IntervalleDAOImpl implements IntervalleDAO   {
 	      
 				}
            
+        	 public List<Intervalle> findByCodeIntervalle(String code) {
+		
+		Query query = session.createQuery("select u from Intervalle u where u.code like:code and u.etat = 'Lancé'");
+		query.setParameter("code","%"+code+"%");
+		
+                return query.list();
+ }
+    
+         	 public List<Intervalle> findBylibelleIntervalle(String lib) {
+		
+		Query query = session.createQuery("select u from Intervalle u where u.libelle like:lib and u.etat = 'Lancé'");
+		query.setParameter("lib","%"+lib+"%");
+		
+                return query.list();
+ }
+
 }

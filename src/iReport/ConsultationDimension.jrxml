@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5a335326-5e6c-4b2e-84a6-787b20d7585b">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<field name="code" class="java.lang.String"/>
+	<field name="famille" class="java.lang.String"/>
+	<field name="libelle" class="java.lang.String"/>
+	<title>
+		<band height="39" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="166" y="14" width="230" height="24" backcolor="#8FDFEF" uuid="64f7e2d2-18ec-4e41-b295-141fb9a791c4"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="180" y="11" width="202" height="26" uuid="1155e738-b73b-494e-af0b-da3a754df18e"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Consultation Dimension]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="14" width="21" height="20" uuid="c532f2ed-00d0-41d5-895c-15f89ed97ec9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Le]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="47" y="14" width="100" height="20" uuid="a5d0b7a4-e79f-4bdd-a1fd-ff7bce53acd2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="6" y="0" width="543" height="20" backcolor="#8FDFEF" uuid="fb80749c-1d5e-41e2-a547-a0ba48f9fc28"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="417" y="-1" width="111" height="20" uuid="bf3b6fa7-d8a6-4e01-ae1d-a2aeb0d02989"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Libelle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="134" y="-1" width="278" height="20" uuid="181b28cd-9add-4426-a254-dac4aade3a2b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Famille]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="-1" width="103" height="20" uuid="97ebc2e9-2675-407c-bc94-4c393adf1aa7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Code]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="26" y="1" width="103" height="20" uuid="eafb2e0a-0e0d-4770-87cf-5009b7aac2ee"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="1" width="278" height="20" uuid="d43733a2-61e2-4ad6-b0c0-58c18d9cfdcb"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{famille}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="417" y="1" width="111" height="20" uuid="8d6323f1-f5ef-45c0-85b4-3b7e27271154"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{libelle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="135">
+			<rectangle>
+				<reportElement x="6" y="-1" width="543" height="4" backcolor="#8FDFEF" uuid="1cc6caf3-ce56-4196-9735-fdf39af28dea"/>
+			</rectangle>
+		</band>
+	</summary>
+</jasperReport>

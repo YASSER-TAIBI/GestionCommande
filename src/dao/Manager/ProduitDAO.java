@@ -17,4 +17,9 @@ public interface ProduitDAO {
 	
         public Produit findByCode(String code);
 
+        public List<Produit> findByCodeProduit(String code);
+
+        public List<Produit> findBylibelleProduit(String lib);
+		
+        
 }

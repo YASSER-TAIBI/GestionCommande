@@ -10,6 +10,7 @@ import dao.Entity.CategorieMp;
 import dao.Entity.Dimension;
 import dao.Entity.Fournisseur;
 import dao.Entity.Grammage;
+import dao.Entity.HistoriquePrix;
 import dao.Entity.Intervalle;
 import dao.Entity.PrixAdhesif;
 import dao.Entity.PrixBox;
@@ -21,6 +22,7 @@ import dao.Manager.CategorieMpDAO;
 import dao.Manager.DimensionDAO;
 import dao.Manager.FournisseurDAO;
 import dao.Manager.GrammageDAO;
+import dao.Manager.HistoriquePrixDAO;
 import dao.Manager.IntervalleDAO;
 import dao.Manager.PrixAdhesifDAO;
 import dao.Manager.PrixBoxDAO;
@@ -32,6 +34,7 @@ import dao.ManagerImpl.CategorieMpDAOImpl;
 import dao.ManagerImpl.DimensionDAOImpl;
 import dao.ManagerImpl.FournisseurDAOImpl;
 import dao.ManagerImpl.GrammageDAOImpl;
+import dao.ManagerImpl.HistoriquePrixDAOImpl;
 import dao.ManagerImpl.IntervalleDAOImpl;
 import dao.ManagerImpl.PrixAdhesifDAOImpl;
 import dao.ManagerImpl.PrixBoxDAOImpl;
@@ -42,12 +45,16 @@ import function.navigation;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -91,9 +98,11 @@ public class ModifierPrixAdhesifController implements Initializable {
      PrixAdhesifDAO prixAdhesifDAO = new PrixAdhesifDAOImpl();
     CategorieMpDAO categorieMpDAO  = new CategorieMpDAOImpl();
     DimensionDAO dimensionDAO = new DimensionDAOImpl();
-  
+    HistoriquePrixDAO historiquePrixDAO = new HistoriquePrixDAOImpl();
    
+     public ObservableList<PrixAdhesif> listePrixAdhesifTMP=FXCollections.observableArrayList();
       
+     
      public void chargerLesDonnees(){
 
           fourCombo.setValue(prixAdhesif.getFournisseur().getNom()+"");
@@ -108,7 +117,7 @@ public class ModifierPrixAdhesifController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         
-          List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+          List<Fournisseur> listFournisseur=fournisseurDAO.findAllMp();
         
         listFournisseur.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());
@@ -148,7 +157,21 @@ public class ModifierPrixAdhesifController implements Initializable {
     private void modifierBtnOnAction(ActionEvent event) {
         
        
+        HistoriquePrix historiquePrix = new HistoriquePrix();
         
+        historiquePrix.setAncienPrix(prixAdhesif.getPrix());
+        historiquePrix.setNouveauPrix(new BigDecimal(prixField.getText()));
+        historiquePrix.setFournisseur(mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem()));
+        historiquePrix.setCategorieMp(mapCategorieMp.get(typeCategorieCombo.getSelectionModel().getSelectedItem()));
+        historiquePrix.setDateCreation(new Date());
+        historiquePrix.setChemin(Constantes.PARAMETRAGE_PRIX);
+        historiquePrix.setUtilisateurCreation(nav.getUtilisateur());
+        
+        historiquePrixDAO.add(historiquePrix);
+        
+  //######################################################################################################################################################################################################################################################################################################################      
+      
+  
        prixAdhesif.setFournisseur(mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem()));
        prixAdhesif.setCategorieMp(mapCategorieMp.get(typeCategorieCombo.getSelectionModel().getSelectedItem()));
        prixAdhesif.setDimension(mapDimension.get(dimCombo.getSelectionModel().getSelectedItem()));
@@ -157,6 +180,13 @@ public class ModifierPrixAdhesifController implements Initializable {
        prixAdhesif.setPrix(new BigDecimal(prixField.getText()));
        
        prixAdhesifDAO.edit(prixAdhesif);
+       
+            FXMLLoader fXMLLoader = new FXMLLoader();
+            fXMLLoader.setLocation(getClass().getResource(nav.getConsultationPrixCategorie()));
+       
+               listePrixAdhesifTMP.clear();
+               listePrixAdhesifTMP.addAll(prixAdhesifDAO.findAll());
+       
              
        nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.MODIFIER_ENREGISTREMENT);
        

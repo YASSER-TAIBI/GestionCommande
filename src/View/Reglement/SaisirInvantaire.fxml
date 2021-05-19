@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Stock.SaisirInventaireController">
+   <children>
+      <Pane layoutX="113.0" layoutY="186.0" prefHeight="115.0" prefWidth="1378.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <DatePicker fx:id="dateInventaire" layoutX="1090.0" layoutY="15.0" prefHeight="31.0" prefWidth="212.0" promptText="Date Inventaire" />
+            <Label layoutX="926.0" layoutY="20.0" text="Date Inventaire:" />
+            <Label layoutX="62.0" layoutY="68.0" text="Quantite:" />
+            <TextField fx:id="quantiteField" alignment="CENTER" layoutX="158.0" layoutY="63.0" prefHeight="31.0" prefWidth="212.0" promptText="Quantite" styleClass="StyleRaduis" />
+            <TextField fx:id="prixField" alignment="CENTER" layoutX="562.0" layoutY="63.0" prefHeight="31.0" prefWidth="212.0" promptText="Prix" styleClass="StyleRaduis" />
+            <Label layoutX="504.0" layoutY="68.0" text="Prix:" />
+            <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="1330.0" layoutY="67.0" onMouseClicked="#ajouterMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../Styles/img/add-1540630_640.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="codeMPField" layoutX="159.0" layoutY="14.0" onKeyPressed="#chargeL0ibelleKeyPressed" prefHeight="31.0" prefWidth="212.0" styleClass="StyleRaduis" text="MP_" />
+            <TextField fx:id="libelleField" disable="true" layoutX="562.0" layoutY="15.0" prefHeight="31.0" prefWidth="289.0" styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <Label layoutX="476.0" layoutY="20.0" text="Libelle:" />
+            <Label layoutX="71.0" layoutY="19.0" text="Code MP:" />
+         </children></Pane>
+      <Pane layoutX="561.0" layoutY="108.0" prefHeight="48.0" prefWidth="478.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="17.0" layoutY="2.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Saisir Inventaire MP" />
+         </children>
+      </Pane>
+      <Pane layoutX="113.0" layoutY="756.0" prefHeight="55.0" prefWidth="1378.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="ajouterSaisie" layoutX="596.0" layoutY="9.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterSaisieAction" prefHeight="36.0" prefWidth="125.0" text="Ajouter" />
+            <Button fx:id="btnRefreshGlobal" layoutX="755.0" layoutY="9.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#refreshGlobal" prefHeight="36.0" prefWidth="125.0" text="Rafraîchir" />
+         </children>
+      </Pane>
+      <TableView fx:id="inventaireTable" blendMode="MULTIPLY" layoutX="113.0" layoutY="311.0" prefHeight="436.0" prefWidth="1378.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeColumn" prefWidth="155.99998474121094" text="Code" />
+            <TableColumn fx:id="libelleColumn" prefWidth="496.0" text="Libelle" />
+            <TableColumn fx:id="quantiteColumn" prefWidth="223.0" text="Qte" />
+            <TableColumn fx:id="prixColumn" prefWidth="226.0" text="Prix" />
+            <TableColumn fx:id="montantColumn" prefWidth="277.0" text="Montant" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

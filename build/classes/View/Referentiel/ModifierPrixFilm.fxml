@@ -3,26 +3,34 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="555.0" prefWidth="704.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.ModifierPrixFilmController">
+<AnchorPane id="AnchorPane" prefHeight="432.0" prefWidth="737.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.ModifierPrixFilmController">
    <children>
-      <Label layoutX="141.0" layoutY="102.0" prefHeight="20.0" prefWidth="141.0" text="Fournisseur: " />
-      <ComboBox fx:id="fourCombo" layoutX="282.0" layoutY="96.0" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
-      <Label layoutX="122.0" layoutY="166.0" prefHeight="20.0" prefWidth="166.0" text="Type Categorie: " />
-      <ComboBox fx:id="typeCategorieCombo" layoutX="282.0" layoutY="161.0" onAction="#CatigorieAction" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
-      <Label layoutX="130.0" layoutY="295.0" prefHeight="20.0" prefWidth="141.0" text="Grammage Film:" />
-      <ComboBox fx:id="GrammageFilmCombo" layoutX="281.0" layoutY="290.0" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
-      <Label layoutX="204.0" layoutY="361.0" text="Prix: " />
-      <TextField fx:id="prixField" alignment="CENTER" layoutX="279.0" layoutY="355.0" prefHeight="31.0" prefWidth="211.0" promptText="prix" styleClass="StyleRaduis" />
-      <Label layoutX="165.0" layoutY="229.0" prefHeight="20.0" prefWidth="104.0" text="Type Film:" />
-      <ComboBox fx:id="TypeFilmCombo" layoutX="281.0" layoutY="225.0" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
-      <Button fx:id="modifierBtn" layoutX="289.0" layoutY="470.0" mnemonicParsing="false" onAction="#modifierBtnOnAction" prefHeight="41.0" prefWidth="116.0" text="Modifier">
+      <Label layoutX="399.0" layoutY="152.0" prefHeight="20.0" prefWidth="116.0" text="Fournisseur:" />
+      <ComboBox fx:id="fourCombo" layoutX="516.0" layoutY="146.0" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+      <Label layoutX="12.0" layoutY="153.0" prefHeight="20.0" prefWidth="149.0" text="Type Categorie:" />
+      <ComboBox fx:id="typeCategorieCombo" layoutX="158.0" layoutY="147.0" onAction="#CatigorieAction" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+      <Label layoutX="20.0" layoutY="207.0" prefHeight="20.0" prefWidth="141.0" text="Grammage Film:" />
+      <ComboBox fx:id="GrammageFilmCombo" layoutX="158.0" layoutY="201.0" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+      <Label layoutX="108.0" layoutY="261.0" prefHeight="20.0" prefWidth="51.0" text="Prix:" />
+      <TextField fx:id="prixField" alignment="CENTER" layoutX="158.0" layoutY="255.0" prefHeight="31.0" prefWidth="211.0" promptText="Prix" styleClass="StyleRaduis" />
+      <Label layoutX="418.0" layoutY="206.0" prefHeight="20.0" prefWidth="98.0" text="Type Film:" />
+      <ComboBox fx:id="TypeFilmCombo" layoutX="515.0" layoutY="201.0" prefHeight="31.0" prefWidth="211.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+      <Button fx:id="modifierBtn" layoutX="319.0" layoutY="353.0" mnemonicParsing="false" onAction="#modifierBtnOnAction" prefHeight="41.0" prefWidth="116.0" text="Modifier">
          <effect>
             <Reflection />
          </effect>
       </Button>
+      <Separator layoutX="373.0" layoutY="131.0" orientation="VERTICAL" prefHeight="173.0" prefWidth="24.0" />
+      <Pane layoutX="167.0" layoutY="24.0" prefHeight="47.0" prefWidth="417.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="25.0" layoutY="6.0" prefHeight="36.0" prefWidth="368.0" styleClass="label5" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Modifier Prix Carton" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

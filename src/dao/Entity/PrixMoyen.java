@@ -29,12 +29,16 @@ public class PrixMoyen implements Serializable {
 	private String code;
 
 	private String  libelle;
-	
+       	
         private BigDecimal qte;
      
         private BigDecimal prix;
         
-
+        private BigDecimal prixTTC;
+        
+        private BigDecimal montantHT;
+        
+        private BigDecimal montantTTC;
         
 
 
@@ -79,6 +83,30 @@ public class PrixMoyen implements Serializable {
 
     public void setPrix(BigDecimal prix) {
         this.prix = prix;
+    }
+
+    public BigDecimal getMontantHT() {
+        return montantHT;
+    }
+
+    public void setMontantHT(BigDecimal montantHT) {
+        this.montantHT = montantHT;
+    }
+
+    public BigDecimal getMontantTTC() {
+        return montantTTC;
+    }
+
+    public BigDecimal getPrixTTC() {
+        return prixTTC;
+    }
+
+    public void setPrixTTC(BigDecimal prixTTC) {
+        this.prixTTC = prixTTC;
+    }
+
+    public void setMontantTTC(BigDecimal montantTTC) {
+        this.montantTTC = montantTTC;
     }
 
     

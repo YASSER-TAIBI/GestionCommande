@@ -6,6 +6,7 @@
 package Controller.Referentiel;
 
 import Utils.Constantes;
+import dao.Entity.TypeCartonBox;
 import dao.Entity.TypeFilm;
 import dao.Manager.TypeFilmDAO;
 import dao.ManagerImpl.TypeFilmDAOImpl;
@@ -114,6 +115,7 @@ public class ListeTypeFilmController implements Initializable {
        
        typeFilm.setCode(txtCode.getText());
        typeFilm.setLibelle(txtLibelle.getText());
+       typeFilm.setEtat(Constantes.ETAT_COMMANDE_LANCE);
        typeFilm.setUtilisateurCreation(nav.getUtilisateur());
       
         typeFilmDAO.add(typeFilm);
@@ -159,7 +161,9 @@ public class ListeTypeFilmController implements Initializable {
         
      }else {
        TypeFilm typeFilm=tableTypeFilm.getSelectionModel().getSelectedItem();
-        typeFilmDAO.delete(typeFilm);
+      
+         typeFilm.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
+       typeFilmDAO.edit(typeFilm);
     
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null,Constantes.SUPRIMER_ENREGISTREMENT);
         
@@ -182,11 +186,41 @@ public class ListeTypeFilmController implements Initializable {
     }
 
     @FXML
-    private void rechercheCodeVilleOnKeyPressed(KeyEvent event) {
+    private void rechercheCodeOnKeyPressed(KeyEvent event) {
+        
+                        ObservableList<TypeFilm> listeTypeFilm=FXCollections.observableArrayList();
+          
+        listeTypeFilm.clear();
+   
+        listeTypeFilm.addAll(typeFilmDAO.findByCodeTypeFilm(codeRechField.getText()));
+   
+        tableTypeFilm.setItems(listeTypeFilm);
+        
     }
 
     @FXML
-    private void rechercheLibelleVilleOnKeyPressed(KeyEvent event) {
+    private void rechercheLibelleOnKeyPressed(KeyEvent event) {
+        
+                          ObservableList<TypeFilm> listeTypeFilm=FXCollections.observableArrayList();
+          
+        listeTypeFilm.clear();
+   
+        listeTypeFilm.addAll(typeFilmDAO.findBylibelleTypeFilm(libelleRechField.getText()));
+   
+        tableTypeFilm.setItems(listeTypeFilm);
+        
+    }
+
+    @FXML
+    private void rechercheTableMouseClicked(MouseEvent event) {
+        
+                
+        libelleRechField.clear();
+        codeRechField.clear();
+        
+        setColumnProperties();
+        loadDetail();
+        
     }
     
 }

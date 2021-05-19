@@ -68,10 +68,25 @@ public class DetailManqueFour implements Serializable {
 
     @Column(name = "QTE_RECU")
     private BigDecimal quantiteRecu ;
+    
+    @Column(name="STATUT")
+    private String statut;
+    
+    @ManyToOne
+    @JoinColumn(name="ID_FOURNISSEUR")
+    private Fournisseur fourisseur;
 
     @Column(name="DATE_SAISIE")
     @Temporal(javax.persistence.TemporalType.DATE)
         private Date dateSaisie;
+    
+     
+        @ManyToOne
+    @JoinColumn(name = "ID_MAGASIN")
+    private Magasin magasinn;
+    
+    @Column(name="DEPOT")
+    private String depot;
     
     @Column(name = "ECART_QTE")
     private BigDecimal ecartQuantite;
@@ -81,7 +96,11 @@ public class DetailManqueFour implements Serializable {
     @JoinColumn(name = "id_mat_pre")
     private MatierePremier matierePremier;
 
-
+    @ManyToOne
+    @JoinColumn(name = "ID_PRIX_OULMES")
+    private PrixOulmes prixOulmes;
+    
+    
     public Utilisateur getUtilisateurCreation() {
         return utilisateurCreation;
     }
@@ -113,12 +132,37 @@ public class DetailManqueFour implements Serializable {
         return id;
     }
 
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
 
     public String getNumRetour() {
         return numRetour;
+    }
+
+    public Magasin getMagasinn() {
+        return magasinn;
+    }
+
+    public void setMagasinn(Magasin magasinn) {
+        this.magasinn = magasinn;
+    }
+
+    
+    public String getDepot() {
+        return depot;
+    }
+
+    public void setDepot(String depot) {
+        this.depot = depot;
     }
 
     public void setNumRetour(String numRetour) {
@@ -129,12 +173,28 @@ public class DetailManqueFour implements Serializable {
         return numCommande;
     }
 
+    public PrixOulmes getPrixOulmes() {
+        return prixOulmes;
+    }
+
+    public void setPrixOulmes(PrixOulmes prixOulmes) {
+        this.prixOulmes = prixOulmes;
+    }
+
     public void setNumCommande(String numCommande) {
         this.numCommande = numCommande;
     }
 
     public BigDecimal getEcartQuantite() {
         return ecartQuantite;
+    }
+
+    public Fournisseur getFourisseur() {
+        return fourisseur;
+    }
+
+    public void setFourisseur(Fournisseur fourisseur) {
+        this.fourisseur = fourisseur;
     }
 
     public void setEcartQuantite(BigDecimal ecartQuantite) {

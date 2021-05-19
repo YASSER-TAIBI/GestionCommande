@@ -21,9 +21,9 @@ public interface CommandeDAO {
                 
                 public List<Commande>  findCommandeByEtat(String etat, String typeCommande);
                 
-                public int getMaxId();
+//                public int getMaxId();
                 
-                public int getMaxIdSpecial();
+//                public int getMaxIdSpecial();
 		
 		public Commande findById(int id);
 		
@@ -40,6 +40,8 @@ public interface CommandeDAO {
                 public List<Commande> findFourByRechercheNumCommandeOulmes(String nCommande,String etat);
                 
                 public Commande findCommandeByNumCommande(String nCommande,String etat);
+                
+                public Commande findCommandeByNumCommandePF(String nCommande,String etat);
                  
                 public void delete(DetailCommande e);
 
@@ -48,4 +50,6 @@ public interface CommandeDAO {
                 public Commande findNumLivraisonByNumCommande();
                 
                 public List<Commande> findByDateCommande(Date dateCreation ,String etat);
+                
+                public List<Commande> findByDateCommandeOulmes(Date dateCreation ,String etat);
 }

@@ -98,6 +98,7 @@ public class ListeTypeCartonBoxController implements Initializable {
        
        typeCartonBox.setCode(txtCode.getText());
        typeCartonBox.setLibelle(txtLibelle.getText());
+       typeCartonBox.setEtat(Constantes.ETAT_COMMANDE_LANCE);
        typeCartonBox.setUtilisateurCreation(nav.getUtilisateur());
       
         typeCartonBoxDAO.add(typeCartonBox);
@@ -142,13 +143,17 @@ public class ListeTypeCartonBoxController implements Initializable {
         
      }else {
        TypeCartonBox typeCartonBox=tableTypeCartonBox.getSelectionModel().getSelectedItem();
-        typeCartonBoxDAO.delete(typeCartonBox);
+ 
+       typeCartonBox.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
+
+            typeCartonBoxDAO.edit(typeCartonBox);
     
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.SUPRIMER_ENREGISTREMENT);
         
-        setColumnProperties();
-      loadDetail();  
-             txtCode.setText("");
+      setColumnProperties();
+      loadDetail();
+      
+       txtCode.setText("");
        txtLibelle.setText("");
     
     }
@@ -164,13 +169,6 @@ public class ListeTypeCartonBoxController implements Initializable {
         txtLibelle.setText("");         
     }
 
-    @FXML
-    private void rechercheCodeVilleOnKeyPressed(KeyEvent event) {
-    }
-
-    @FXML
-    private void rechercheLibelleVilleOnKeyPressed(KeyEvent event) {
-    }
 
     @FXML
     private void clickChargeOnMouseEntered(MouseEvent event) {
@@ -185,4 +183,42 @@ public class ListeTypeCartonBoxController implements Initializable {
               txtLibelle.setText(libelleColumn.getCellData(val));
     }
     
-}}
+}
+
+    @FXML
+    private void rechercheCodeCartBoxOnKeyPressed(KeyEvent event) {
+        
+                ObservableList<TypeCartonBox> listeTypeCartonBox=FXCollections.observableArrayList();
+          
+        listeTypeCartonBox.clear();
+   
+        listeTypeCartonBox.addAll(typeCartonBoxDAO.findByCodeCartBox(codeRechField.getText()));
+   
+        tableTypeCartonBox.setItems(listeTypeCartonBox);
+        
+    }
+
+    @FXML
+    private void rechercheLibelleCartBoxOnKeyPressed(KeyEvent event) {
+        
+                ObservableList<TypeCartonBox> listeTypeCartonBox=FXCollections.observableArrayList();
+          
+        listeTypeCartonBox.clear();
+   
+        listeTypeCartonBox.addAll(typeCartonBoxDAO.findBylibelleCartBox(libelleRechField.getText()));
+   
+        tableTypeCartonBox.setItems(listeTypeCartonBox);
+        
+    }
+
+    @FXML
+    private void refrechRecheTableMouseClicked(MouseEvent event) {
+
+            libelleRechField.clear();
+            codeRechField.clear();
+
+            setColumnProperties();
+            loadDetail();
+
+    }
+}

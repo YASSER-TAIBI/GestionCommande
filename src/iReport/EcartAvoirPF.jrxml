@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="861325b4-8ea7-4768-8f4d-4e0109abf941">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<parameter name="totalAvoir" class="java.lang.String"/>
+	<parameter name="totalAvoirFact" class="java.lang.String"/>
+	<parameter name="totalEcart" class="java.lang.String"/>
+	<parameter name="factureAvoir" class="java.math.BigDecimal"/>
+	<parameter name="avoir" class="java.math.BigDecimal"/>
+	<parameter name="dateAvoir" class="java.util.Date"/>
+	<parameter name="client2" class="java.lang.String"/>
+	<parameter name="client" class="java.lang.String"/>
+	<parameter name="bonAvoir" class="java.lang.String"/>
+	<parameter name="ecart" class="java.math.BigDecimal"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\GestionCommande\\src\\iReport\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="listeDetailAvoirPF" class="java.util.List"/>
+	<parameter name="listeRegularisationAvoirPF" class="java.util.List"/>
+	<title>
+		<band height="50" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="289" y="12" width="200" height="24" backcolor="#8FDFEF" uuid="3a73c45e-11ca-4509-8694-8e4902242b6d"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="317" y="9" width="141" height="26" uuid="0cf8048c-8c92-4122-a0cd-1231fc3ad147"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ecart Avoir PF]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="78" splitType="Stretch">
+			<staticText>
+				<reportElement x="140" y="1" width="67" height="17" uuid="1e22b931-4cc1-430b-8e7e-c61d8da32e09"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[B.Avoir: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="35" width="67" height="17" uuid="437bea34-0829-4b82-95e0-bfef4e4cd21a"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Client 2: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="18" width="67" height="17" uuid="81e8b648-b073-41bf-b89c-559c4b9356ec"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Client: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="52" width="67" height="17" uuid="5c56bed5-9a37-4484-9fb4-6bbaa390bb4f"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date B.Avoir: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="497" y="1" width="78" height="17" uuid="1b6ae423-677a-4050-814e-f4a818234efb"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Avoir: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="497" y="35" width="78" height="17" uuid="f9e4105d-ee14-4076-90df-73ca6193fde3"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ecart: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="497" y="18" width="78" height="17" uuid="b8702ce3-9ffa-4899-81fa-1116b698c776"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Facture Avoir: ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="575" y="1" width="100" height="16" uuid="7ca714c0-b40d-4137-8390-a538b5559036"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{avoir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="575" y="18" width="100" height="17" uuid="d26197a6-4e2b-4d87-ad10-3b4a9c7d856a"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{factureAvoir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="1" width="100" height="17" uuid="0760eb69-0639-4ae3-bd59-e08ede751642"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bonAvoir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="18" width="100" height="17" uuid="25febeb3-caa1-4673-9908-63f851acc371"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{client}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="35" width="100" height="17" uuid="f63b4007-5dc4-4f57-b695-703d8467fb68"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{client2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="52" width="100" height="17" uuid="73687a6b-122d-4b44-a469-1483e5567a58"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dateAvoir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="575" y="35" width="100" height="17" uuid="ef2def7c-2bc5-4791-8f55-53d0a3197d80"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ecart}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="802" height="40" uuid="f9c79132-33ab-4375-ae4e-443118c85ff7">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()==1)]]></printWhenExpression>
+				</reportElement>
+				<dataSourceExpression><![CDATA[new  net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{listeDetailAvoirPF})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ConsultationDetailAvoirPF.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="40">
+			<subreport>
+				<reportElement x="0" y="0" width="802" height="40" uuid="8176db5e-9282-4642-bb96-08760b59f42d">
+					<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()==1)]]></printWhenExpression>
+				</reportElement>
+				<dataSourceExpression><![CDATA[new  net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{listeRegularisationAvoirPF})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ConsultationRegularisationAvoirPF.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="28">
+			<rectangle>
+				<reportElement x="0" y="1" width="802" height="3" backcolor="#8FDFEF" uuid="0e1cdaa7-0a75-4148-a58c-2cb0754ee413"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="13" y="8" width="101" height="18" uuid="8df93088-4877-4c5d-83fc-5df42a6bc931"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Avoir:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="317" y="8" width="101" height="18" uuid="ae4097bf-086b-43b3-a538-29902c490eaf"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Avoir Facture:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="583" y="8" width="101" height="18" uuid="4ce1a2ed-8dd0-4f84-9b3c-658b2c493492"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Ecart:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="114" y="8" width="101" height="18" uuid="7bbc0ca5-ede5-4530-9a99-3845fb427d62"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalAvoir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="8" width="101" height="18" uuid="4387b879-1240-46e0-ae9f-6534d9d490ad"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalAvoirFact}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="684" y="8" width="100" height="18" uuid="8e418cc7-e2da-4371-ba5c-82382cf2f6f3"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalEcart}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

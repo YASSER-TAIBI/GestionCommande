@@ -70,7 +70,15 @@ public class DepotDAOImpl implements DepotDAO {
 		return query.list();
 	}
 
-
+	public List<Depot> findDepotBySiege(String code) {
+		// TODO Auto-generated method stub
+		Query query= session.createQuery("select c from Depot c where code =:code");
+		query.setParameter("code", code);
+		
+		
+		return query.list();
+	}
+        
 	@Override
 	public List<Magasin> listeMagasinByTypeMagasin(String codeType) {
 		Query query= session.createQuery("select c from Magasin c where typeMagasin=:codeType");

@@ -14,7 +14,7 @@ import java.util.List;
  * @author Hp
  */
 public interface DetailBonRetourDAO {
-      public  DetailBonRetour findUtilisateurByLoginMotPasse(String login,String motPasse);
+
 		
 		public DetailBonRetour findById(int id);
 		
@@ -29,68 +29,24 @@ public interface DetailBonRetourDAO {
                 public List<DetailBonRetour>  findDetailBonRetourByBonRetour (int cmd);
                 
                 public DetailBonRetour findDetailBonRetourByDetailBonLivraison(String numCom,String numLiv, int mp);
-                
-                public List<Object[]>findDetailBonRetourByMpManque();
-                 
-                public List<Object[]>findDetailBonRetourByManque() ;
-                
-                public List<Object[]>findDetailBonRetourByCodeMp(String codeMp);
-                  
-                public List<Object[]>findDetailBonRetourByNmanque(String nManque);
-                    
-                public List<Object[]>findDetailBonRetourByDate(Date dateD ,Date dateF);
-                      
-                public List<Object[]>findDetailBonRetourByEtat(String etat);
-                
-                 public List<Object[]>findDetailBonRetourByFour(String four );
-                        
-                public List<Object[]>findDetailBonRetourByCodeAndNmnq(String code,String nMnq );
-                         
-                public List<Object[]>findDetailBonRetourByCodeAndDate(String code,Date dateD,Date dateF);
-                
-                public List<Object[]>findDetailBonRetourByCodeAndEtat(String code, String etat);
-                    
-                public List<Object[]>findDetailBonRetourByCodeAndFour(String code, String four);
-                         
-                public List<Object[]>findDetailBonRetourByManqueAndDate(String manque,Date dateD,Date dateF);
 
-                public List<Object[]>findDetailBonRetourByManqueAndEtat(String manque, String etat);
+                public List<DetailBonRetour>  findDetailBonRetourByType (String type);
 
-                public List<Object[]>findDetailBonRetourByManqueAndFour(String manque, String four);  
-                
-                public List<Object[]>findDetailBonRetourByDateAndEtat(Date dateD,Date dateF,String etat);
-                
-                public List<Object[]>findDetailBonRetourByDateAndFour(Date dateD,Date dateF,String four);
+            	public List<DetailBonRetour>  findDetailBonRetourByMpAndFourAndClient (String type, String req);
 
-                public List<Object[]>findDetailBonRetourByEtatAndFour(String etat, String four);
+//                public List<DetailBonRetour>  findDetailBonRetourByListFour (String four, String type);
+//
+//                public List<DetailBonRetour>  findDetailBonRetourByFourAndMp (String mp ,String four,String type );
                 
-                public List<Object[]>findDetailBonRetourByCodeAndManqueAndDate(String code,String manque,Date dateD,Date dateF);
+                public List<Object[]> findBySituationRetourManque();
                 
-                public List<Object[]>findDetailBonRetourByCodeAndManqueAndEtat(String code,String manque,String etat) ;
-      
-                public List<Object[]>findDetailBonRetourByCodeAndManqueAndFour(String code,String manque,String four);
-
-                public List<Object[]>findDetailBonRetourByCodeAndDateAndEtat(String code,Date dateD,Date dateF,String etat);
-
-                public List<Object[]>findDetailBonRetourByCodeAndDateAndFour(String code,Date dateD,Date dateF,String four);
+                public List<DetailBonRetour>  findByMatierePremier (int mp);
                 
-                public List<Object[]>findDetailBonRetourByManqueAndDateAndEtat(String manque,Date dateD,Date dateF,String etat);
+                public List<Object[]> findBySituationRetourManquePF();
                 
-                public List<Object[]>findDetailBonRetourByManqueAndDateAndFour(String manque,Date dateD,Date dateF,String four);
+                public List<DetailBonRetour>  findByPrixOulmes (int pf);
                 
-                public List<Object[]>findDetailBonRetourByManqueAndEtatAndFour(String manque,String etat,String four);
-
-                public List<Object[]>findDetailBonRetourByDateAndEtatAndFour(Date dateD,Date dateF, String etat, String four);
+                public List<DetailBonRetour>  findByMatierePremierAndClient (int mp, String client );
                 
-                public List<Object[]>findDetailBonRetourByCodeAndManqueAndDateAndEtat(String code,String manque ,Date dateD,Date dateF, String etat) ;
-                 
-                public List<Object[]>findDetailBonRetourByCodeAndManqueAndDateAndFour(String code,String manque ,Date dateD,Date dateF, String four) ;
-                
-                public List<Object[]>findDetailBonRetourByCodeAndDateAndEtatAndFour(String code,Date dateD,Date dateF, String etat, String four) ;
-                              
-                public List<Object[]>findDetailBonRetourByCodeAndEtatAndFourAndManque(String code, String etat, String four,String manque) ;
-                               
-                public List<Object[]>findDetailBonRetourByManqueAndDateAndEtatAndFour(String manque,Date dateD,Date dateF, String etat, String four) ;
-                       
-                public List<Object[]>findDetailBonRetourByCodeAndManqueAndDateAndEtatAndFour(String code,String manque,Date dateD,Date dateF, String etat, String four);
+                public List<DetailBonRetour>  findByPrixOulmesAndClient (int pf, String client);
 }

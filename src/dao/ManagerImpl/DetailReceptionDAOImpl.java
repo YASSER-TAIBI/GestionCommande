@@ -105,4 +105,22 @@ public DetailReception findByNumLiv(String nLiv) {
      return (DetailReception) query.uniqueResult();
         }
 
+           public List<DetailReception> findByCommande(String ncom ) {
+		
+		Query query = session.createQuery("select c from DetailReception c where c.detailCommande.commande.nCommande =:ncom and c.numReception Like 'RCP %' group by c.livraisonFour" );
+		query.setParameter("ncom",ncom);
+        
+                return query.list();
+                
+ }
+    
+                 public List<DetailReception> findByCommandePF(String ncom ) {
+		
+		Query query = session.createQuery("select c from DetailReception c where c.detailCommande.commande.nCommande =:ncom and c.numReception Like 'RCP_PF %' group by c.livraisonFour" );
+		query.setParameter("ncom",ncom);
+        
+                return query.list();
+                
+ }
+
 }

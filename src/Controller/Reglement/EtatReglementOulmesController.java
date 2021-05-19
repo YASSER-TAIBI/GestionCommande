@@ -5,45 +5,49 @@
  */
 package Controller.Reglement;
 
-import Controller.RetourGratuite.ConsultationBonRetourGratuite;
+import Controller.RetourGratuite.SuiviRetourManqueController;
 import Utils.Constantes;
 import dao.Entity.BonLivraison;
 import dao.Entity.BonRetour;
 import dao.Entity.ClientMP;
 import dao.Entity.Commande;
+import dao.Entity.DelaiPaiementFour;
 import dao.Entity.DetailBonLivraison;
 import dao.Entity.DetailBonRetour;
 import dao.Entity.DetailCompte;
 import dao.Entity.Fournisseur;
+import dao.Entity.HistoriquePrix;
 import dao.Entity.PrixOulmes;
 import dao.Manager.BonLivraisonDAO;
 import dao.Manager.BonRetourDAO;
 import dao.Manager.ClientMPDAO;
 import dao.Manager.CommandeDAO;
 import dao.Manager.CompteFourMPDAO;
+import dao.Manager.DelaiPaiementFourDAO;
 import dao.Manager.DetailBonLivraisonDAO;
 import dao.Manager.DetailBonRetourDAO;
 import dao.Manager.DetailCommandeDAO;
 import dao.Manager.DetailCompteDAO;
 import dao.Manager.DetailReceptionDAO;
 import dao.Manager.FournisseurDAO;
+import dao.Manager.HistoriquePrixDAO;
 import dao.Manager.PrixOulmesDAO;
 import dao.Manager.ReglementDAO;
-import dao.Manager.StockMPDAO;
 import dao.ManagerImpl.BonLivraisonDAOImpl;
 import dao.ManagerImpl.BonRetourDAOImpl;
 import dao.ManagerImpl.ClientMPDAOImpl;
 import dao.ManagerImpl.CommandeDAOImpl;
 import dao.ManagerImpl.CompteFourMPDAOImpl;
+import dao.ManagerImpl.DelaiPaiementFourDAOImpl;
 import dao.ManagerImpl.DetailBonLivraisonDAOImpl;
 import dao.ManagerImpl.DetailBonRetourDAOImpl;
 import dao.ManagerImpl.DetailCommandeDAOImpl;
 import dao.ManagerImpl.DetailCompteDAOImpl;
 import dao.ManagerImpl.DetailReceptionDAOImpl;
 import dao.ManagerImpl.FournisseurDAOImpl;
+import dao.ManagerImpl.HistoriquePrixDAOImpl;
 import dao.ManagerImpl.PrixOulmesDAOImpl;
 import dao.ManagerImpl.ReglementDAOImpl;
-import dao.ManagerImpl.StockMPDAOImpl;
 import function.navigation;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -55,6 +59,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -173,7 +178,10 @@ public class EtatReglementOulmesController implements Initializable {
     private Button btnImprimer;
     @FXML
     private DatePicker dateLivraison;
-    
+     @FXML
+    private DatePicker dateDebut;
+    @FXML
+    private DatePicker dateFin;
     
     
     
@@ -188,7 +196,6 @@ public class EtatReglementOulmesController implements Initializable {
   CompteFourMPDAO compteFourMPDAO = new CompteFourMPDAOImpl();
   BonRetourDAO bonRetourDAO = new BonRetourDAOImpl();
   CommandeDAO commandeDAO = new CommandeDAOImpl();
-  StockMPDAO stockMPDAO = new StockMPDAOImpl();
   DetailCommandeDAO detailCommandeDAO = new DetailCommandeDAOImpl();
   DetailBonRetourDAO detailBonRetourDAO = new DetailBonRetourDAOImpl();
   DetailCompteDAO detailCompteDAO = new DetailCompteDAOImpl();
@@ -197,7 +204,7 @@ public class EtatReglementOulmesController implements Initializable {
 //  DetailBonRetour detailBonRetour =new DetailBonRetour();
   ClientMP clientMP =new ClientMP();
   BonRetour bonRetour = new BonRetour();
-  
+  HistoriquePrixDAO historiquePrixDAO = new HistoriquePrixDAOImpl();
    DetailBonLivraison detailBonLivraison = new DetailBonLivraison();
    DetailReceptionDAO  detailReceptionDAO = new DetailReceptionDAOImpl();
    ReglementDAO reglementDAO= new ReglementDAOImpl();
@@ -207,11 +214,14 @@ public class EtatReglementOulmesController implements Initializable {
    ClientMPDAO clientMPDAO = new ClientMPDAOImpl();
    DetailBonLivraisonDAO detailBonLivraisonDAO = new DetailBonLivraisonDAOImpl();
    PrixOulmesDAO prixOulmesDAO = new PrixOulmesDAOImpl();
+   DelaiPaiementFourDAO delaiPaiementFourDAO = new DelaiPaiementFourDAOImpl();
    
    private Map<String,Fournisseur> mapFournisseur=new HashMap<>();
    private Map<String,ClientMP> mapClientMP=new HashMap<>();
    String numCommande="";
     String valeur="";
+    
+     BigDecimal prixOld = BigDecimal.ZERO;
     
   BigDecimal newMontant= BigDecimal.ZERO;
 
@@ -231,6 +241,7 @@ public class EtatReglementOulmesController implements Initializable {
     
    
   int pos = 0;
+   
     
    
 
@@ -256,11 +267,14 @@ public class EtatReglementOulmesController implements Initializable {
  
 
         numLivRech.setDisable(true);
-        
+        dateLivraison.setDisable(true);
+
+        dateDebut.setDisable(true);
+        dateFin.setDisable(true);
 
 
     
-         List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+         List<Fournisseur> listFournisseur=fournisseurDAO.findAllPF();
         
         listFournisseur.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());
@@ -466,30 +480,13 @@ public class EtatReglementOulmesController implements Initializable {
                 
              });
            
-  qteColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailBonLivraison, BigDecimal>, ObservableValue<BigDecimal>>() {
-                @Override
-                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<DetailBonLivraison, BigDecimal> p) {
-                    
-                       DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
-                dfs.setDecimalSeparator(',');
-                dfs.setGroupingSeparator('.');
-                DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
-                df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getQuantite()));
-                }
-                
-             });
            
              prixColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailBonLivraison, BigDecimal>, ObservableValue<BigDecimal>>() {
                 @Override
                 public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<DetailBonLivraison, BigDecimal> p) {
                     
-                       DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
-                dfs.setDecimalSeparator(',');
-                dfs.setGroupingSeparator('.');
-                DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
-                df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getPrix()));
+                     
+                    return new ReadOnlyObjectWrapper(p.getValue().getPrix().setScale(6,RoundingMode.FLOOR));
                 }
                 
              });
@@ -517,7 +514,12 @@ public class EtatReglementOulmesController implements Initializable {
 
     @FXML
     private void reglerOnAction(ActionEvent event) throws ParseException {
-        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
          boolean  variable =false;  
 
             if (numFacture.getText().equalsIgnoreCase("") || fourCombo.getSelectionModel().getSelectedItem() == null || fourCombo.getSelectionModel().getSelectedItem().isEmpty() ) {
@@ -540,9 +542,7 @@ public class EtatReglementOulmesController implements Initializable {
             
             if (bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_OULMES)){
             bonLivraisonTmp.setEtat(Constantes.ETAT_A_REGLE);
-            }else if (bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_RTR) && bonLivraisonTmp.getEtat().equals(Constantes.ETAT_NON_REGLE) || bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_MNQ) && bonLivraisonTmp.getEtat().equals(Constantes.ETAT_NON_REGLE)  ) {
-            bonLivraisonTmp.setEtat(Constantes.ETAT_A_REGLE);
-            }else if (bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_RTR) && bonLivraisonTmp.getEtat().equals(Constantes.ETAT_NON_PAIEMENT) || bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_MNQ) && bonLivraisonTmp.getEtat().equals(Constantes.ETAT_NON_PAIEMENT) ) {
+            }else if (bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_PF_RTR) && bonLivraisonTmp.getEtat().equals(Constantes.ETAT_NON_PAIEMENT) || bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_PF_MNQ) && bonLivraisonTmp.getEtat().equals(Constantes.ETAT_NON_PAIEMENT)){
             bonLivraisonTmp.setEtat(Constantes.ETAT_A_PAYER);
             }else {
             break;
@@ -585,8 +585,10 @@ public class EtatReglementOulmesController implements Initializable {
              monTVA.setText("");
              monTTC.setText("");
              numLivRech.clear();
-             
-    }}}
+              dateDebut.setValue(null);
+             dateFin.setValue(null);
+             dateLivraison.setValue(null);
+    }}}}
 
     
     
@@ -607,7 +609,7 @@ public class EtatReglementOulmesController implements Initializable {
                 
             }else if (fourCombo.getSelectionModel().getSelectedIndex() != -1 && clientCombo.getSelectionModel().getSelectedIndex() != -1 && numLivRech.getText().equals("") && dateLivraison.getValue() == null ){
           
-            listeBonLivraison.addAll(bonLivraisonDAO.findFourByRechercheNomReglementOulmes(fourCombo.getSelectionModel().getSelectedItem(),clientCombo.getSelectionModel().getSelectedItem(),Constantes.ETAT_NON_REGLE,Constantes.ETAT_NON_PAIEMENT,Constantes.ETAT_OULMES,Constantes.ETAT_FACTURE));
+            listeBonLivraison.addAll(bonLivraisonDAO.findFourByRechercheNomReglementOulmes(fourCombo.getSelectionModel().getSelectedItem(),clientCombo.getSelectionModel().getSelectedItem(),Constantes.ETAT_NON_REGLE,Constantes.ETAT_NON_PAIEMENT));
           
           for (int i=0 ;i<listeBonLivraison.size() ;i++)
           {
@@ -624,7 +626,7 @@ public class EtatReglementOulmesController implements Initializable {
           
           }else if(fourCombo.getSelectionModel().getSelectedIndex() != -1 && clientCombo.getSelectionModel().getSelectedIndex() != -1 && !numLivRech.getText().equals("") && dateLivraison.getValue() == null ){ 
           
-            listeBonLivraison.addAll(bonLivraisonDAO.findNumCommandeByNumLivraisonOulmes(numLivRech.getText(),fourCombo.getSelectionModel().getSelectedItem(),clientCombo.getSelectionModel().getSelectedItem(), Constantes.ETAT_NON_REGLE, Constantes.ETAT_NON_PAIEMENT ,Constantes.ETAT_OULMES,Constantes.ETAT_FACTURE));
+            listeBonLivraison.addAll(bonLivraisonDAO.findNumCommandeByNumLivraisonOulmes(numLivRech.getText(),fourCombo.getSelectionModel().getSelectedItem(),clientCombo.getSelectionModel().getSelectedItem(), Constantes.ETAT_NON_REGLE, Constantes.ETAT_NON_PAIEMENT));
           
           for (int i=0 ;i<listeBonLivraison.size() ;i++)
           {
@@ -647,7 +649,7 @@ public class EtatReglementOulmesController implements Initializable {
             
                 Date date=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
           
-            listeBonLivraison.addAll(bonLivraisonDAO.findNumCommandeByDateLivraisonOulmes(date,fourCombo.getSelectionModel().getSelectedItem(),clientCombo.getSelectionModel().getSelectedItem(), Constantes.ETAT_NON_REGLE, Constantes.ETAT_NON_PAIEMENT ,Constantes.ETAT_OULMES,Constantes.ETAT_FACTURE));
+            listeBonLivraison.addAll(bonLivraisonDAO.findNumCommandeByDateLivraisonOulmes(date,fourCombo.getSelectionModel().getSelectedItem(),clientCombo.getSelectionModel().getSelectedItem(), Constantes.ETAT_NON_REGLE, Constantes.ETAT_NON_PAIEMENT));
           
           for (int i=0 ;i<listeBonLivraison.size() ;i++)
           {
@@ -670,7 +672,7 @@ public class EtatReglementOulmesController implements Initializable {
             
                 Date date=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
           
-            listeBonLivraison.addAll(bonLivraisonDAO.findNumCommandeByDateLivraisonAndNumLivraisonOulmes(date, numLivRech.getText(),fourCombo.getSelectionModel().getSelectedItem(),clientCombo.getSelectionModel().getSelectedItem(), Constantes.ETAT_NON_REGLE, Constantes.ETAT_NON_PAIEMENT ,Constantes.ETAT_OULMES,Constantes.ETAT_FACTURE));
+            listeBonLivraison.addAll(bonLivraisonDAO.findNumCommandeByDateLivraisonAndNumLivraisonOulmes(date, numLivRech.getText(),fourCombo.getSelectionModel().getSelectedItem(),clientCombo.getSelectionModel().getSelectedItem(), Constantes.ETAT_NON_REGLE, Constantes.ETAT_NON_PAIEMENT));
           
           for (int i=0 ;i<listeBonLivraison.size() ;i++)
           {
@@ -705,8 +707,10 @@ public class EtatReglementOulmesController implements Initializable {
         nav.showAlert(Alert.AlertType.ERROR, "Alert", null, Constantes.VERIFIER_FOURNISSEUR_CLIENT);
         }else{
       
-           SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            Date date = simpleDateFormat.parse(Constantes.DATE);
+         DelaiPaiementFour delaiPaiementFour = delaiPaiementFourDAO.findByFour(fourCombo.getSelectionModel().getSelectedItem());
+         
+//           SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//            Date date = simpleDateFormat.parse(Constantes.DATE);
          
             setColumnProperties();
 
@@ -735,9 +739,9 @@ public class EtatReglementOulmesController implements Initializable {
 			} else {
           
                             
-                       if (item.getDatePaiement().equals(date)){
+                        if (item.getNombreJour() <= delaiPaiementFour.getNbJourMin().intValue()){
 
-			 setStyle("-fx-background-color: green");
+			 setStyle("-fx-background-color: red");
                         }}
                     }
                 };
@@ -747,31 +751,31 @@ public class EtatReglementOulmesController implements Initializable {
             
 
             
-          nombreJourColumn.setCellFactory(column -> {
-			return new TableCell<BonLivraison, Integer>() {
-				@Override
-				protected void updateItem(Integer item, boolean empty) {
-					super.updateItem(item, empty);
-					
-					if (item == null || empty) {
-						setText(null);
-						setStyle("");
-					} else {
-						
-						setText(String.valueOf(item));
-						
-                                                
-						if (item <=7 && item >=0) {
-							setTextFill(Color.WHITE);
-							setStyle("-fx-background-color: red");
-						} else {
-							setTextFill(Color.BLACK);
-							setStyle("");
-						}
-					}
-				}
-			};
-		});
+//          nombreJourColumn.setCellFactory(column -> {
+//			return new TableCell<BonLivraison, Integer>() {
+//				@Override
+//				protected void updateItem(Integer item, boolean empty) {
+//					super.updateItem(item, empty);
+//					
+//					if (item == null || empty) {
+//						setText(null);
+//						setStyle("");
+//					} else {
+//						
+//						setText(String.valueOf(item));
+//						
+//                                                
+//						if (item <=7 && item >=0) {
+//							setTextFill(Color.WHITE);
+//							setStyle("-fx-background-color: red");
+//						} else {
+//							setTextFill(Color.BLACK);
+//							setStyle("");
+//						}
+//					}
+//				}
+//			};
+//		});
 
         }
     }
@@ -786,6 +790,7 @@ public class EtatReglementOulmesController implements Initializable {
 //         detailBonRetour = detailBonRetourDAO.findDetailBonRetourByDetailBonLivraison(bonLivraison.getNumCommande(), bonLivraison.getLivraisonFour(),detailBonLivraisonsTmp.getMatierePremier().getId());
 
         
+            prixOld= detailBonLivraisonsTmp.getPrix().setScale(6);
             qteTxt.setText(detailBonLivraisonsTmp.getQuantite()+"");
             prixTxt.setText(detailBonLivraisonsTmp.getPrix()+"");
             
@@ -794,7 +799,6 @@ public class EtatReglementOulmesController implements Initializable {
   
        }
    
-    @FXML
     private void datePaiementOnEditCommit(TableColumn.CellEditEvent<BonLivraison, Date> event) throws ParseException {
         
         
@@ -834,6 +838,9 @@ public class EtatReglementOulmesController implements Initializable {
     private void recherchMouseClicked(MouseEvent event) throws ParseException {
         
         numLivRech.setDisable(false);
+        dateLivraison.setDisable(false);
+        dateDebut.setDisable(false);
+        dateFin.setDisable(false);
         refrech();
         
     }
@@ -927,23 +934,39 @@ public class EtatReglementOulmesController implements Initializable {
                 
                if (detailBonLivraisonsTmp.getPrixOulmes().getProduit().getPalette() == true){
                 
-                valeur = (new BigDecimal(prixTxt.getText()).setScale(6, RoundingMode.FLOOR).multiply(new BigDecimal(qteTxt.getText())));
+                valeur = (new BigDecimal(prixTxt.getText()).setScale(6).multiply(new BigDecimal(qteTxt.getText())));
                 
                 }else{ 
                    
-                 valeur = (new BigDecimal(prixTxt.getText()).setScale(6, RoundingMode.FLOOR).multiply(new BigDecimal(qteTxt.getText()))).subtract(((new BigDecimal(prixTxt.getText()).setScale(6, RoundingMode.FLOOR).multiply(new BigDecimal(qteTxt.getText()))).multiply(detailBonLivraisonsTmp.getRemiseAchat())).divide(new BigDecimal(100)));
+                 valeur = (new BigDecimal(prixTxt.getText()).setScale(6).multiply(new BigDecimal(qteTxt.getText()))).subtract(((new BigDecimal(prixTxt.getText()).setScale(6).multiply(new BigDecimal(qteTxt.getText()))).multiply(detailBonLivraisonsTmp.getRemiseAchat())).divide(new BigDecimal(100)));
                 }
 
-        totalTxt.setText(valeur.setScale(6,RoundingMode.FLOOR)+"");
+        totalTxt.setText(valeur.setScale(2,RoundingMode.FLOOR)+"");
         
        detailBonLivraisonsTmp.setQuantite(new BigDecimal(qteTxt.getText()));
-       detailBonLivraisonsTmp.setPrix(new BigDecimal(prixTxt.getText()).setScale(6, RoundingMode.FLOOR));
+       detailBonLivraisonsTmp.setPrix(new BigDecimal(prixTxt.getText()).setScale(6));
        detailBonLivraisonsTmp.setMontant(valeur);
       
        detailBonLivraisonDAO.edit(detailBonLivraisonsTmp);
+       
+//#######################################################################################################################################################################################################################################################################################################################                
+                     
+        Fournisseur fournisseur = mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
+
+            HistoriquePrix historiquePrix = new HistoriquePrix();
         
-    //_______________________________________________________________________________________________________________________________________________________________________
-    
+        historiquePrix.setAncienPrix(prixOld);
+        historiquePrix.setNouveauPrix(new BigDecimal(prixTxt.getText()));
+        historiquePrix.setFournisseur(fournisseur);
+        historiquePrix.setPrixOulmes(detailBonLivraisonsTmp.getPrixOulmes());
+        historiquePrix.setDateCreation(new Date());
+        historiquePrix.setChemin(Constantes.REGLEMENT);
+        historiquePrix.setUtilisateurCreation(nav.getUtilisateur());
+        
+        historiquePrixDAO.add(historiquePrix);
+        
+//######################################################################################################################################################################################################################################################################################################################      
+       
         BigDecimal montantHT= BigDecimal.ZERO;
         BigDecimal montantTVA =BigDecimal.ZERO;
         BigDecimal montantTTC =BigDecimal.ZERO;
@@ -962,7 +985,7 @@ public class EtatReglementOulmesController implements Initializable {
                 
                 }else{ 
                    
-                montantNormal = montantNormal.add(detailBonLivraison.getMontant().subtract(((detailBonLivraison.getMontant()).multiply(detailBonLivraison.getRemiseAchat())).divide(new BigDecimal(100))));
+                montantNormal = montantNormal.add(detailBonLivraison.getMontant());
                 }
 
         }
@@ -974,9 +997,12 @@ public class EtatReglementOulmesController implements Initializable {
           bonLivraison.setMontant(montantHT);
           bonLivraison.setMontantTVA(montantTVA);
           bonLivraison.setMontantTTC(montantTTC);
+          bonLivraison.setMontantRG(montantTTC);
           
         bonLivraisonDAO.edit(bonLivraison);
-
+        
+//#########################################################################################################################################################################################################################################################################################
+        
         BigDecimal MontantHTSpecial = BigDecimal.ZERO;
         BigDecimal MontantTVASpecial= BigDecimal.ZERO;
         BigDecimal MontantTTCSpecial= BigDecimal.ZERO;
@@ -998,10 +1024,10 @@ public class EtatReglementOulmesController implements Initializable {
                 
                 }else{ 
                    
-                montantNormalSpecial =  montantNormalSpecial.add(detailBonLivraison.getMontant().subtract(((detailBonLivraison.getMontant()).multiply(detailBonLivraison.getRemiseAchat())).divide(new BigDecimal(100)))); 
+                montantNormalSpecial =  montantNormalSpecial.add(detailBonLivraison.getMontant()); 
                 }
          
-         MontantHTSpecial = montantNormal.add(montantPalette);
+         MontantHTSpecial = montantNormalSpecial.add(montantPaletteSpecial);
          MontantTVASpecial =montantNormalSpecial.multiply(Constantes.TAUX_TVA_20).setScale(2,RoundingMode.FLOOR);
          MontantTTCSpecial =MontantHTSpecial.add(MontantTVASpecial).setScale(2,RoundingMode.FLOOR) ;
 
@@ -1014,7 +1040,8 @@ public class EtatReglementOulmesController implements Initializable {
        loadDetailCombo();
             
  }
-               
+             
+ 
         }else {
          nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.VERIFIER_QTE_PRIX);
         }
@@ -1040,6 +1067,7 @@ public class EtatReglementOulmesController implements Initializable {
                  bonLivraison.setMontant(bonLivraison.getMontant().multiply(new BigDecimal(-1)).setScale(2,RoundingMode.FLOOR));
                  bonLivraison.setMontantTVA(bonLivraison.getMontantTVA().multiply(new BigDecimal(-1)).setScale(2,RoundingMode.FLOOR));
                  bonLivraison.setMontantTTC(bonLivraison.getMontantTTC().multiply(new BigDecimal(-1)).setScale(2,RoundingMode.FLOOR));
+                 bonLivraison.setMontantRG(bonLivraison.getMontantTTC().multiply(new BigDecimal(-1)).setScale(2,RoundingMode.FLOOR));
                  
              }
              
@@ -1073,6 +1101,7 @@ public class EtatReglementOulmesController implements Initializable {
                  bonLivraison.setMontant(bonLivraison.getMontant().multiply(new BigDecimal(-1)).setScale(2,RoundingMode.FLOOR));
                  bonLivraison.setMontantTVA(bonLivraison.getMontantTVA().multiply(new BigDecimal(-1)).setScale(2,RoundingMode.FLOOR));
                  bonLivraison.setMontantTTC(bonLivraison.getMontantTTC().multiply(new BigDecimal(-1)).setScale(2,RoundingMode.FLOOR));
+                 bonLivraison.setMontantRG(bonLivraison.getMontantTTC().multiply(new BigDecimal(-1)).setScale(2,RoundingMode.FLOOR));
                  
              }
              
@@ -1095,6 +1124,10 @@ public class EtatReglementOulmesController implements Initializable {
              monHT.setText("");
              monTVA.setText("");
              monTTC.setText("");
+             
+             dateDebut.setValue(null);
+             dateFin.setValue(null);
+             
              numLivRech.clear();
              dateLivraison.setValue(null);
              clientCombo.getSelectionModel().clearSelection();
@@ -1102,7 +1135,7 @@ public class EtatReglementOulmesController implements Initializable {
         
     }
 
-   @FXML
+     @FXML
     private void editCommitRemiseColumn(TableColumn.CellEditEvent<DetailBonLivraison, BigDecimal> event) throws ParseException {
         
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -1184,20 +1217,155 @@ public class EtatReglementOulmesController implements Initializable {
           bonLivraison.setMontant(montantHT);
           bonLivraison.setMontantTVA(montantTVA);
           bonLivraison.setMontantTTC(montantTTC);
+          bonLivraison.setMontantRG(montantTTC);
           
         bonLivraisonDAO.edit(bonLivraison);
-  
+ //##############################################################################################################################################################################################################################################################################################
+
+ BigDecimal MontantHTSpecial = BigDecimal.ZERO;
+        BigDecimal MontantTVASpecial= BigDecimal.ZERO;
+        BigDecimal MontantTTCSpecial= BigDecimal.ZERO;
+        BigDecimal montantNormalSpecial = BigDecimal.ZERO;
+        BigDecimal montantPaletteSpecial = BigDecimal.ZERO;
+        
+ for(int j=0;j<listeDetailBonLivraison.size(); j++ ){
+
+      DetailBonLivraison detailBonLivraison = listeDetailBonLivraison.get(j);
+     
+      String designation = Constantes.DESIGNATION_RECEPTION_BON_LIVRAISION+" "+bonLivraison.getLivraisonFour()+"_"+Constantes.DESIGNATION_COMMANDE_N+" "+detailBonLivraison.getNumCommande();
+
+     
+         DetailCompte detailCompte = detailCompteDAO.findByDetailCompte(designation);
+        
+            if (detailBonLivraison.getPrixOulmes().getProduit().getPalette() == true){
+                
+                montantPaletteSpecial = montantPaletteSpecial.add(detailBonLivraison.getMontant().setScale(2,RoundingMode.FLOOR));
+                
+                }else{ 
+                   
+                montantNormalSpecial =  montantNormalSpecial.add(detailBonLivraison.getMontant()); 
+                }
+         
+         MontantHTSpecial = montantNormalSpecial.add(montantPaletteSpecial);
+         MontantTVASpecial =montantNormalSpecial.multiply(Constantes.TAUX_TVA_20).setScale(2,RoundingMode.FLOOR);
+         MontantTTCSpecial =MontantHTSpecial.add(MontantTVASpecial).setScale(2,RoundingMode.FLOOR) ;
+
+
+        detailCompte.setMontantCredit(MontantTTCSpecial);
+
+        detailCompteDAO.edit(detailCompte);
+ }
                 setColumnProperties();
                 listeBonLivraison.clear();
                 listeDetailBonLivraison.clear();
                 loadDetailCombo();
-
-           
-
+ 
+ 
             } else if (result.get() == ButtonType.CANCEL) {
                 tableDetailBonLivraison.refresh();
             }
         }
+
+
+    @FXML
+    private void selectionnerToutMouseClicked(MouseEvent event) {
+        
+                ObservableList<BonLivraison> list=tableBonLivraison.getItems();
+        
+        for (Iterator<BonLivraison> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(true);
+        }
+
+        tableBonLivraison.refresh(); 
+        
+    }
+
+    @FXML
+    private void deselectionnerToutMouseClicked(MouseEvent event) {
+        
+          ObservableList<BonLivraison> list=tableBonLivraison.getItems();
+        
+        for (Iterator<BonLivraison> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(false);
+        }
+
+        tableBonLivraison.refresh(); 
+        
+    }
+
+    @FXML
+    private void dateDebutOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void dateFinOnAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void recherchDateMouseClicked(MouseEvent event) throws ParseException {
+        
+        if(
+          dateDebut.getValue()== null||
+          dateFin.getValue()== null||
+                fourCombo.getSelectionModel().getSelectedIndex()== -1 ||
+                clientCombo.getSelectionModel().getSelectedIndex()==-1
+          )
+          {
+         nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.REMPLIR_CHAMPS);
+     }
+        
+        
+        else if(dateDebut.getValue()!=null && dateFin.getValue()!=null)
+		    		{
+
+		    		if(!dateDebut.getValue().equals(dateFin.getValue()))
+		    		{
+		    			if(dateFin.getValue().compareTo(dateDebut.getValue())<0)
+		    			{
+		    				  nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
+		    				return;
+		    			}
+		    			
+		    		}
+
+		    		}
+        
+        
+        
+        else if (dateDebut.getValue()==null){
+        
+            dateFin.setValue(null);
+            
+        }
+            listeBonLivraison.clear();
+           Fournisseur fournisseur=mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
+           ClientMP client=mapClientMP.get(clientCombo.getSelectionModel().getSelectedItem());
+           
+           LocalDate localDate=dateDebut.getValue();
+           Date dateOperaDebut =null;
+           if(localDate!=null)
+           {
+          dateOperaDebut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
+           }
+                 localDate=dateFin.getValue();
+                  Date dateOperaFin =null;
+              if(localDate!=null)
+           {     
+          dateOperaFin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
+           } 
+         
+       
+        List<BonLivraison> listBonLiv = bonLivraisonDAO.findFilterBonLivraisonByDateLivraisonAndFourAndClient(dateOperaDebut, dateOperaFin, fournisseur.getNom(), client.getNom());
+        
+        
+        listeBonLivraison.addAll(listBonLiv);
+        tableBonLivraison.setItems(listeBonLivraison);
+        setColumnProperties();
+        
+    }
+
 
     
 }

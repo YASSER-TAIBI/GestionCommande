@@ -17,9 +17,6 @@ import dao.ManagerImpl.MenuDAOImpl;
 import dao.ManagerImpl.UtilisateurDAOImpl;
 import java.util.List;
 import dao.Entity.Menu;
-import dao.Entity.StockPF;
-import dao.Manager.StockPFDAO;
-import dao.ManagerImpl.StockPFDAOImpl;
 import java.math.BigDecimal;
 
 /**

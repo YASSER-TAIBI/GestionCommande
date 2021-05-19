@@ -19,7 +19,6 @@ import dao.Entity.Fournisseur;
 import dao.Entity.Magasin;
 import dao.Entity.Reglement;
 import dao.Entity.Sequenceur;
-import dao.Entity.StockMP;
 import dao.Manager.BonLivraisonDAO;
 import dao.Manager.BonRetourDAO;
 import dao.Manager.ClientMPDAO;
@@ -32,7 +31,6 @@ import dao.Manager.FournisseurDAO;
 import dao.Manager.MagasinDAO;
 import dao.Manager.ReglementDAO;
 import dao.Manager.SequenceurDAO;
-import dao.Manager.StockMPDAO;
 import dao.ManagerImpl.BonLivraisonDAOImpl;
 import dao.ManagerImpl.BonRetourDAOImpl;
 import dao.ManagerImpl.ClientMPDAOImpl;
@@ -45,11 +43,9 @@ import dao.ManagerImpl.FournisseurDAOImpl;
 import dao.ManagerImpl.MagasinDAOImpl;
 import dao.ManagerImpl.ReglementDAOImpl;
 import dao.ManagerImpl.SequenceurDAOImpl;
-import dao.ManagerImpl.StockMPDAOImpl;
 import function.navigation;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -63,6 +59,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,6 +77,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -175,7 +173,12 @@ public class ReglementController implements Initializable {
     private Label monTVA;
     @FXML
     private Label monTTC;
-
+    @FXML
+    private TextField numFacture;
+    @FXML
+    private DatePicker dateLivraison;
+    @FXML
+    private DatePicker dateEcheance;
     /**
      * Initializes the controller class.
      */
@@ -199,7 +202,6 @@ public class ReglementController implements Initializable {
    DetailReceptionDAO  detailReceptionDAO = new DetailReceptionDAOImpl();
    BonRetourDAO bonRetourDAO =new  BonRetourDAOImpl();
    MagasinDAO magasinDAO = new MagasinDAOImpl();
-   StockMPDAO stockMPDAO = new  StockMPDAOImpl();
    ReglementDAO reglementDAO= new ReglementDAOImpl();
    navigation nav = new navigation();   
    Commande commande = new Commande();
@@ -229,12 +231,7 @@ public class ReglementController implements Initializable {
    String codeReglement = "";
 
     static final long UNE_HEURE = 60*60*1000L;
-    @FXML
-    private TextField numFacture;
-    @FXML
-    private DatePicker dateLivraison;
-    @FXML
-    private DatePicker dateEcheance;
+
     
 
      void Incrementation (){
@@ -248,13 +245,13 @@ public class ReglementController implements Initializable {
      * Initializes the controller class.
      */
     
-    //--------------------------------------- Methode date paiement + date now = nombre de jour restant -------------------------------------------------------------------------------
+//--------------------------------------- Methode date paiement + date now = nombre de jour restant ----------------------------------------------------------------------------------------------------------------------------------------------------------
       
     public int daysBetween(Date d1, Date d2){
              return (int) ((d1.getTime() - d2.getTime()) / (1000 * 60 * 60 * 24));
      }
    
-  //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------           
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------         
     
     
     
@@ -270,7 +267,7 @@ public class ReglementController implements Initializable {
         
         modeReglementCombo.setItems(modeReglementlist);
     
-         List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+         List<Fournisseur> listFournisseur=fournisseurDAO.findAllMp();
         
         listFournisseur.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());
@@ -348,12 +345,7 @@ public class ReglementController implements Initializable {
 
     }
 
-    void loadDetail() {
 
-        listeBonLivraison.clear();
-        listeBonLivraison.addAll(bonLivraisonDAO.findBonLivraisonByEtat(Constantes.ETAT_A_REGLE));
-        tableBonLivraison.setItems(listeBonLivraison);
-    }
     
         public static void setColumnTextFieldConverter(StringConverter converter, TableColumn... columns) {
 
@@ -486,16 +478,16 @@ public class ReglementController implements Initializable {
        if (tableBonLivraison.getSelectionModel().getSelectedIndex()!=-1){
          
            
-              for( int i = 0;i<listeDetailBonLivraison.size() ;i++ ){
-              
-                  DetailBonLivraison detailBonLivraison = listeDetailBonLivraison.get(i);
-                  
-                  if (detailBonLivraison.getQuantite().equals(BigDecimal.ZERO.setScale(2))){
-                  
-                  detailBonLivraisonDAO.delete(detailBonLivraison);
-                  }
-              
-              }
+//              for( int i = 0;i<listeDetailBonLivraison.size() ;i++ ){
+//              
+//                  DetailBonLivraison detailBonLivraison = listeDetailBonLivraison.get(i);
+//                  
+//                  if (detailBonLivraison.getQuantite().equals(BigDecimal.ZERO.setScale(2))){
+//                  
+//                  detailBonLivraisonDAO.delete(detailBonLivraison);
+//                  }
+//              
+//              }
             listeDetailBonLivraison.clear();
             listeDetailBonLivraison.addAll(detailBonLivraisonDAO.findDetaiBonLivraisonBycode(tableBonLivraison.getSelectionModel().getSelectedItem().getLivraisonFour(),tableBonLivraison.getSelectionModel().getSelectedItem().getNumCommande()));
             tableDetailBonLivraison.setItems(listeDetailBonLivraison);
@@ -547,14 +539,15 @@ sommeTotal= BigDecimal.ZERO;
     @FXML
     private void modeReglementOnAction(ActionEvent event) {
         
-            
+          if (valeur!=null){   
+        
          valeur= modeReglementCombo.getSelectionModel().getSelectedItem();
             if (valeur == (Constantes.CHEQUE)|| valeur == Constantes.ORDER_DE_VIREMENT || valeur == Constantes.TRAITE){
              paneView.setVisible(true);
             
              }else{
                   paneView.setVisible(false);
-                
+            }        
              }
     }
 
@@ -756,7 +749,7 @@ sommeTotal= BigDecimal.ZERO;
                   
                    montantTotalNonPayer= montantTotalNonPayer.add(montantColumn.getCellData(rows));
                    
-                   montantTVANonPayer = montantTotalNonPayer;
+                   montantTVANonPayer = montantTVANonPayer;
                    
                    montantTTCNonPayer= montantTotalNonPayer;
                   
@@ -774,7 +767,7 @@ sommeTotal= BigDecimal.ZERO;
                   
                    montantTotalNonRegler= montantTotalNonRegler.add(montantColumn.getCellData(rows));
                    
-                   montantTVANonRegler = montantTotalNonRegler;
+                   montantTVANonRegler = montantTVANonRegler;
                    
                    montantTTCNonRegler = montantTotalNonRegler;
                   
@@ -804,7 +797,7 @@ sommeTotal= BigDecimal.ZERO;
     monTVA.setText(df.format(montantTVA));
     monTTC.setText(df.format(montantTTC));
            
-         montantTotalField.setText(df.format(montantTTC));  
+         montantTotalField.setText(montantTTC+"");  
          
          if(!montantTTC.equals(BigDecimal.ZERO)){
          
@@ -815,7 +808,12 @@ sommeTotal= BigDecimal.ZERO;
 
     @FXML
     private void reglerOnAction(ActionEvent event) throws ParseException {
-        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
         
           boolean  variable =false;  
           BigDecimal montantCredit=BigDecimal.ZERO;
@@ -827,7 +825,7 @@ sommeTotal= BigDecimal.ZERO;
          
          
 //           int Maxid = reglementDAO.getMaxId();
-            if (modeReglementCombo.getSelectionModel().getSelectedItem() == null || modeReglementCombo.getSelectionModel().getSelectedItem().isEmpty()|| fourCombo.getSelectionModel().getSelectedItem() == null || fourCombo.getSelectionModel().getSelectedItem().isEmpty() ) {
+            if (modeReglementCombo.getSelectionModel().getSelectedItem() == null || modeReglementCombo.getSelectionModel().getSelectedItem().isEmpty()|| fourCombo.getSelectionModel().getSelectedItem() == null || fourCombo.getSelectionModel().getSelectedItem().isEmpty() || new BigDecimal(montantTotalField.getText()).compareTo(BigDecimal.ZERO)<0 ) {
                 nav.showAlert(Alert.AlertType.ERROR, "Attention", null, Constantes.REMPLIR_CHAMPS);
                 
             } else{ 
@@ -838,6 +836,10 @@ sommeTotal= BigDecimal.ZERO;
              String fac="";
              String BL= "";
            
+                 LocalDate localDate=dateReglement.getValue();
+                Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
+      
+             
               for( int rows = 0;rows<tableBonLivraison.getItems().size() ;rows++ ){
     
          if (actionColumn.getCellData(rows).booleanValue()==true){
@@ -853,89 +855,51 @@ sommeTotal= BigDecimal.ZERO;
              
                      if  (bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_RTR) || bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_MNQ) ){
 
-  BonRetour bonRetourRes = bonRetourDAO.findBonRetourByNumCommAndNumLiv(bonLivraisonTmp.getNumCommande(),bonLivraisonTmp.getLivraisonFour() , Constantes.RETOUR_EN_ATT_REGLEMENT, Constantes.RECEPTION_TYPE);
+  BonRetour bonRetour = bonRetourDAO.findBonRetourByNumCommAndNumLiv(bonLivraisonTmp.getNumCommande(),bonLivraisonTmp.getLivraisonFour() , Constantes.RETOUR_EN_ATT_REGLEMENT);
   
-  BonRetour bonRetourUsi = bonRetourDAO.findBonRetourByNumCommAndNumLiv(bonLivraisonTmp.getNumCommande(),bonLivraisonTmp.getLivraisonFour() , Constantes.RETOUR_EN_ATT_REGLEMENT, Constantes.USINE_TYPE);
-  
-  if (bonRetourRes != null){
+  if (bonRetour != null){
 
-  //____________________________________________________ Modifier Qte Restee ______________________________________________________________
+ //===============================================================  Detail Compte / Retour & Manque ===============================================================================================================================             
+      
+                    ClientMP clientMPTmp = clientMPDAO.findClientMPByNom(bonRetour.getClient());
+                    Fournisseur fournisseurTmp = fournisseurDAO.findByFournisseur(bonRetour.getFournisseur());
+ 
+ 
+                  detailCompte = new DetailCompte();
+              detailCompte.setDateOperation(new Date());
+              
+             if (bonRetour.getType().equals(Constantes.RETOUR)){
+             
+                detailCompte.setDesignation(Constantes.RETOUR_N+bonRetour.getNumRetour()+" "+Constantes.SUR_COMMANDE_N+bonRetour.getNumCommande()+Constantes.RECEPTION_BON_LIVRAISON+bonRetour.getNumLivraison());
+             }
+             else if (bonRetour.getType().equals(Constantes.MANQUE)) {
+                   
+                detailCompte.setDesignation(Constantes.MANQUE_N+bonRetour.getNumRetour()+" "+Constantes.SUR_COMMANDE_N+bonRetour.getNumCommande()+Constantes.RECEPTION_BON_LIVRAISON+bonRetour.getNumLivraison());
+             }
+              detailCompte.setMontantCredit(BigDecimal.ZERO);
+              detailCompte.setDateBonLivraison(dateSaisie);
+              detailCompte.setMontantDebit(bonLivraisonTmp.getMontantTTC());
+              detailCompte.setCode(bonRetour.getNumRetour());
+              detailCompte.setClientMP(clientMPTmp);
+              detailCompte.setCompteFourMP(fournisseurTmp.getCompteFourMP());
+              detailCompte.setUtilisateurCreation(nav.getUtilisateur());
+               
+              detailCompteDAO.add(detailCompte);
 
-           List<DetailBonLivraison> listDetailBonLivraison = detailBonLivraisonDAO.findDetaiBonLivraisonBycode(bonLivraisonTmp.getLivraisonFour(),bonLivraisonTmp.getNumCommande());
-          
-                     for (int i = 0; i < listDetailBonLivraison.size(); i++) {
-                        DetailBonLivraison detailBonLivraison = listDetailBonLivraison.get(i);
-                         
-                    DetailCommande detailCommande = detailCommandeDAO.findDetailCommandeByBonRetour(detailBonLivraison.getMatierePremier().getCode(),bonLivraisonTmp.getFourisseur(),Constantes.ETAT_AFFICHAGE, bonLivraisonTmp.getNumCommande());
 
-                    System.out.println("detailCommande "+detailCommande.getId());
-                    
-                  if (detailCommande!=null){
-                  
-                      BigDecimal qteRestee= BigDecimal.ZERO;
-                              
-                             qteRestee= detailCommande.getQuantiteRestee();
-                      
-                      BigDecimal newQteRestee =  BigDecimal.ZERO;
-                              
-                             newQteRestee = qteRestee.subtract(detailBonLivraison.getQuantite()).setScale(2,RoundingMode.FLOOR);
-
-                      detailCommande.setQuantiteRestee(newQteRestee);
-                      
-                      detailCommandeDAO.edit(detailCommande);
-                  
-                  }
-
-                     }   
-                     
-                                 
-                 bonRetourRes.setEtat(Constantes.ETAT_PAYEE);
-                 bonRetourDAO.edit(bonRetourRes);
+ //===============================================================  Bon Retour / Modification ===============================================================================================================================             
+    
+             
+                 bonRetour.setEtat(Constantes.ETAT_PAYEE);
+                 bonRetourDAO.edit(bonRetour);
                     variable = true;
-      
-      
 
-  }else if (bonRetourUsi != null){
-  
-//____________________________________________________ Modifier Qte Stock ______________________________________________________________
-      
-             List<DetailBonLivraison> listDetailBonLivraison = detailBonLivraisonDAO.findDetaiBonLivraisonBycode(bonLivraisonTmp.getLivraisonFour(),bonLivraisonTmp.getNumCommande());
-          
-                     for (int i = 0; i < listDetailBonLivraison.size(); i++) {
-                        DetailBonLivraison detailBonLivraison = listDetailBonLivraison.get(i);
-       
-                         Magasin magasin = magasinDAO.findStockByMagasinMP(detailBonLivraison.getUtilisateurCreation().getDepot().getId());
-                        
-                         StockMP stockMP = stockMPDAO.findStockByMagasinMP(detailBonLivraison.getMatierePremier().getId(),magasin.getId());
-                        
-                             if (stockMP!=null){
-                  
-                      BigDecimal qteStock= BigDecimal.ZERO ;
-                              
-                             qteStock=  stockMP.getStock();
-                      
-                      BigDecimal newQteStock = BigDecimal.ZERO;
-                              
-                             newQteStock = qteStock.subtract(detailBonLivraison.getQuantite());
-
-                      stockMP.setStock(newQteStock);
-                      
-                      stockMPDAO.edit(stockMP);
-                  
-                  }
-                        
-                        
-                     }
-                     
-                 bonRetourUsi.setEtat(Constantes.ETAT_PAYEE);
-                 
-                 bonRetourDAO.edit(bonRetourUsi);
-                    variable = true;
-                     
   }
 
        }
-               
+
+ //===============================================================  Bon Livraison / Modification ===============================================================================================================================             
+    
             
             bonLivraisonTmp.setEtat(Constantes.ETAT_REGLE);
             bonLivraisonTmp.setAction(false);
@@ -944,15 +908,18 @@ sommeTotal= BigDecimal.ZERO;
        }
     }
            
+ //=================================================== Reglement ===============================================================================================================================             
               
-              
-           LocalDate localDate=dateReglement.getValue();
-                Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-      
-               LocalDate localDateTMP=dateEcheance.getValue();
-                Date dateEche=new SimpleDateFormat("yyyy-MM-dd").parse(localDateTMP.toString());  
-                String strDate = localDateTMP.toString();
+       
                 
+                Date dateEche= null;  
+                String strDate = "";
+                
+               LocalDate localDateTMP=dateEcheance.getValue();
+               if (localDateTMP!=null){
+                 dateEche=new SimpleDateFormat("yyyy-MM-dd").parse(localDateTMP.toString());  
+                 strDate = localDateTMP.toString();
+               }
          Reglement reglement = new Reglement();
          
              reglement.setDate(dateSaisie);
@@ -974,7 +941,7 @@ sommeTotal= BigDecimal.ZERO;
              
              reglement.setNumCritique(numCritique.getText());
              reglement.setDateEcheance(dateEche);
-             reglement.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+" "+Constantes.MANQUE_RETOUR_N+numCritique.getText()+" "+Constantes.SUR_DATE_ECHEANCE+strDate);
+             reglement.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+" "+Constantes.N+numCritique.getText()+" "+Constantes.SUR_DATE_ECHEANCE+strDate);
              }
              else{
                 reglement.setNumCritique("###");
@@ -990,13 +957,15 @@ sommeTotal= BigDecimal.ZERO;
 
             tableBonLivraison.refresh();
             
+//================================================================== Detail Compte / Bon Livraison ============================================================================================================== 
+   
           
               detailCompte = new DetailCompte();
               detailCompte.setDateOperation(new Date());
               
-             if (valeur == Constantes.CHEQUE || valeur == Constantes.ORDER_DE_VIREMENT || valeur == Constantes.TRAITE){
+             if (valeur.equals(Constantes.CHEQUE) || valeur.equals(Constantes.ORDER_DE_VIREMENT) || valeur.equals(Constantes.TRAITE)){
              
-                detailCompte.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+" "+Constantes.MANQUE_RETOUR_N+numCritique.getText()+" "+Constantes.SUR_DATE_ECHEANCE+strDate);
+                detailCompte.setDesignation(Constantes.REGLEMENT_SUR_BL+"("+BL+") "+modeReglementCombo.getSelectionModel().getSelectedItem()+" "+Constantes.N+numCritique.getText()+" "+Constantes.SUR_DATE_ECHEANCE+strDate);
              }
              else{
                    
@@ -1044,7 +1013,7 @@ sommeTotal= BigDecimal.ZERO;
              paneView.setVisible(false);
              
     }}
-        
+            }
     }
 
     @FXML

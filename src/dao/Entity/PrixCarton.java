@@ -67,7 +67,7 @@ public class PrixCarton implements Serializable{
         @Column(name="TYPE_PRIX")
         private String typePrix;
             
-            
+              private Boolean action;
             
     public Utilisateur getUtilisateurCreation() {
         return utilisateurCreation;
@@ -95,6 +95,14 @@ public class PrixCarton implements Serializable{
 
     public SubCategorieMp getSubCategorieMp() {
         return SubCategorieMp;
+    }
+
+    public Boolean getAction() {
+        return action;
+    }
+
+    public void setAction(Boolean action) {
+        this.action = action;
     }
 
     public void setSubCategorieMp(SubCategorieMp SubCategorieMp) {

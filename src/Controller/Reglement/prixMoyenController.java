@@ -92,7 +92,9 @@ public class prixMoyenController implements Initializable {
         // TODO
         
           listeDetailBonLivraison.clear();
-       listeDetailBonLivraison.addAll(detailBonLivraisonDAO.findByDetailBonLivraisonAndBl());
+          
+       String req ="";   
+       listeDetailBonLivraison.addAll(detailBonLivraisonDAO.findByDetailBonLivraisonAndBl(req));
  
     }    
 
@@ -119,57 +121,57 @@ public class prixMoyenController implements Initializable {
     @FXML
     private void reglerOnAction(ActionEvent event) {
         
-         List <Object[]> listePrixMoyen =detailBonLivraisonDAO.findByPrixMoyen();
-
-
-         
-            for(int i=0; i<listePrixMoyen.size(); i++) {
-
-                    Object[] object=listePrixMoyen.get(i);
-                   
-                    String code =(String)object[0];
-                    String libelle = (String)object[1]; 
-                    BigDecimal qte = (BigDecimal)object[2]; 
-                    BigDecimal prix = (BigDecimal)object[3]; 
-                    
-      
-
-               PrixMoyen prixMoyen = new PrixMoyen();
-               
-                  prixMoyen.setCode(code);
-                  prixMoyen.setLibelle(libelle);
-                  prixMoyen.setQte(qte);
-                  prixMoyen.setPrix(prix);
-
-                  listePrixStock.add(prixMoyen);
-  
-            }
-        
-            for (int i = 0; i < listePrixStock.size(); i++) {
-                
-                BigDecimal qteAct = BigDecimal.ZERO;
-                BigDecimal prixMoyen = BigDecimal.ZERO;
-                
-                PrixMoyen pm = listePrixStock.get(i);
-                
-                for (int j = 0; j < listeDetailBonLivraison.size(); j++) {
-                    
-                         DetailBonLivraison detailBonLivraison = listeDetailBonLivraison.get(j);
-                    
-                    if (pm.getCode().equals(detailBonLivraison.getMatierePremier().getCode())) {
-                    
-                    prixMoyen = (qteAct.multiply(prixMoyen)).add(detailBonLivraison.getQuantite().multiply(detailBonLivraison.getPrix())).divide(qteAct.add(detailBonLivraison.getQuantite()), 8, RoundingMode.FLOOR);
-                    qteAct= qteAct.add(detailBonLivraison.getQuantite());
-
-                }
-                }
-                
-               pm.setPrix(prixMoyen);
-            listePrixStock.set(i, pm);
-        }
-        
-         tableStock.setItems(listePrixStock);
-         setColumnProperties();
+//         List <Object[]> listePrixMoyen =detailBonLivraisonDAO.findByPrixMoyen();
+//
+//
+//         
+//            for(int i=0; i<listePrixMoyen.size(); i++) {
+//
+//                    Object[] object=listePrixMoyen.get(i);
+//                   
+//                    String code =(String)object[0];
+//                    String libelle = (String)object[1]; 
+//                    BigDecimal qte = (BigDecimal)object[2]; 
+//                    BigDecimal prix = (BigDecimal)object[3]; 
+//                    
+//      
+//
+//               PrixMoyen prixMoyen = new PrixMoyen();
+//               
+//                  prixMoyen.setCode(code);
+//                  prixMoyen.setLibelle(libelle);
+//                  prixMoyen.setQte(qte);
+//                  prixMoyen.setPrix(prix);
+//
+//                  listePrixStock.add(prixMoyen);
+//  
+//            }
+//        
+//            for (int i = 0; i < listePrixStock.size(); i++) {
+//                
+//                BigDecimal qteAct = BigDecimal.ZERO;
+//                BigDecimal prixMoyen = BigDecimal.ZERO;
+//                
+//                PrixMoyen pm = listePrixStock.get(i);
+//                
+//                for (int j = 0; j < listeDetailBonLivraison.size(); j++) {
+//                    
+//                         DetailBonLivraison detailBonLivraison = listeDetailBonLivraison.get(j);
+//                    
+//                    if (pm.getCode().equals(detailBonLivraison.getMatierePremier().getCode())) {
+//                    
+//                    prixMoyen = (qteAct.multiply(prixMoyen)).add(detailBonLivraison.getQuantite().multiply(detailBonLivraison.getPrix())).divide(qteAct.add(detailBonLivraison.getQuantite()), 8, RoundingMode.FLOOR);
+//                    qteAct= qteAct.add(detailBonLivraison.getQuantite());
+//
+//                }
+//                }
+//                
+//               pm.setPrix(prixMoyen);
+//            listePrixStock.set(i, pm);
+//        }
+//        
+//         tableStock.setItems(listePrixStock);
+//         setColumnProperties();
     }
 
     @FXML

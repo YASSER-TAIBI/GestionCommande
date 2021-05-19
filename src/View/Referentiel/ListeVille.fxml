@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.ListeVilleController">
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.ListeVilleController">
    <children>
       <TableView fx:id="tableVille" blendMode="MULTIPLY" layoutX="183.0" layoutY="448.0" maxWidth="1.7976931348623157E308" prefHeight="339.0" prefWidth="993.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
          <columns>
@@ -50,12 +50,12 @@
       </Pane>
       <Pane layoutX="180.0" layoutY="228.0" prefHeight="71.0" prefWidth="1191.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <TextField fx:id="codeRechField" layoutX="261.0" layoutY="20.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheCodeVilleOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+            <TextField fx:id="codeRechField" layoutX="261.0" layoutY="20.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheCodeOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
                <effect>
                   <Blend />
                </effect>
             </TextField>
-            <TextField fx:id="libelleRechField" layoutX="740.0" layoutY="21.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheLibelleVilleOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+            <TextField fx:id="libelleRechField" layoutX="740.0" layoutY="21.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheLibelleOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
                <effect>
                   <Blend />
                </effect>
@@ -70,6 +70,11 @@
             <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="904.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1145.0" layoutY="29.0" onMouseClicked="#rechercheTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
                </image>
             </ImageView>
          </children>

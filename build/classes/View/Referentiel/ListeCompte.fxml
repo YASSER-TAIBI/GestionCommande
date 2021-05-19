@@ -14,15 +14,12 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.ListeCompteController">
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.ListeCompteController">
    <children>
       <TableView fx:id="tableCompte" blendMode="MULTIPLY" layoutX="148.0" layoutY="477.0" maxWidth="1.7976931348623157E308" onMouseClicked="#clickChargeOnMouseEntered" prefHeight="338.0" prefWidth="1077.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
          <columns>
-            <TableColumn fx:id="codeColumn" prefWidth="135.00003051757812" text="Code" />
-            <TableColumn fx:id="libelleColumn" prefWidth="234.0" text="libelle" />
-            <TableColumn fx:id="soldeColumn" prefWidth="239.0" text="Solde" />
-            <TableColumn fx:id="soldeReportColumn" prefWidth="237.0" text="Solde Report" />
-            <TableColumn fx:id="totalColumn" prefWidth="228.0" text="Total" />
+            <TableColumn fx:id="codeColumn" prefWidth="329.0" text="Code" />
+            <TableColumn fx:id="libelleColumn" prefWidth="748.0" text="libelle" />
          </columns>
       </TableView>
       <Pane layoutX="1234.0" layoutY="476.0" prefHeight="338.0" prefWidth="174.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
@@ -35,12 +32,12 @@
       <Pane layoutX="150.0" layoutY="238.0" prefHeight="75.0" prefWidth="1258.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
             <Label layoutX="163.0" layoutY="28.0" text="Code: " />
-            <TextField fx:id="codeRechField" layoutX="340.0" layoutY="22.0" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+            <TextField fx:id="codeRechField" layoutX="340.0" layoutY="22.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheCodeOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
                <effect>
                   <Blend />
                </effect>
             </TextField>
-            <TextField fx:id="libelleRechField" layoutX="867.0" layoutY="25.0" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+            <TextField fx:id="libelleRechField" layoutX="867.0" layoutY="25.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheLibelleOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
                <effect>
                   <Blend />
                </effect>
@@ -54,6 +51,11 @@
             <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="1031.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1209.0" layoutY="33.0" onMouseClicked="#rechercheTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
                </image>
             </ImageView>
          </children>

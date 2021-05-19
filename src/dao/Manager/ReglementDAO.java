@@ -6,6 +6,7 @@
 package dao.Manager;
 
 import dao.Entity.Reglement;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,7 +30,9 @@ public interface ReglementDAO {
                 
                 public List<Reglement> findFourByRechercheNomReglement(int four,int clt);
                 
-                  public List<Reglement> findReglementByCheque(String code,int client ,int four) ;
+                public List<Reglement> findReglementByCheque(String code,int client ,int four) ;
                   
-                  public List<Reglement> findReglementByFacture(String code,int client ,int four);
+                public List<Reglement> findReglementByFacture(String code,int client ,int four);
+                  
+                public List<Reglement> findByFourAndCltAndDateRg(int four,int clt,Date dateReglement);
 }

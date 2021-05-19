@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Reglement.FactureController">
+   <children>
+      <Pane layoutX="621.0" layoutY="466.0" prefHeight="44.0" prefWidth="179.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="ajouterSaisie" layoutX="37.0" layoutY="3.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterSaisieAction" prefHeight="36.0" prefWidth="106.0" text="Ajouter" />
+         </children>
+      </Pane>
+      <TableView fx:id="factureTable" blendMode="MULTIPLY" layoutX="173.0" layoutY="182.0" prefHeight="267.0" prefWidth="1255.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="bonLivColumn" prefWidth="1255.0" text="Bon Liv" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

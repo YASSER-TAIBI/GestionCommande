@@ -22,10 +22,10 @@ public class DetailFactureAvoirBonAvoir implements Serializable {
         
 	private BigDecimal  factureAvoirQte;
 
-	private PrixOulmes  prixOulmes;
-
 	private String client;
 
+        private String numFacture;
+        
 	private String designation;
 
 	
@@ -49,20 +49,20 @@ public class DetailFactureAvoirBonAvoir implements Serializable {
         this.avoirQte = avoirQte;
     }
 
+    public String getNumFacture() {
+        return numFacture;
+    }
+
+    public void setNumFacture(String numFacture) {
+        this.numFacture = numFacture;
+    }
+
     public BigDecimal getFactureAvoirQte() {
         return factureAvoirQte;
     }
 
     public void setFactureAvoirQte(BigDecimal factureAvoirQte) {
         this.factureAvoirQte = factureAvoirQte;
-    }
-
-    public PrixOulmes getPrixOulmes() {
-        return prixOulmes;
-    }
-
-    public void setPrixOulmes(PrixOulmes prixOulmes) {
-        this.prixOulmes = prixOulmes;
     }
 
     public String getClient() {

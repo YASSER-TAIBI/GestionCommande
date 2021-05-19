@@ -22,7 +22,8 @@ public interface ClientMPDAO {
 		
 		public void add(ClientMP clientMP);
 		
-		
+		public ClientMP findClientMPByNom(String nom) ;
+                
 		public  ClientMP edit(ClientMP e);
 		
 		public  void delete(ClientMP e); 

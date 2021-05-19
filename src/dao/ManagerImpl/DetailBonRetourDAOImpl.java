@@ -21,15 +21,6 @@ public class DetailBonRetourDAOImpl implements DetailBonRetourDAO {
     Session session=HibernateUtil.openSession();
 
 
-	public DetailBonRetour findUtilisateurByLoginMotPasse(String login,
-			String motPasse) {
-		
-		Query query = session.createQuery("select u from Utilisateur u where  u.login=:login and u.password=:motPasse");
-		query.setParameter("login", login);
-		query.setParameter("motPasse", motPasse);
-	return (DetailBonRetour) query.uniqueResult();
-	      
-				}
 
 	public DetailBonRetour findById(int id) {
 		return (DetailBonRetour)session.get(DetailBonRetour.class, id);
@@ -77,9 +68,44 @@ public class DetailBonRetourDAOImpl implements DetailBonRetourDAO {
 		return query.list();
 }
 
+            	    public List<DetailBonRetour>  findDetailBonRetourByMpAndFourAndClient (String type, String req) {
+
+		Query query= session.createQuery("select c from DetailBonRetour c where c.bonRetour.type=:type"+req );
+		query.setParameter("type", type);
+                
+		return query.list();
+}
+            
+//                       	    public List<DetailBonRetour>  findDetailBonRetourByListFour (String four, String type) {
+//
+//		Query query= session.createQuery("select c from DetailBonRetour c where c.bonRetour.fournisseur=:four and c.bonRetour.type=:type");
+//		query.setParameter("four", four);
+//		query.setParameter("type", type);
+//                
+//		return query.list();
+//}
+//            
+//                            public List<DetailBonRetour>  findDetailBonRetourByFourAndMp (String mp ,String four,String type ) {
+//
+//		Query query= session.createQuery("select c from DetailBonRetour c where c.matierePremier.code=:mp and c.bonRetour.fournisseur=:four and c.bonRetour.type=:type");
+//		query.setParameter("four", four);
+//		query.setParameter("mp", mp);
+//                query.setParameter("type", type);
+//                
+//		return query.list();
+//}
+                            
+            	    public List<DetailBonRetour>  findDetailBonRetourByType (String type) {
+
+		Query query= session.createQuery("select c from DetailBonRetour c where c.bonRetour.type=:type");
+		query.setParameter("type", type);
+		
+		return query.list();
+}
+            
      public DetailBonRetour findDetailBonRetourByDetailBonLivraison(String numCom,String numLiv, int mp) {
 		
-		Query query = session.createQuery("select u from DetailBonRetour u where  u.bonRetour.numCommande =:numCom and u.bonRetour.numLivraison =:numLiv and u.matierePremier.id =:mp ");
+		Query query = session.createQuery("select u from DetailBonRetour u where u.bonRetour.numCommande =:numCom and u.bonRetour.numLivraison =:numLiv and u.matierePremier.id =:mp ");
 		query.setParameter("numCom", numCom);
 		query.setParameter("numLiv", numLiv);
                 query.setParameter("mp", mp);
@@ -88,424 +114,61 @@ public class DetailBonRetourDAOImpl implements DetailBonRetourDAO {
 				}
 
     
-     	    public List<Object[]>findDetailBonRetourByMpManque() {
-
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant)  from DetailBonRetour c where c.bonRetour.type= 'Manque' GROUP BY c.matierePremier.id");
-		
-		return query.list();
-}
-     
-            public List<Object[]>findDetailBonRetourByManque() {
-
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' GROUP BY c.matierePremier.id");
-		
-		return query.list();
-}
+        public List<Object[]> findBySituationRetourManque() {
             
-                    public List<Object[]>findDetailBonRetourByCodeMp(String codeMp ) {
+              Query query=  session.createQuery("select a.matierePremier,"
+                      + "(select COALESCE(SUM(b.quantiteRetour),0) from DetailBonRetour b where b.bonRetour.type= 'Retour' and b.bonRetour.statut = 'Mp' and b.matierePremier= a.matierePremier), "
+                      + "(select COALESCE(SUM(b.quantiteRetour),0) from DetailBonRetour b where b.bonRetour.type= 'Manque' and b.bonRetour.statut = 'Mp' and b.matierePremier= a.matierePremier),"
+                      + "(select COALESCE(SUM(b.montant),0)  from DetailBonRetour b where b.bonRetour.type= 'Retour' and b.bonRetour.statut = 'Mp' and b.matierePremier= a.matierePremier),"
+                      + "(select COALESCE(SUM(b.montant),0) from DetailBonRetour b where b.bonRetour.type= 'Manque' and b.bonRetour.statut = 'Mp' and b.matierePremier= a.matierePremier) "
+                      + "from DetailBonRetour a GROUP BY a.matierePremier");
 
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.matierePremier.code =:codeMp GROUP BY c.matierePremier.id");
-		
-                query.setParameter("codeMp", codeMp);
-                
-		return query.list();
-}
-               public List<Object[]>findDetailBonRetourByNmanque(String nManque ) {
-
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.numRetour =:nManque GROUP BY c.matierePremier.id");
-		
-                query.setParameter("nManque", nManque);
-                
-		return query.list();
-}
+        return query.list();
+    }
+           
+          public List<Object[]> findBySituationRetourManquePF() {
             
-                public List<Object[]>findDetailBonRetourByDate(Date dateD ,Date dateF ) {
-                    
-            Query query= null;
-         
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
+              Query query=  session.createQuery("select a.prixOulmes,"
+                      + "(select COALESCE(SUM(b.quantiteRetour),0) from DetailBonRetour b where b.bonRetour.type= 'Retour' and b.bonRetour.statut = 'Pf' and b.prixOulmes= a.prixOulmes), "
+                      + "(select COALESCE(SUM(b.quantiteRetour),0) from DetailBonRetour b where b.bonRetour.type= 'Manque' and b.bonRetour.statut = 'Pf' and b.prixOulmes= a.prixOulmes),"
+                      + "(select COALESCE(SUM(b.montant),0)  from DetailBonRetour b where b.bonRetour.type= 'Retour' and b.bonRetour.statut = 'Pf' and b.prixOulmes= a.prixOulmes),"
+                      + "(select COALESCE(SUM(b.montant),0) from DetailBonRetour b where b.bonRetour.type= 'Manque' and b.bonRetour.statut = 'Pf' and b.prixOulmes= a.prixOulmes) "
+                      + "from DetailBonRetour a GROUP BY a.prixOulmes");
+
+        return query.list();
+    }
+        
+          public List<DetailBonRetour>  findByMatierePremier (int mp) {
+
+		Query query= session.createQuery("select c from DetailBonRetour c where c.matierePremier.id =:mp AND (c.bonRetour.type= 'Manque' OR c.bonRetour.type= 'Retour')");
+		query.setParameter("mp", mp);
 		
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
 		return query.list();
 }
-                
-                    public List<Object[]>findDetailBonRetourByEtat(String etat ) {
+          
+            public List<DetailBonRetour>  findByMatierePremierAndClient (int mp, String client ) {
 
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.etat =:etat GROUP BY c.matierePremier.id");
-		
-                query.setParameter("etat", etat);
-                
-		return query.list();
-}
-                    
-                    public List<Object[]>findDetailBonRetourByFour(String four ) {
-
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.fournisseur =:four GROUP BY c.matierePremier.id");
-		
-                query.setParameter("four", four);
+		Query query= session.createQuery("select c from DetailBonRetour c where c.matierePremier.id =:mp AND c.bonRetour.client =:client AND (c.bonRetour.type= 'Manque' OR c.bonRetour.type= 'Retour')");
+		query.setParameter("mp", mp);
+		query.setParameter("client", client);
                 
 		return query.list();
 }
-                    
-                          public List<Object[]>findDetailBonRetourByCodeAndNmnq(String code,String nMnq ) {
+          
+                   public List<DetailBonRetour>  findByPrixOulmes (int pf) {
 
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.matierePremier.code=:code and c.bonRetour.numRetour=:nMnq GROUP BY c.matierePremier.id");
+		Query query= session.createQuery("select c from DetailBonRetour c where c.prixOulmes.id =:pf AND (c.bonRetour.type= 'Manque' OR c.bonRetour.type= 'Retour')");
+		query.setParameter("pf", pf);
 		
-                query.setParameter("code", code);
-                query.setParameter("nMnq", nMnq);
-                
 		return query.list();
-                
-}
-                          
-                    public List<Object[]>findDetailBonRetourByCodeAndDate(String code,Date dateD,Date dateF) {
-
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.matierePremier.code=:code and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("code", code);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
-		return query.list();
-                
-}
-                    
-                       public List<Object[]>findDetailBonRetourByCodeAndEtat(String code, String etat) {
-
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.matierePremier.code=:code and c.bonRetour.etat=:etat GROUP BY c.matierePremier.id");
-		
-                query.setParameter("code", code);
-                query.setParameter("etat", etat);
-                
-		return query.list();
-                
-}
-                                   public List<Object[]>findDetailBonRetourByCodeAndFour(String code, String four) {
-
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.matierePremier.code=:code and c.bonRetour.fournisseur=:four GROUP BY c.matierePremier.id");
-		
-                query.setParameter("code", code);
-                query.setParameter("four", four);
-                
-		return query.list();
-                
-}
-                       public List<Object[]>findDetailBonRetourByManqueAndDate(String manque,Date dateD,Date dateF) {
-
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.numRetour=:manque and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("manque", manque);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
-		return query.list();
-                
-}
-                    public List<Object[]>findDetailBonRetourByManqueAndEtat(String manque, String etat) {
-
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.numRetour=:manque and c.bonRetour.etat=:etat GROUP BY c.matierePremier.id");
-		
-                query.setParameter("manque", manque);
-                query.setParameter("etat", etat);
-                
-		return query.list();
-                
-}
-            public List<Object[]>findDetailBonRetourByManqueAndFour(String manque, String four) {
-
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.numRetour=:manque and c.bonRetour.fournisseur=:four GROUP BY c.matierePremier.id");
-		
-                query.setParameter("manque", manque);
-                query.setParameter("four", four);
-                
-		return query.list();
-                
-}         
-                 public List<Object[]>findDetailBonRetourByDateAndEtat(Date dateD,Date dateF,String etat) {
-
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.etat=:etat and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("etat", etat);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
-		return query.list();
-                
-}
-                   public List<Object[]>findDetailBonRetourByDateAndFour(Date dateD,Date dateF,String four) {
-
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.fournisseur=:four and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("four", four);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
-		return query.list();
-                
-}
-                              public List<Object[]>findDetailBonRetourByEtatAndFour(String etat, String four) {
-
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.etat=:etat and c.bonRetour.fournisseur=:four GROUP BY c.matierePremier.id");
-		
-                query.setParameter("etat", etat);
-                query.setParameter("four", four);
-                
-		return query.list();
-                
-}  
-                               public List<Object[]>findDetailBonRetourByCodeAndManqueAndDate(String code,String manque,Date dateD,Date dateF) {
-
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.numRetour=:manque and c.matierePremier.code=:code and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("code", code);
-                query.setParameter("manque", manque);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
-		return query.list();
-                
-}
-                               
-                public List<Object[]>findDetailBonRetourByCodeAndManqueAndEtat(String code,String manque,String etat) {
-             
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.numRetour=:manque and c.matierePremier.code=:code and c.bonRetour.etat=:etat GROUP BY c.matierePremier.id");
-		
-                query.setParameter("code", code);
-                query.setParameter("manque", manque);
-                query.setParameter("etat", etat);
-                
-         
-		return query.list();
-                
-}
-                
-                public List<Object[]>findDetailBonRetourByCodeAndManqueAndFour(String code,String manque,String four) {
-             
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.numRetour=:manque and c.matierePremier.code=:code and c.bonRetour.fournisseur=:four GROUP BY c.matierePremier.id");
-		
-                query.setParameter("code", code);
-                query.setParameter("manque", manque);
-                query.setParameter("four", four);
-                
-         
-		return query.list();
-                
-}
-                 public List<Object[]>findDetailBonRetourByCodeAndDateAndEtat(String code,Date dateD,Date dateF,String etat) {
-
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.etat=:etat and c.matierePremier.code=:code and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("code", code);
-                query.setParameter("etat", etat);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
-		return query.list();
-                
-}
-                                public List<Object[]>findDetailBonRetourByCodeAndDateAndFour(String code,Date dateD,Date dateF,String four) {
-
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.fournisseur=:four and c.matierePremier.code=:code and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("code", code);
-                query.setParameter("four", four);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
-		return query.list();
-                
-}
-                              public List<Object[]>findDetailBonRetourByManqueAndDateAndEtat(String manque,Date dateD,Date dateF,String etat) {
-
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.etat=:etat and c.bonRetour.numRetour=:manque and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("manque", manque);
-                query.setParameter("etat", etat);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
-		return query.list();
-                
 }    
-                    public List<Object[]>findDetailBonRetourByManqueAndDateAndFour(String manque,Date dateD,Date dateF,String four) {
+                   
+                   public List<DetailBonRetour>  findByPrixOulmesAndClient (int pf, String client) {
 
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.fournisseur=:four and c.bonRetour.numRetour=:manque and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("manque", manque);
-                query.setParameter("four", four);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
+		Query query= session.createQuery("select c from DetailBonRetour c where c.prixOulmes.id =:pf AND c.bonRetour.client =:client AND (c.bonRetour.type= 'Manque' OR c.bonRetour.type= 'Retour')");
+		query.setParameter("pf", pf);
+		query.setParameter("client", client);
+                
 		return query.list();
-                
-}
-                              public List<Object[]>findDetailBonRetourByManqueAndEtatAndFour(String manque,String etat,String four) {
-             
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.numRetour=:manque and c.bonRetour.etat=:etat and c.bonRetour.fournisseur=:four GROUP BY c.matierePremier.id");
-		
-                query.setParameter("etat", etat);
-                query.setParameter("manque", manque);
-                query.setParameter("four", four);
-                
-         
-		return query.list();
-                
-}
-                                   public List<Object[]>findDetailBonRetourByDateAndEtatAndFour(Date dateD,Date dateF, String etat, String four) {
-
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.fournisseur=:four and c.bonRetour.etat=:etat and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("etat", etat);
-                query.setParameter("four", four);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
-		return query.list();
-                
-}
-               public List<Object[]>findDetailBonRetourByCodeAndManqueAndDateAndEtat(String code,String manque ,Date dateD,Date dateF, String etat) {
-
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.numRetour=:manque and c.matierePremier.code=:code and c.bonRetour.etat=:etat and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("code", code);
-                query.setParameter("manque", manque);
-                query.setParameter("etat", etat);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
-		return query.list();
-                
-}
-               
-                public List<Object[]>findDetailBonRetourByCodeAndManqueAndDateAndFour(String code,String manque ,Date dateD,Date dateF, String four) {
-
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.numRetour=:manque and c.matierePremier.code=:code and c.bonRetour.fournisseur=:four and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("code", code);
-                query.setParameter("manque", manque);
-                query.setParameter("four", four);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
-		return query.list();
-                
-}
-                              public List<Object[]>findDetailBonRetourByCodeAndDateAndEtatAndFour(String code,Date dateD,Date dateF, String etat, String four) {
-
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.etat=:etat and c.matierePremier.code=:code and c.bonRetour.fournisseur=:four and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("code", code);
-                query.setParameter("etat", etat);
-                query.setParameter("four", four);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
-		return query.list();
-                
-}
-                               public List<Object[]>findDetailBonRetourByCodeAndEtatAndFourAndManque(String code, String etat, String four,String manque) {
-
-		Query query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.etat=:etat and c.matierePremier.code=:code and c.bonRetour.fournisseur=:four and c.bonRetour.numRetour=:manque GROUP BY c.matierePremier.id");
-		
-                query.setParameter("code", code);
-                query.setParameter("etat", etat);
-                query.setParameter("four", four);
-                query.setParameter("manque", manque);
-
-   
-		return query.list();
-                
-}                   
-                       public List<Object[]>findDetailBonRetourByManqueAndDateAndEtatAndFour(String manque,Date dateD,Date dateF, String etat, String four) {
-
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.etat=:etat and c.bonRetour.numRetour=:manque and c.bonRetour.fournisseur=:four and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("manque", manque);
-                query.setParameter("etat", etat);
-                query.setParameter("four", four);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
-		return query.list();
-                
-}         
-                     public List<Object[]>findDetailBonRetourByCodeAndManqueAndDateAndEtatAndFour(String code,String manque,Date dateD,Date dateF, String etat, String four) {
-
-                  Query query= null;
-                  
-         if (dateD!=null && dateF !=null){
-             
-		 query= session.createQuery("select c.matierePremier  ,sum(c.montant), c.bonRetour.dateCreation, c.bonRetour.numRetour, c.bonRetour.fournisseur, c.bonRetour.etat from DetailBonRetour c where c.bonRetour.type= 'Manque' and c.bonRetour.etat=:etat and c.bonRetour.numRetour=:manque and c.matierePremier.code=:code and c.bonRetour.fournisseur=:four and c.bonRetour.dateCreation BETWEEN :dateD and :dateF GROUP BY c.matierePremier.id");
-		
-                query.setParameter("code", code);
-                query.setParameter("manque", manque);
-                query.setParameter("etat", etat);
-                query.setParameter("four", four);
-                query.setParameter("dateD", dateD);
-                query.setParameter("dateF", dateF);
-         }
-		return query.list();
-                
-}   
-                       
+}    
 }

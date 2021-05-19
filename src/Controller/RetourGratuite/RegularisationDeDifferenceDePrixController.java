@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,6 +45,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
@@ -129,7 +131,7 @@ public class RegularisationDeDifferenceDePrixController implements Initializable
         
           Incrementation ();
           
-          List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+          List<Fournisseur> listFournisseur=fournisseurDAO.findAllMp();
         
         listFournisseur.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());
@@ -156,6 +158,13 @@ public class RegularisationDeDifferenceDePrixController implements Initializable
     @FXML
     private void btnValiderOnAction(ActionEvent event) throws ParseException {
         
+
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
           if (paiementField.getText().equalsIgnoreCase("")|| nFactureField.getText().equalsIgnoreCase("") || clientCombo.getValue().isEmpty()|| fourCombo.getValue().isEmpty()
                    ) {
             
@@ -213,13 +222,11 @@ public class RegularisationDeDifferenceDePrixController implements Initializable
                {
                 detailCompte.setMontantDebit(new BigDecimal(paiementField.getText()));
                 detailCompte.setMontantCredit(BigDecimal.ZERO);
-                
-                
                 detailCompte.setDesignation(Constantes.REGULARISATION_AUGMENTATION_FACTURE+nFactureField.getText()+", "+Constantes.TRAITE_N+nTraiteField.getText());
                
                }else {
-                detailCompte.setMontantDebit(new BigDecimal(paiementField.getText()).multiply(new BigDecimal(-1)));
-                detailCompte.setMontantCredit(BigDecimal.ZERO);
+                detailCompte.setMontantDebit(BigDecimal.ZERO);
+                detailCompte.setMontantCredit(new BigDecimal(paiementField.getText()));
                 detailCompte.setDesignation(Constantes.REGULARISATION_DIMINUTION_FACTURE+nFactureField.getText()+", "+Constantes.TRAITE_N+nTraiteField.getText());
                }
                
@@ -240,7 +247,7 @@ public class RegularisationDeDifferenceDePrixController implements Initializable
                          btnImprimer.setDisable(false);
                 
                         }
-        
+            }
     }
 
     @FXML
@@ -250,8 +257,8 @@ public class RegularisationDeDifferenceDePrixController implements Initializable
 
         void Clear() {
 
-    fourCombo.getSelectionModel().isEmpty();
-    clientCombo.getSelectionModel().isEmpty();
+    fourCombo.getSelectionModel().select(-1);
+    clientCombo.getSelectionModel().select(-1);
     plusRadio.setSelected(false);
     moinsRadio.setSelected(false);
     nFactureField.clear();

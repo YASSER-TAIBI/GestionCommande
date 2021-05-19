@@ -1,6 +1,7 @@
 package dao.Entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -43,10 +44,23 @@ public class Produit implements Serializable {
         @JoinColumn(name="ID_UTIL_CREATION")
         private Utilisateur utilisateurCreation;
         
+        @Column(name="QTE_PALETTE")
+        private BigDecimal qtePalette ;
+        
+        @Column(name="QTE_CAISSE")
+        private BigDecimal qteCaisse ;
+        
+        @Column(name="QTE_BOUTEILLE")
+        private BigDecimal qteBouteille  ;
+        
         @Column(name="PALETTE")
 	private Boolean  palette ;
 
-
+        @Column(name="ETAT")
+        private String etat;
+        
+        
+        
 	public Produit() {
 	}
 
@@ -62,12 +76,44 @@ public class Produit implements Serializable {
 		return code;
 	}
 
-    public Boolean getPalette() {
-        return palette;
+    public BigDecimal getQtePalette() {
+        return qtePalette;
     }
 
-    public void setPalette(Boolean palette) {
+    public void setQtePalette(BigDecimal qtePalette) {
+        this.qtePalette = qtePalette;
+    }
+
+        public Boolean getPalette() {
+        return palette;
+        }
+
+        public void setPalette(Boolean palette) {
         this.palette = palette;
+        }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
+    }
+
+    public BigDecimal getQteCaisse() {
+        return qteCaisse;
+    }
+
+    public void setQteCaisse(BigDecimal qteCaisse) {
+        this.qteCaisse = qteCaisse;
+    }
+
+    public BigDecimal getQteBouteille() {
+        return qteBouteille;
+    }
+
+    public void setQteBouteille(BigDecimal qteBouteille) {
+        this.qteBouteille = qteBouteille;
     }
 
 

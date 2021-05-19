@@ -69,6 +69,9 @@ public class DetailReception implements Serializable {
     @Column(name="NUM_RECEPTION")
      private String numReception;
 
+    @ManyToOne
+    @JoinColumn(name="ID_CHAUFFEUR")
+    private Chauffeur chauffeur;
  
 
     public DetailReception() {
@@ -90,10 +93,16 @@ public class DetailReception implements Serializable {
         this.livraisonFour = livraisonFour;
     }
 
-
-
     public Date getLivrFour() {
         return livrFour;
+    }
+
+    public Chauffeur getChauffeur() {
+        return chauffeur;
+    }
+
+    public void setChauffeur(Chauffeur chauffeur) {
+        this.chauffeur = chauffeur;
     }
 
     public void setLivrFour(Date livrFour) {

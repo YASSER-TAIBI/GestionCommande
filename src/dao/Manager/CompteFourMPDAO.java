@@ -25,5 +25,7 @@ public interface CompteFourMPDAO {
 		
 		public List<CompteFourMP> findAll();
                 
-         
+                public List<CompteFourMP> findByCodeCompteFourMP(String code);
+		
+         	public List<CompteFourMP> findBylibelleCompteFourMP(String lib);
 }

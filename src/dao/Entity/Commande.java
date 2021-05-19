@@ -46,9 +46,19 @@ public class Commande implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
         private Date dateSaisie;
     
+    @Column(name="N_MATRICULE")
+    private String nMatricule;
+    
+    @Column(name="MOTIF")
+    private String motif;
+    
     @Column(name="DATE_CREATION")
     @Temporal(javax.persistence.TemporalType.DATE)
      private Date dateCreation;
+    
+    @Column(name="DATE_CHARGEMENT")
+    @Temporal(javax.persistence.TemporalType.DATE)
+     private Date dateChargement;
     
     @ManyToOne
     @JoinColumn(name="ID_UTIL_CREATION")
@@ -70,7 +80,9 @@ public class Commande implements Serializable {
     private String typeCommande;
     
     
-    
+    @ManyToOne
+    @JoinColumn(name="ID_CHAUFFEUR")
+    private Chauffeur chauffeur;
     
 
     //bi-directional many-to-one association to DetailCommande  fetch = FetchType.EAGER , orphanRemoval = true
@@ -150,8 +162,40 @@ public class Commande implements Serializable {
         this.depot = depot;
     }
 
+    public String getnMatricule() {
+        return nMatricule;
+    }
+
+    public void setnMatricule(String nMatricule) {
+        this.nMatricule = nMatricule;
+    }
+
+    public Date getDateChargement() {
+        return dateChargement;
+    }
+
+    public Chauffeur getChauffeur() {
+        return chauffeur;
+    }
+
+    public void setChauffeur(Chauffeur chauffeur) {
+        this.chauffeur = chauffeur;
+    }
+
+    public void setDateChargement(Date dateChargement) {
+        this.dateChargement = dateChargement;
+    }
+
     public BigDecimal getPrixTotal() {
         return prixTotal;
+    }
+
+    public String getMotif() {
+        return motif;
+    }
+
+    public void setMotif(String motif) {
+        this.motif = motif;
     }
 
     public String getTypeCommande() {

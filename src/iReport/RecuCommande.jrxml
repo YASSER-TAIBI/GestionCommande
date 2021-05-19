@@ -20,18 +20,18 @@
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Calibri" size="20" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Consultation Commande Reçu]]></text>
+				<text><![CDATA[Consultation Commande Reçu MP]]></text>
 			</staticText>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="66" splitType="Stretch">
 			<staticText>
-				<reportElement x="84" y="18" width="125" height="18" uuid="818afc59-0eb1-48f0-970d-131f4d7b0d62"/>
+				<reportElement x="84" y="18" width="149" height="18" uuid="818afc59-0eb1-48f0-970d-131f4d7b0d62"/>
 				<textElement>
 					<font fontName="Calibri" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Bon de Commande Reçu]]></text>
+				<text><![CDATA[Bon de Commande Reçu MP]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="84" y="36" width="39" height="18" uuid="4c734fc8-3af7-4fa6-964a-a7676f74d77e"/>
@@ -99,12 +99,9 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="28" splitType="Stretch">
-			<rectangle>
-				<reportElement x="18" y="24" width="767" height="4" backcolor="#8FDFEF" uuid="1dab1e0c-b531-4956-9c37-6843edf94bea"/>
-			</rectangle>
+		<band height="21" splitType="Stretch">
 			<textField>
-				<reportElement x="43" y="3" width="119" height="18" uuid="5e64d339-143d-4086-9e8c-daa7a966f4fa"/>
+				<reportElement x="43" y="2" width="119" height="18" uuid="5e64d339-143d-4086-9e8c-daa7a966f4fa"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -115,7 +112,7 @@
 				<textFieldExpression><![CDATA[$F{detailCommande.matierePremier.code}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="169" y="3" width="298" height="18" uuid="1e7003df-26d6-4ce2-bde5-3816f1d93a82"/>
+				<reportElement x="169" y="2" width="298" height="18" uuid="1e7003df-26d6-4ce2-bde5-3816f1d93a82"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -126,7 +123,7 @@
 				<textFieldExpression><![CDATA[$F{detailCommande.matierePremier.nom}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="628" y="3" width="130" height="18" uuid="99f9be68-309f-4ae4-ac4a-28d364748997"/>
+				<reportElement x="628" y="2" width="130" height="18" uuid="99f9be68-309f-4ae4-ac4a-28d364748997"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -137,7 +134,7 @@
 				<textFieldExpression><![CDATA[$F{quantiteRecu}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="475" y="3" width="146" height="18" uuid="6af24ce0-0c4d-4322-bf02-9c4cf0d26a08"/>
+				<reportElement x="475" y="2" width="146" height="18" uuid="6af24ce0-0c4d-4322-bf02-9c4cf0d26a08"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -150,6 +147,10 @@
 		</band>
 	</detail>
 	<summary>
-		<band height="356" splitType="Stretch"/>
+		<band height="356" splitType="Stretch">
+			<rectangle>
+				<reportElement x="18" y="0" width="767" height="4" backcolor="#8FDFEF" uuid="1dab1e0c-b531-4956-9c37-6843edf94bea"/>
+			</rectangle>
+		</band>
 	</summary>
 </jasperReport>

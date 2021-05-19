@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Reglement.EcartAvoirOulmesController">
+   <children>
+      <Pane layoutX="515.0" layoutY="109.0" prefHeight="55.0" prefWidth="588.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="30.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Ecart Avoir Produit Fini" />
+         </children>
+      </Pane>
+      <Pane layoutX="1316.0" layoutY="578.0" prefHeight="210.0" prefWidth="180.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnImprimer" layoutX="29.0" layoutY="62.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="38.0" prefWidth="123.0" text="Imprimer" />
+            <Button fx:id="btnValider" layoutX="29.0" layoutY="14.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#valider" prefHeight="38.0" prefWidth="123.0" text="Valider" />
+            <Button fx:id="btnValiderAdmin" layoutX="29.0" layoutY="109.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#validerAdminOnAction" prefHeight="38.0" prefWidth="123.0" text="V.Admin" />
+            <Button fx:id="btnRefresh" layoutX="29.0" layoutY="157.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#refresh" prefHeight="38.0" prefWidth="123.0" text="Rafraîchir" />
+         </children></Pane>
+      <TableView fx:id="tableDetailSituationAvoir" blendMode="MULTIPLY" layoutX="98.0" layoutY="404.0" maxWidth="1.7976931348623157E308" prefHeight="167.0" prefWidth="1397.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="CodeColumn" prefWidth="85.0" text="Code" />
+            <TableColumn fx:id="LibelleColumn" prefWidth="264.9999694824219" text="Libelle" />
+            <TableColumn fx:id="QteColumn" minWidth="0.0" prefWidth="99.00003051757812" text="Qte" />
+            <TableColumn fx:id="PrixColumn" minWidth="0.0" prefWidth="102.0" text="Prix" />
+            <TableColumn fx:id="montantColumn" minWidth="0.0" prefWidth="134.0" text="Montant" />
+            <TableColumn fx:id="remiseColumn" minWidth="0.0" prefWidth="107.0" text="Remise" />
+            <TableColumn fx:id="montantNetColumn" minWidth="0.0" prefWidth="128.0" text="Montant Net" />
+            <TableColumn fx:id="qteFactAvoirColumn" minWidth="0.0" onEditCommit="#editCommitQteAvoirArtColumn" prefWidth="105.0" text="Qte F.A" />
+            <TableColumn fx:id="prixFactAvoirColumn" minWidth="0.0" onEditCommit="#editCommitFactAvoirPrixColumn" prefWidth="119.0" text="Prix F.A" />
+            <TableColumn fx:id="remiseFactAvoirColumn" minWidth="0.0" onEditCommit="#editCommitFactAvoirRemiseColumn" prefWidth="116.0" text="Remise F.A" />
+            <TableColumn fx:id="motifColumn" minWidth="0.0" onEditCommit="#motifOnEditCommit" prefWidth="138.0" text="Motif" />
+         </columns>
+      </TableView>
+      <Pane layoutX="99.0" layoutY="180.0" prefHeight="44.0" prefWidth="1397.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="153.0" layoutY="12.0" text="Bon d'Avoir:" />
+            <TextField fx:id="nLivraisonRechField" alignment="CENTER" layoutX="276.0" layoutY="7.0" onKeyPressed="#rechercheBonAvoirKeyPressed" prefHeight="31.0" prefWidth="201.0" promptText="Recherche" styleClass="StyleRaduis" />
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="444.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="38.0" fitWidth="36.0" layoutX="1249.0" layoutY="4.0" onMouseClicked="#rechercheMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="530.0" layoutY="12.0" text="Client:" />
+            <ComboBox fx:id="clientCombo" layoutX="608.0" layoutY="6.0" onAction="#clientOnAction" prefHeight="31.0" prefWidth="212.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="869.0" layoutY="12.0" text="Client 2:" />
+            <ComboBox fx:id="client2Combo" layoutX="965.0" layoutY="6.0" onAction="#client2OnAction" prefHeight="31.0" prefWidth="212.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+         </children>
+      </Pane>
+      <TableView fx:id="tableSituationAvoir" blendMode="MULTIPLY" layoutX="99.0" layoutY="230.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailOnMouseClicked" prefHeight="167.0" prefWidth="1397.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="bonAvoirColumn" prefWidth="86.00003051757812" text="B.Avoir" />
+            <TableColumn fx:id="clientColumn" minWidth="0.0" prefWidth="101.0" text="Client" />
+            <TableColumn fx:id="client2Column" minWidth="0.0" prefWidth="94.0" text="Client 2" />
+            <TableColumn fx:id="dateBonAvoirColumn" minWidth="0.0" prefWidth="111.0" text="Date Avoir" />
+            <TableColumn fx:id="dateCreationColumn" minWidth="0.0" prefWidth="132.0" text="Date Création" />
+            <TableColumn fx:id="nFactColumn" prefWidth="116.0" text="N°Facture" />
+            <TableColumn fx:id="avoirColumn" prefWidth="109.0" text="Avoir" />
+            <TableColumn fx:id="factureAvoirColumn" minWidth="0.0" prefWidth="109.0" text="F.Avoir" />
+            <TableColumn fx:id="factSystemeColumn" prefWidth="109.0" text="F.Système" />
+            <TableColumn fx:id="factOulmesColumn" prefWidth="109.0" text="F.Oulmes" />
+            <TableColumn fx:id="ecartColumn" minWidth="0.0" prefWidth="109.0" text="Ecart" />
+            <TableColumn fx:id="regularColumn" minWidth="0.0" onEditCommit="#editCommitRegularisationColumn" prefWidth="147.0" text="Régularisation" />
+            <TableColumn fx:id="actionColumn" minWidth="0.0" prefWidth="64.0" text="Action" />
+         </columns>
+      </TableView>
+      <TableView fx:id="tableHistoriqueQteAvoir" blendMode="MULTIPLY" layoutX="93.0" layoutY="661.0" maxWidth="1.7976931348623157E308" prefHeight="127.0" prefWidth="1213.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="bonAvoirHistColumn" minWidth="0.0" prefWidth="196.00003051757812" text="B.Avoir" />
+            <TableColumn fx:id="numFactureColumn" minWidth="0.0" prefWidth="337.0" text="Num Facture" />
+            <TableColumn fx:id="dateSaisieHistColumn" minWidth="0.0" prefWidth="335.0" text="Date Facture" />
+            <TableColumn fx:id="MontHistColumn" minWidth="0.0" prefWidth="345.0" text="Montant Régularisation" />
+         </columns>
+      </TableView>
+      <Pane layoutX="92.0" layoutY="610.0" prefHeight="44.0" prefWidth="1213.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="169.0" layoutY="11.0" text="Num Facture:" />
+            <TextField fx:id="numFactureField" alignment="CENTER" layoutX="293.0" layoutY="7.0" prefHeight="31.0" prefWidth="201.0" promptText="Num Facture" styleClass="StyleRaduis" />
+            <DatePicker fx:id="dateSaisie" layoutX="843.0" layoutY="6.0" prefHeight="31.0" prefWidth="201.0" promptText="Date Saisie" />
+            <Label layoutX="719.0" layoutY="11.0" text="Date Saisie:" />
+         </children>
+      </Pane>
+      <Pane layoutX="94.0" layoutY="578.0" prefHeight="25.0" prefWidth="1213.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label fx:id="totalEcart" layoutX="942.0" layoutY="1.0" prefHeight="24.0" prefWidth="146.0" />
+            <Label fx:id="totalFactureAv" layoutX="613.0" layoutY="1.0" prefHeight="24.0" prefWidth="146.0" />
+            <Label layoutX="837.0" layoutY="5.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Total Ecart:" />
+            <Label layoutX="445.0" layoutY="5.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Total Facture Avoir:" />
+            <Label fx:id="totalAvoir" layoutX="221.0" layoutY="1.0" prefHeight="24.0" prefWidth="146.0" />
+            <Label layoutX="115.0" layoutY="5.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Total Avoir:" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

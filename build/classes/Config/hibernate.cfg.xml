@@ -4,14 +4,25 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+
+    
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/GESTION_COMMANDE_FINAL</property>
     <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.connection.password">pass</property>
-    <!--
-    <property name="hibernate.connection.url">jdbc:mysql://192.168.1.5:3306/GESTION_COMMANDE_FINAL</property>
+    <property name="hibernate.connection.password">root</property>
+
+
+     <!--
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/GESTION_COMMANDE_TEST</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">root</property>
+    -->
+    
+   <!--
+    <property name="hibernate.connection.url">jdbc:mysql://192.168.1.143:3306/GESTION_COMMANDE_FINAL</property>
     <property name="hibernate.connection.username">user</property>
-    <property name="hibernate.connection.password">!kal!0687*</property> 
-     -->
+    <property name="hibernate.connection.password">12345</property>
+    -->
+
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
     <!-- <property name="hbm2ddl.auto">create</property> -->
@@ -33,9 +44,7 @@
     <mapping class="dao.Entity.Reglement"/>
     <mapping class="dao.Entity.Depot"/>
     <mapping class="dao.Entity.Magasin"/>
-    <mapping class="dao.Entity.StockMP"/>
     <mapping class="dao.Entity.StockArt"/>
-    <mapping class="dao.Entity.StockPF"/>
     <mapping class="dao.Entity.BonLivraison"/>
     <mapping class="dao.Entity.DetailCompte"/>
     <mapping class="dao.Entity.Menu"/>
@@ -71,5 +80,30 @@
     <mapping class="dao.Entity.SousFamilleArticle"/>
     <mapping class="dao.Entity.DetailReceptionEtrangere"/>
     <mapping class="dao.Entity.DetailManqueFour"/>
+    <mapping class="dao.Entity.HistoriquePrix"/>
+    <mapping class="dao.Entity.AvanceFournisseur"/>
+    <mapping class="dao.Entity.PrixMoyen"/>
+    <mapping class="dao.Entity.DetailAvoirOulmes"/>
+    <mapping class="dao.Entity.HistoriqueAvoirOulmes"/>
+    <mapping class="dao.Entity.RegularisationAvoirOulmes"/>
+    <mapping class="dao.Entity.DetailReceptionRegion"/>
+    <mapping class="dao.Entity.SousDetailManqueFour"/>
+    <mapping class="dao.Entity.ReferencePromo"/>
+    <mapping class="dao.Entity.Promotion"/>
+    <mapping class="dao.Entity.DetailPromotion"/>
+    <mapping class="dao.Entity.DelaiPaiementFour"/>
+    <mapping class="dao.Entity.Chauffeur"/>
+    <mapping class="dao.Entity.ChiffreAffaireBrut"/>
+    <mapping class="dao.Entity.BaremeTaux"/>
+    <mapping class="dao.Entity.RemiseFinPeriode"/>
+    <mapping class="dao.Entity.DetailRemiseFinPeriode"/>
+    <mapping class="dao.Entity.PromotionAccordee"/>
+    <mapping class="dao.Entity.DetailPromotionAccordee"/>
+    <mapping class="dao.Entity.RecuPromotionAccordee"/>
+    <mapping class="dao.Entity.InitialEmballage"/>
+    <mapping class="dao.Entity.Client"/>
+    <mapping class="dao.Entity.Inventaire"/>
+    <mapping class="dao.Entity.DetailRecuPromotionAccordee"/>
+    
   </session-factory>
 </hibernate-configuration>

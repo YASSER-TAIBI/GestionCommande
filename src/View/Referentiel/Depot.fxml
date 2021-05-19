@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.DepotController">
+   <children>
+      <TableView fx:id="tableDepot" blendMode="MULTIPLY" layoutX="241.0" layoutY="359.0" onMouseClicked="#clickChargeOnMouseEntered" prefHeight="358.0" prefWidth="874.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+        <columns>
+          <TableColumn fx:id="codeColumn" prefWidth="357.0" text="Code" />
+            <TableColumn fx:id="libelleColumn" prefWidth="524.0" text="Libelle" />
+        </columns>
+      </TableView>
+      <Pane layoutX="1135.0" layoutY="359.0" prefHeight="358.0" prefWidth="181.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnModifier" layoutX="35.0" layoutY="146.0" mnemonicParsing="false" onAction="#btnModifierOnAction" prefHeight="44.0" prefWidth="116.0" text="Modifier" />
+            <Button fx:id="btnSupprimer" layoutX="35.0" layoutY="221.0" mnemonicParsing="false" onAction="#btnSupprimerOnAction" prefHeight="44.0" prefWidth="116.0" text="Supprimer" />
+            <Button fx:id="btnAjouter" layoutX="35.0" layoutY="72.0" mnemonicParsing="false" onAction="#btnAjouterOnAction" prefHeight="44.0" prefWidth="116.0" text="Ajouter" />
+         </children>
+      </Pane>
+      <Pane layoutX="241.0" layoutY="223.0" prefHeight="121.0" prefWidth="1075.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="149.0" layoutY="50.0" text="Code: " />
+            <Label layoutX="592.0" layoutY="50.0" text="Libelle: " />
+            <TextField fx:id="codeField" alignment="CENTER" layoutX="223.0" layoutY="46.0" prefHeight="31.0" prefWidth="218.0" promptText="Code" styleClass="StyleRaduis" />
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1026.0" layoutY="80.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="libelleMod" alignment="CENTER" layoutX="697.0" layoutY="45.0" prefHeight="31.0" prefWidth="218.0" promptText="Libelle" styleClass="StyleRaduis" />
+         </children>
+      </Pane>
+      <Pane layoutX="566.0" layoutY="99.0" prefHeight="55.0" prefWidth="419.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="88.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Liste Depot" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

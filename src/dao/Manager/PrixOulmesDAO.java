@@ -26,15 +26,25 @@ public interface PrixOulmesDAO {
                 
                 public PrixOulmes findPrixOulmesByFourAndArt( String Four, int idArt , String client , String lieu);
                 
+                public PrixOulmes findPrixOulmesByArt( int idArt , String client , String lieu);
+                
                 public PrixOulmes findPrixOulmesByCodeArt( String codeArt , String client , String lieu);
                  
                 public PrixOulmes findPrixOulmesByCodeArt(String client );
                  
                 public List<PrixOulmes> findPrixFilmByFour(String Four);
                  
-                public List<PrixOulmes> findPrixFilmByClient(String client) ;
+                public List<PrixOulmes> findPrixFilmByClient(String client);
                 
                 public List<String> findPrixOulmesByClient(String client);
                  
-                  public List<PrixOulmes> findPrixOulmesByLieu(String lieu);
+                public List<PrixOulmes> findPrixOulmesByLieu(String lieu);
+                
+                public List<PrixOulmes> findPrixOulmes();
+                
+                public PrixOulmes findByCode(String four);
+                
+                public List<PrixOulmes> findByPallete();
+                
+                
 }

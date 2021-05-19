@@ -34,10 +34,23 @@ public interface DetailBonLivraisonDAO {
                 public void ViderSession();
                 
                 public DetailBonLivraison findDetailBonLivraisonByDetailCommande(String numCom,String numLiv, int mp);
-
-                public List<DetailBonLivraison> findCommandeByDetailBonLivraison(String ncom );
                 
-                public List<DetailBonLivraison> findByDetailBonLivraisonAndBl() ;
+               public List<DetailBonLivraison> findByDetailBonLivraisonAndBl(String req);
                  
-                public List<Object[]> findByPrixMoyen() ;
+               public List<Object[]> findByPrixMoyen(String req) ;
+                
+               public List<DetailBonLivraison> findByDetailBonLivraisonAndPf(String req);
+
+               public List<Object[]> findByPrixMoyenAndPf(String req);
+               
+               public List<Object[]> findByAchatEmballage();
+               
+               public List<Object[]> findByAchatEmballageAndClientAndFour(String client, String four);
+               
+               public List<Object[]> findByAchatEmballageAndMois(int prixOulmes);
+
+               public List<Object[]> findByAchatEmballageAndMoisAndClientAndFour(int prixOulmes,String client, String four);
+               
+               public List<Object[]> findByChiffreAffraire();
+               
 }

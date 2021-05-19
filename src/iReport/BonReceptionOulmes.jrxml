@@ -13,6 +13,11 @@
 	</parameter>
 	<parameter name="Client" class="java.lang.String"/>
 	<parameter name="Depot" class="java.lang.String"/>
+	<parameter name="NumReception" class="java.lang.String"/>
+	<parameter name="NumMatricule" class="java.lang.String"/>
+	<parameter name="Matricule" class="java.lang.String"/>
+	<parameter name="nomChauffeur" class="java.lang.String"/>
+	<parameter name="Chauffeur" class="java.lang.String"/>
 	<field name="quantiteLivree" class="java.math.BigDecimal"/>
 	<field name="prixOulmes.produit.code" class="java.lang.String"/>
 	<field name="prixOulmes.produit.libelle" class="java.lang.String"/>
@@ -20,16 +25,16 @@
 		<band height="127" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="170" splitType="Stretch">
+		<band height="167" splitType="Stretch">
 			<staticText>
-				<reportElement x="23" y="69" width="131" height="18" uuid="f8776590-7b53-440b-8f92-f3d64af18526"/>
+				<reportElement x="36" y="28" width="131" height="18" uuid="f8776590-7b53-440b-8f92-f3d64af18526"/>
 				<textElement>
 					<font fontName="Calibri" size="12"/>
 				</textElement>
-				<text><![CDATA[Bon de Réception Oulmes]]></text>
+				<text><![CDATA[Bon de Réception]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="23" y="87" width="47" height="18" uuid="05e036c4-1947-4929-a28b-1b62c0ce1806"/>
+				<reportElement x="36" y="46" width="47" height="18" uuid="05e036c4-1947-4929-a28b-1b62c0ce1806"/>
 				<textElement>
 					<font fontName="Calibri" size="12"/>
 				</textElement>
@@ -50,7 +55,7 @@
 				<text><![CDATA[Fournisseur: ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="23" y="105" width="74" height="18" uuid="81c73257-9b61-426f-a0e0-2516fcc14e12"/>
+				<reportElement x="36" y="64" width="74" height="18" uuid="81c73257-9b61-426f-a0e0-2516fcc14e12"/>
 				<textElement>
 					<font fontName="Calibri" size="12"/>
 				</textElement>
@@ -64,7 +69,7 @@
 				<textFieldExpression><![CDATA[$P{Ville}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="70" y="87" width="123" height="18" uuid="5edd9ffc-7312-4b5f-9ddf-15aedc700c9f"/>
+				<reportElement x="83" y="46" width="123" height="18" uuid="5edd9ffc-7312-4b5f-9ddf-15aedc700c9f"/>
 				<textElement>
 					<font fontName="Calibri" size="12" isBold="true"/>
 				</textElement>
@@ -85,7 +90,7 @@
 				<textFieldExpression><![CDATA[$P{DateLivraison}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="97" y="105" width="100" height="18" uuid="5be7144d-ba4d-41cf-9a1a-062e2e53c687"/>
+				<reportElement x="110" y="64" width="100" height="18" uuid="5be7144d-ba4d-41cf-9a1a-062e2e53c687"/>
 				<textElement>
 					<font fontName="Calibri" size="12" isBold="true"/>
 				</textElement>
@@ -118,6 +123,48 @@
 					<font fontName="Calibri" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{Client}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="36" y="82" width="74" height="18" uuid="3b7d0d95-fb02-44f5-ac96-0e48a087e362"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[Réception N°:   ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="82" width="100" height="18" uuid="b1ad2c0d-f69e-4f14-910a-f294a5ef245d"/>
+				<textElement>
+					<font fontName="CALIBRI" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NumReception}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="36" y="100" width="84" height="18" uuid="45e7133a-d668-45ad-a84c-9dfe5240f61f"/>
+				<textElement>
+					<font fontName="calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Matricule}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="36" y="118" width="84" height="18" uuid="4d08e3f6-557a-44bd-be66-b39a72756025"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Chauffeur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="118" width="124" height="18" uuid="bcff93af-4318-4a52-9d70-11c3312516f6"/>
+				<textElement>
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomChauffeur}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="120" y="100" width="124" height="18" uuid="a42c0710-9e2e-4c7b-b1e8-1ee6fed9e006"/>
+				<textElement>
+					<font fontName="calibri" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NumMatricule}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

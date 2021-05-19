@@ -5,12 +5,15 @@
  */
 package Controller.commande;
 
+import Controller.Livraision.SuiviCommandeController;
 import Utils.Constantes;
 import dao.Entity.ClientMP;
 import dao.Entity.Commande;
 import dao.Entity.CommandeRegion;
+import dao.Entity.Depot;
 import dao.Entity.DetailCommande;
 import dao.Entity.DetailCommandeRegion;
+import dao.Entity.DetailReceptionRegion;
 import dao.Entity.Dimension;
 import dao.Entity.Fournisseur;
 import dao.Entity.Grammage;
@@ -33,6 +36,7 @@ import dao.Manager.CommandeRegionDAO;
 import dao.Manager.DetailCommandeDAO;
 import dao.Manager.DetailCommandeRegionDAO;
 import dao.Manager.DetailReceptionDAO;
+import dao.Manager.DetailReceptionRegionDAO;
 import dao.Manager.DimensionDAO;
 import dao.Manager.FournisseurDAO;
 import dao.Manager.GrammageDAO;
@@ -55,6 +59,7 @@ import dao.ManagerImpl.CommandeRegionDAOImpl;
 import dao.ManagerImpl.DetailCommandeDAOImpl;
 import dao.ManagerImpl.DetailCommandeRegionDAOImpl;
 import dao.ManagerImpl.DetailReceptionDAOImpl;
+import dao.ManagerImpl.DetailReceptionRegionDAOImpl;
 import dao.ManagerImpl.DimensionDAOImpl;
 import dao.ManagerImpl.FournisseurDAOImpl;
 import dao.ManagerImpl.GrammageDAOImpl;
@@ -88,6 +93,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -109,6 +116,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -175,7 +189,8 @@ public class ValiderCommandeRegionController implements Initializable {
     private Button btnModifier;
     @FXML
     private TextField quantiteField;
-
+    @FXML
+    private Button btnImprimer;
     
     private Map<String,ClientMP> mapClientMP=new HashMap<>();
     private Map<String,Dimension> mapDimension=new HashMap<>();
@@ -186,7 +201,7 @@ public class ValiderCommandeRegionController implements Initializable {
     private Map<String,GrammageFilm> mapGrammageFilm=new HashMap<>();
     private Map<String,TypeCarton> mapTypeCar=new HashMap<>();
     private Map<String,Intervalle> mapIntervalle=new HashMap<>();
-//
+
     
     FournisseurDAO fournisseurDAO = new FournisseurDAOImpl();
     ClientMPDAO clientMPDAO = new ClientMPDAOImpl();
@@ -208,11 +223,10 @@ public class ValiderCommandeRegionController implements Initializable {
     IntervalleDAO intervalleDAO = new IntervalleDAOImpl();
     SequenceurDAO sequenceurDAO = new SequenceurDAOImpl();
     PrixBoxMetalDAO prixBoxMetalDAO = new PrixBoxMetalDAOImpl();
-      
+     DetailReceptionRegionDAO detailReceptionRegionDAO = new DetailReceptionRegionDAOImpl();
     
     private final ObservableList<DetailCommande> listeDetailCommande=FXCollections.observableArrayList();
     private final ObservableList<DetailCommandeRegion> listeDetailCommandeRegion=FXCollections.observableArrayList();
-    private final ObservableList<DetailCommandeRegion> listeDetailCommandeRegionTMP = FXCollections.observableArrayList();
     private final ObservableList<PrixBox> listeprixBox=FXCollections.observableArrayList();
     private final ObservableList<PrixCarton> listeprixCarton=FXCollections.observableArrayList();
     private final ObservableList<PrixFilm> listeprixFilmNormal=FXCollections.observableArrayList();
@@ -235,9 +249,18 @@ public class ValiderCommandeRegionController implements Initializable {
 
 //    DetailCommandeRegion detailCommandeRegion;
    
-    public String numCommandeRecupere = null;
+//    public String numCommandeRecupere = null;
+    
   
- 
+    String codeReceptionRegion = "";
+         
+         
+         
+           void Incrementation (){
+       
+          Sequenceur sequenceur = sequenceurDAO.findByCode(Constantes.RECEPTION_REGION);
+          codeReceptionRegion = Constantes.RECEPTION_REGION+" "+(sequenceur.getValeur()+1);
+   }
     
     /**
      * Initializes the controller class.
@@ -280,7 +303,7 @@ public class ValiderCommandeRegionController implements Initializable {
         });
        
         
-        List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+        List<Fournisseur> listFournisseur=fournisseurDAO.findAllMp();
         
         listFournisseur.stream().map((fournisseur) -> {
             fornisseurCombo.getItems().addAll(fournisseur.getNom());
@@ -490,17 +513,17 @@ public class ValiderCommandeRegionController implements Initializable {
     }
     
     
-        void loadDetailCommande (){
-        
-            DetailCommandeRegion detailCommandeRegion=tableDetailCommande.getSelectionModel().getSelectedItem();
-            
-        CommandeRegion commandeRegion = detailCommandeRegion.getCommandeRegion();
-
-        setColumnPropertiesDetailCommande();
-        listeDetailCommandeRegion.clear();
-        listeDetailCommandeRegion.addAll(detailCommandeRegionDAO.findDetailCommandeByEtat(commandeRegion, Constantes.ETAT_AFFICHAGE));
-        tableDetailCommande.setItems(listeDetailCommandeRegion);
-    }
+//        void loadDetailCommande (){
+//        
+//            DetailCommandeRegion detailCommandeRegion=tableDetailCommande.getSelectionModel().getSelectedItem();
+//            
+//        CommandeRegion commandeRegion = detailCommandeRegion.getCommandeRegion();
+//
+//        setColumnPropertiesDetailCommande();
+//        listeDetailCommandeRegion.clear();
+//        listeDetailCommandeRegion.addAll(detailCommandeRegionDAO.findDetailCommandeByEtat(commandeRegion, Constantes.ETAT_AFFICHAGE));
+//        tableDetailCommande.setItems(listeDetailCommandeRegion);
+//    }
      
     @FXML
     private void afficherDetailOnMouse(MouseEvent event) {
@@ -513,7 +536,7 @@ public class ValiderCommandeRegionController implements Initializable {
              listeDetailCommandeRegion.addAll(detailCommandeRegionDAO.findDetailCommandeByEtat(commandeRegion, Constantes.ETAT_AFFICHAGE));
         tableDetailCommande.setItems(listeDetailCommandeRegion);
             
-           numCommandeRecupere= nCommandeColumn.getCellData(tableCommande.getSelectionModel().getSelectedIndex());
+//           numCommandeRecupere= nCommandeColumn.getCellData(tableCommande.getSelectionModel().getSelectedIndex());
 
               tableDetailCommande.setEditable(true);
  
@@ -921,7 +944,7 @@ public class ValiderCommandeRegionController implements Initializable {
             }}
         else{
             
-                 GrammageCombo.setDisable(true);
+               GrammageCombo.setDisable(true);
                intervalleCombo.setDisable(true);
                TypeFilmCombo.setDisable(true);
                grammageFilmCombo.setDisable(true);
@@ -955,12 +978,51 @@ public class ValiderCommandeRegionController implements Initializable {
 
     @FXML
     private void modifierDetailCommande(ActionEvent event) {
+        
+            loadDetail();
+        setColumnProperties();
+        
+             GrammageCombo.setDisable(true);
+               intervalleCombo.setDisable(true);
+               TypeFilmCombo.setDisable(true);
+               grammageFilmCombo.setDisable(true);
+               dimCombo.setDisable(true);
+               typeCarCombo.setDisable(true); 
+               typeCartonCombo.setDisable(true); 
+        
+        ajouterSaisie.setDisable(true);
+          clear();
+          clientCombo.getSelectionModel().select(-1);
+                  fornisseurCombo.getSelectionModel().select(-1);
+          
+          listeDetailCommandeRegion.clear();
+        
     }
 
     @FXML
     private void ValiderCommande(ActionEvent event) throws ParseException {
         
-          if( clientCombo.getSelectionModel().getSelectedItem().isEmpty()|| fornisseurCombo.getSelectionModel().getSelectedItem().isEmpty() || tableDetailCommande.getItems().size() ==0 ){
+        
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
+        Boolean existe = false; 
+                  for(int i=0;i<listeDetailCommandeRegion.size();i++){
+            
+                 DetailCommandeRegion detailCommandeRegion = listeDetailCommandeRegion.get(i);
+                if (detailCommandeRegion.getQuantiteLivree().compareTo(BigDecimal.ZERO)>0) {
+                    
+                    existe = true;
+                    break;
+                }
+                  }
+                  
+                  
+          if( clientCombo.getSelectionModel().getSelectedItem().isEmpty()|| fornisseurCombo.getSelectionModel().getSelectedItem().isEmpty() || tableDetailCommande.getItems().isEmpty() ||  existe == false){
          nav.showAlert(Alert.AlertType.WARNING, "Attention", null, Constantes.REMPLIR_CHAMPS);
      }
         else {
@@ -976,24 +1038,16 @@ public class ValiderCommandeRegionController implements Initializable {
                for(int i=0;i<listeDetailCommandeRegion.size();i++){
             
                  DetailCommandeRegion detailCommandeRegion = listeDetailCommandeRegion.get(i);
-                if (!detailCommandeRegion.getQuantiteLivree().setScale(2).equals(BigDecimal.ZERO.setScale(2)))
+                if (detailCommandeRegion.getQuantiteLivree().compareTo(BigDecimal.ZERO)>0)
                 {
-                listeDetailCommandeRegionTMP.add(detailCommandeRegion);
-                }
-            }
-          
-          
-           for(int i=0;i<listeDetailCommandeRegionTMP.size();i++){
 
-                DetailCommandeRegion detailCommandeRegion = listeDetailCommandeRegionTMP.get(i);
-          
-          DetailCommande detailCommande = new DetailCommande();
+                  DetailCommande detailCommande = new DetailCommande();
 
             detailCommande.setDimension(detailCommandeRegion.getDimension());
             detailCommande.setMatierePremier(detailCommandeRegion.getMatierePremier());
             detailCommande.setQuantite(detailCommandeRegion.getQuantiteLivree());
             detailCommande.setCommande(commande);
-            detailCommande.setQuantiteRestee(BigDecimal.ZERO);
+            detailCommande.setQuantiteRestee(detailCommandeRegion.getQuantiteLivree());
             detailCommande.setQuantiteRecu(BigDecimal.ZERO);
             detailCommande.setQuantiteLivree(BigDecimal.ZERO);
             detailCommande.setEtat(Constantes.ETAT_AFFICHAGE);
@@ -1008,13 +1062,26 @@ public class ValiderCommandeRegionController implements Initializable {
              montantTotalMP=montantTotalMP.add(montant).setScale(2,RoundingMode.FLOOR);
  
             listeDetailCommande.add(detailCommande);
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
           
-           }
-//---------------------------------------------------------------------------------------------------------------------
+             DetailReceptionRegion detailReceptionRegion = new DetailReceptionRegion();
+                  
+                detailReceptionRegion.setDetailCommandeRegion(detailCommandeRegion);
+                detailReceptionRegion.setClientMP(mapClientMP.get(clientCombo.getSelectionModel().getSelectedItem()));
+                detailReceptionRegion.setFourisseur(mapFournisseur.get(fornisseurCombo.getSelectionModel().getSelectedItem()));
+                detailReceptionRegion.setNumCommande(nComm);
+                detailReceptionRegion.setUtilisateurCreation(nav.getUtilisateur());
+                detailReceptionRegion.setQuantiteRecu(detailCommandeRegion.getQuantiteLivree());
+                detailReceptionRegion.setPrix(detailCommandeRegion.getPrixUnitaire());
+                detailReceptionRegion.setNumReceptionRegion(codeReceptionRegion);
+
+                
+                detailReceptionRegionDAO.add(detailReceptionRegion);
+
+           }}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
           
         CommandeRegion CommandeRegion=tableCommande.getSelectionModel().getSelectedItem();
-                
-              System.out.println("nav.getUtilisateur() "+nav.getUtilisateur());
         
         
         commande.setUtilisateurCreation(nav.getUtilisateur());
@@ -1035,9 +1102,19 @@ public class ValiderCommandeRegionController implements Initializable {
         
          nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.AJOUTER_ENREGISTREMENT);
         
+           
+  // Sequenceur Commande        
            sequenceur.setValeur(sequenceur.getValeur()+1);
            sequenceurDAO.edit(sequenceur);
- //-----------------------------------------------------------------------------------------------------       
+           
+  // Sequenceur Reception
+           Sequenceur sequenceurRCP = sequenceurDAO.findByCode(Constantes.RECEPTION_REGION);
+           sequenceurRCP.setValeur(sequenceurRCP.getValeur()+1);
+           sequenceurDAO.edit(sequenceurRCP);
+           Incrementation ();
+           
+           
+ //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------     
 
                 boolean valeur=false;
                
@@ -1045,7 +1122,7 @@ public class ValiderCommandeRegionController implements Initializable {
 
                 DetailCommandeRegion detailCommandeRegion = listeDetailCommandeRegion.get(i);
                 
-                if (!detailCommandeRegion.getQuantiteLivree().setScale(2).equals(BigDecimal.ZERO.setScale(2)))
+               if (detailCommandeRegion.getQuantiteLivree().compareTo(BigDecimal.ZERO)>0)
                 {
                     
                 detailCommandeRegion.setCmdRegle(Constantes.ETAT_CMNR);
@@ -1054,7 +1131,7 @@ public class ValiderCommandeRegionController implements Initializable {
                 detailCommandeRegionDAO.edit(detailCommandeRegion);
                 }
                 
-                if (!detailCommandeRegion.getQuantiteRestee().setScale(2).equals(BigDecimal.ZERO.setScale(2))){
+                if (detailCommandeRegion.getQuantiteRestee().compareTo(BigDecimal.ZERO)>0){
                         
                         valeur= true;
 
@@ -1066,17 +1143,10 @@ public class ValiderCommandeRegionController implements Initializable {
             commandeRegion.setEtat(Constantes.ETAT_COMMANDE_LANCE);
             commandeRegionDAO.edit(commandeRegion);
          
-
-         ajouterSaisie.setDisable(true);
-         
-         
-         loadDetailCommande();
-         loadDetail();
-         clear();
-          
+                    modifierDetailCommande(event);
                 }
         }
-        
+            }
     }
 
     @FXML
@@ -1098,13 +1168,16 @@ public class ValiderCommandeRegionController implements Initializable {
     @FXML
     private void ajouterSaisieAction(ActionEvent event) {
         
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
+        
           DetailCommandeRegion  detailCommandeRegion =tableDetailCommande.getSelectionModel().getSelectedItem();
 
-          System.out.println("listeDetailCommandeRegion "+listeDetailCommandeRegion.size());
-          System.out.println("listeDetailCommandeRegion.get(tableDetailCommande.getSelectionModel().getSelectedIndex()).getCmdRegle() "+listeDetailCommandeRegion.get(tableDetailCommande.getSelectionModel().getSelectedIndex()).getCmdRegle());
-          System.out.println("Constantes.ETAT_CMR "+Constantes.ETAT_CMR);
-          
-          
           
             if(listeDetailCommandeRegion.get(tableDetailCommande.getSelectionModel().getSelectedIndex()).getCmdRegle().equals(Constantes.ETAT_CMR) || detailCommandeRegion.equals(Constantes.ETAT_CMR) ){
               
@@ -1178,9 +1251,7 @@ public class ValiderCommandeRegionController implements Initializable {
             
               nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.CONFIRMATION_ENREGISTREMENT);
               
-                System.out.println("listeDetailCommandeRegion.get(tableDetailCommande.getSelectionModel().getSelectedIndex()).getCmdRegle() "+listeDetailCommandeRegion.get(tableDetailCommande.getSelectionModel().getSelectedIndex()).getCmdRegle());
            
-            
          }
 }
            
@@ -1570,7 +1641,7 @@ public class ValiderCommandeRegionController implements Initializable {
 //                     qteLivColumn.setEditable(false);
 //                    }
 //                }
-            }
+            }}
     }
     
        private void clear(){
@@ -1590,7 +1661,7 @@ public class ValiderCommandeRegionController implements Initializable {
 
     } 
 
-       @FXML
+    @FXML
     private void editCommitQuantiteLivreeColumn(TableColumn.CellEditEvent<DetailCommandeRegion, BigDecimal> event) {
         
 //         if (ajouterSaisie.isDisable() == false) {
@@ -1646,6 +1717,36 @@ public class ValiderCommandeRegionController implements Initializable {
 //            }
         }
 //        
+    }
+
+    
+
+    @FXML
+    private void imprimerOnAction(ActionEvent event) {
+     
+        try{
+                  if (tableCommande.getSelectionModel().getSelectedIndex()==-1) {
+
+            nav.showAlert(Alert.AlertType.ERROR, "Attention", null, Constantes.VERIFICATION_SELECTION_LIGNE);
+            tableDetailCommande.refresh();
+        } else {
+   
+          HashMap para = new HashMap();
+            JasperReport report = (JasperReport) JRLoader.loadObject(ValiderCommandeRegionController.class.getResource(nav.getiReportValiderCommandeRegion()));
+
+     para.put("NumCommande",listeCommandeRegion.get(tableCommande.getSelectionModel().getSelectedIndex()).getnCommande());
+        
+            para.put("DateLiv",listeCommandeRegion.get(tableCommande.getSelectionModel().getSelectedIndex()).getDateCreation());
+
+             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listeDetailCommandeRegion));
+               JasperViewer.viewReport(jp, false);
+
+               }
+        } catch (JRException ex) {
+            Logger.getLogger(ValiderCommandeRegionController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }
 
     

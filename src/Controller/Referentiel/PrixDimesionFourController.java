@@ -7,6 +7,7 @@ package Controller.Referentiel;
 
 import Utils.Constantes;
 import dao.Entity.CategorieMp;
+import dao.Entity.Client;
 import dao.Entity.Dimension;
 import dao.Entity.Fournisseur;
 import dao.Entity.Grammage;
@@ -19,11 +20,13 @@ import dao.Entity.PrixCarton;
 import dao.Entity.PrixFilm;
 import dao.Entity.PrixOulmes;
 import dao.Entity.Produit;
+import dao.Entity.ReferencePromo;
 import dao.Entity.SubCategorieMp;
 import dao.Entity.TypeCarton;
 import dao.Entity.TypeCartonBox;
 import dao.Entity.TypeFilm;
 import dao.Manager.CategorieMpDAO;
+import dao.Manager.ClientDAO;
 import dao.Manager.DimensionDAO;
 import dao.Manager.FournisseurDAO;
 import dao.Manager.GrammageDAO;
@@ -36,11 +39,13 @@ import dao.Manager.PrixCartonDAO;
 import dao.Manager.PrixFilmDAO;
 import dao.Manager.PrixOulmesDAO;
 import dao.Manager.ProduitDAO;
+import dao.Manager.ReferencePromoDAO;
 import dao.Manager.SubCategorieMPDAO;
 import dao.Manager.TypeCartonBoxDAO;
 import dao.Manager.TypeCartonDAO;
 import dao.Manager.TypeFilmDAO;
 import dao.ManagerImpl.CategorieMpDAOImpl;
+import dao.ManagerImpl.ClientDAOImpl;
 import dao.ManagerImpl.DimensionDAOImpl;
 import dao.ManagerImpl.FournisseurDAOImpl;
 import dao.ManagerImpl.GrammageDAOImpl;
@@ -53,6 +58,7 @@ import dao.ManagerImpl.PrixCartonDAOImpl;
 import dao.ManagerImpl.PrixFilmDAOImpl;
 import dao.ManagerImpl.PrixOulmesDAOImpl;
 import dao.ManagerImpl.ProduitDAOImpl;
+import dao.ManagerImpl.ReferencePromoDAOImpl;
 import dao.ManagerImpl.SubCategorieMPAOImpl;
 import dao.ManagerImpl.TypeCartonBoxDAOImpl;
 import dao.ManagerImpl.TypeCartonDAOImpl;
@@ -160,7 +166,8 @@ public class PrixDimesionFourController implements Initializable {
      private Map<String,GrammageFilm> mapGrammageFilm=new HashMap<>();
      private Map<String,TypeCarton> mapTypeCar=new HashMap<>();
      private Map<String,Produit> mapProduit=new HashMap<>();
-    
+     private Map<String,Client> mapClient=new HashMap<>();
+     
     FournisseurDAO fournisseurDAO = new FournisseurDAOImpl();
      PrixBoxDAO prixBoxDAO = new PrixBoxDAOImpl();
      PrixBoxMetalDAO prixBoxMetalDAO = new PrixBoxMetalDAOImpl();
@@ -178,6 +185,8 @@ public class PrixDimesionFourController implements Initializable {
     PrixAdhesifDAO prixAdhesifDAO = new PrixAdhesifDAOImpl();
     ProduitDAO produitDAO = new ProduitDAOImpl();
     PrixOulmesDAO prixOulmesDAO = new PrixOulmesDAOImpl();
+    ReferencePromoDAO referencePromoDAO = new ReferencePromoDAOImpl();
+    ClientDAO clientDAO =new ClientDAOImpl();
     
     navigation nav = new navigation();
     @FXML
@@ -187,7 +196,9 @@ public class PrixDimesionFourController implements Initializable {
     @FXML
     private ComboBox<String> clientCombo;
    
-  ObservableList<String> client =FXCollections.observableArrayList(Constantes.CLIENT_MARJANE,Constantes.CLIENT_MINURSO);
+//  ObservableList<String> client =FXCollections.observableArrayList(Constantes.CLIENT_MARJANE,Constantes.CLIENT_MINURSO);
+    
+    
     @FXML
     private ToggleGroup radOuiNon;
     @FXML
@@ -197,8 +208,18 @@ public class PrixDimesionFourController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+//        
+//      clientCombo.setItems(client);
+      
+             List<Client> listCliient=clientDAO.findAll();
         
-      clientCombo.setItems(client);
+        listCliient.stream().map((client) -> {
+            clientCombo.getItems().addAll(client.getLibelle());
+            return client;
+        }).forEachOrdered((client) -> {
+            mapClient.put(client.getLibelle(), client);
+        });
+
       
         valeur= sousCatCombo.getSelectionModel().getSelectedItem();
         
@@ -211,7 +232,7 @@ public class PrixDimesionFourController implements Initializable {
             mapProduit.put(produit.getLibelle(), produit);
         });
           
-          List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+          List<Fournisseur> listFournisseur=fournisseurDAO.findAllPfAndMp();
         
         listFournisseur.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());
@@ -373,6 +394,7 @@ public class PrixDimesionFourController implements Initializable {
               prixBox.setGrammage(mapGrammage.get(grammageCombo.getSelectionModel().getSelectedItem()));
               prixBox.setUtilisateurCreation(nav.getUtilisateur());
               prixBox.setIntervalle(mapIntervalle.get(IntervalleCombo.getSelectionModel().getSelectedItem()));
+              prixBox.setAction(Boolean.FALSE);
               prixBox.setPrix(new BigDecimal(prixField.getText()));
               
 
@@ -434,6 +456,7 @@ public class PrixDimesionFourController implements Initializable {
               prixCarton.setDimension(mapDimension.get(dimCombo.getSelectionModel().getSelectedItem()));
               prixCarton.setUtilisateurCreation(nav.getUtilisateur());
               prixCarton.setIntervalle(mapIntervalle.get(IntervalleCombo.getSelectionModel().getSelectedItem()));
+              prixCarton.setAction(Boolean.FALSE);
               prixCarton.setPrix(new BigDecimal(prixField.getText()));
 
                  prixCartonDAO.add(prixCarton);
@@ -492,6 +515,7 @@ public class PrixDimesionFourController implements Initializable {
               prixFilm.setDimension(dimension);
               prixFilm.setUtilisateurCreation(nav.getUtilisateur());
               prixFilm.setIntervalle(mapIntervalle.get(IntervalleCombo.getSelectionModel().getSelectedItem()));
+              prixFilm.setAction(Boolean.FALSE);
               prixFilm.setPrix(new BigDecimal(prixField.getText()));
               
 
@@ -555,6 +579,7 @@ public class PrixDimesionFourController implements Initializable {
               prixFilm.setDimension(dimension);
               prixFilm.setUtilisateurCreation(nav.getUtilisateur());
               prixFilm.setIntervalle(mapIntervalle.get(IntervalleCombo.getSelectionModel().getSelectedItem()));
+              prixFilm.setAction(Boolean.FALSE);
               prixFilm.setPrix(new BigDecimal(prixField.getText()));
               
 
@@ -612,6 +637,7 @@ public class PrixDimesionFourController implements Initializable {
                  prixAdhesif.setCategorieMp(mapCategorieMp.get(typeCategorieCombo.getSelectionModel().getSelectedItem()));
                  prixAdhesif.setDimension(mapDimension.get(dimCombo.getSelectionModel().getSelectedItem()));
                  prixAdhesif.setUtilisateurCreation(nav.getUtilisateur());
+                 prixAdhesif.setAction(Boolean.FALSE);
                  prixAdhesif.setPrix(new BigDecimal(prixField.getText()));
                  
                   prixAdhesifDAO.add(prixAdhesif);
@@ -657,6 +683,7 @@ public class PrixDimesionFourController implements Initializable {
               prixBoxMetal.setCategorieMp(mapCategorieMp.get(typeCategorieCombo.getSelectionModel().getSelectedItem()));
               prixBoxMetal.setDimension(dimension);
               prixBoxMetal.setUtilisateurCreation(nav.getUtilisateur());
+              prixBoxMetal.setAction(Boolean.FALSE);
               prixBoxMetal.setPrix(new BigDecimal(prixField.getText()));
               
 
@@ -724,11 +751,17 @@ public class PrixDimesionFourController implements Initializable {
               prixOulmes.setUtilisateurCreation(nav.getUtilisateur());
               prixOulmes.setPrix(new BigDecimal(prixField.getText()).setScale(6, RoundingMode.FLOOR));
               prixOulmes.setRemiseAchat(new BigDecimal(remiseAchatField.getText()));
+              prixOulmes.setEtat(Constantes.ETAT_COMMANDE_LANCE);
               prixOulmes.setRemiseAvoir(new BigDecimal(remiseAvoirField.getText()));
+              prixOulmes.setAction(Boolean.FALSE);
               prixOulmes.setConditionnement(new BigDecimal(conditionnementField.getText()));
               
-              if (!conditionnementCaisseField.getText().equals("")){
+              if (conditionnementCaisseField.getText().equals("")){
+              prixOulmes.setConditionnementCaisse(BigDecimal.ZERO);
+              }else{
+                  
               prixOulmes.setConditionnementCaisse(new BigDecimal(conditionnementCaisseField.getText()));
+              
               }
               
               if (radPack.isSelected()==true){
@@ -751,6 +784,20 @@ public class PrixDimesionFourController implements Initializable {
               
                  prixOulmesDAO.add(prixOulmes);
 
+
+                 if(fournisseur.getNom().equals(Constantes.FOURNISSEUR_OULMES) && prixOulmes.getProduit().getPalette()== Boolean.FALSE ){
+                 
+                     ReferencePromo referencePromo = new ReferencePromo();
+                     
+                     referencePromo.setDefautPromo(new BigDecimal(2));
+                     referencePromo.setEtat(Constantes.ETAT_COMMANDE_LANCE);
+                     referencePromo.setPrixOulmes(prixOulmes);
+                     referencePromo.setUtilisateurCreation(nav.getUtilisateur());
+                 
+                     referencePromoDAO.add(referencePromo);
+                 }
+                 
+                 
                     nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null,Constantes.AJOUTER_ENREGISTREMENT);
                     
             refrech ();

@@ -108,7 +108,7 @@ public class MatierePrixController implements Initializable {
       
         
        
-        List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+        List<Fournisseur> listFournisseur=fournisseurDAO.findAllMp();
         
         listFournisseur.stream().map((fournisseur) -> {
         fourCombo.getItems().addAll(fournisseur.getNom());

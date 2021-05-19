@@ -103,27 +103,66 @@ public class DetailBonLivraisonDAOImpl implements DetailBonLivraisonDAO {
 	      
 				}
     
-           public List<DetailBonLivraison> findCommandeByDetailBonLivraison(String ncom ) {
+           
+           public List<DetailBonLivraison> findByDetailBonLivraisonAndBl(String req) {
 		
-		Query query = session.createQuery("select c from DetailBonLivraison c where c.numCommande =:ncom" );
-		query.setParameter("ncom",ncom);
-        
+		Query query = session.createQuery("select c from DetailBonLivraison c where c.numReception like 'RCP %'"+req);
                 return query.list();
                 
  }
     
-           public List<DetailBonLivraison> findByDetailBonLivraisonAndBl() {
+         public List<DetailBonLivraison> findByDetailBonLivraisonAndPf(String req) {
 		
-		Query query = session.createQuery("select c from DetailBonLivraison c where c.numReception like 'RCP %'" );
-
+		Query query = session.createQuery("select c from DetailBonLivraison c where c.numReception like 'RCP_PF %'"+req  );
                 return query.list();
                 
- }
-    
-                  public List<Object[]> findByPrixMoyen() {
-        Query query=  session.createQuery("select c.matierePremier.code, c.matierePremier.nom  ,sum(c.quantite), (0*c.prix) from DetailBonLivraison c where c.numReception like 'RCP %' group by c.matierePremier");
+ }  
+           
+               public List<Object[]> findByPrixMoyen(String req) {
+        Query query=  session.createQuery("select c.matierePremier.code, c.matierePremier.nom ,sum(c.quantite), (0*c.prix) from DetailBonLivraison c where c.numReception like 'RCP %'"+req+"group by c.matierePremier");
 
         return query.list();
     }
            
+
+               public List<Object[]> findByPrixMoyenAndPf(String req) {
+        Query query=  session.createQuery("select c.prixOulmes.produit.code, c.prixOulmes.produit.libelle ,sum(c.quantite), (0*c.prix) from DetailBonLivraison c where c.numReception like 'RCP_PF %'"+req+"group by c.prixOulmes");
+
+        return query.list();
+    }
+        
+               public List<Object[]> findByAchatEmballage() {
+        Query query=  session.createQuery("select c.prixOulmes ,sum(c.quantite) from DetailBonLivraison c , BonLivraison d where c.numCommande = d.numCommande and c.livraisonFour = d.livraisonFour and d.typeBon ='OLS' and YEAR(d.dateLivraison)= '2021' and c.prixOulmes in(28,29,21) GROUP BY c.prixOulmes");
+
+        return query.list();
+    }
+         
+               public List<Object[]> findByAchatEmballageAndClientAndFour(String client, String four) {
+        Query query=  session.createQuery("select c.prixOulmes ,sum(c.quantite) from DetailBonLivraison c , BonLivraison d where c.numCommande = d.numCommande and c.livraisonFour = d.livraisonFour and d.typeBon ='OLS' and YEAR(d.dateLivraison)= '2021' and c.prixOulmes in(28,29,21) and d.client =:client and d.fourisseur =:four GROUP BY c.prixOulmes");
+        query.setParameter("client", client);
+        query.setParameter("four", four);
+        return query.list();
+    }
+               
+                public List<Object[]> findByAchatEmballageAndMois(int prixOulmes) {
+        Query query=  session.createQuery("select  MONTH(d.dateLivraison), c.prixOulmes , sum(c.quantite) from DetailBonLivraison c , BonLivraison d where c.numCommande = d.numCommande and c.livraisonFour = d.livraisonFour and d.typeBon ='OLS' and YEAR(d.dateLivraison)= '2021' and c.prixOulmes.id =:prixOulmes GROUP BY MONTH(d.dateLivraison)");
+        query.setParameter("prixOulmes", prixOulmes);
+
+        return query.list();
+    }      
+      
+                public List<Object[]> findByAchatEmballageAndMoisAndClientAndFour(int prixOulmes,String client, String four) {
+        Query query=  session.createQuery("select MONTH(d.dateLivraison), c.prixOulmes ,sum(c.quantite) from DetailBonLivraison c , BonLivraison d where c.numCommande = d.numCommande and c.livraisonFour = d.livraisonFour and d.typeBon ='OLS' and YEAR(d.dateLivraison)= '2021' and c.prixOulmes.id =:prixOulmes and d.client =:client and d.fourisseur =:four GROUP BY MONTH(d.dateLivraison)");
+        query.setParameter("prixOulmes", prixOulmes);
+        query.setParameter("client", client);
+        query.setParameter("four", four);
+        return query.list();
+    }
+                
+               public List<Object[]> findByChiffreAffraire() {
+        Query query=  session.createQuery("select MONTH(b.dateLivraison), sum(a.montant) from  DetailBonLivraison a , BonLivraison b where  a.livraisonFour= b.livraisonFour and a.numCommande = b.numCommande and b.typeBon ='OLS' and b.fourisseur ='OULMES ETAT' and YEAR(b.dateLivraison)='2021' and a.prixOulmes<> 21 and a.prixOulmes<> 28 and a.prixOulmes<> 29 group by MONTH(b.dateLivraison)");
+
+        return query.list();
+    }  
+                
 }

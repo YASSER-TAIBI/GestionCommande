@@ -27,11 +27,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import dao.Manager.FournisseurDAO;
 import java.time.LocalDate;
+import java.util.Optional;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -123,17 +125,25 @@ public class ListeFournisseurController implements Initializable {
     void loadDetail(){
         
         listeFournisseur.clear();
-        listeFournisseur.addAll(fournisseurDAO.findAll());
+        listeFournisseur.addAll(fournisseurDAO.findAllPfAndMp());
         tableFournisseur.setItems(listeFournisseur);
     }
 
     
     @FXML
     private void ajouterFournisseur(ActionEvent event) throws IOException {
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
           AjouterFournisseurController root = new AjouterFournisseurController(Constantes.POUR_AJOUTER ,new Fournisseur()) {
            @Override
            public void refresh() {
-              tableFournisseur.setItems(FXCollections.observableArrayList(new FournisseurDAOImpl().findAll()));
+              tableFournisseur.setItems(FXCollections.observableArrayList(new FournisseurDAOImpl().findAllPfAndMp()));
               setColumnProperties();
            }
        };
@@ -145,7 +155,7 @@ public class ListeFournisseurController implements Initializable {
         
     
       loadDetail();  
-    }
+    }}
 
     
       public void changeNomCellEvent (CellEditEvent editedCell){
@@ -159,7 +169,12 @@ public class ListeFournisseurController implements Initializable {
     
     @FXML
     private void ModifierFournisseur(ActionEvent event) {
-       
+                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
    
    if (tableFournisseur.getSelectionModel().getSelectedItem() != null) {
               
@@ -193,11 +208,19 @@ public class ListeFournisseurController implements Initializable {
          
         } else {
              nav.showAlert(Alert.AlertType.ERROR, "Errreur", Constantes.SELECTION_ERREUR, Constantes.SELECTION_LIGNE_MODIFIER);
-        }
+        }}
     }
 
     @FXML
     private void SupprimerFournisseur(ActionEvent event) {
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
          if(tableFournisseur.getSelectionModel().getSelectedItem()==null){
          
     
@@ -213,7 +236,7 @@ public class ListeFournisseurController implements Initializable {
         
         setColumnProperties();
       loadDetail();  
-    }
+    }}
     }
 
 

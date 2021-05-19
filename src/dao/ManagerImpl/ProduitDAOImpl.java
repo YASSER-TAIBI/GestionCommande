@@ -40,18 +40,35 @@ public class ProduitDAOImpl implements ProduitDAO {
 
 
 	public List<Produit> findAll() {
-		return session.createQuery("select c from Produit c").list();
+		return session.createQuery("select c from Produit c where c.etat = 'Lancé'").list();
 		}
 
 
 	public Produit findByCode(String code) {
 		// TODO Auto-generated method stub
 		Produit produit= new Produit();
-		Query query= session.createQuery("select c from Produit c where c.code=:code");
+		Query query= session.createQuery("select c from Produit c where c.code=:code and c.etat = 'Lancé'");
 		query.setParameter("code", code);
 		
 		produit= (Produit) query.uniqueResult();
 		
 		return produit;
 	}
+        
+        	 public List<Produit> findByCodeProduit(String code) {
+		
+		Query query = session.createQuery("select u from Produit u where u.code like:code and u.etat = 'Lancé'");
+		query.setParameter("code","%"+code+"%");
+		
+                return query.list();
+ }
+    
+         	 public List<Produit> findBylibelleProduit(String lib) {
+		
+		Query query = session.createQuery("select u from Produit u where u.libelle like:lib and u.etat = 'Lancé'");
+		query.setParameter("lib","%"+lib+"%");
+		
+                return query.list();
+ }
+
 }

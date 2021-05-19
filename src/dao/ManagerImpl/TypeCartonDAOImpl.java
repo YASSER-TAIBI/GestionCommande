@@ -9,6 +9,7 @@ import Utils.HibernateUtil;
 import dao.Entity.TypeCarton;
 import dao.Manager.TypeCartonDAO;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -55,9 +56,24 @@ public class TypeCartonDAOImpl implements TypeCartonDAO   {
 
         
 	public List<TypeCarton> findAll() {
-		return session.createQuery("select c from TypeCarton c").list();
+		return session.createQuery("select c from TypeCarton c where c.etat = 'Lancé'").list();
 		}
 
+	 public List<TypeCarton> findByCodeTypeCarton(String code) {
+		
+		Query query = session.createQuery("select u from TypeCarton u where u.code like:code and u.etat = 'Lancé'");
+		query.setParameter("code","%"+code+"%");
+		
+                return query.list();
+ }
+    
+         	 public List<TypeCarton> findBylibelleTypeCarton(String lib) {
+		
+		Query query = session.createQuery("select u from TypeCarton u where u.libelle like:lib and u.etat = 'Lancé'");
+		query.setParameter("lib","%"+lib+"%");
+		
+                return query.list();
+ }
 
     
 }

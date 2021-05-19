@@ -6,6 +6,7 @@
 package Controller.commande;
 
 import Utils.Constantes;
+import dao.Entity.Chauffeur;
 import dao.Entity.ClientMP;
 import dao.Entity.Commande;
 import dao.Entity.DetailCommande;
@@ -26,6 +27,7 @@ import dao.Entity.Sequenceur;
 import dao.Entity.TypeCarton;
 import dao.Entity.TypeCartonBox;
 import dao.Entity.TypeFilm;
+import dao.Manager.ChauffeurDAO;
 import dao.Manager.ClientMPDAO;
 import dao.Manager.CommandeDAO;
 import dao.Manager.DetailCommandeDAO;
@@ -46,6 +48,7 @@ import dao.Manager.SequenceurDAO;
 import dao.Manager.TypeCartonBoxDAO;
 import dao.Manager.TypeCartonDAO;
 import dao.Manager.TypeFilmDAO;
+import dao.ManagerImpl.ChauffeurDAOImpl;
 import dao.ManagerImpl.ClientMPDAOImpl;
 import dao.ManagerImpl.CommandeDAOImpl;
 import dao.ManagerImpl.DetailCommandeDAOImpl;
@@ -81,6 +84,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
@@ -92,6 +96,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -175,6 +180,12 @@ public class SaisirCommandeController implements Initializable {
     private ToggleGroup specialDepotFour;
     @FXML
     private Button btnValiderTout;  
+    @FXML
+    private DatePicker dateCharg;
+    @FXML
+    private ComboBox<String> matriculeCombo;
+    @FXML
+    private ComboBox<String> chauffeurCombo;
     
     private Map<String,ClientMP> mapClientMP=new HashMap<>();
     private Map<String,Dimension> mapDimension=new HashMap<>();
@@ -185,7 +196,9 @@ public class SaisirCommandeController implements Initializable {
     private Map<String,GrammageFilm> mapGrammageFilm=new HashMap<>();
     private Map<String,TypeCarton> mapTypeCar=new HashMap<>();
     private Map<String,Intervalle> mapIntervalle=new HashMap<>();
-
+    private Map<String,Chauffeur> mapChauffeur=new HashMap<>();
+    
+    
     ProduitDAO produitDAO = new ProduitDAOImpl();
     FournisseurDAO fournisseurDAO = new FournisseurDAOImpl();
     ClientMPDAO clientMPDAO = new ClientMPDAOImpl();
@@ -206,7 +219,8 @@ public class SaisirCommandeController implements Initializable {
     TypeCartonDAO typeCartonDAO = new TypeCartonDAOImpl();
     IntervalleDAO intervalleDAO = new IntervalleDAOImpl();
     SequenceurDAO sequenceurDAO = new SequenceurDAOImpl();
-      
+    ChauffeurDAO chauffeurDAO = new ChauffeurDAOImpl();
+     
     private final ObservableList<DetailCommande> listeDetailCommande=FXCollections.observableArrayList();
     private final ObservableList<PrixBox> listeprixBox=FXCollections.observableArrayList();
     private final ObservableList<PrixCarton> listeprixCarton=FXCollections.observableArrayList();
@@ -227,6 +241,7 @@ public class SaisirCommandeController implements Initializable {
        
        
     BigDecimal montanTotal=BigDecimal.ZERO;
+    
   
 
  
@@ -304,7 +319,7 @@ public class SaisirCommandeController implements Initializable {
             mapClientMP.put(clientMP.getNom(), clientMP);
         });
         
-        List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+        List<Fournisseur> listFournisseur=fournisseurDAO.findAllMp();
         
         listFournisseur.stream().map((fournisseur) -> {
             fornisseurCombo.getItems().addAll(fournisseur.getNom());
@@ -358,6 +373,16 @@ public class SaisirCommandeController implements Initializable {
             mapTypeFilm.put(typeFilm.getLibelle(), typeFilm);
         });
         
+           List<Chauffeur> listChauffeur=chauffeurDAO.findAll();
+        
+            listChauffeur.stream().map((chauffeur) -> {
+            chauffeurCombo.getItems().addAll(chauffeur.getChauffeur());
+            matriculeCombo.getItems().addAll(chauffeur.getMatricule());
+            return chauffeur;
+        }).forEachOrdered((chauffeur) -> {
+            mapChauffeur.put(chauffeur.getChauffeur(), chauffeur);
+            mapChauffeur.put(chauffeur.getMatricule(), chauffeur);
+        });
         
                GrammageCombo.setDisable(true);
                intervalleCombo.setDisable(true);
@@ -383,29 +408,49 @@ public class SaisirCommandeController implements Initializable {
     @FXML
     private void validerSaisieAction(ActionEvent event) throws ParseException {
         
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
         if(clientCombo.getSelectionModel().getSelectedItem()== null || clientCombo.getSelectionModel().getSelectedItem().isEmpty() ||fornisseurCombo.getSelectionModel().getSelectedItem()== null || fornisseurCombo.getSelectionModel().getSelectedItem().isEmpty() || detailCommandetable.getItems().size() ==0 ){
          nav.showAlert(Alert.AlertType.WARNING, "Attention", null, Constantes.REMPLIR_CHAMPS);
      }
         else {
             
-
-                  int MaxidSp = commandeDAO.getMaxIdSpecial();
+            Chauffeur chauffeur  = mapChauffeur.get(chauffeurCombo.getSelectionModel().getSelectedItem());
+          Sequenceur sequenceur = sequenceurDAO.findByCode(Constantes.COMMANDE_SPECIAL_MP);
+                  int comSpMP = sequenceur.getValeur()+1;
+                  
             LocalDate localDate=dateSaisie.getValue();
             
           Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
             
+          Date dateChargement= null;
+          if (dateCharg.getValue()!= null){
+          
+            localDate=dateCharg.getValue();
+            
+           dateChargement=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
+          }
+
+          
         commande.setUtilisateurCreation(nav.getUtilisateur());
         commande.setDepot(nav.getUtilisateur().getDepot());
         commande.setDateSaisie(new Date());
         commande.setDateCreation(dateSaisie);
+        commande.setDateChargement(dateChargement);
+        commande.setChauffeur(chauffeur);
         commande.setEtat(Constantes.ETAT_COMMANDE_LANCE);
         commande.setTypeCommande(Constantes.COMMANDE_INTERNE);
         
         if (checkCommande.isSelected() && depotRadio.isSelected()){
-            commande.setnCommande(nCommandeField.getText()+" "+Constantes.CODE_SPECIAL_DEPOT+MaxidSp);
+            commande.setnCommande(nCommandeField.getText()+" "+Constantes.CODE_SPECIAL_DEPOT+comSpMP);
         }
         else if(checkCommande.isSelected() && fourRadio.isSelected()) {
-            commande.setnCommande(nCommandeField.getText()+" "+Constantes.CODE_SPECIAL_FOUR+MaxidSp);
+            commande.setnCommande(nCommandeField.getText()+" "+Constantes.CODE_SPECIAL_FOUR+comSpMP);
         }
         else {
             commande.setnCommande(nCommandeField.getText());
@@ -424,18 +469,57 @@ public class SaisirCommandeController implements Initializable {
  
         
           if (checkCommande.isSelected()== false){
-     Sequenceur sequenceur = sequenceurDAO.findByCode(Constantes.COMMANDE);
-           sequenceur.setValeur(sequenceur.getValeur()+1);
-           sequenceurDAO.edit(sequenceur);
+              
+     Sequenceur sequenceurCom = sequenceurDAO.findByCode(Constantes.COMMANDE);
+     
+           sequenceurCom.setValeur(sequenceurCom.getValeur()+1);
+           sequenceurDAO.edit(sequenceurCom);
            Incrementation ();
+           
+          }else if (checkCommande.isSelected()== true){
+              
+     Sequenceur sequenceurComSp = sequenceurDAO.findByCode(Constantes.COMMANDE_SPECIAL_MP);
+     
+           sequenceurComSp.setValeur(sequenceurComSp.getValeur()+1);
+           sequenceurDAO.edit(sequenceurComSp);
           }
         
         detailCommandetable.getItems().clear();
+        
+               GrammageCombo.setDisable(true);
+               intervalleCombo.setDisable(true);
+               TypeFilmCombo.setDisable(true);
+               grammageFilmCombo.setDisable(true);
+               dimCombo.setDisable(true);
+               typeCarCombo.setDisable(true); 
+               typeCartonCombo.setDisable(true); 
+               quantiteField.setDisable(true);
+       
+        
+            depotRadio.setVisible(false);
+            fourRadio.setVisible(false);
+
+            clientCombo.getItems().clear();
+            fornisseurCombo.getItems().clear();
+            this.dateSaisie.setValue(null);
+        
+            dateCharg.setValue(null);
+                 chauffeurCombo.getSelectionModel().select(-1);
+                matriculeCombo.getSelectionModel().select(-1);
+        
         }
-    }
+    }}
 
     @FXML
     private void ajouterSaisieAction(ActionEvent event) {
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
        DetailCommande detailCommande = new DetailCommande();
 
      
@@ -882,7 +966,7 @@ public class SaisirCommandeController implements Initializable {
                      
                      }
             }
-            
+            }
               }
        }
     }
@@ -892,7 +976,8 @@ public class SaisirCommandeController implements Initializable {
         quantiteField.clear();
         dimCombo.setValue("Sélectionner...");
         qteAfficchage.setText("");
-               
+        
+         
                 intervalleCombo.getSelectionModel().select(-1);
                 typeCarCombo.getSelectionModel().select(-1);
                 dimCombo.getSelectionModel().select(-1);
@@ -1501,6 +1586,29 @@ public class SaisirCommandeController implements Initializable {
 
     @FXML
     private void intervalleOnMouseClicked(MouseEvent event) {
+    }
+
+    @FXML
+    private void matriculeOnAction(ActionEvent event) {
+        
+                  Chauffeur chauffeur  = mapChauffeur.get(matriculeCombo.getSelectionModel().getSelectedItem());
+         
+          if(chauffeur!=null){
+
+                         chauffeurCombo.setValue(chauffeur.getChauffeur());
+          }
+    }
+
+    @FXML
+    private void chauffeurOnAction(ActionEvent event) {
+        
+           Chauffeur chauffeur  = mapChauffeur.get(chauffeurCombo.getSelectionModel().getSelectedItem());
+         
+          if(chauffeur!=null){
+
+                         matriculeCombo.setValue(chauffeur.getMatricule());
+          }
+        
     }
 
 

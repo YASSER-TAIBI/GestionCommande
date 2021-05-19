@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.DimensionController">
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.DimensionController">
    <children>
       <TableView fx:id="tableDimension" blendMode="MULTIPLY" layoutX="241.0" layoutY="475.0" onMouseClicked="#clickChargeOnMouseEntered" prefHeight="315.0" prefWidth="881.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
         <columns>
@@ -23,9 +23,10 @@
       </TableView>
       <Pane layoutX="1133.0" layoutY="475.0" prefHeight="315.0" prefWidth="181.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Button fx:id="btnModifier" layoutX="35.0" layoutY="135.0" mnemonicParsing="false" onAction="#btnModifierOnAction" prefHeight="44.0" prefWidth="116.0" text="Modifier" />
-            <Button fx:id="btnSupprimer" layoutX="35.0" layoutY="221.0" mnemonicParsing="false" onAction="#btnSupprimerOnAction" prefHeight="44.0" prefWidth="116.0" text="Supprimer" />
-            <Button fx:id="btnAjouter" layoutX="33.0" layoutY="47.0" mnemonicParsing="false" onAction="#btnAjouterOnAction" prefHeight="44.0" prefWidth="116.0" text="Ajouter" />
+            <Button fx:id="btnModifier" layoutX="35.0" layoutY="103.0" mnemonicParsing="false" onAction="#btnModifierOnAction" prefHeight="44.0" prefWidth="116.0" text="Modifier" />
+            <Button fx:id="btnSupprimer" layoutX="35.0" layoutY="168.0" mnemonicParsing="false" onAction="#btnSupprimerOnAction" prefHeight="44.0" prefWidth="116.0" text="Supprimer" />
+            <Button fx:id="btnAjouter" layoutX="35.0" layoutY="37.0" mnemonicParsing="false" onAction="#btnAjouterOnAction" prefHeight="44.0" prefWidth="116.0" text="Ajouter" />
+            <Button fx:id="btnImprimer" layoutX="35.0" layoutY="233.0" mnemonicParsing="false" onAction="#btnImprimerOnAction" prefHeight="44.0" prefWidth="116.0" text="Imprimer" />
          </children>
       </Pane>
       <Pane layoutX="237.0" layoutY="319.0" prefHeight="135.0" prefWidth="1075.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
@@ -45,12 +46,12 @@
       </Pane>
       <Pane layoutX="238.0" layoutY="226.0" prefHeight="71.0" prefWidth="1075.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <TextField fx:id="codeRechField" layoutX="221.0" layoutY="20.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheCodeVilleOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+            <TextField fx:id="codeRechField" layoutX="221.0" layoutY="20.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheCodeOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
                <effect>
                   <Blend />
                </effect>
             </TextField>
-            <TextField fx:id="libelleRechField" layoutX="700.0" layoutY="21.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheLibelleVilleOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+            <TextField fx:id="libelleRechField" layoutX="700.0" layoutY="21.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheLibelleOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
                <effect>
                   <Blend />
                </effect>
@@ -65,6 +66,11 @@
             <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="864.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1026.0" layoutY="30.0" onMouseClicked="#rechercheTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
                </image>
             </ImageView>
          </children>

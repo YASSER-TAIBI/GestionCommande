@@ -29,5 +29,6 @@ public interface DetailCommandeRegionDAO {
     public List<DetailCommandeRegion> findByEtat(String etat) ;
     
     public List<DetailCommandeRegion> findDetailCommandeByEtat(CommandeRegion commande, String etat);
+   
     
 }

@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -15,33 +14,20 @@
 
 <AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Stock.ConsultationStockController">
    <children>
-      <TableView fx:id="tableStock" blendMode="MULTIPLY" layoutX="188.0" layoutY="237.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailAndStockProdOnMouseClicked" prefHeight="228.0" prefWidth="1258.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
-         <columns>
-            <TableColumn fx:id="codeMPColumn" prefWidth="165.0" text="Code MP" />
-            <TableColumn fx:id="designationColumn" prefWidth="515.9999694824219" text="Designation" />
-            <TableColumn fx:id="stockColumn" prefWidth="195.0" text="Qte Stock " />
-            <TableColumn fx:id="stockMinColumn" prefWidth="195.0" text="Qte Stock Min" />
-            <TableColumn fx:id="manqueColumn" prefWidth="187.0" text="Manque" />
-         </columns>
-      </TableView>
       <Pane layoutX="188.0" layoutY="173.0" prefHeight="55.0" prefWidth="1258.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <ComboBox fx:id="familleCombo" layoutX="598.0" layoutY="12.0" onAction="#familleComboOnAction" prefHeight="31.0" prefWidth="194.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
-            <ComboBox fx:id="subCatgCombo" layoutX="214.0" layoutY="12.0" onAction="#subCatgComboOnAction" prefHeight="31.0" prefWidth="194.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
-            <TextField fx:id="codeRechField" layoutX="916.0" layoutY="11.0" maxWidth="1.7976931348623157E308" onAction="#codeMpRech" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css" text="MP_">
+            <TextField fx:id="codeRechField" layoutX="538.0" layoutY="12.0" maxWidth="1.7976931348623157E308" onAction="#codeMpRech" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css" text="MP_">
                <effect>
                   <Blend />
                </effect>
             </TextField>
-            <Label layoutX="830.0" layoutY="17.0" text="Code MP: " />
-            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="1080.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <Label layoutX="452.0" layoutY="18.0" text="Code MP: " />
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="702.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
                </image>
             </ImageView>
-            <Label layoutX="444.0" layoutY="17.0" prefHeight="20.0" prefWidth="154.0" text="Type Categorie: " />
-            <Label layoutX="60.0" layoutY="18.0" prefHeight="20.0" prefWidth="154.0" text="Sous Categorie: " />
-            <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="1159.0" layoutY="5.0" onMouseClicked="#recherchMouseClicked" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="1098.0" layoutY="5.0" onMouseClicked="#recherchMouseClicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
                </image>
@@ -56,23 +42,23 @@
             <Label layoutX="43.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Consultation Stock" />
          </children>
       </Pane>
-      <Button fx:id="btnImprimer" alignment="CENTER" layoutX="831.0" layoutY="781.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer" />
-      <Button fx:id="btnRefrech" alignment="CENTER" layoutX="693.0" layoutY="781.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#refrechOnAction" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Refrech" />
-      <TableView fx:id="tableDetailCommande" blendMode="MULTIPLY" layoutX="188.0" layoutY="472.0" maxWidth="1.7976931348623157E308" prefHeight="147.0" prefWidth="1258.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+      <TableView fx:id="tableStock" blendMode="MULTIPLY" layoutX="189.0" layoutY="236.0" maxWidth="1.7976931348623157E308" onMouseClicked="#tableDetailClicked" prefHeight="509.0" prefWidth="1258.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
          <columns>
-            <TableColumn fx:id="codeMPDCColumn" prefWidth="161.00003051757812" text="Code MP" />
-            <TableColumn fx:id="designationDCColumn" prefWidth="715.0" text="Designation" />
-            <TableColumn fx:id="qteCommandeEnCourColumn" prefWidth="381.0" text="Qte Commandes En Cours" />
+            <TableColumn fx:id="codeMPColumn" prefWidth="93.0" text="Code MP" />
+            <TableColumn fx:id="libelleColumn" prefWidth="373.9999694824219" text="Libelle" />
+            <TableColumn fx:id="qteColumn" prefWidth="167.0" text="Quantite" />
+            <TableColumn fx:id="prixColumn" prefWidth="152.0" text="Prix HT" />
+            <TableColumn fx:id="prixTTCColumn" prefWidth="155.0" text="Prix TTC" />
+            <TableColumn fx:id="montantHTColumn" prefWidth="150.0" text="Montant HT" />
+            <TableColumn fx:id="montantTTCColumn" prefWidth="167.0" text="Montant TTC" />
          </columns>
       </TableView>
-      <TableView fx:id="tableStockProd" blendMode="MULTIPLY" layoutX="188.0" layoutY="626.0" maxWidth="1.7976931348623157E308" prefHeight="147.0" prefWidth="1258.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
-         <columns>
-            <TableColumn fx:id="codeMPSProdColumn" prefWidth="136.00003051757812" text="Code MP" />
-            <TableColumn fx:id="designationSProdColumn" prefWidth="487.9999694824219" text="Designation" />
-            <TableColumn fx:id="magasinColumn" prefWidth="225.0" text="Magasin" />
-            <TableColumn fx:id="depotColumn" prefWidth="210.0" text="Depot" />
-            <TableColumn fx:id="stockProdColumn" prefWidth="199.0" text="Qte Stock" />
-         </columns>
-      </TableView>
+      <Pane layoutX="190.0" layoutY="752.0" prefHeight="62.0" prefWidth="1258.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnImprimer" alignment="CENTER" layoutX="643.0" layoutY="8.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer" />
+            <Button fx:id="btnRefrech" alignment="CENTER" layoutX="505.0" layoutY="8.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#refrechOnAction" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Refrech" />
+            <Button fx:id="btnExel" layoutX="783.0" layoutY="9.0" mnemonicParsing="false" onAction="#btnExelOnAction" prefHeight="44.0" prefWidth="116.0" text="Excel" visible="false" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

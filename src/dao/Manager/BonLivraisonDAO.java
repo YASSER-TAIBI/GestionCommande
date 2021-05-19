@@ -33,7 +33,7 @@ public interface BonLivraisonDAO {
                 
                 public List<BonLivraison> findFourByRechercheNomReglement(String four,String clt,String etat,String etat1,String type);
                
-                public List<BonLivraison> findFourByRechercheNomReglementOulmes(String four,String clt,String etat,String etat1,String type,String type1);
+                public List<BonLivraison> findFourByRechercheNomReglementOulmes(String four,String clt,String etat,String etat1);
 
 //              public List<BonLivraison> findCommandeByNumLivraison(String ncom );
                
@@ -47,11 +47,11 @@ public interface BonLivraisonDAO {
                 
                 public List<BonLivraison> findBonLivraisonByRechercheDateLivAndNumLiv(Date dateLiv, String code ,String client ,String four, String etat, String etat1, String type);
                 
-                public List<BonLivraison> findNumCommandeByNumLivraisonOulmes(String code, String four,String clt,String etat,String etat1,String type,String type1);
+                public List<BonLivraison> findNumCommandeByNumLivraisonOulmes(String code, String four,String clt,String etat,String etat1);
                   
-                public List<BonLivraison> findNumCommandeByDateLivraisonOulmes(Date dateLiv, String four,String clt,String etat,String etat1,String type,String type1);
+                public List<BonLivraison> findNumCommandeByDateLivraisonOulmes(Date dateLiv, String four,String clt,String etat,String etat1);
                    
-                public List<BonLivraison> findNumCommandeByDateLivraisonAndNumLivraisonOulmes(Date dateLiv, String code, String four,String clt,String etat,String etat1,String type,String type1);
+                public List<BonLivraison> findNumCommandeByDateLivraisonAndNumLivraisonOulmes(Date dateLiv, String code, String four,String clt,String etat,String etat1);
                 
                 public List<BonLivraison> findBonLivraisonByRechercheNumFac(String fac,String client ,String four, String etat, String etat1, String type);
                 
@@ -61,14 +61,16 @@ public interface BonLivraisonDAO {
                 
                 public List<BonLivraison> findBonLivraisonByRechercheDateLivAndNumLivAndNumFac(Date dateLiv, String code , String fac,String client ,String four, String etat, String etat1, String type);
                 
-                public List<BonLivraison> findNumCommandeByNumFacOulmes(String fac ,String four,String clt,String etat,String etat1,String type,String type1);
+                public List<BonLivraison> findNumCommandeByNumFacOulmes(String fac ,String four,String clt,String etat,String etat1);
                 
-                public List<BonLivraison> findNumCommandeByDateLivraisonAndNumFacOulmes(Date dateLiv,String fac ,String four,String clt,String etat,String etat1,String type,String type1);
+                public List<BonLivraison> findNumCommandeByDateLivraisonAndNumFacOulmes(Date dateLiv,String fac ,String four,String clt,String etat,String etat1);
 
-                public List<BonLivraison> findNumCommandeByNumLivraisonAndNumFacOulmes( String code,String fac ,String four,String clt,String etat,String etat1,String type,String type1);
+                public List<BonLivraison> findNumCommandeByNumLivraisonAndNumFacOulmes( String code,String fac ,String four,String clt,String etat,String etat1);
 
-                public List<BonLivraison> findNumCommandeByDateLivraisonAndNumLivraisonAndNumFacOulmes(Date dateLiv, String code,String fac ,String four,String clt,String etat,String etat1,String type,String type1);
+                public List<BonLivraison> findNumCommandeByDateLivraisonAndNumLivraisonAndNumFacOulmes(Date dateLiv, String code,String fac ,String four,String clt,String etat,String etat1);
 
                 public List<BonLivraison> findFilterBonLivraisonByDateLivraisonAndFourAndClient(Date dateDebut,Date dateFin, String four, String client);
 
+                public List<BonLivraison> findByNumFactureAndClientAndFourAndEtat(String req);
+                
 }

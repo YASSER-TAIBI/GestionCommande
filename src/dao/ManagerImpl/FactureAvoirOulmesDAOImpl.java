@@ -96,4 +96,11 @@ public class FactureAvoirOulmesDAOImpl implements FactureAvoirOulmesDAO {
         
         return query.list();
     }
+         
+             public List<FactureAvoirOulmes> findByFactureAvoirOulmes() {
+        Query query=  session.createQuery("select u from FactureAvoirOulmes u where u.numLivraison not in ('0021409','0021415','1669587') group by u.numLivraison");
+        
+        return query.list();
+    }
+         
 }

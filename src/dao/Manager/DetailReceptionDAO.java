@@ -22,8 +22,7 @@ public interface DetailReceptionDAO {
 		public DetailReception findById(int id);
 		
 		public void add(DetailReception detailReception);
-		
-		
+
 		public  DetailReception edit(DetailReception e);
 		
 		public  void delete(DetailReception e); 
@@ -33,4 +32,10 @@ public interface DetailReceptionDAO {
                 public List<DetailReception>  findReceptionBycode(String code) ;
                 
                 public DetailReception findByNumLiv(String nLiv);
+                
+                public List<DetailReception> findByCommande(String ncom );
+
+                public List<DetailReception> findByCommandePF(String ncom );
+
+
 }

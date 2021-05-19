@@ -8,6 +8,7 @@ package Controller.Referentiel;
 import Utils.Constantes;
 import dao.Entity.CategorieMp;
 import dao.Entity.Dimension;
+import dao.Entity.TypeCartonBox;
 import dao.Manager.CategorieMpDAO;
 import dao.Manager.DimensionDAO;
 import dao.ManagerImpl.CategorieMpDAOImpl;
@@ -18,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -38,6 +41,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -67,7 +77,13 @@ public class DimensionController implements Initializable {
     private Button btnSupprimer;
     @FXML
     private TextField libelleMod;
-
+    @FXML
+    private TextField codeRechField;
+    @FXML
+    private TextField libelleRechField;
+     @FXML
+    private Button btnImprimer;
+    
     private final ObservableList<Dimension> listeDimension=FXCollections.observableArrayList();
             
      DimensionDAO dimensionDAO = new DimensionDAOImpl();
@@ -77,10 +93,8 @@ public class DimensionController implements Initializable {
 //     CategorieMp categorieMp =new CategorieMp();
     
       private Map<String,CategorieMp> mapCategorieMp=new HashMap<>();
-    @FXML
-    private TextField codeRechField;
-    @FXML
-    private TextField libelleRechField;
+   
+    
    
   
     
@@ -135,6 +149,7 @@ public class DimensionController implements Initializable {
         dimension.setCode(codeField.getText());   
         dimension.setFamille(categorieMp.getCode());
         dimension.setLibelle(libelleMod.getText());
+        dimension.setEtat(Constantes.ETAT_COMMANDE_LANCE);
         dimension.setUtilisateurCreation(nav.getUtilisateur());
         dimensionDAO.add(dimension);
         
@@ -189,7 +204,10 @@ public class DimensionController implements Initializable {
      }else {
              
        Dimension dimension=tableDimension.getSelectionModel().getSelectedItem();
-        dimensionDAO.delete(dimension);
+          
+       dimension.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
+
+            dimensionDAO.edit(dimension);
         
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.SUPRIMER_ENREGISTREMENT);
         
@@ -231,11 +249,61 @@ public class DimensionController implements Initializable {
     }
 
     @FXML
-    private void rechercheCodeVilleOnKeyPressed(KeyEvent event) {
+    private void rechercheCodeOnKeyPressed(KeyEvent event) {
+        
+                       ObservableList<Dimension> listeDimension=FXCollections.observableArrayList();
+          
+        listeDimension.clear();
+   
+        listeDimension.addAll(dimensionDAO.findByCodeDimension(codeRechField.getText()));
+   
+        tableDimension.setItems(listeDimension);
+        
     }
 
     @FXML
-    private void rechercheLibelleVilleOnKeyPressed(KeyEvent event) {
+    private void rechercheLibelleOnKeyPressed(KeyEvent event) {
+        
+                 ObservableList<Dimension> listeDimension=FXCollections.observableArrayList();
+          
+        listeDimension.clear();
+   
+        listeDimension.addAll(dimensionDAO.findBylibelleDimension(libelleRechField.getText()));
+   
+        tableDimension.setItems(listeDimension);
+        
+    }
+
+    @FXML
+    private void rechercheTableMouseClicked(MouseEvent event) {
+        
+        
+            libelleRechField.clear();
+            codeRechField.clear();
+
+            setColumnProperties();
+            loadDetail();
+        
+        
+    }
+
+    @FXML
+    private void btnImprimerOnAction(ActionEvent event) {
+        
+        
+             try {
+          HashMap para = new HashMap();
+            JasperReport report = (JasperReport) JRLoader.loadObject(DimensionController.class.getResource(nav.getiReportConsultationDimension()));
+
+             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listeDimension));
+               JasperViewer.viewReport(jp, false);
+            
+        } catch (JRException ex) {
+            Logger.getLogger(DimensionController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
     }
     
 

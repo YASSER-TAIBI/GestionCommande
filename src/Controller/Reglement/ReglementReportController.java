@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -44,6 +45,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -122,7 +124,7 @@ public class ReglementReportController implements Initializable {
 
         modeReglementCombo.setItems(modeReglementlist);
         
-            List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+            List<Fournisseur> listFournisseur=fournisseurDAO.findAllMp();
         
         listFournisseur.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());
@@ -166,6 +168,14 @@ public class ReglementReportController implements Initializable {
 
     @FXML
     private void reglerOnAction(ActionEvent event) throws ParseException {
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
 //           int Maxid = reglementDAO.getMaxId();
 
           if ( numFacture.getText().equalsIgnoreCase("") || modeReglementCombo.getSelectionModel().getSelectedItem() == null || modeReglementCombo.getSelectionModel().getSelectedItem().isEmpty()|| fourCombo.getSelectionModel().getSelectedItem() == null || fourCombo.getSelectionModel().getSelectedItem().isEmpty() ) {
@@ -234,12 +244,25 @@ public class ReglementReportController implements Initializable {
                clientCombo.getSelectionModel().clearSelection();
                fourCombo.getSelectionModel().clearSelection();
                clientCombo.setDisable(true);
+               dateCreation.setValue(null);
 //          }
-          }
+          }}
     }
 
     @FXML
     private void InitialiserOnAction(ActionEvent event) {
+        
+         numFacture.clear();
+               numCheque.clear();
+               anneeField.clear();
+               montantReportClient.clear();
+               montantRegler.clear();
+               modeReglementCombo.getSelectionModel().select(-1);
+               clientCombo.getSelectionModel().clearSelection();
+               fourCombo.getSelectionModel().clearSelection();
+               clientCombo.setDisable(true);
+               dateCreation.setValue(null);
+
     }
 
     @FXML

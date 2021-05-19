@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +37,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -111,7 +113,7 @@ public class RecuCommandeController implements Initializable {
     DetailCommandeDAO detailCommandeDAO = new DetailCommandeDAOImpl();
     CommandeDAO commandeDAO = new CommandeDAOImpl();
     
-     navigation nav = new navigation();
+    navigation nav = new navigation();
      
      Commande commande;
      
@@ -312,6 +314,10 @@ public class RecuCommandeController implements Initializable {
     @FXML
     private void imprimerOnAction(ActionEvent event) {
         
+        
+           if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){    
+        
+                  if (tableDetailCommande.getSelectionModel().getSelectedIndex()!=-1){    
          try {
           HashMap para = new HashMap();
             JasperReport report = (JasperReport) JRLoader.loadObject(RecuCommandeController.class.getResource(nav.getiReportRecuCommande()));
@@ -328,13 +334,24 @@ public class RecuCommandeController implements Initializable {
         } catch (JRException ex) {
             Logger.getLogger(RecuCommandeController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+           }else{
+              nav.showAlert(Alert.AlertType.ERROR, "Attention", null, Constantes.SELECTIONNER_DETAIL_COMMANDE);
+           }
+                  }else{
+              nav.showAlert(Alert.AlertType.ERROR, "Attention", null, Constantes.SELECTIONNER_COMMANDE);
+           }
     }
 
 
     @FXML
     private void enCoursOnAction(ActionEvent event) {
 
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
 
         tableReception.getItems().clear();
             listeDetailCommande.clear();
@@ -355,7 +372,7 @@ public class RecuCommandeController implements Initializable {
            
        }else {
           nav.showAlert(Alert.AlertType.CONFIRMATION, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE); 
-       }
+       }}
     }
 
     @FXML
@@ -396,7 +413,9 @@ if (tableDetailCommande.getSelectionModel().getSelectedIndex()!=-1){
                  
              Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
              
-            
+            tableDetailCommande.getItems().clear();
+        tableReception.getItems().clear();
+             
               listeCommande.clear();
    
    listeCommande.addAll(commandeDAO.findByDateCommande(dateSaisie,Constantes.ETAT_COMMANDE_RECU));

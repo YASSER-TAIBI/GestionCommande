@@ -7,6 +7,7 @@ package dao.Manager;
 
 import dao.Entity.GrammageFilm;
 import java.util.List;
+import org.hibernate.Query;
 
 /**
  *
@@ -23,5 +24,9 @@ public interface GrammageFilmDAO {
 		public  void delete(GrammageFilm e); 
 		
 		public List<GrammageFilm> findAll();
+                
+        	public List<GrammageFilm> findByCodeGrammageFilm(String code);
+	
+         	public List<GrammageFilm> findBylibelleGrammageFilm(String lib);
     
 }

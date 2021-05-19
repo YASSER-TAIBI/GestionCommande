@@ -8,6 +8,7 @@ package Controller.Referentiel;
 import Utils.Constantes;
 import dao.Entity.CategorieMp;
 import dao.Entity.SubCategorieMp;
+import dao.Entity.TypeCartonBox;
 import dao.Manager.CategorieMpDAO;
 import dao.Manager.SubCategorieMPDAO;
 import dao.ManagerImpl.CategorieMpDAOImpl;
@@ -181,8 +182,11 @@ public void clear(){
      }else {
              
        CategorieMp categorieMp=tableCategorie.getSelectionModel().getSelectedItem();
-        categorieMpDAO.delete(categorieMp);
-        
+      
+         categorieMp.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
+
+            categorieMpDAO.edit(categorieMp);
+ 
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.SUPRIMER_ENREGISTREMENT);
         
         
@@ -202,6 +206,7 @@ public void clear(){
         categorieMp.setCode(codeField.getText());   
         categorieMp.setSubCategorieMp(subCategorieMp);
         categorieMp.setNom(nomField.getText());
+        categorieMp.setEtat(Constantes.ETAT_COMMANDE_LANCE);
         categorieMp.setUtilisateurCreation(nav.getUtilisateur());
         categorieMpDAO.add(categorieMp);
         
@@ -220,11 +225,40 @@ public void clear(){
     }
 
     @FXML
-    private void rechercheCodeVilleOnKeyPressed(KeyEvent event) {
+    private void rechercheCodeOnKeyPressed(KeyEvent event) {
+        
+                     ObservableList<CategorieMp> listeCategorieMp=FXCollections.observableArrayList();
+          
+        listeCategorieMp.clear();
+   
+        listeCategorieMp.addAll(categorieMpDAO.findByCodeCategorieMp(rechCode.getText()));
+   
+        tableCategorie.setItems(listeCategorieMp);
     }
 
     @FXML
-    private void rechercheLibelleVilleOnKeyPressed(KeyEvent event) {
+    private void rechercheLibelleOnKeyPressed(KeyEvent event) {
+        
+                     ObservableList<CategorieMp> listeCategorieMp=FXCollections.observableArrayList();
+          
+        listeCategorieMp.clear();
+   
+        listeCategorieMp.addAll(categorieMpDAO.findBylibelleCategorieMp(rechNom.getText()));
+   
+        tableCategorie.setItems(listeCategorieMp);
+        
+        
+    }
+
+    @FXML
+    private void rechercheTableMouseClicked(MouseEvent event) {
+        
+                    rechNom.clear();
+            rechCode.clear();
+
+            setColumnProperties();
+            loadDetail();
+
     }
     
 }

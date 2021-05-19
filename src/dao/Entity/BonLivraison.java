@@ -38,17 +38,11 @@ public class BonLivraison implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    
-   
 
-    
     @Column(name="DATE")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
-     
-    @Column(name="NUM_RECEPTION")
-     private String numReception;
-      
+
     @Column(name="ETAT")
     private String etat;
           
@@ -60,6 +54,9 @@ public class BonLivraison implements Serializable {
     
     @Column(name="MONTANT_TTC")
     private BigDecimal montantTTC;
+    
+    @Column(name="MONTANT_RG")
+    private BigDecimal montantRG;
     
     @Column(name="NUM_LIVRE_FOUR")
     private String livraisonFour ;
@@ -116,6 +113,14 @@ public class BonLivraison implements Serializable {
 
     public void setNumCommande(String numCommande) {
         this.numCommande = numCommande;
+    }
+
+    public BigDecimal getMontantRG() {
+        return montantRG;
+    }
+
+    public void setMontantRG(BigDecimal montantRG) {
+        this.montantRG = montantRG;
     }
 
     public int getNombreJour() {
@@ -180,14 +185,6 @@ public class BonLivraison implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public String getNumReception() {
-        return numReception;
-    }
-
-    public void setNumReception(String numReception) {
-        this.numReception = numReception;
     }
 
     public String getEtat() {

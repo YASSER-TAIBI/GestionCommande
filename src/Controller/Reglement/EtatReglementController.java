@@ -14,43 +14,46 @@ import dao.Entity.BonRetour;
 import dao.Entity.ClientMP;
 import dao.Entity.Commande;
 import dao.Entity.CompteFourMP;
+import dao.Entity.DelaiPaiementFour;
 import dao.Entity.DetailBonLivraison;
 import dao.Entity.DetailBonRetour;
 import dao.Entity.DetailCommande;
 import dao.Entity.DetailCompte;
 import dao.Entity.DetailReception;
 import dao.Entity.Fournisseur;
+import dao.Entity.HistoriquePrix;
 import dao.Entity.Reglement;
 import dao.Entity.Sequenceur;
-import dao.Entity.StockMP;
 import dao.Manager.BonLivraisonDAO;
 import dao.Manager.BonRetourDAO;
 import dao.Manager.ClientMPDAO;
 import dao.Manager.CommandeDAO;
 import dao.Manager.CompteFourMPDAO;
+import dao.Manager.DelaiPaiementFourDAO;
 import dao.Manager.DetailBonLivraisonDAO;
 import dao.Manager.DetailBonRetourDAO;
 import dao.Manager.DetailCommandeDAO;
 import dao.Manager.DetailCompteDAO;
 import dao.Manager.DetailReceptionDAO;
 import dao.Manager.FournisseurDAO;
+import dao.Manager.HistoriquePrixDAO;
 import dao.Manager.ReglementDAO;
 import dao.Manager.SequenceurDAO;
-import dao.Manager.StockMPDAO;
 import dao.ManagerImpl.BonLivraisonDAOImpl;
 import dao.ManagerImpl.BonRetourDAOImpl;
 import dao.ManagerImpl.ClientMPDAOImpl;
 import dao.ManagerImpl.CommandeDAOImpl;
 import dao.ManagerImpl.CompteFourMPDAOImpl;
+import dao.ManagerImpl.DelaiPaiementFourDAOImpl;
 import dao.ManagerImpl.DetailBonLivraisonDAOImpl;
 import dao.ManagerImpl.DetailBonRetourDAOImpl;
 import dao.ManagerImpl.DetailCommandeDAOImpl;
 import dao.ManagerImpl.DetailCompteDAOImpl;
 import dao.ManagerImpl.DetailReceptionDAOImpl;
 import dao.ManagerImpl.FournisseurDAOImpl;
+import dao.ManagerImpl.HistoriquePrixDAOImpl;
 import dao.ManagerImpl.ReglementDAOImpl;
 import dao.ManagerImpl.SequenceurDAOImpl;
-import dao.ManagerImpl.StockMPDAOImpl;
 import function.navigation;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -163,7 +166,7 @@ public class EtatReglementController implements Initializable {
     @FXML
     private TableColumn<DetailBonLivraison, String> libelleColumn;
     
-     @FXML
+    @FXML
     private CheckBox offreCheck;
     @FXML
     private DatePicker dateCreation;
@@ -211,14 +214,13 @@ public class EtatReglementController implements Initializable {
   CompteFourMPDAO compteFourMPDAO = new CompteFourMPDAOImpl();
   BonRetourDAO bonRetourDAO = new BonRetourDAOImpl();
   CommandeDAO commandeDAO = new CommandeDAOImpl();
-  StockMPDAO stockMPDAO = new StockMPDAOImpl();
   DetailCommandeDAO detailCommandeDAO = new DetailCommandeDAOImpl();
   DetailBonRetourDAO detailBonRetourDAO = new DetailBonRetourDAOImpl();
   DetailCompteDAO detailCompteDAO = new DetailCompteDAOImpl();
   SequenceurDAO sequenceurDAO = new SequenceurDAOImpl();
   BonLivraison bonLivraison = new BonLivraison();
   Fournisseur fournisseur =new Fournisseur();
-//  DetailBonRetour detailBonRetour =new DetailBonRetour();
+  DelaiPaiementFourDAO delaiPaiementFourDAO = new DelaiPaiementFourDAOImpl();
   ClientMP clientMP =new ClientMP();
   BonRetour bonRetour = new BonRetour();
   
@@ -230,10 +232,11 @@ public class EtatReglementController implements Initializable {
     FournisseurDAO fournisseurDAO = new FournisseurDAOImpl();
     ClientMPDAO clientMPDAO = new ClientMPDAOImpl();
     DetailBonLivraisonDAO detailBonLivraisonDAO = new DetailBonLivraisonDAOImpl();
+    HistoriquePrixDAO historiquePrixDAO = new HistoriquePrixDAOImpl();
     private Map<String,Fournisseur> mapFournisseur=new HashMap<>();
      private Map<String,ClientMP> mapClientMP=new HashMap<>();
      
-     
+     BigDecimal prixOld = BigDecimal.ZERO;
          String numCommande="";
     String valeur="";
     String codeOffre = "";
@@ -265,13 +268,13 @@ public class EtatReglementController implements Initializable {
      * Initializes the controller class.
      */
     
-    //--------------------------------------- Methode date paiement + date now = nombre de jour restant -------------------------------------------------------------------------------
+//--------------------------------------- Methode date paiement + date now = nombre de jour restant -------------------------------------------------------------------------------
       
     public int daysBetween(Date d1, Date d2){
              return (int) ((d1.getTime() - d2.getTime()) / (1000 * 60 * 60 * 24));
      }
    
-  //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------           
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------           
     
     void Incrementation (){
        
@@ -291,7 +294,7 @@ public class EtatReglementController implements Initializable {
         
         Incrementation ();
     
-         List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+         List<Fournisseur> listFournisseur=fournisseurDAO.findAllMp();
         
         listFournisseur.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());
@@ -439,7 +442,7 @@ public class EtatReglementController implements Initializable {
          
        loadDetailBonLiv();
        setColumnPropertiesDetailReception();
-       tableDetailBonLivraison.setEditable(true);
+//       tableDetailBonLivraison.setEditable(true);
     }
          
        
@@ -476,9 +479,14 @@ public class EtatReglementController implements Initializable {
              });
            
 
-             prixColumn.setCellValueFactory(new PropertyValueFactory<>("prix"));
-           
-               setColumnTextFieldConverter(getConverter(), prixColumn);
+//             prixColumn.setCellValueFactory(new PropertyValueFactory<>("prix"));
+           prixColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailBonLivraison, BigDecimal>, ObservableValue<BigDecimal>>() {
+                @Override
+                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<DetailBonLivraison, BigDecimal> p) {
+                    return new ReadOnlyObjectWrapper(p.getValue().getPrix().setScale(6,RoundingMode.FLOOR));
+                }
+             });
+//               setColumnTextFieldConverter(getConverter(), prixColumn);
            
              totalColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailBonLivraison, BigDecimal>, ObservableValue<BigDecimal>>() {
                 @Override
@@ -503,6 +511,13 @@ public class EtatReglementController implements Initializable {
     @FXML
     private void reglerOnAction(ActionEvent event) throws ParseException {
         
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
          boolean  variable =false;  
 
             if (numFacture.getText().equalsIgnoreCase("") || fourCombo.getSelectionModel().getSelectedItem() == null || fourCombo.getSelectionModel().getSelectedItem().isEmpty() ) {
@@ -525,10 +540,10 @@ public class EtatReglementController implements Initializable {
             
             if (bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_BL)){
             bonLivraisonTmp.setEtat(Constantes.ETAT_A_REGLE);
-            }else if (bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_RTR) && bonLivraisonTmp.getEtat().equals(Constantes.ETAT_NON_REGLE) || bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_MNQ) && bonLivraisonTmp.getEtat().equals(Constantes.ETAT_NON_REGLE)  ) {
-            bonLivraisonTmp.setEtat(Constantes.ETAT_A_REGLE);
-            }else if (bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_RTR) && bonLivraisonTmp.getEtat().equals(Constantes.ETAT_NON_PAIEMENT) || bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_MNQ) && bonLivraisonTmp.getEtat().equals(Constantes.ETAT_NON_PAIEMENT) ) {
+            
+            }else if ((bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_RTR) && bonLivraisonTmp.getEtat().equals(Constantes.ETAT_NON_PAIEMENT)) || (bonLivraisonTmp.getTypeBon().equals(Constantes.ETAT_MNQ) && bonLivraisonTmp.getEtat().equals(Constantes.ETAT_NON_PAIEMENT))) {
             bonLivraisonTmp.setEtat(Constantes.ETAT_A_PAYER);
+            
             }else {
             break;
             }
@@ -561,7 +576,7 @@ public class EtatReglementController implements Initializable {
              dateFin.setValue(null);
              dateLivraison.setValue(null);
              
-    }}}
+    }}}}
 
     
     
@@ -682,8 +697,10 @@ public class EtatReglementController implements Initializable {
         nav.showAlert(Alert.AlertType.ERROR, "Alert", null, Constantes.VERIFIER_FOURNISSEUR_CLIENT);
         }else{
       
-           SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            Date date = simpleDateFormat.parse(Constantes.DATE);
+         DelaiPaiementFour delaiPaiementFour = delaiPaiementFourDAO.findByFour(fourCombo.getSelectionModel().getSelectedItem());
+         
+//           SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//            Date date = simpleDateFormat.parse(Constantes.DATE);
          
             setColumnProperties();
 
@@ -712,10 +729,16 @@ public class EtatReglementController implements Initializable {
 			} else {
           
                             
-                       if (item.getDatePaiement().equals(date)){
-
-			 setStyle("-fx-background-color: green");
-                        }}
+                       if (item.getNombreJour() <= delaiPaiementFour.getNbJourMin().intValue()){
+                           
+			 setStyle("-fx-background-color: red");
+                         
+                        }else{
+                           
+                           
+                       
+                       }
+                        }
                     }
                 };
                 return row;
@@ -724,31 +747,31 @@ public class EtatReglementController implements Initializable {
             
 
             
-          nombreJourColumn.setCellFactory(column -> {
-			return new TableCell<BonLivraison, Integer>() {
-				@Override
-				protected void updateItem(Integer item, boolean empty) {
-					super.updateItem(item, empty);
-					
-					if (item == null || empty) {
-						setText(null);
-						setStyle("");
-					} else {
-						
-						setText(String.valueOf(item));
-						
-                                                
-						if (item <=7 && item >=0) {
-							setTextFill(Color.WHITE);
-							setStyle("-fx-background-color: red");
-						} else {
-							setTextFill(Color.BLACK);
-							setStyle("");
-						}
-					}
-				}
-			};
-		});
+//          nombreJourColumn.setCellFactory(column -> {
+//			return new TableCell<BonLivraison, Integer>() {
+//				@Override
+//				protected void updateItem(Integer item, boolean empty) {
+//					super.updateItem(item, empty);
+//					
+//					if (item == null || empty) {
+//						setText(null);
+//						setStyle("");
+//					} else {
+//						
+//						setText(String.valueOf(item));
+//						
+//                                                
+//						if (item <=7 ) {
+//							setTextFill(Color.WHITE);
+//							setStyle("-fx-background-color: red");
+//						} else {
+//							setTextFill(Color.BLACK);
+//							setStyle("");
+//						}
+//					}
+//				}
+//			};
+//		});
 
         }
     }
@@ -757,12 +780,12 @@ public class EtatReglementController implements Initializable {
     private void tableDetailClicked(MouseEvent event) {
         
         
-        BonLivraison bonLivraison = tableBonLivraison.getSelectionModel().getSelectedItem();
-        
         DetailBonLivraison detailBonLivraisonsTmp = tableDetailBonLivraison.getSelectionModel().getSelectedItem();
         
 //         detailBonRetour = detailBonRetourDAO.findDetailBonRetourByDetailBonLivraison(bonLivraison.getNumCommande(), bonLivraison.getLivraisonFour(),detailBonLivraisonsTmp.getMatierePremier().getId());
 
+
+            prixOld= detailBonLivraisonsTmp.getPrix();
         
             qteTxt.setText(detailBonLivraisonsTmp.getQuantite()+"");
             prixTxt.setText(detailBonLivraisonsTmp.getPrix()+"");
@@ -772,40 +795,6 @@ public class EtatReglementController implements Initializable {
   
        }
     
-    @FXML
-    private void datePaiementOnEditCommit(CellEditEvent<BonLivraison, Date> event) throws ParseException {
-        
-        
-        System.out.println("event.getNewValue() "+event.getNewValue());
-        
-            ((BonLivraison) event.getTableView().getItems().get(event.getTablePosition().getRow()))
-                        .setDatePaiement(event.getNewValue());
-            
-            
-            
-            
-              Date  datePaiement = datePaiementColumn.getCellData(event.getTablePosition().getRow());
-
-              
-              if (datePaiement== null){
-                  
-                nav.showAlert(Alert.AlertType.ERROR, "Erreur", Constantes.ERREUR_DATE , Constantes.VERIFICATION_DATE_SAISIE );
-              
-              }else{
-              
-              tableBonLivraison.refresh();
-              BonLivraison bonLivraison = listeBonLivraison.get(event.getTablePosition().getRow());
-              bonLivraison.setDatePaiement(datePaiement);
-              listeBonLivraison.set(event.getTablePosition().getRow(), bonLivraison);
-                
-                bonLivraisonDAO.edit(bonLivraison);
-                
-                refrech();
-              
-              }
-      
-              
-    }   
 
 
     @FXML
@@ -843,7 +832,7 @@ public class EtatReglementController implements Initializable {
                   
                    montantTotalNonPayer= montantTotalNonPayer.add(montantColumn.getCellData(rows));
                    
-                   montantTVANonPayer = montantTotalNonPayer;
+                   montantTVANonPayer = montantTVANonPayer;
                    
                    montantTTCNonPayer= montantTotalNonPayer;
                   
@@ -861,7 +850,7 @@ public class EtatReglementController implements Initializable {
                   
                    montantTotalNonRegler= montantTotalNonRegler.add(montantColumn.getCellData(rows));
                    
-                   montantTVANonRegler = montantTotalNonRegler;
+                   montantTVANonRegler = montantTVANonRegler;
                    
                    montantTTCNonRegler = montantTotalNonRegler;
                   
@@ -921,6 +910,14 @@ public class EtatReglementController implements Initializable {
     @FXML
     private void offreOnAction(ActionEvent event) throws ParseException {
         
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+                
+
         if(offreCheck.isSelected()== true){
         
            if (clientCombo.getSelectionModel().getSelectedItem().isEmpty() || fourCombo.getSelectionModel().getSelectedItem().isEmpty() ) {
@@ -934,6 +931,7 @@ public class EtatReglementController implements Initializable {
                BonLivraison bonLivraison = tableBonLivraison.getSelectionModel().getSelectedItem();
                
                bonRetour.setFournisseur(bonLivraison.getFourisseur());
+               bonRetour.setClient(bonLivraison.getClient());
                bonRetour.setDateCreation(date);
                bonRetour.setNumCommande(bonLivraison.getNumCommande());
                bonRetour.setDetailBonRetour(listeDetailBonRetour);
@@ -965,10 +963,10 @@ public class EtatReglementController implements Initializable {
                
                detailCompte.setDateOperation(new Date());
                detailCompte.setDesignation(Constantes.OFFRE+Constantes.SUR_COMMANDE_N+bonLivraison.getNumCommande()+"_"+Constantes.DESIGNATION_RECEPTION_BON_LIVRAISION+" "+bonLivraison.getLivraisonFour());
-               detailCompte.setMontantDebit(BigDecimal.ZERO);
+               detailCompte.setMontantDebit(montantTTC);
                detailCompte.setDateBonLivraison(date);
                detailCompte.setCode(codeOffre);
-               detailCompte.setMontantCredit(montantTTC.multiply(new BigDecimal(-1)));
+               detailCompte.setMontantCredit(BigDecimal.ZERO);
                detailCompte.setClientMP(commandeTMP.getClientMP());
                detailCompte.setUtilisateurCreation(nav.getUtilisateur());
                detailCompte.setCompteFourMP(commandeTMP.getFourisseur().getCompteFourMP());
@@ -1082,16 +1080,8 @@ public class EtatReglementController implements Initializable {
              dateLivraison.setValue(null);
              
     }}
+    }}
     }
-    }
-
-    private void actualiserMouseClicked(MouseEvent event) throws ParseException {
-        
-     refrech();
-//     tableDetailBonLivraison.getItems().clear();
-     tableDetailBonLivraison.refresh();
-    }
-
 
     @FXML
     private void calculeTotalMouseClicked(MouseEvent event) throws ParseException {
@@ -1395,47 +1385,132 @@ public class EtatReglementController implements Initializable {
 
 
     @FXML
-    private void prixUnitOnEditCommit(CellEditEvent<DetailBonLivraison, BigDecimal> event) {
+    private void prixUnitOnEditCommit(CellEditEvent<DetailBonLivraison, BigDecimal> event) throws ParseException {
         
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setContentText(Constantes.MESSAGE_ALERT_VALIDER_QTE_LIVRAISON);
-            alert.setTitle("Confirmation");
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.get() == ButtonType.OK) {
-
-                    BigDecimal prix = BigDecimal.ZERO;
-                    BigDecimal qte= BigDecimal.ZERO;
-                    BigDecimal calculeTotal= BigDecimal.ZERO; 
-                
-                    
-
-                    
-                ((DetailBonLivraison) event.getTableView().getItems().get(event.getTablePosition().getRow()))
-                        .setPrix(event.getNewValue());
-               
-                
-                    tableDetailBonLivraison.refresh();  
-
-  
-                 prix = prixColumn.getCellData(event.getTablePosition().getRow());
-                
-                 qte =  listeDetailBonLivraison.get(tableDetailBonLivraison.getSelectionModel().getSelectedIndex()).getQuantite();
-
-                 calculeTotal = qte.multiply(prix).setScale(2, RoundingMode.FLOOR);
-               
-
-                 listeDetailBonLivraison.get(tableDetailBonLivraison.getSelectionModel().getSelectedIndex()).setPrix(prix);
-                 listeDetailBonLivraison.get(tableDetailBonLivraison.getSelectionModel().getSelectedIndex()).setMontant(calculeTotal);
-                 
-                 
-                setColumnProperties();
-
-           
-
-            } else if (result.get() == ButtonType.CANCEL) {
-                tableDetailBonLivraison.refresh();
-            }
+//        Alert alert = new Alert(AlertType.CONFIRMATION);
+//            alert.setContentText(Constantes.MESSAGE_ALERT_VALIDER_QTE_LIVRAISON);
+//            alert.setTitle("Confirmation");
+//            Optional<ButtonType> result = alert.showAndWait();
+//
+//            if (result.get() == ButtonType.OK) {
+//
+//                    BigDecimal prix = BigDecimal.ZERO;
+//                    BigDecimal qte= BigDecimal.ZERO;
+//                    BigDecimal calculeTotal= BigDecimal.ZERO; 
+//                
+//                    
+//
+//                    
+//                ((DetailBonLivraison) event.getTableView().getItems().get(event.getTablePosition().getRow()))
+//                        .setPrix(event.getNewValue());
+//               
+//                
+//                    tableDetailBonLivraison.refresh();  
+//
+//  
+//                 prix = prixColumn.getCellData(event.getTablePosition().getRow());
+//                
+//                 qte =  listeDetailBonLivraison.get(tableDetailBonLivraison.getSelectionModel().getSelectedIndex()).getQuantite();
+//
+//                 calculeTotal = qte.multiply(prix).setScale(2, RoundingMode.FLOOR);
+//               
+//
+//                 listeDetailBonLivraison.get(tableDetailBonLivraison.getSelectionModel().getSelectedIndex()).setPrix(prix);
+//                 listeDetailBonLivraison.get(tableDetailBonLivraison.getSelectionModel().getSelectedIndex()).setMontant(calculeTotal);
+//                 
+//                 detailBonLivraisonDAO.edit(listeDetailBonLivraison.get(tableDetailBonLivraison.getSelectionModel().getSelectedIndex()));
+//                 
+////#######################################################################################################################################################################################################################################################################################################################                
+//                     
+//        Fournisseur fournisseur = mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
+//
+//            HistoriquePrix historiquePrix = new HistoriquePrix();
+//        
+//        historiquePrix.setAncienPrix(prixOld);
+//        historiquePrix.setNouveauPrix(prix);
+//        historiquePrix.setFournisseur(fournisseur);
+//        historiquePrix.setCategorieMp(listeDetailBonLivraison.get(tableDetailBonLivraison.getSelectionModel().getSelectedIndex()).getMatierePremier().getCategorieMp());
+//        historiquePrix.setDateCreation(new Date());
+//        historiquePrix.setChemin(Constantes.REGLEMENT);
+//        historiquePrix.setUtilisateurCreation(nav.getUtilisateur());
+//        
+//        historiquePrixDAO.add(historiquePrix);
+//        
+////######################################################################################################################################################################################################################################################################################################################      
+//        
+//        BigDecimal montantHT= BigDecimal.ZERO;
+//        BigDecimal montantTVA =BigDecimal.ZERO;
+//        BigDecimal montantTTC =BigDecimal.ZERO;
+//
+//          BonLivraison bonLivraison = tableBonLivraison.getSelectionModel().getSelectedItem();
+//
+//                for(int i=0;i<listeDetailBonLivraison.size(); i++ ){
+//
+//                    DetailBonLivraison detailBonLivraison = listeDetailBonLivraison.get(i);
+//
+//                montantHT = montantHT.add(detailBonLivraison.getMontant().setScale(2,RoundingMode.FLOOR));
+//        }
+//
+//             montantTVA =montantHT.multiply(Constantes.TAUX_TVA_20).setScale(2,RoundingMode.FLOOR);
+//             montantTTC =montantHT.add(montantTVA).setScale(2,RoundingMode.FLOOR) ;
+//        
+//          bonLivraison.setMontant(montantHT);
+//          bonLivraison.setMontantTVA(montantTVA);
+//          bonLivraison.setMontantTTC(montantTTC);
+//          
+//        bonLivraisonDAO.edit(bonLivraison);
+//        
+////#########################################################################################################################################################################################################################################################################################
+//        
+//        BigDecimal MontantHTSpecial = BigDecimal.ZERO;
+//        BigDecimal MontantTVASpecial= BigDecimal.ZERO;
+//        BigDecimal MontantTTCSpecial= BigDecimal.ZERO;
+//
+//        
+// for(int j=0;j<listeDetailBonLivraison.size(); j++ ){
+//
+//      DetailBonLivraison detailBonLivraison = listeDetailBonLivraison.get(j);
+//     
+//         MontantHTSpecial = MontantHTSpecial.add(detailBonLivraison.getMontant().setScale(2,RoundingMode.FLOOR));
+//
+//         MontantTVASpecial =MontantHTSpecial.multiply(Constantes.TAUX_TVA_20).setScale(2,RoundingMode.FLOOR);
+//         MontantTTCSpecial =MontantHTSpecial.add(MontantTVASpecial).setScale(2,RoundingMode.FLOOR) ;
+//
+//         
+//              String designation = Constantes.DESIGNATION_RECEPTION_BON_LIVRAISION+" "+bonLivraison.getLivraisonFour()+"_"+Constantes.DESIGNATION_COMMANDE_N+" "+detailBonLivraison.getNumCommande();
+//
+//     
+//         DetailCompte detailCompte = detailCompteDAO.findByDetailCompte(designation);
+//
+//
+//        detailCompte.setMontantCredit(MontantTTCSpecial);
+//
+//        detailCompteDAO.edit(detailCompte);
+//
+//       loadDetailBonLiv();
+//       loadDetailCombo();     
+//       
+//         offreCheck.setSelected(false);
+//                qteTxt.setDisable(true);
+//                
+//                montantTotalField.clear();
+//                
+//                monHT.setText("");
+//                monTTC.setText("");
+//                monTVA.setText("");
+//                
+//                qteTxt.clear();
+//                prixTxt.clear();
+//                totalTxt.clear();
+//                
+//                dateCreation.setValue(null);
+//  }
+//                 
+//                setColumnProperties();
+//
+//            } else if (result.get() == ButtonType.CANCEL) {
+//                tableDetailBonLivraison.refresh();
+//            }
         
     }
 
@@ -1546,6 +1621,8 @@ public class EtatReglementController implements Initializable {
         setColumnProperties();
         
     }
+
+ 
  
   
 

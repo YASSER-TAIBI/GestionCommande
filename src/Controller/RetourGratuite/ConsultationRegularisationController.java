@@ -195,7 +195,7 @@ private Map<String,ClientMP> mapClientMP=new HashMap<>();
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         
-                List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+                List<Fournisseur> listFournisseur=fournisseurDAO.findAllMp();
         
         listFournisseur.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());
@@ -217,21 +217,7 @@ private Map<String,ClientMP> mapClientMP=new HashMap<>();
         
         setColumnProperties();
          loadDetail();
-         
-           for (int i = 0; i < listeBonRetour.size(); i++) {
-                          
-                          BonRetour bonRetour = listeBonRetour.get(i);
-                          
-                           montantTotal = montantTotal.add(bonRetour.getMontantPaye());
-                          
-                      }
-           DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
-                dfs.setDecimalSeparator(',');
-                dfs.setGroupingSeparator('.');
-                DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
-                df.setGroupingUsed(true);
-              
-            montantTotalField.setText(df.format(montantTotal));
+        calcule();
             
               tableRegularisation.setEditable(true);
               numTraiteColumn.setEditable(true);
@@ -278,6 +264,16 @@ private Map<String,ClientMP> mapClientMP=new HashMap<>();
 
     @FXML
     private void refrechOnAction(ActionEvent event) {
+        
+        fourCombo.getSelectionModel().select(-1);
+        clientCombo.getSelectionModel().select(-1);
+        
+        tableRegularisation.getItems().clear();
+        listeBonRetour.clear();
+        
+        setColumnProperties();
+        loadDetail();
+        calcule();
     }
 
     @FXML
@@ -310,8 +306,16 @@ private Map<String,ClientMP> mapClientMP=new HashMap<>();
                 
         listeBonRetour.addAll(bonRetourDAO.findBonRetourByRechercheFourAndClient(fournisseur.getNom(),clientMP.getNom(),Constantes.DIMINUTION, Constantes.AUGMENTATION));
         tableRegularisation.setItems(listeBonRetour);
+        
+        calcule();
+                   
+        }
+    }
 
-                      for (int i = 0; i < listeBonRetour.size(); i++) {
+    void calcule(){
+
+        montantTotal = BigDecimal.ZERO;
+           for (int i = 0; i < listeBonRetour.size(); i++) {
                           
                           BonRetour bonRetour = listeBonRetour.get(i);
                           
@@ -324,10 +328,9 @@ private Map<String,ClientMP> mapClientMP=new HashMap<>();
                 DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
                 df.setGroupingUsed(true);
               
-            montantTotalField.setText(df.format(montantTotal));
-        }
-    }
-
+            montantTotalField.setText(df.format(montantTotal));  
+}
+    
     @FXML
     private void numTraiteOnEditCommit(TableColumn.CellEditEvent<BonRetour, String> event) {
         

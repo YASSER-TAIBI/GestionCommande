@@ -10,8 +10,12 @@ import dao.Entity.Produit;
 import dao.Manager.ProduitDAO;
 import dao.ManagerImpl.ProduitDAOImpl;
 import function.navigation;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Callback;
 
 /**
  * FXML Controller class
@@ -41,6 +46,23 @@ public class ListeArticleOulmesController implements Initializable {
     private TableColumn<Produit, String> codeColumn;
     @FXML
     private TableColumn<Produit, String> libelleColumn;
+    @FXML
+    private TableColumn<Produit, BigDecimal> qtePaletteColumn;
+    @FXML
+    private TableColumn<Produit, BigDecimal> qteCaisseColumn;
+    @FXML
+    private TableColumn<Produit, BigDecimal> qteBouteilleColumn;
+    @FXML
+    private TableColumn<Produit, Boolean> emballageColumn;
+    
+     @FXML
+    private CheckBox emballageCheck;
+    @FXML
+    private TextField txtQtePalette;
+    @FXML
+    private TextField txtQteCaisse;
+    @FXML
+    private TextField txtQteBouteille;
     @FXML
     private Button btnSupprimer;
     @FXML
@@ -57,21 +79,16 @@ public class ListeArticleOulmesController implements Initializable {
     private TextField codeRechField;
     @FXML
     private Label msgCode;
-    @FXML
-    private CheckBox paletteCheck;
 
  private final ObservableList<Produit> listeProduit=FXCollections.observableArrayList();
             
      ProduitDAO produitDAO = new ProduitDAOImpl();
      navigation nav = new navigation();
      Produit produit;
- 
+
+    
+    
    
-    
-   
-    
-    
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
            tableArticle.setEditable(true);
@@ -88,6 +105,16 @@ public class ListeArticleOulmesController implements Initializable {
         
         codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
         libelleColumn.setCellValueFactory(new PropertyValueFactory<>("libelle"));
+        qtePaletteColumn.setCellValueFactory(new PropertyValueFactory<>("qtePalette"));
+        qteCaisseColumn.setCellValueFactory(new PropertyValueFactory<>("qteCaisse"));
+        qteBouteilleColumn.setCellValueFactory(new PropertyValueFactory<>("qteBouteille"));
+        
+           emballageColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Produit, Boolean>, ObservableValue<Boolean>>() {
+            @Override
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Produit, Boolean> param) {
+                return  new ReadOnlyObjectWrapper(param.getValue().getPalette());
+            }
+        });
     
      }
     
@@ -114,7 +141,10 @@ public class ListeArticleOulmesController implements Initializable {
         
      }else {
        Produit produit=tableArticle.getSelectionModel().getSelectedItem();
-        produitDAO.delete(produit);
+        
+  produit.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
+
+            produitDAO.edit(produit);
     
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succés", null, Constantes.SUPRIMER_ENREGISTREMENT);
         
@@ -128,15 +158,25 @@ public class ListeArticleOulmesController implements Initializable {
         if (tableArticle.getSelectionModel().getSelectedItem() != null) {
               
               Produit produit= tableArticle.getSelectionModel().getSelectedItem();
-               txtCode.setText(produit.getCode());
-               txtLibelle.setText(produit.getLibelle());
-        if (paletteCheck.isSelected()== true){
-       produit.setPalette(Boolean.TRUE);
-       }else{
-       produit.setPalette(Boolean.FALSE);
-       }
+
+               produit.setCode(txtCode.getText());
+               produit.setLibelle(txtLibelle.getText());
                
+                if(emballageCheck.isSelected()==true){
+       
+       produit.setPalette(true);
+       produit.setQtePalette(BigDecimal.ZERO);
+       produit.setQteCaisse(BigDecimal.ZERO);
+       produit.setQteBouteille(BigDecimal.ZERO);
                
+               }else{
+           
+       produit.setPalette(false);        
+       produit.setQtePalette(new BigDecimal(txtQtePalette.getText()));
+       produit.setQteCaisse(new BigDecimal(txtQteCaisse.getText()));
+       produit.setQteBouteille(new BigDecimal(txtQteBouteille.getText()));
+       
+               }
           produitDAO.edit(produit);
       
        nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.MODIFIER_ENREGISTREMENT);
@@ -156,16 +196,30 @@ public class ListeArticleOulmesController implements Initializable {
         
      }else {
        
-  produit.setCode(txtCode.getText());
+       produit.setCode(txtCode.getText());
        produit.setLibelle(txtLibelle.getText());
        
-       if (paletteCheck.isSelected()== true){
-       produit.setPalette(Boolean.TRUE);
-       }else{
-       produit.setPalette(Boolean.FALSE);
-       }
-      produit.setUtilisateurCreation(nav.getUtilisateur());
+       if(emballageCheck.isSelected()==true){
+       
+       produit.setPalette(true);
+       produit.setQtePalette(BigDecimal.ZERO);
+       produit.setQteCaisse(BigDecimal.ZERO);
+       produit.setQteBouteille(BigDecimal.ZERO);
+               
+               }else{
+           
+       produit.setPalette(false);        
+       produit.setQtePalette(new BigDecimal(txtQtePalette.getText()));
+       produit.setQteCaisse(new BigDecimal(txtQteCaisse.getText()));
+       produit.setQteBouteille(new BigDecimal(txtQteBouteille.getText()));
+       
+               }
+
+       produit.setEtat(Constantes.ETAT_COMMANDE_LANCE);
+       produit.setUtilisateurCreation(nav.getUtilisateur());
+       
         produitDAO.add(produit);
+        
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.AJOUTER_ENREGISTREMENT);
            setColumnProperties();
       loadDetail(); 
@@ -176,21 +230,21 @@ public class ListeArticleOulmesController implements Initializable {
     private void searche(KeyEvent event) {
     }
 
-    @FXML
-    private void rechercheLibelleVilleOnKeyPressed(KeyEvent event) {
-    }
-
-    @FXML
-    private void rechercheCodeVilleOnKeyPressed(KeyEvent event) {
-
-    }
 
     void clear(){
     
     txtCode.clear();
-    txtLibelle.clear();
-    paletteCheck.setSelected(false);
+    txtQtePalette.clear();
     
+    txtLibelle.clear();
+    txtQteCaisse.clear();
+    txtQteBouteille.clear();
+    
+    txtQtePalette.setDisable(false);
+    txtQteBouteille.setDisable(false);
+    txtQteCaisse.setDisable(false);
+        
+    emballageCheck.setSelected(false);
     }
     
     
@@ -212,14 +266,92 @@ public class ListeArticleOulmesController implements Initializable {
           
               txtCode.setText(codeColumn.getCellData(val));
               txtLibelle.setText(libelleColumn.getCellData(val));
-
+              txtQtePalette.setText(qtePaletteColumn.getCellData(val)+"");
+              txtQteCaisse.setText(qteCaisseColumn.getCellData(val)+"");
+              txtQteBouteille.setText(qteBouteilleColumn.getCellData(val)+"");
+              
+              if (emballageColumn.getCellData(val)== Boolean.TRUE){
+            emballageCheck.setSelected(true);
+            
+            txtQtePalette.setDisable(true);
+            txtQteBouteille.setDisable(true);
+            txtQteCaisse.setDisable(true);
+            
+            }else{
+            emballageCheck.setSelected(false);
+            
+            txtQtePalette.setDisable(false);
+            txtQteBouteille.setDisable(false);
+            txtQteCaisse.setDisable(false);
+            
+            }
           }
         
         
     }
 
+
     @FXML
-    private void paletteCheckOnAction(ActionEvent event) {
+    private void rechercheCodeOnKeyPressed(KeyEvent event) {
+        
+                        ObservableList<Produit> listeProduit=FXCollections.observableArrayList();
+          
+        listeProduit.clear();
+   
+        listeProduit.addAll(produitDAO.findByCodeProduit(codeRechField.getText()));
+   
+        tableArticle.setItems(listeProduit);
+        
+        
+    }
+
+    @FXML
+    private void rechercheLibelleOnKeyPressed(KeyEvent event) {
+        
+                       ObservableList<Produit> listeProduit=FXCollections.observableArrayList();
+          
+        listeProduit.clear();
+   
+        listeProduit.addAll(produitDAO.findBylibelleProduit(libelleRechField.getText()));
+   
+        tableArticle.setItems(listeProduit);
+        
+        
+    }
+
+    @FXML
+    private void rechercheTableMouseClicked(MouseEvent event) {
+        
+                    libelleRechField.clear();
+            codeRechField.clear();
+
+            setColumnProperties();
+            loadDetail();
+        
+    }
+
+    @FXML
+    private void emballageCheckOnAction(ActionEvent event) {
+        
+        if (emballageCheck.isSelected() == true){
+        txtQtePalette.setDisable(true);
+        txtQteBouteille.setDisable(true);
+        txtQteCaisse.setDisable(true);
+        
+        txtQtePalette.clear();
+        txtQteBouteille.clear();
+        txtQteCaisse.clear();
+        }else{
+        
+        txtQtePalette.setDisable(false);
+        txtQteBouteille.setDisable(false);
+        txtQteCaisse.setDisable(false);
+        
+        txtQtePalette.clear();
+        txtQteBouteille.clear();
+        txtQteCaisse.clear();
+        
+        }
     }
     
 }

@@ -7,6 +7,7 @@ package Controller.Referentiel;
 
 import Utils.Constantes;
 import dao.Entity.TypeCarton;
+import dao.Entity.TypeCartonBox;
 import dao.Manager.TypeCartonDAO;
 import dao.ManagerImpl.TypeCartonDAOImpl;
 import function.navigation;
@@ -114,6 +115,7 @@ public class ListeTypeCartonController implements Initializable {
        
        typeCarton.setCode(txtCode.getText());
        typeCarton.setLibelle(txtLibelle.getText());
+       typeCarton.setEtat(Constantes.ETAT_COMMANDE_LANCE);
        typeCarton.setUtilisateurCreation(nav.getUtilisateur());
 
       
@@ -158,8 +160,10 @@ public class ListeTypeCartonController implements Initializable {
          nav.showAlert(Alert.AlertType.ERROR, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE);
         
      }else {
-       TypeCarton typeCartonBox=tableTypeCarton.getSelectionModel().getSelectedItem();
-        typeCartonDAO.delete(typeCartonBox);
+       TypeCarton typeCarton=tableTypeCarton.getSelectionModel().getSelectedItem();
+          typeCarton.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
+
+            typeCartonDAO.edit(typeCarton);
     
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.SUPRIMER_ENREGISTREMENT);
         
@@ -183,11 +187,41 @@ public class ListeTypeCartonController implements Initializable {
     }
 
     @FXML
-    private void rechercheCodeVilleOnKeyPressed(KeyEvent event) {
+    private void rechercheCodeOnKeyPressed(KeyEvent event) {
+        
+                      ObservableList<TypeCarton> listeTypeCarton=FXCollections.observableArrayList();
+          
+        listeTypeCarton.clear();
+   
+        listeTypeCarton.addAll(typeCartonDAO.findByCodeTypeCarton(codeRechField.getText()));
+   
+        tableTypeCarton.setItems(listeTypeCarton);
+        
     }
 
     @FXML
-    private void rechercheLibelleVilleOnKeyPressed(KeyEvent event) {
+    private void rechercheLibelleOnKeyPressed(KeyEvent event) {
+        
+        
+                       ObservableList<TypeCarton> listeTypeCarton=FXCollections.observableArrayList();
+          
+        listeTypeCarton.clear();
+   
+        listeTypeCarton.addAll(typeCartonDAO.findBylibelleTypeCarton(libelleRechField.getText()));
+   
+        tableTypeCarton.setItems(listeTypeCarton);
+        
+    }
+
+    @FXML
+    private void rechercheTableMouseClicked(MouseEvent event) {
+        
+              libelleRechField.clear();
+        codeRechField.clear();
+        
+        setColumnProperties();
+        loadDetail();
+        
     }
     
 }

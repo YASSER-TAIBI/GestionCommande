@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="GestionCommande.jar" size="39872223" download="eager" />
+    <jar href="GestionCommande.jar" size="42303178" download="eager" />
     <jar href="lib\Enzo-0.3.6.jar" size="2504009" download="eager" />
     <jar href="lib\antlr-2.7.7.jar" size="445288" download="eager" />
     <jar href="lib\com-jaspersoft-ireport.jar" size="8959460" download="eager" />
@@ -17,6 +17,7 @@
     <jar href="lib\commons-collections-2.1.jar" size="165119" download="eager" />
     <jar href="lib\commons-digester-1.7.jar" size="139966" download="eager" />
     <jar href="lib\commons-logging-1.2.jar" size="61829" download="eager" />
+    <jar href="lib\controlsfx-8.40.11.jar" size="985420" download="eager" />
     <jar href="lib\dom4j-1.6.1.jar" size="313898" download="eager" />
     <jar href="lib\groovy-all-1.8.0.jar" size="5956302" download="eager" />
     <jar href="lib\hibernate-commons-annotations-4.0.5.Final.jar" size="75324" download="eager" />
@@ -33,7 +34,7 @@
     <jar href="lib\jboss-transaction-api_1.2_spec-1.0.0.Final.jar" size="27717" download="eager" />
     <jar href="lib\jdbc-postgresql.jar" size="414600" download="eager" />
     <jar href="lib\log4j-1.2.16.jar" size="481535" download="eager" />
-    <jar href="lib\mysql-connector-java-5.0.8-bin.jar" size="540852" download="eager" />
+    <jar href="lib\mysql-connector-java-5.1.44.jar" size="999632" download="eager" />
     <jar href="lib\poi-3.17.jar" size="2701171" download="eager" />
     <jar href="lib\poi-ooxml-3.17.jar" size="1479023" download="eager" />
     <jar href="lib\poi-ooxml-schemas-3.17.jar" size="5924600" download="eager" />

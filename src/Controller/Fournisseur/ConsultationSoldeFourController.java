@@ -150,7 +150,7 @@ public class ConsultationSoldeFourController implements Initializable {
       setColumnProperties();
       loadDetail();  
         
-           List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+           List<Fournisseur> listFournisseur=fournisseurDAO.findAllPfAndMp();
         
         listFournisseur.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());

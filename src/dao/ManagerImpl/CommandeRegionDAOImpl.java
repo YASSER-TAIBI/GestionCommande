@@ -24,7 +24,7 @@ public class CommandeRegionDAOImpl implements CommandeRegionDAO{
 
         public List<CommandeRegion>  findCommandeByEtat(String etat) {
 		
-		Query query = session.createQuery("select u from CommandeRegion u where  u.etat=:etat ");
+		Query query = session.createQuery("select u from CommandeRegion u where  u.etat=:etat and u.typeCommande='Interne'");
 		query.setParameter("etat", etat);
 		
 	return  query.list();
@@ -32,7 +32,15 @@ public class CommandeRegionDAOImpl implements CommandeRegionDAO{
 
 				}
     
+        public List<CommandeRegion>  findCommandeByEtatPF(String etat) {
+		
+		Query query = session.createQuery("select u from CommandeRegion u where  u.etat=:etat and u.typeCommande='Interne Art'");
+		query.setParameter("etat", etat);
+		
+	return  query.list();
+	      
 
+				}
     
 	public CommandeRegion findById(int id) {
 		return (CommandeRegion)session.get(CommandeRegion.class, id);
@@ -75,7 +83,12 @@ public class CommandeRegionDAOImpl implements CommandeRegionDAO{
 	return  query.list();
     }
 
-
+   public List<CommandeRegion> findByTypeComAndDepot(String typeCommandeRegion, int depot) {
+              Query query = session.createQuery("select c from CommandeRegion c where c.typeCommande=:typeCommande and c.depot.id=:depot");
+                query.setParameter("typeCommande", typeCommandeRegion);
+		query.setParameter("depot", depot);
+	return  query.list();
+    }
           
 
 	

@@ -25,6 +25,8 @@ public interface DepotDAO {
 
 	public List<Depot>  findDepotByCodeSaufEnParametre(String code);
 
+        public List<Depot> findDepotBySiege(String code);
+        
 	public Magasin magasinByCode(String codeMagasin);
 	
 	public List<Magasin> listeMagasinByTypeMagasinDepotMachine(int idDepot,String codeType,String codeMachine);

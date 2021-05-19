@@ -91,6 +91,16 @@ public class ClientMPDAOImpl implements ClientMPDAO {
 		
                 return query.list();
  }
+ 
+  public ClientMP findClientMPByNom(String nom) {
+		
+		Query query = session.createQuery("select u from ClientMP u where u.nom =:nom");
+		query.setParameter("nom",nom);
+
+               return (ClientMP) query.uniqueResult();
+ }
+ 
+ 
  public List<ClientMP> findClientMPByRechercheCode(String code) {
 		
 		Query query = session.createQuery("select u from ClientMP u where Code like :code");

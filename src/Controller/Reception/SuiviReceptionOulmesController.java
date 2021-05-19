@@ -24,6 +24,9 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -31,6 +34,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
@@ -275,7 +279,7 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
           
     listeCommande.clear();
    
-   listeCommande.addAll(commandeDAO.findFourByRechercheNumCommande(numComRechField.getText(),Constantes.ETAT_COMMANDE_ENCOURS));
+   listeCommande.addAll(commandeDAO.findFourByRechercheNumCommandeOulmes(numComRechField.getText(),Constantes.ETAT_COMMANDE_ENCOURS));
    
    tableCommande.setItems(listeCommande);
     }
@@ -311,6 +315,38 @@ if (tableDetailCommande.getSelectionModel().getSelectedIndex()!=-1){
         tableReception.setEditable(true);
 }
     
+    }
+
+    @FXML
+    private void creationDate(ActionEvent event) throws ParseException {
+        
+            
+          LocalDate localDate=dateCreationPicker.getValue();
+             if(localDate!=null){
+                 
+             Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
+             
+            
+              listeCommande.clear();
+   
+   listeCommande.addAll(commandeDAO.findByDateCommandeOulmes(dateSaisie,Constantes.ETAT_COMMANDE_ENCOURS));
+   
+   tableCommande.setItems(listeCommande);
+             }
+        
+    }
+
+    @FXML
+    private void refrechTableMouseClicked(MouseEvent event) {
+        
+            numComRechField.clear();
+        dateCreationPicker.setValue(null);
+        tableCommande.getItems().clear();
+        tableDetailCommande.getItems().clear();
+        tableReception.getItems().clear();
+        
+          setColumnProperties();
+        loadDetail();
     }
  
 }

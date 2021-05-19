@@ -151,4 +151,20 @@ public class DetailCompteDAOImpl implements DetailCompteDAO {
         query.setParameter("comptFour", comptFour);
         return query.list();
     }
+                         
+                         
+                         
+                public List<Object[]> findBySoldeFA(String req) {
+
+       Query query=  session.createQuery("select c.compteFourMP ,sum(case WHEN c.clientMP.nom='AHL BRAHIM' THEN (c.montantCredit-c.montantDebit) ELSE 0 END),sum(case WHEN c.clientMP.nom='EL NASS TEA PACKING' THEN (c.montantCredit-c.montantDebit) ELSE 0 END),sum(case WHEN c.clientMP.nom='SAHARA PACKING' THEN (c.montantCredit-c.montantDebit) ELSE 0 END),sum(case WHEN c.clientMP.nom='EL ALLAOUI EL FILALI' THEN (c.montantCredit-c.montantDebit) ELSE 0 END),sum(case WHEN c.clientMP.nom='SUD GREEN TEA ' THEN (c.montantCredit-c.montantDebit) ELSE 0 END) FROM DetailCompte c where c.id>0 "+req+"GROUP BY c.compteFourMP");
+
+        return query.list();
+    }
+                
+                  public  Date findByMinDate() {
+		
+		Query query = session.createQuery("select MIN(c.dateBonLivraison) from DetailCompte c " );
+		 return (Date)  query.uniqueResult();
+	      
+				}
 }

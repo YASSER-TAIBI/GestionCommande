@@ -41,7 +41,7 @@ public class SubCategorieMPAOImpl implements SubCategorieMPDAO {
 	}
 
 	public List<SubCategorieMp> findAll() {
-		return session.createQuery("select c from SubCategorieMp c").list();
+		return session.createQuery("select c from SubCategorieMp c where c.etat = 'Lancé'").list();
 		}
 
 	public SubCategorieMp findById(Long id) {
@@ -50,7 +50,7 @@ public class SubCategorieMPAOImpl implements SubCategorieMPDAO {
 
         	public List<SubCategorieMp> SubCategorieMpByBoxCartonAdf() {
 
-		Query query= session.createQuery("select c from SubCategorieMp c where c.nom=:box or c.nom=:carton or c.nom=:adf or c.nom=:filmGold or c.nom=:filmNormal");
+		Query query= session.createQuery("select c from SubCategorieMp c where c.etat = 'Lancé' and (c.nom=:box or c.nom=:carton or c.nom=:adf or c.nom=:filmGold or c.nom=:filmNormal)");
 		query.setParameter("box", Constantes.BOX );
                 query.setParameter("carton",Constantes.CARTON );
                 query.setParameter("adf",Constantes.ADHESIF );
@@ -61,4 +61,22 @@ public class SubCategorieMPAOImpl implements SubCategorieMPDAO {
 		return query.list();
 //		
                 }
+                
+                public List<SubCategorieMp> findByCodeSubCategorieMp(String code) {
+		
+		Query query = session.createQuery("select u from SubCategorieMp u where u.code code like:code and u.etat = 'Lancé'");
+		query.setParameter("code","%"+code+"%");
+		
+                return query.list();
+ }
+    
+         	 public List<SubCategorieMp> findBylibelleSubCategorieMp(String lib) {
+		
+		Query query = session.createQuery("select u from SubCategorieMp u where u.nom like:lib and u.etat = 'Lancé'");
+		query.setParameter("lib","%"+lib+"%");
+		
+                return query.list();
+ }
+
+                
 }

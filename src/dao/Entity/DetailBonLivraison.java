@@ -82,6 +82,10 @@ public class DetailBonLivraison {
     @Column(name="BON_AVOIR")
     private String bonAvoir;
     
+    @Column(name="MOTIF")
+    private String motif;
+    
+    
     
     
     public String getLivraisonFour() {
@@ -107,6 +111,14 @@ public class DetailBonLivraison {
 
     public void setPrix(BigDecimal prix) {
         this.prix = prix;
+    }
+
+    public String getMotif() {
+        return motif;
+    }
+
+    public void setMotif(String motif) {
+        this.motif = motif;
     }
 
     public BigDecimal getQuantite() {

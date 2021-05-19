@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ClientMP.ConsultationSoldeFinAnneeController">
+   <children>
+      <Pane layoutX="111.0" layoutY="173.0" prefHeight="55.0" prefWidth="1380.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="1324.0" layoutY="5.0" onMouseClicked="#recherchMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+            <DatePicker fx:id="dateFin" layoutX="661.0" layoutY="12.0" onAction="#dateFinOnAction" prefHeight="31.0" prefWidth="212.0" promptText="Sélectionner Date..." />
+            <Label layoutX="507.0" layoutY="17.0" text="Date Situation: " />
+         </children>
+      </Pane>
+      <Pane layoutX="441.0" layoutY="108.0" prefHeight="55.0" prefWidth="756.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="43.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Consultation Solde Fin d'Année" />
+         </children>
+      </Pane>
+      <TableView fx:id="tableSoldeFinAnnee" blendMode="MULTIPLY" layoutX="110.0" layoutY="236.0" maxWidth="1.7976931348623157E308" onMouseClicked="#tableDetailClicked" prefHeight="509.0" prefWidth="1380.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="fourColumn" prefWidth="197.0" text="Fournisseur" />
+            <TableColumn fx:id="ahlBrahimColumn" prefWidth="197.0" text="Ahl Brahim" />
+            <TableColumn fx:id="nassPackingColumn" prefWidth="197.0" text="El Nass Tea Packing" />
+            <TableColumn fx:id="saharaPackingColumn" prefWidth="197.0" text="Sahara Packing" />
+            <TableColumn fx:id="allaouiFilaliColumn" prefWidth="197.0" text="El Allaoui El Filali" />
+            <TableColumn fx:id="greenTeaColumn" prefWidth="197.0" text="Sud Green Tea" />
+            <TableColumn fx:id="montantColumn" prefWidth="197.0" text="Montant" />
+         </columns>
+      </TableView>
+      <Pane layoutX="110.0" layoutY="752.0" prefHeight="62.0" prefWidth="1380.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnImprimer" alignment="CENTER" layoutX="643.0" layoutY="8.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer" />
+            <Button fx:id="btnRefrech" alignment="CENTER" layoutX="505.0" layoutY="8.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#refrechOnAction" prefHeight="44.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Refrech" />
+            <Button fx:id="btnExel" layoutX="783.0" layoutY="9.0" mnemonicParsing="false" onAction="#btnExelOnAction" prefHeight="44.0" prefWidth="116.0" text="Excel" visible="false" />
+            <Label layoutX="1021.0" layoutY="21.0" text="Montant Total: " />
+            <TextField fx:id="montantTotalField" alignment="CENTER" disable="true" layoutX="1173.0" layoutY="15.0" prefHeight="31.0" prefWidth="193.0" promptText="montant Total" styleClass="StyleRaduis" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

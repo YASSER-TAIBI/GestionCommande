@@ -69,6 +69,8 @@ public class PrixFilm implements Serializable{
        @Column(name="TYPE_PRIX")
         private String typePrix;
           
+         private Boolean action;
+       
     public int getId() {
         return id;
     }
@@ -91,6 +93,14 @@ public class PrixFilm implements Serializable{
 
     public String getTypePrix() {
         return typePrix;
+    }
+
+    public Boolean getAction() {
+        return action;
+    }
+
+    public void setAction(Boolean action) {
+        this.action = action;
     }
 
     public void setTypePrix(String typePrix) {

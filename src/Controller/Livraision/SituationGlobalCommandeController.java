@@ -6,15 +6,18 @@
 package Controller.Livraision;
 
 import Utils.Constantes;
+import dao.Entity.ClientMP;
 import dao.Entity.DetailBonLivraison;
 import dao.Entity.DetailCommande;
 import dao.Entity.Fournisseur;
 import dao.Entity.MatierePremier;
 import dao.Entity.SubCategorieMp;
+import dao.Manager.ClientMPDAO;
 import dao.Manager.DetailCommandeDAO;
 import dao.Manager.FournisseurDAO;
 import dao.Manager.MatierePremiereDAO;
 import dao.Manager.SubCategorieMPDAO;
+import dao.ManagerImpl.ClientMPDAOImpl;
 import dao.ManagerImpl.DetailCommandeDAOImpl;
 import dao.ManagerImpl.FournisseurDAOImpl;
 import dao.ManagerImpl.MatierePremierDAOImpl;
@@ -28,6 +31,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -97,6 +101,10 @@ public class SituationGlobalCommandeController implements Initializable {
     @FXML
     private TableColumn<DetailCommande, String> codeMpColumn;
     @FXML
+    private TableColumn<DetailCommande, String> clientColumn;
+    @FXML
+    private ComboBox<String> clientCombo;
+    @FXML
     private ComboBox<String> subCatgCombo;
     @FXML
     private TextField mpRechField;
@@ -112,12 +120,13 @@ public class SituationGlobalCommandeController implements Initializable {
     private ImageView rechDate;
     @FXML
     private Label sommeLabel;
-    
+    @FXML
+    private TextField qteResteeField;
   
         MatierePremier matierePremiere=new MatierePremier();
         MatierePremiereDAO matierePremiereDAO = new MatierePremierDAOImpl();
         
-        ObservableList<String> etat =FXCollections.observableArrayList(Constantes.ETAT_COMMANDE_RECU, Constantes.ETAT_COMMANDE_VALIDEE, Constantes.ETAT_COMMANDE_LANCE,Constantes.ETAT_COMMANDE_ENCOURS);
+        ObservableList<String> etat =FXCollections.observableArrayList(Constantes.ETAT_COMMANDE_RECU, Constantes.ETAT_COMMANDE_VALIDEE, Constantes.ETAT_COMMANDE_LANCE,Constantes.ETAT_COMMANDE_ENCOURS,Constantes.ETAT_COMMANDE_ANNULER);
     
          private final ObservableList<DetailCommande> listeDetailCommande=FXCollections.observableArrayList();
          private final ObservableList<DetailCommande> listeDetailCommandeTMP = FXCollections.observableArrayList();
@@ -129,14 +138,17 @@ public class SituationGlobalCommandeController implements Initializable {
   
          navigation nav = new navigation();
   
+         ClientMPDAO clientMPDAO = new ClientMPDAOImpl();
+          private Map<String,ClientMP> mapClientMP=new HashMap<>();
+         
          private Map<String,Fournisseur> mapFournisseur=new HashMap<>();
          FournisseurDAO fournisseurDAO = new FournisseurDAOImpl();
     @FXML
-    private TextField qteResteeField;
+    private Label sommeRestantLabel;
     
 
         void setColumnProperties(){
-    
+
             codeMpColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailCommande , String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailCommande, String> p) {
@@ -144,7 +156,7 @@ public class SituationGlobalCommandeController implements Initializable {
             }
 
         });
-        
+
             ProduitColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailCommande , String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailCommande, String> p) {
@@ -152,7 +164,7 @@ public class SituationGlobalCommandeController implements Initializable {
             }
 
         });
-     
+
             fournisseurColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailCommande , String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailCommande, String> p) {
@@ -160,8 +172,16 @@ public class SituationGlobalCommandeController implements Initializable {
             }
 
         });
-         
-    
+            
+            clientColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailCommande , String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailCommande, String> p) {
+                return new ReadOnlyObjectWrapper(p.getValue().getCommande().getClientMP().getNom());
+            }
+
+        });
+
+
             bonCommandeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailCommande , String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailCommande, String> p) {
@@ -169,7 +189,7 @@ public class SituationGlobalCommandeController implements Initializable {
             }
 
         });
-      
+
             dateCommandeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailCommande , Date>, ObservableValue<Date>>() {
             @Override
             public ObservableValue<Date> call(TableColumn.CellDataFeatures<DetailCommande, Date> p) {
@@ -177,7 +197,7 @@ public class SituationGlobalCommandeController implements Initializable {
             }
 
         });
-  
+
             etatColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailCommande , String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailCommande, String> p) {
@@ -188,7 +208,7 @@ public class SituationGlobalCommandeController implements Initializable {
             qteColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailCommande, BigDecimal>, ObservableValue<BigDecimal>>() {
             @Override
             public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<DetailCommande, BigDecimal> p) {
-                    
+
                        DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
                 dfs.setDecimalSeparator(',');
                 dfs.setGroupingSeparator('.');
@@ -196,14 +216,14 @@ public class SituationGlobalCommandeController implements Initializable {
                 df.setGroupingUsed(true);
                     return new ReadOnlyObjectWrapper(df.format(p.getValue().getQuantite()));
                 }
-                
+
              });
 
 
             qteReçuColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailCommande, BigDecimal>, ObservableValue<BigDecimal>>() {
             @Override
             public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<DetailCommande, BigDecimal> p) {
-                    
+
                        DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
                 dfs.setDecimalSeparator(',');
                 dfs.setGroupingSeparator('.');
@@ -211,14 +231,14 @@ public class SituationGlobalCommandeController implements Initializable {
                 df.setGroupingUsed(true);
                     return new ReadOnlyObjectWrapper(df.format(p.getValue().getQuantiteRecu()));
                 }
-                
+
              });
-             
-             
+
+
             qteResteColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailCommande, BigDecimal>, ObservableValue<BigDecimal>>() {
             @Override
             public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<DetailCommande, BigDecimal> p) {
-                    
+
                        DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
                 dfs.setDecimalSeparator(',');
                 dfs.setGroupingSeparator('.');
@@ -226,18 +246,10 @@ public class SituationGlobalCommandeController implements Initializable {
                 df.setGroupingUsed(true);
                     return new ReadOnlyObjectWrapper(df.format(p.getValue().getQuantiteRestee()));
                 }
-                
+
              });
 
     }
-    
-             void loadDetail(){
-        
-        listeDetailCommande.clear();
-        listeDetailCommande.addAll(detailCommandeDAO.findByEtat(Constantes.ETAT_AFFICHAGE));
-        tableDetailCommande.setItems(listeDetailCommande);
-    }
-   
     /**
      * Initializes the controller class.
      */
@@ -246,7 +258,7 @@ public class SituationGlobalCommandeController implements Initializable {
         // TODO
   
         etatCombo.setItems(etat);
-        
+//        
         List<SubCategorieMp> listSubCategorieMp=subcategorieMpDAO.SubCategorieMpByBoxCartonAdf();
         
         listSubCategorieMp.stream().map((subCategorieMp) -> {
@@ -255,8 +267,8 @@ public class SituationGlobalCommandeController implements Initializable {
         }).forEachOrdered((subCategorieMp) -> {
             mapSubCatg.put(subCategorieMp.getNom(), subCategorieMp);
         });
-         
-               List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+//         
+               List<Fournisseur> listFournisseur=fournisseurDAO.findAllMp();
         
         listFournisseur.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());
@@ -265,6 +277,15 @@ public class SituationGlobalCommandeController implements Initializable {
             mapFournisseur.put(fournisseur.getNom(), fournisseur);
         });
 
+                List<ClientMP> listClientMP=clientMPDAO.findAll();
+        
+        listClientMP.stream().map((client) -> {
+            clientCombo.getItems().addAll(client.getNom());
+            return client;
+        }).forEachOrdered((client) -> {
+            mapClientMP.put(client.getNom(), client);
+        });
+        
             sommeTotal();
     }    
 
@@ -300,6 +321,7 @@ public class SituationGlobalCommandeController implements Initializable {
     private void refrechBtnOnAction(ActionEvent event) {
         
         fourCombo.getSelectionModel().select(-1);
+        clientCombo.getSelectionModel().select(-1);
         subCatgCombo.getSelectionModel().select(-1);
         etatCombo.getSelectionModel().select(-1);
         mpRechField.setText(Constantes.MATIERE_PREMIER);
@@ -331,19 +353,24 @@ public class SituationGlobalCommandeController implements Initializable {
     void sommeTotal(){
     
       BigDecimal sommeTotal= BigDecimal.ZERO;
+      BigDecimal sommeRestanteTotal= BigDecimal.ZERO;
+      
            for( int rows = 0;rows<tableDetailCommande.getItems().size() ;rows++ ){
 
                DetailCommande detailCommande = tableDetailCommande.getItems().get(rows);
                
             sommeTotal = sommeTotal.add(detailCommande.getQuantiteRecu());  
-    
+            
+            sommeRestanteTotal = sommeRestanteTotal.add(detailCommande.getQuantiteRestee());
     }
                  DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
                 dfs.setDecimalSeparator(',');
                 dfs.setGroupingSeparator('.');
                 DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
                 df.setGroupingUsed(true);
+                
          sommeLabel.setText(df.format(sommeTotal));
+         sommeRestantLabel.setText(df.format(sommeRestanteTotal));
     }
     
 
@@ -356,868 +383,92 @@ public class SituationGlobalCommandeController implements Initializable {
     private void recherchMouseClicked(MouseEvent event) throws ParseException {
         
     
-        if (subCatgCombo.getSelectionModel().getSelectedIndex()==-1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()== -1 )
+        if (subCatgCombo.getSelectionModel().getSelectedIndex()==-1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()== -1 && clientCombo.getSelectionModel().getSelectedIndex()== -1 )
           {
-         nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.REMPLIR_CHAMPS_DATE);
+         nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.REMPLIR_CHAMPS);
+         return;
      }
-
-        else if(subCatgCombo.getSelectionModel().getSelectedIndex()== -1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null && etatCombo.getSelectionModel().getSelectedIndex()== -1 )
-		    		{
-                                     listeDetailCommande.clear();
-                                     
-		    		if(!dateDebutBonCommande.getValue().equals(dateFinBonCommande.getValue()))
-		    		{
-		    			if(dateFinBonCommande.getValue().compareTo(dateDebutBonCommande.getValue())<0)
-		    			{
-		    				  nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
-		    				return;
-		    			}
-		    			
-		    		}
-
-           LocalDate localDate=dateDebutBonCommande.getValue();
-           Date dateOperaDebut =null;
-           if(localDate!=null)
-           {
-          dateOperaDebut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-                 localDate=dateFinBonCommande.getValue();
-                  Date dateOperaFin =null;
-              if(localDate!=null)
-           {     
-          dateOperaFin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           } 
-         
-       
-        List<DetailCommande> detailCommandes = detailCommandeDAO.findFilterDetailCommandeByDateCommande(dateOperaDebut, dateOperaFin, Constantes.ETAT_AFFICHAGE);
         
-        
-        listeDetailCommande.addAll(detailCommandes);
-        tableDetailCommande.setItems(listeDetailCommande);
-        setColumnProperties();
-        sommeTotal();
-        
-        
-    } else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()== -1)
-                    {
-                        
-         listeDetailCommande.clear();
-         
-           SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem());
-           listeDetailCommande.addAll(detailCommandeDAO.findCommanByProduit(categorieMp.getId(),Constantes.ETAT_AFFICHAGE));
-           tableDetailCommande.setItems(listeDetailCommande);
-           setColumnProperties();
-           sommeTotal();
-    }
-    
-      else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null && etatCombo.getSelectionModel().getSelectedIndex()== -1)
-                    {
-                        
-         listeDetailCommande.clear();
-
-         	if(!dateDebutBonCommande.getValue().equals(dateFinBonCommande.getValue()))
-		    		{
-		    			if(dateFinBonCommande.getValue().compareTo(dateDebutBonCommande.getValue())<0)
-		    			{
-		    				  nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
-		    				return;
-		    			}
-		    			
-		    		}
-
-           LocalDate localDate=dateDebutBonCommande.getValue();
-           Date dateOperaDebut =null;
-           if(localDate!=null)
-           {
-          dateOperaDebut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-                 localDate=dateFinBonCommande.getValue();
-                  Date dateOperaFin =null;
-              if(localDate!=null)
-           {     
-          dateOperaFin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           } 
-              
-           SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem());
-           
-           listeDetailCommande.addAll(detailCommandeDAO.findFilterDetailCommandeByDateCommandeAndProduit(dateOperaDebut, dateOperaFin, categorieMp.getId(), Constantes.ETAT_AFFICHAGE));
-           tableDetailCommande.setItems(listeDetailCommande);
-           setColumnProperties();
-           sommeTotal();
-    }
-           else if(subCatgCombo.getSelectionModel().getSelectedIndex()== -1 && fourCombo.getSelectionModel().getSelectedIndex()!= -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()== -1){
-           
-            listeDetailCommande.clear();
-            
-           Fournisseur fournisseur=mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
-           
-           listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByFournisseur(fournisseur.getId(), Constantes.ETAT_AFFICHAGE));
-           tableDetailCommande.setItems(listeDetailCommande);
-               setColumnProperties();
-               sommeTotal();
-            
-           
-           }
-           
-           else if(subCatgCombo.getSelectionModel().getSelectedIndex()== -1 && fourCombo.getSelectionModel().getSelectedIndex()!= -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null && etatCombo.getSelectionModel().getSelectedIndex()== -1){
-           
-            listeDetailCommande.clear();
-            
-            	if(!dateDebutBonCommande.getValue().equals(dateFinBonCommande.getValue()))
-		    		{
-		    			if(dateFinBonCommande.getValue().compareTo(dateDebutBonCommande.getValue())<0)
-		    			{
-		    				  nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
-		    				return;
-		    			}
-		    			
-		    		}
-
-           LocalDate localDate=dateDebutBonCommande.getValue();
-           Date dateOperaDebut =null;
-           if(localDate!=null)
-           {
-          dateOperaDebut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-                 localDate=dateFinBonCommande.getValue();
-                  Date dateOperaFin =null;
-              if(localDate!=null)
-           {     
-          dateOperaFin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           } 
-
-           Fournisseur fournisseur=mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
-           
-           listeDetailCommande.addAll(detailCommandeDAO.findFilterDetailCommandeByDateCommandeAndFour(dateOperaDebut, dateOperaFin,fournisseur.getId(),Constantes.ETAT_AFFICHAGE ));
-           tableDetailCommande.setItems(listeDetailCommande);
-               setColumnProperties();
-               sommeTotal();
-            
-           
-           }
-            else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()!= -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()== -1){
-           
-            listeDetailCommande.clear();
-            
-              Fournisseur fournisseur=mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
-              SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem());
-              
-               listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByFournisseurAndSubCategorie(fournisseur.getId(),categorieMp.getId(),Constantes.ETAT_AFFICHAGE));
-           tableDetailCommande.setItems(listeDetailCommande);
-               setColumnProperties();
-               sommeTotal();
-
-            }
-               else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()!= -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null && etatCombo.getSelectionModel().getSelectedIndex()== -1){
-           
-            listeDetailCommande.clear();
-            
-            	if(!dateDebutBonCommande.getValue().equals(dateFinBonCommande.getValue()))
-		    		{
-		    			if(dateFinBonCommande.getValue().compareTo(dateDebutBonCommande.getValue())<0)
-		    			{
-		    				  nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
-		    				return;
-		    			}
-		    			
-		    		}
-
-           LocalDate localDate=dateDebutBonCommande.getValue();
-           Date dateOperaDebut =null;
-           if(localDate!=null)
-           {
-          dateOperaDebut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-                 localDate=dateFinBonCommande.getValue();
-                  Date dateOperaFin =null;
-              if(localDate!=null)
-           {     
-          dateOperaFin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           } 
-
-            
-             Fournisseur fournisseur =mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
-             
-             SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem());
-            
-           listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByFournisseurAndSubCategorieAndDate(dateOperaDebut, dateOperaFin, fournisseur.getId(), categorieMp.getId(),Constantes.ETAT_AFFICHAGE));
-           tableDetailCommande.setItems(listeDetailCommande);
-           setColumnProperties();
-           sommeTotal();
-              
-               }
-               
-             else if(subCatgCombo.getSelectionModel().getSelectedIndex()== -1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && !mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()== -1){
-             
-            listeDetailCommande.clear();      
-              
-        matierePremiere = matierePremiereDAO.findByCode(mpRechField.getText());
-
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByMp(matierePremiere.getCode(), Constantes.ETAT_AFFICHAGE));
-        tableDetailCommande.setItems(listeDetailCommande);
-        setColumnProperties();
-        sommeTotal();
-             
-             
-             }
-        
-            else if(subCatgCombo.getSelectionModel().getSelectedIndex()== -1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && !mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null && etatCombo.getSelectionModel().getSelectedIndex()== -1){
-             
-            listeDetailCommande.clear();      
-              
-            	if(!dateDebutBonCommande.getValue().equals(dateFinBonCommande.getValue()))
-		    		{
-		    			if(dateFinBonCommande.getValue().compareTo(dateDebutBonCommande.getValue())<0)
-		    			{
-		    				  nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
-		    				return;
-		    			}
-		    			
-		    		}
-
-           LocalDate localDate=dateDebutBonCommande.getValue();
-           Date dateOperaDebut =null;
-           if(localDate!=null)
-           {
-          dateOperaDebut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-                 localDate=dateFinBonCommande.getValue();
-                  Date dateOperaFin =null;
-              if(localDate!=null)
-           {     
-          dateOperaFin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }   
-            
-        matierePremiere = matierePremiereDAO.findByCode(mpRechField.getText());
-
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByMpAndDate(dateOperaDebut, dateOperaFin, matierePremiere.getCode(), Constantes.ETAT_AFFICHAGE));
-        tableDetailCommande.setItems(listeDetailCommande);
-        setColumnProperties();
-        sommeTotal();
-             
-             
-             }        
-            else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && !mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()== -1){
-             
-            listeDetailCommande.clear();      
-              
-        matierePremiere = matierePremiereDAO.findByCode(mpRechField.getText());
-
-        SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem());
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByMpAndSubCategorie(matierePremiere.getCode(), categorieMp.getId(), Constantes.ETAT_AFFICHAGE));
-        tableDetailCommande.setItems(listeDetailCommande);
-        setColumnProperties();
-        sommeTotal();
-             
-             
-             }
-                else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && !mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null && etatCombo.getSelectionModel().getSelectedIndex()== -1){
-             
-            listeDetailCommande.clear();      
-              
-              	if(!dateDebutBonCommande.getValue().equals(dateFinBonCommande.getValue()))
-		    		{
-		    			if(dateFinBonCommande.getValue().compareTo(dateDebutBonCommande.getValue())<0)
-		    			{
-		    				  nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
-		    				return;
-		    			}
-		    			
-		    		}
-
-           LocalDate localDate=dateDebutBonCommande.getValue();
-           Date dateOperaDebut =null;
-           if(localDate!=null)
-           {
-          dateOperaDebut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-                 localDate=dateFinBonCommande.getValue();
-                  Date dateOperaFin =null;
-              if(localDate!=null)
-           {     
-          dateOperaFin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }   
-            
-        matierePremiere = matierePremiereDAO.findByCode(mpRechField.getText());
-
-        SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem());
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByMpAndDateAndSubCategorie(dateOperaDebut, dateOperaFin, matierePremiere.getCode(),categorieMp.getId() , Constantes.ETAT_AFFICHAGE));
-        tableDetailCommande.setItems(listeDetailCommande);
-        setColumnProperties();
-        sommeTotal();
-             
-             
-             }
-                    else if(subCatgCombo.getSelectionModel().getSelectedIndex()== -1 && fourCombo.getSelectionModel().getSelectedIndex()!= -1 && !mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()== -1){
-             
-           listeDetailCommande.clear();  
-        
-        matierePremiere = matierePremiereDAO.findByCode(mpRechField.getText());
-
-          Fournisseur fournisseur =mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByMpAndFour(matierePremiere.getCode(), fournisseur.getId(), Constantes.ETAT_AFFICHAGE));
-        tableDetailCommande.setItems(listeDetailCommande);
-        setColumnProperties();
-        sommeTotal();
-             
-             
-             }
-                else if(subCatgCombo.getSelectionModel().getSelectedIndex()== -1 && fourCombo.getSelectionModel().getSelectedIndex()!= -1 && !mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null && etatCombo.getSelectionModel().getSelectedIndex()== -1){
-             
-            listeDetailCommande.clear();      
-              
-               
-              
-            	if(!dateDebutBonCommande.getValue().equals(dateFinBonCommande.getValue()))
-		    		{
-		    			if(dateFinBonCommande.getValue().compareTo(dateDebutBonCommande.getValue())<0)
-		    			{
-		    				  nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
-		    				return;
-		    			}
-		    			
-		    		}
-
-           LocalDate localDate=dateDebutBonCommande.getValue();
-           Date dateOperaDebut =null;
-           if(localDate!=null)
-           {
-          dateOperaDebut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-                 localDate=dateFinBonCommande.getValue();
-                  Date dateOperaFin =null;
-              if(localDate!=null)
-           {     
-          dateOperaFin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-            
-        matierePremiere = matierePremiereDAO.findByCode(mpRechField.getText());
-
-          Fournisseur fournisseur =mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByMpAndDateAndFour(dateOperaDebut, dateOperaFin, matierePremiere.getCode(),fournisseur.getId(), Constantes.ETAT_AFFICHAGE));
-        tableDetailCommande.setItems(listeDetailCommande);
-        setColumnProperties();
-        sommeTotal();
-             
-             
-             }
-          else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()!= -1 && !mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()== -1){
-             
-            listeDetailCommande.clear();      
-              
-        matierePremiere = matierePremiereDAO.findByCode(mpRechField.getText());
-
-        SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem());
-        
-        Fournisseur fournisseur =mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByMpAndFourAndSubCategorie(matierePremiere.getCode(), fournisseur.getId(), categorieMp.getId(),Constantes.ETAT_AFFICHAGE));
-        tableDetailCommande.setItems(listeDetailCommande);
-        setColumnProperties();
-        sommeTotal();
-             
-             
-             }
-          else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()!= -1 && !mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null && etatCombo.getSelectionModel().getSelectedIndex()== -1){
-             
-            listeDetailCommande.clear();      
-              
-
-            	if(!dateDebutBonCommande.getValue().equals(dateFinBonCommande.getValue()))
-		    		{
-		    			if(dateFinBonCommande.getValue().compareTo(dateDebutBonCommande.getValue())<0)
-		    			{
-		    				  nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
-		    				return;
-		    			}
-		    			
-		    		}
-
-           LocalDate localDate=dateDebutBonCommande.getValue();
-           Date dateOperaDebut =null;
-           if(localDate!=null)
-           {
-          dateOperaDebut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-                 localDate=dateFinBonCommande.getValue();
-                  Date dateOperaFin =null;
-              if(localDate!=null)
-           {     
-          dateOperaFin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-            
-        matierePremiere = matierePremiereDAO.findByCode(mpRechField.getText());
-
-        SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem());
-        
-        Fournisseur fournisseur =mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByMpAndDateAndFourAndSubCategorie(dateOperaDebut, dateOperaFin, matierePremiere.getCode(), categorieMp.getId(), fournisseur.getId(),Constantes.ETAT_AFFICHAGE));
-        tableDetailCommande.setItems(listeDetailCommande);
-        setColumnProperties();
-        sommeTotal();
-             
-             
-             }else if(subCatgCombo.getSelectionModel().getSelectedIndex()== -1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()!= -1){
-             
-                 
-            listeDetailCommande.clear();      
-            
-              String etat = etatCombo.getSelectionModel().getSelectedItem();
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findCommanByEtatCmd( etat ,Constantes.ETAT_AFFICHAGE));
-        
-               for (int i = 0; i < listeDetailCommande.size(); i++) {
-                
-                DetailCommande detailCommande = listeDetailCommande.get(i);
-                
-                if( etat.equals(Constantes.ETAT_COMMANDE_ENCOURS) ){
-                    
-                   if(detailCommande.getQuantiteRestee().compareTo(new BigDecimal(BigInteger.ZERO).setScale(2))==0){
-                
-                listeDetailCommande.remove(detailCommande);
-
-                }
-                }
-            }
-  
-         tableDetailCommande.setItems(listeDetailCommande);
-
-        setColumnProperties();
-        sommeTotal();
-             
-             
-            }else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()!= -1){
-             
-                 
-            listeDetailCommande.clear();
-            
-            String etat = etatCombo.getSelectionModel().getSelectedItem();
-            
-            SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem()); 
-       
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeBySubCategorieAndEtatCmd(categorieMp.getId() ,etat ,Constantes.ETAT_AFFICHAGE));
-        
-             for (int i = 0; i < listeDetailCommande.size(); i++) {
-                
-                DetailCommande detailCommande = listeDetailCommande.get(i);
-                
-                if( etat.equals(Constantes.ETAT_COMMANDE_ENCOURS) ){
-                    
-                   if(detailCommande.getQuantiteRestee().compareTo(new BigDecimal(BigInteger.ZERO).setScale(2))==0){
-                
-                listeDetailCommande.remove(i);
-
-                }
-                }
-            }
-  
-         tableDetailCommande.setItems(listeDetailCommande);
-
-        setColumnProperties();
-        sommeTotal();
-             
-         
-      }else if(subCatgCombo.getSelectionModel().getSelectedIndex()== -1 && fourCombo.getSelectionModel().getSelectedIndex()!= -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()!= -1){
-             
-                 
-            listeDetailCommande.clear();
-            
-            String etat = etatCombo.getSelectionModel().getSelectedItem();
-        
-        Fournisseur fournisseur =mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
-       
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByFournisseurAndEtatCmd(fournisseur.getId() ,etat ,Constantes.ETAT_AFFICHAGE));
-        
-              for (int i = 0; i < listeDetailCommande.size(); i++) {
-                
-                DetailCommande detailCommande = listeDetailCommande.get(i);
-                
-                if( etat.equals(Constantes.ETAT_COMMANDE_ENCOURS) ){
-                    
-                   if(detailCommande.getQuantiteRestee().compareTo(new BigDecimal(BigInteger.ZERO).setScale(2))==0){
-                
-                listeDetailCommande.remove(detailCommande);
-
-                }
-                }
-            }
-  
-         tableDetailCommande.setItems(listeDetailCommande);
-
-        setColumnProperties();
-        sommeTotal();
-             
-             
-     }else if(subCatgCombo.getSelectionModel().getSelectedIndex()== -1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && !mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()!= -1){
-             
-                 
-            listeDetailCommande.clear();
-            
-            String etat = etatCombo.getSelectionModel().getSelectedItem();
-        
-         matierePremiere = matierePremiereDAO.findByCode(mpRechField.getText());
-       
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByMpAndEtatCmd(matierePremiere.getCode() ,etat ,Constantes.ETAT_AFFICHAGE));
-             for (int i = 0; i < listeDetailCommande.size(); i++) {
-                
-                DetailCommande detailCommande = listeDetailCommande.get(i);
-                
-                if( etat.equals(Constantes.ETAT_COMMANDE_ENCOURS) ){
-                    
-                   if(detailCommande.getQuantiteRestee().compareTo(new BigDecimal(BigInteger.ZERO).setScale(2))==0){
-                
-                listeDetailCommande.remove(detailCommande);
-
-                }
-                }
-            }
-  
-         tableDetailCommande.setItems(listeDetailCommande);
-
-        setColumnProperties();
-        sommeTotal();
-             
-             
-            }else if(subCatgCombo.getSelectionModel().getSelectedIndex()== -1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null && etatCombo.getSelectionModel().getSelectedIndex()!= -1){
-             
-                 
-            listeDetailCommande.clear();
-            
-            	if(!dateDebutBonCommande.getValue().equals(dateFinBonCommande.getValue()))
-		    		{
-		    			if(dateFinBonCommande.getValue().compareTo(dateDebutBonCommande.getValue())<0)
-		    			{
-		    				  nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
-		    				return;
-		    			}
-		    			
-		    		}
-
-           LocalDate localDate=dateDebutBonCommande.getValue();
-           Date dateOperaDebut =null;
-           if(localDate!=null)
-           {
-          dateOperaDebut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-                 localDate=dateFinBonCommande.getValue();
-                  Date dateOperaFin =null;
-              if(localDate!=null)
-           {     
-          dateOperaFin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-            
-            String etat = etatCombo.getSelectionModel().getSelectedItem();
-        
-
-        listeDetailCommande.addAll(detailCommandeDAO.findFilterDetailCommandeByDateCommandeAndEtatCmd(dateOperaDebut ,dateOperaFin ,etat ,Constantes.ETAT_AFFICHAGE));
+        else{
           
-         for (int i = 0; i < listeDetailCommande.size(); i++) {
-                
-                DetailCommande detailCommande = listeDetailCommande.get(i);
-                
-                if( etat.equals(Constantes.ETAT_COMMANDE_ENCOURS) ){
-                    
-                   if(detailCommande.getQuantiteRestee().compareTo(new BigDecimal(BigInteger.ZERO).setScale(2))==0){
-                
-                listeDetailCommande.remove(detailCommande);
-
-                }
-                }
-            }
-  
-         tableDetailCommande.setItems(listeDetailCommande);
-
-        setColumnProperties();
-        sommeTotal();
+                   Fournisseur fournisseur =mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
+                   ClientMP clientMP =mapClientMP.get(clientCombo.getSelectionModel().getSelectedItem());
+                   String etat = etatCombo.getSelectionModel().getSelectedItem();
+                   SubCategorieMp subCategorieMp = mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem());
+                   String mp = mpRechField.getText();
+                   
+                   String req = "";
+               
+        if(fourCombo.getSelectionModel().getSelectedIndex()!= -1) {
              
-
-          }else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()!= -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()!= -1){
-             
-                 
-            listeDetailCommande.clear();
-
-            String etat = etatCombo.getSelectionModel().getSelectedItem();
-        
-       Fournisseur fournisseur =mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
-       
-        SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem()); 
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByFournisseurAndSubCategorieAndEtatCmd(categorieMp.getId() ,fournisseur.getId() ,etat ,Constantes.ETAT_AFFICHAGE));
-          
-         for (int i = 0; i < listeDetailCommande.size(); i++) {
-                
-                DetailCommande detailCommande = listeDetailCommande.get(i);
-                
-                if( etat.equals(Constantes.ETAT_COMMANDE_ENCOURS) ){
-                    
-                   if(detailCommande.getQuantiteRestee().compareTo(new BigDecimal(BigInteger.ZERO).setScale(2))==0){
-                
-                listeDetailCommande.remove(detailCommande);
-     
-                
-                }
-                }
-            }
-        
-
-         tableDetailCommande.setItems(listeDetailCommande);
-
-        setColumnProperties();
-        sommeTotal();
-             
-             
-        }else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && !mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()!= -1){
-             
-                 
-            listeDetailCommande.clear();
-
-        String etat = etatCombo.getSelectionModel().getSelectedItem();
-        
-         matierePremiere = matierePremiereDAO.findByCode(mpRechField.getText());
-       
-        SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem()); 
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByMpAndSubCategorieAndEtatCmd(categorieMp.getId() ,matierePremiere.getCode() ,etat ,Constantes.ETAT_AFFICHAGE));
-            
-         for (int i = 0; i < listeDetailCommande.size(); i++) {
-                
-                DetailCommande detailCommande = listeDetailCommande.get(i);
-                
-                if( etat.equals(Constantes.ETAT_COMMANDE_ENCOURS) ){
-                    
-                   if(detailCommande.getQuantiteRestee().compareTo(new BigDecimal(BigInteger.ZERO).setScale(2))==0){
-                
-                listeDetailCommande.remove(detailCommande);
-     
-                
-                }
-                }
-            }
-        
-
-         tableDetailCommande.setItems(listeDetailCommande);
-
-        setColumnProperties();
-        sommeTotal();
-             
-             
-        }else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()== -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null && etatCombo.getSelectionModel().getSelectedIndex()!= -1){
-             
-                 
-            listeDetailCommande.clear();
-
-         if(!dateDebutBonCommande.getValue().equals(dateFinBonCommande.getValue()))
-		    		{
-		    			if(dateFinBonCommande.getValue().compareTo(dateDebutBonCommande.getValue())<0)
-		    			{
-		    				  nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
-		    				return;
-		    			}
-		    			
-		    		}
-
-           LocalDate localDate=dateDebutBonCommande.getValue();
-           Date dateOperaDebut =null;
-           if(localDate!=null)
-           {
-          dateOperaDebut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-                 localDate=dateFinBonCommande.getValue();
-                  Date dateOperaFin =null;
-              if(localDate!=null)
-           {     
-          dateOperaFin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }   
-            
-        String etat = etatCombo.getSelectionModel().getSelectedItem();
-
-        SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem()); 
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByDateAndSubCategorieAndEtatCmd(dateOperaDebut ,dateOperaFin ,categorieMp.getId(), etat ,Constantes.ETAT_AFFICHAGE));
-        
-        for (int i = 0; i < listeDetailCommande.size(); i++) {
-                
-                DetailCommande detailCommande = listeDetailCommande.get(i);
-                
-                if( etat.equals(Constantes.ETAT_COMMANDE_ENCOURS) ){
-                    
-                   if(detailCommande.getQuantiteRestee().compareTo(new BigDecimal(BigInteger.ZERO).setScale(2))==0){
-                
-                listeDetailCommande.remove(detailCommande);
-     
-                
-                }
-                }
-            }
-        
-
-         tableDetailCommande.setItems(listeDetailCommande);
-
-        setColumnProperties();
-        sommeTotal();
-
-             
-        }else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()!= -1 && mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null && etatCombo.getSelectionModel().getSelectedIndex()!= -1){
-             
-                 
-            listeDetailCommande.clear();
-
-         if(!dateDebutBonCommande.getValue().equals(dateFinBonCommande.getValue()))
-		    		{
-		    			if(dateFinBonCommande.getValue().compareTo(dateDebutBonCommande.getValue())<0)
-		    			{
-		    				  nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
-		    				return;
-		    			}
-		    			
-		    		}
-
-           LocalDate localDate=dateDebutBonCommande.getValue();
-           Date dateOperaDebut =null;
-           if(localDate!=null)
-           {
-          dateOperaDebut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-                 localDate=dateFinBonCommande.getValue();
-                  Date dateOperaFin =null;
-              if(localDate!=null)
-           {     
-          dateOperaFin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }   
-            
-        String etat = etatCombo.getSelectionModel().getSelectedItem();
-
-         Fournisseur fournisseur =mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem()); 
-         
-           SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem()); 
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByDateAndFourAndSubCategorieAndEtatCmd(dateOperaDebut ,dateOperaFin , categorieMp.getId() , fournisseur.getId(), etat ,Constantes.ETAT_AFFICHAGE));
-
-            for (int i = 0; i < listeDetailCommande.size(); i++) {
-                
-                DetailCommande detailCommande = listeDetailCommande.get(i);
-                
-                if( etat.equals(Constantes.ETAT_COMMANDE_ENCOURS) ){
-                    
-                   if(detailCommande.getQuantiteRestee().compareTo(new BigDecimal(BigInteger.ZERO).setScale(2))==0){
-                
-                listeDetailCommande.remove(detailCommande);
-     
-                
-                }
-                }
-            }
-        
-
-         tableDetailCommande.setItems(listeDetailCommande);
-
-        setColumnProperties();
-        sommeTotal();
-             
-             
-        }else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()!= -1 && !mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()== null && etatCombo.getSelectionModel().getSelectedIndex()!= -1){
-             
-                 
-            listeDetailCommande.clear();
-
-        String etat = etatCombo.getSelectionModel().getSelectedItem();
-
-         Fournisseur fournisseur =mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem()); 
-         
-             matierePremiere = matierePremiereDAO.findByCode(mpRechField.getText());
-         
-           SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem()); 
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByMpAndSubCategorieAndFourAndEtatCmd(categorieMp.getId() , fournisseur.getId(), matierePremiere.getCode() , etat ,Constantes.ETAT_AFFICHAGE));
-
-            for (int i = 0; i < listeDetailCommande.size(); i++) {
-                
-                DetailCommande detailCommande = listeDetailCommande.get(i);
-                
-                if( etat.equals(Constantes.ETAT_COMMANDE_ENCOURS) ){
-                    
-                   if(detailCommande.getQuantiteRestee().compareTo(new BigDecimal(BigInteger.ZERO).setScale(2))==0){
-                
-                listeDetailCommande.remove(detailCommande);
-
-                }
-                }
-            }
-
-         tableDetailCommande.setItems(listeDetailCommande);
-        setColumnProperties();
-        sommeTotal();
-             
-             
-        }else if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1 && fourCombo.getSelectionModel().getSelectedIndex()!= -1 && !mpRechField.getText().equalsIgnoreCase(Constantes.MATIERE_PREMIER) && dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null && etatCombo.getSelectionModel().getSelectedIndex()!= -1){
-             
-                 
-            listeDetailCommande.clear();
-
-             if(!dateDebutBonCommande.getValue().equals(dateFinBonCommande.getValue()))
-		    		{
-		    			if(dateFinBonCommande.getValue().compareTo(dateDebutBonCommande.getValue())<0)
-		    			{
-		    				  nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
-		    				return;
-		    			}
-		    			
-		    		}
-
-           LocalDate localDate=dateDebutBonCommande.getValue();
-           Date dateOperaDebut =null;
-           if(localDate!=null)
-           {
-          dateOperaDebut =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }
-                 localDate=dateFinBonCommande.getValue();
-                  Date dateOperaFin =null;
-              if(localDate!=null)
-           {     
-          dateOperaFin =new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
-           }   
-  
-        String etat = etatCombo.getSelectionModel().getSelectedItem();
-
-         Fournisseur fournisseur =mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem()); 
-         
-             matierePremiere = matierePremiereDAO.findByCode(mpRechField.getText());
-         
-           SubCategorieMp categorieMp =mapSubCatg.get(subCatgCombo.getSelectionModel().getSelectedItem()); 
-        
-        listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByMpAndDateAndFourAndSubCategorieAndEtatCmd(dateOperaDebut ,dateOperaFin ,categorieMp.getId() ,matierePremiere.getCode() , fournisseur.getId() , etat ,Constantes.ETAT_AFFICHAGE));
-   
-        
-            for (int i = 0; i < listeDetailCommande.size(); i++) {
-                
-                DetailCommande detailCommande = listeDetailCommande.get(i);
-                
-                if( etat.equals(Constantes.ETAT_COMMANDE_ENCOURS) ){
-                    
-                   if(detailCommande.getQuantiteRestee().compareTo(new BigDecimal(BigInteger.ZERO).setScale(2))==0){
-                
-                listeDetailCommande.remove(i);
-         
-                }
-                }
-            }
-        
-        
-     
-         tableDetailCommande.setItems(listeDetailCommande);
-        setColumnProperties();
-        sommeTotal();
-             
-             
+              req= req+" and c.commande.fourisseur.nom='"+fournisseur.getNom()+"'";
+              
              }
+             
+        if(subCatgCombo.getSelectionModel().getSelectedIndex()!= -1) {
+             
+              req= req+" and c.matierePremier.categorieMp.subCategorieMp.nom='"+subCategorieMp.getNom()+"'";
+              
+             }
+        
+        if(clientCombo.getSelectionModel().getSelectedIndex()!= -1){
+             
+             req= req+" and c.commande.clientMP.nom='"+clientMP.getNom()+"'";
+
+             }
+             
+        if(!mpRechField.getText().equals(Constantes.MATIERE_PREMIER)){
+             
+               req= req+" and c.matierePremier.code='"+mp+"'";
+      
+             }
+                   
+        if(etatCombo.getSelectionModel().getSelectedIndex()!= -1){
+             
+             req= req+" and c.commande.etat='"+etat+"'";
+
+             }     
+        
+        if(dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null){
+             
+               LocalDate localDate=dateDebutBonCommande.getValue();
+                    DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                    String dateOperaDebut = localDate.format(formatters);
+
+                    localDate=dateFinBonCommande.getValue();
+                    String dateOperaFin = localDate.format(formatters);
+
+            if(dateFinBonCommande.getValue().compareTo(dateDebutBonCommande.getValue())<0){
+            
+            nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
+            return;
+            }else{
+            
+             req= req+" and c.commande.dateCreation BETWEEN '"+dateOperaDebut+"' and '"+dateOperaFin+"'";
+
+             }
+        }else if (dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()== null){
+        
+            nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.ERREUR_DATE);
+            return;
+        
+        }else if (dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()!= null){
+        
+            nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.ERREUR_DATE);
+            return;
+        
+        }
+        
+        listeDetailCommande.clear();
+        listeDetailCommande.addAll(detailCommandeDAO.findBySituationGlobalCommandeMp(Constantes.ETAT_AFFICHAGE, req ));
+        tableDetailCommande.setItems(listeDetailCommande);
+        setColumnProperties();      
+        sommeTotal();
+        
+        
+        
+        
+        }
     }
 
     @FXML
@@ -1266,5 +517,9 @@ public class SituationGlobalCommandeController implements Initializable {
  
     }
             } 
+    }
+
+    @FXML
+    private void clientComboOnAction(ActionEvent event) {
     }
 }

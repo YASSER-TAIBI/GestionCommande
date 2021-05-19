@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Reglement.SuiviRemiseFinPeriodeController">
+   <children>
+      <Pane layoutX="497.0" layoutY="102.0" prefHeight="55.0" prefWidth="608.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="44.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Suivi Remise Fin Période" />
+         </children>
+      </Pane>
+      <TableView fx:id="tableRemiseFinPeriode" blendMode="MULTIPLY" layoutX="110.0" layoutY="167.0" maxWidth="1.7976931348623157E308" onMouseClicked="#tableDetailClicked" prefHeight="190.0" prefWidth="1380.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="moisColumn" text="Mois" />
+            <TableColumn fx:id="objColumn" prefWidth="143.0" text="Objectif" />
+            <TableColumn fx:id="caColumn" prefWidth="135.0" text="CA Brut" />
+            <TableColumn fx:id="livGmsColumn" prefWidth="133.0" text="Livraison GMS" />
+            <TableColumn fx:id="caNetColumn" prefWidth="147.0" text="CA Net" />
+            <TableColumn fx:id="troColumn" prefWidth="128.0" text="TRO Cumulé %" />
+            <TableColumn fx:id="tauxRfpColumn" prefWidth="116.0" text="Taux RFP %" />
+            <TableColumn fx:id="rfpColumn" prefWidth="135.0" text="RFP Brut" />
+            <TableColumn fx:id="remiseColumn" prefWidth="106.0" text="Remise 2%" />
+            <TableColumn fx:id="rfpReelColumn" prefWidth="132.0" text="RFP Net" />
+            <TableColumn fx:id="validerColumn" prefWidth="125.0" text="Valider" />
+         </columns>
+      </TableView>
+      <TableView fx:id="tableDetailRemiseFinPeriode" blendMode="MULTIPLY" layoutX="110.0" layoutY="417.0" maxWidth="1.7976931348623157E308" onMouseClicked="#tableDetailFactureClicked" prefHeight="190.0" prefWidth="1380.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="moisDetailColumn" prefWidth="82.0" text="Mois" />
+            <TableColumn fx:id="rfpEnAttColumn" prefWidth="238.0" text="RFP Net &quot;En Attente&quot;" />
+            <TableColumn fx:id="factRecuColumn" onEditCommit="#editCommitFactureRecuColumn" prefWidth="253.0" text="Facture RFP" />
+            <TableColumn fx:id="recuColumn" prefWidth="227.0" text="Reçu 2%" />
+            <TableColumn fx:id="totalRecuColumn" prefWidth="226.0" text="Total Reçu" />
+            <TableColumn fx:id="promoAccoColumn" prefWidth="227.0" text="Promotion Accordée" />
+            <TableColumn fx:id="validerDetailColumn" prefWidth="127.0" text="Valider" />
+         </columns>
+      </TableView>
+      <Pane layoutX="993.0" layoutY="755.0" prefHeight="77.0" prefWidth="497.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="136.0" layoutY="5.0" text="Montant Reçu:" />
+            <Label fx:id="montantRecu" layoutX="297.0" layoutY="5.0" prefHeight="20.0" prefWidth="162.0" />
+            <Label fx:id="montantPromoAcco" layoutX="297.0" layoutY="29.0" prefHeight="20.0" prefWidth="162.0" />
+            <Label layoutX="204.0" layoutY="53.0" text="Solde:" />
+            <Label fx:id="solde" layoutX="297.0" layoutY="53.0" prefHeight="20.0" prefWidth="162.0" />
+            <Label layoutX="79.0" layoutY="29.0" text="Montant P.Accordée:" />
+         </children>
+      </Pane>
+      <Pane layoutX="111.0" layoutY="365.0" prefHeight="44.0" prefWidth="1378.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="813.0" layoutY="12.0" text="Date Facture:" />
+            <TextField fx:id="numFactField" alignment="CENTER" layoutX="310.0" layoutY="7.0" onKeyPressed="#chargeL0ibelleKeyPressed" prefHeight="31.0" prefWidth="212.0" promptText="Num Facture" styleClass="StyleRaduis" />
+            <Label layoutX="185.0" layoutY="12.0" text="Num Facture:" />
+            <DatePicker fx:id="dateFact" layoutX="945.0" layoutY="7.0" prefHeight="31.0" prefWidth="212.0" promptText="Date Facture" />
+         </children>
+      </Pane>
+      <TableView fx:id="tableDetailRecuPromotionAccordee" blendMode="MULTIPLY" layoutX="110.0" layoutY="615.0" maxWidth="1.7976931348623157E308" onMouseClicked="#tableDetailClicked" prefHeight="131.0" prefWidth="1380.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="dateCreationColumn" prefWidth="339.0" text="Date Création" />
+            <TableColumn fx:id="numFactColumn" prefWidth="344.0" text="Num Facture" />
+            <TableColumn fx:id="dateFactColumn" prefWidth="364.0" text="Date Facture" />
+            <TableColumn fx:id="factureRecuColumn" prefWidth="334.0" text="Facture RFP" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

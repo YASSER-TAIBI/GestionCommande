@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import Utils.HibernateUtil;
 import dao.Entity.AvoirOulmes;
 import dao.Manager.AvoirOulmesDAO;
+import java.math.BigDecimal;
 
 
 public class AvoirOulmesDAOImpl implements AvoirOulmesDAO {
@@ -63,12 +64,7 @@ public class AvoirOulmesDAOImpl implements AvoirOulmesDAO {
 
         return query.list();
     }
-          
-         public List<Object[]> findBySituationGlobalClient() {
-        Query query=  session.createQuery("select c.client, sum(c.qte),c.prixOulmes from AvoirOulmes c group by c.client");
-
-        return query.list();
-    }
+         
         
         public List<Object[]> findBySituationGlobalArticle(String code) {
         Query query=  session.createQuery("select u.prixOulmes, u.qte, u.client from AvoirOulmes u where u.prixOulmes.produit.code =:code");
@@ -77,20 +73,14 @@ public class AvoirOulmesDAOImpl implements AvoirOulmesDAO {
         return query.list();
     }
                    
-                                  
-         public List<Object[]> findAvoirOulmesByCodeAndClient(String code, String client) {
-        Query query=  session.createQuery("select u.prixOulmes, u.qte ,u.dateSaisie, u.designation from AvoirOulmes u where u.prixOulmes.produit.code =:code and u.client =:client");
-        query.setParameter("code", code);
-        query.setParameter("client", client);
+                                
         
-        return query.list();
-    }
-        
-         public List<AvoirOulmes>  findAvoirOulmesByBonAvoir(String bonAv) {
+         public List<AvoirOulmes> findAvoirOulmesByBonAvoir(String bonAv, String etat) {
 		
-		Query query = session.createQuery("select u from AvoirOulmes u where u.numLivraison =:bonAv");
+		Query query = session.createQuery("select u from AvoirOulmes u where u.numLivraison =:bonAv and u.etat =:etat");
 		query.setParameter("bonAv", bonAv);
-		
+		query.setParameter("etat", etat);
+                
 	return  query.list();
 	      
 
@@ -98,7 +88,7 @@ public class AvoirOulmesDAOImpl implements AvoirOulmesDAO {
          
          public List<AvoirOulmes>  findAvoirOulmesByClient(String client) {
 		
-		Query query = session.createQuery("select u from AvoirOulmes u where u.client =:client");
+		Query query = session.createQuery("select u from AvoirOulmes u where u.client =:client  and u.etat = 'BL Avoir'");
 		query.setParameter("client", client);
 		
 	return  query.list();
@@ -107,12 +97,43 @@ public class AvoirOulmesDAOImpl implements AvoirOulmesDAO {
          
          public List<AvoirOulmes>  findAvoirOulmesByBonAvoirAndClient(String bonAv ,String client) {
 		
-		Query query = session.createQuery("select u from AvoirOulmes u where u.numLivraison =:bonAv and u.client =:client");
+		Query query = session.createQuery("select u from AvoirOulmes u where u.numLivraison =:bonAv and u.client =:client and u.etat = 'BL Avoir'");
 		query.setParameter("bonAv", bonAv);
 		query.setParameter("client", client);
 	return  query.list();
 	      
 
 				}
-        
+
+            
+               public List<AvoirOulmes>  findAvoirOulmesByBonAvoir() {
+		
+		Query query = session.createQuery("select u from AvoirOulmes u group by u.numLivraison");
+                
+	return  query.list();
+				}
+               
+                    public AvoirOulmes findBonRetourByNumCommAndNumLiv(String bonAvoir) {
+		Query query = session.createQuery("select u from AvoirOulmes u where u.numLivraison=:bonAvoir ");
+		query.setParameter("bonAvoir",bonAvoir);
+		
+                return (AvoirOulmes)query.uniqueResult();
+ }
+                    
+                    
+                         public List<AvoirOulmes> findByAllFilter(String etat, String req) {
+		
+		Query query = session.createQuery("select u from AvoirOulmes u where u.etat=:etat"+req);
+		query.setParameter("etat", etat);
+                
+	return  query.list();
+				}
+                         
+                  public List<Object[]> findBySituationGlobalClient() {
+        Query query=  session.createQuery("select c.client, SUM(c.avoir) , SUM(c.factureAvoir), SUM(c.ecart) from AvoirOulmes c group by c.client");
+
+        return query.list();
+    }
+           
+            
 }

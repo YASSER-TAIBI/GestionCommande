@@ -23,5 +23,10 @@ public interface GrammageDAO {
 		public  void delete(Grammage e); 
 		
 		public List<Grammage> findAll();
+                
+                 public List<Grammage> findByCodeGrammage(String code);
+
+    
+         	 public List<Grammage> findBylibelleGrammage(String lib);
 
 }

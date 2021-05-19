@@ -3,6 +3,7 @@ package dao.Entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import javax.persistence.Column;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -40,6 +41,9 @@ public class MatierePremier implements Serializable {
         private BigDecimal valMaxMP;
         
         private BigDecimal stockAlert;
+        
+         @Column(name="ETAT")
+        private String etat;
         
 	@ManyToOne
 	@JoinColumn(name="id_cat")
@@ -89,6 +93,14 @@ public class MatierePremier implements Serializable {
 	public int getId() {
 		return this.id;
 	}
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
+    }
 
 	public void setId(int id) {
 		this.id = id;

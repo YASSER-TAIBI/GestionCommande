@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
@@ -25,6 +26,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -116,6 +118,14 @@ public class FamilleArticleController implements Initializable {
     @FXML
     private void btnModifierOnAction(ActionEvent event) {
         
+                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+                
+         
          if (tableFamille.getSelectionModel().getSelectedItem() != null) {
         
          FamilleArticle familleArticle   =tableFamille.getSelectionModel().getSelectedItem();
@@ -135,11 +145,18 @@ public class FamilleArticleController implements Initializable {
         }else{
              nav.showAlert(Alert.AlertType.ERROR, "Erreur", Constantes.SELECTION_ERREUR, Constantes.SELECTION_LIGNE_MODIFIER);
          }
-        
+           }
     }
 
     @FXML
     private void btnSupprimerOnAction(ActionEvent event) {
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
         
                  if(tableFamille.getSelectionModel().getSelectedItem()==null){
               
@@ -158,11 +175,18 @@ public class FamilleArticleController implements Initializable {
         clear();
     
     }
-        
+            }
     }
 
     @FXML
     private void btnAjouterOnAction(ActionEvent event) {
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
         
                FamilleArticle familleArticle = new FamilleArticle();
   
@@ -179,7 +203,7 @@ public class FamilleArticleController implements Initializable {
         loadDetail();
         clear();
         
-    }
+    }}
 
     @FXML
     private void refrechTableMouseClicked(MouseEvent event) {

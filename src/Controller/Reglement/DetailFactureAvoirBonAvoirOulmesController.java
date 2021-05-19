@@ -5,6 +5,7 @@
  */
 package Controller.Reglement;
 
+import Controller.Livraision.SituationGlobalCommandeController;
 import Utils.Constantes;
 import dao.Entity.ClientMP;
 import dao.Entity.DetailFactureAvoirBonAvoir;
@@ -13,10 +14,12 @@ import dao.Entity.PrixOulmes;
 import dao.Entity.SituationGlobalAvoir;
 import dao.Manager.AvoirOulmesDAO;
 import dao.Manager.ClientMPDAO;
+import dao.Manager.DetailAvoirOulmesDAO;
 import dao.Manager.FactureAvoirOulmesDAO;
 import dao.Manager.PrixOulmesDAO;
 import dao.ManagerImpl.AvoirOulmesDAOImpl;
 import dao.ManagerImpl.ClientMPDAOImpl;
+import dao.ManagerImpl.DetailAvoirOulmesDAOImpl;
 import dao.ManagerImpl.FactureAvoirOulmesDAOImpl;
 import dao.ManagerImpl.PrixOulmesDAOImpl;
 import function.navigation;
@@ -24,12 +27,18 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -38,7 +47,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -47,6 +58,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -64,6 +82,8 @@ public class DetailFactureAvoirBonAvoirOulmesController implements Initializable
     @FXML
     private TableColumn<DetailFactureAvoirBonAvoir, BigDecimal> blAvoirColumn;
     @FXML
+    private TableColumn<DetailFactureAvoirBonAvoir, String> nFactureColumn;
+    @FXML
     private TableColumn<DetailFactureAvoirBonAvoir, BigDecimal> factureAvoirColumn;
     @FXML
     private TextField codeArtField;
@@ -78,8 +98,9 @@ public class DetailFactureAvoirBonAvoirOulmesController implements Initializable
     @FXML
     private Label montantEcart;
     @FXML
-    private Label qteAfficchage;
-
+    private DatePicker dateDebutBonCommande;
+    @FXML
+    private DatePicker dateFinBonCommande;
     
        PrixOulmesDAO prixOulmesDAO = new PrixOulmesDAOImpl();
        ClientMPDAO clientMPDAO = new ClientMPDAOImpl();
@@ -88,7 +109,7 @@ public class DetailFactureAvoirBonAvoirOulmesController implements Initializable
        
        
         FactureAvoirOulmesDAO factureAvoirOulmesDAO = new FactureAvoirOulmesDAOImpl();
-    AvoirOulmesDAO avoirOulmesDAO = new AvoirOulmesDAOImpl();
+    DetailAvoirOulmesDAO detailAvoirOulmesDAO = new DetailAvoirOulmesDAOImpl();
        
     private Map<String,PrixOulmes> mapPrixOulmes=new HashMap<>();
     private Map<String,ClientMP> mapClientMP=new HashMap<>();
@@ -97,6 +118,12 @@ public class DetailFactureAvoirBonAvoirOulmesController implements Initializable
      */
     
       private final  ObservableList<DetailFactureAvoirBonAvoir> listeDetailFactureAvoirBonAvoir = FXCollections.observableArrayList();   
+    @FXML
+    private Button btnRefreshGlobal;
+    @FXML
+    private Button imprimerBtn;
+    
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -141,6 +168,16 @@ public class DetailFactureAvoirBonAvoirOulmesController implements Initializable
                     
              
                     return new ReadOnlyObjectWrapper(p.getValue().getDesignation());
+                }
+                
+             });
+          
+           nFactureColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailFactureAvoirBonAvoir, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailFactureAvoirBonAvoir, String> p) {
+                    
+             
+                    return new ReadOnlyObjectWrapper(p.getValue().getNumFacture());
                 }
                 
              });
@@ -216,6 +253,8 @@ public class DetailFactureAvoirBonAvoirOulmesController implements Initializable
                
             calculAvoir = calculAvoir.add(detailFactureAvoirBonAvoir.getAvoirQte());  
 
+            calculFacture = calculFacture.add(detailFactureAvoirBonAvoir.getFactureAvoirQte());  
+            
     }
            
               DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
@@ -225,18 +264,7 @@ public class DetailFactureAvoirBonAvoirOulmesController implements Initializable
                 df.setGroupingUsed(true);
            
          montantAvoir.setText(df.format(calculAvoir));  
-        
-     
-           for( int rows = 0;rows<listeDetailFactureAvoirBonAvoir.size() ;rows++ ){
-               
-                 DetailFactureAvoirBonAvoir detailFactureAvoirBonAvoir = listeDetailFactureAvoirBonAvoir.get(rows);
 
-            calculFacture = calculFacture.add(detailFactureAvoirBonAvoir.getFactureAvoirQte());  
-        
-    }
-           
-                  
-           
          montantFacture.setText(df.format(calculFacture));  
 
          somme = calculAvoir.subtract(calculFacture) ;
@@ -257,79 +285,129 @@ public class DetailFactureAvoirBonAvoirOulmesController implements Initializable
         
           ClientMP clientMP  = mapClientMP.get(clientCombo.getSelectionModel().getSelectedItem());
         
-          List <Object[]> listeObjectAvoir =avoirOulmesDAO.findAvoirOulmesByCodeAndClient(codeArtField.getText(), clientMP.getNom());
+           String req = "";
+          
+            if(dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null){
+             
+               LocalDate localDate=dateDebutBonCommande.getValue();
+                    DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                    String dateOperaDebut = localDate.format(formatters);
+
+                    localDate=dateFinBonCommande.getValue();
+                    String dateOperaFin = localDate.format(formatters);
+
+            if(dateFinBonCommande.getValue().compareTo(dateDebutBonCommande.getValue())<0){
+            
+            nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT);
+            return;
+            }else{
+            
+             req= req+" and u.avoirOulmes.dateSaisie BETWEEN '"+dateOperaDebut+"' and '"+dateOperaFin+"'";
+
+             }
+        }else if (dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()== null){
+        
+            nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.ERREUR_DATE);
+            return;
+        
+        }else if (dateDebutBonCommande.getValue()== null && dateFinBonCommande.getValue()!= null){
+        
+            nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.ERREUR_DATE);
+            return;
+        
+        }
+          
+          List <Object[]> listeObjectDetailAvoir =detailAvoirOulmesDAO.findByCodeAndClient(codeArtField.getText(), clientMP.getNom(),req);
 
              listeDetailFactureAvoirBonAvoir.clear();
          
-            for(int i=0; i<listeObjectAvoir.size(); i++) {
+            for(int i=0; i<listeObjectDetailAvoir.size(); i++) {
 
-                    Object[] object=listeObjectAvoir.get(i);
+                    Object[] object=listeObjectDetailAvoir.get(i);
                    
-                    PrixOulmes article =(PrixOulmes)object[0];
-                    BigDecimal avoir = (BigDecimal)object[1]; 
-                    Date dateSaisie = (Date)object[2];
-                    String Designation= (String)object[3];
                     
-           
-                    
-                    
-                    if(article == null && avoir == null && dateSaisie == null && Designation == null){
-                    
-                         nav.showAlert(Alert.AlertType.INFORMATION, "Alert", null, Constantes.MESSAGE_ALERT_AUCUN_TRAITEMENT);
-                        break;
-                    }else{
+                    Date dateSaisie = (Date)object[0];
+                    String Designation= (String)object[1];
+                    String numFacture = (String)object[2];
+                    BigDecimal avoir = (BigDecimal)object[3]; 
+                    BigDecimal factureAvoir = (BigDecimal)object[4]; 
 
-                        DetailFactureAvoirBonAvoir detailFactureAvoirBonAvoir = new DetailFactureAvoirBonAvoir();
+                  DetailFactureAvoirBonAvoir detailFactureAvoirBonAvoir = new DetailFactureAvoirBonAvoir();
                
                   detailFactureAvoirBonAvoir.setAvoirQte(avoir);
-                  detailFactureAvoirBonAvoir.setFactureAvoirQte(BigDecimal.ZERO);
+                  detailFactureAvoirBonAvoir.setFactureAvoirQte(factureAvoir);
+                  detailFactureAvoirBonAvoir.setNumFacture(numFacture);
                   detailFactureAvoirBonAvoir.setDateSaisie(dateSaisie);
                   detailFactureAvoirBonAvoir.setDesignation(Designation);
                   
                   listeDetailFactureAvoirBonAvoir.add(detailFactureAvoirBonAvoir);
-                    }
-
-    }
-            
-                 List <Object[]> listeObjectFacture =factureAvoirOulmesDAO.findFactureOulmesByCodeAndClient(codeArtField.getText(), clientMP.getNom());
-
-       
-         
-            for(int i=0; i<listeObjectFacture.size(); i++) {
-
-                    Object[] object=listeObjectFacture.get(i);
-                   
-                    PrixOulmes article =(PrixOulmes)object[0];
-                    BigDecimal facture = (BigDecimal)object[1]; 
-                    Date dateSaisie = (Date)object[2];
-                    String Designation= (String)object[3]; 
-                    
-           
-                    
-                    
-                    if(article == null && facture == null && dateSaisie == null && Designation == null){
-                    
-                         nav.showAlert(Alert.AlertType.INFORMATION, "Alert", null, Constantes.MESSAGE_ALERT_AUCUN_TRAITEMENT);
-                        break;
-                    }else{
-
-                        DetailFactureAvoirBonAvoir detailFactureAvoirBonAvoir = new DetailFactureAvoirBonAvoir();
-               
-                  detailFactureAvoirBonAvoir.setFactureAvoirQte(facture);
-                  detailFactureAvoirBonAvoir.setAvoirQte(BigDecimal.ZERO);
-                  detailFactureAvoirBonAvoir.setDateSaisie(dateSaisie);
-                  detailFactureAvoirBonAvoir.setDesignation(Designation);
                   
-                  listeDetailFactureAvoirBonAvoir.add(detailFactureAvoirBonAvoir);
-                    }
 
     }
-            
-            
+  
      detailFactureAvoirOulmestable.setItems(listeDetailFactureAvoirBonAvoir);
             setColumnProperties();
             
             calcule ();
 }
+    }
+
+    @FXML
+    private void dateDebit(ActionEvent event) {
+    }
+
+    @FXML
+    private void dateFin(ActionEvent event) {
+    }
+
+    @FXML
+    private void refreshGlobal(ActionEvent event) {
+        
+        codeArtField.clear();
+        LibelleCombo.getSelectionModel().clearSelection();
+        dateDebutBonCommande.setValue(null);
+        dateFinBonCommande.setValue(null);
+        clientCombo.getSelectionModel().clearSelection();
+        listeDetailFactureAvoirBonAvoir.clear();
+        montantAvoir.setText("");
+        montantEcart.setText("");
+        montantFacture.setText("");
+
+    }
+
+    @FXML
+    private void imprimerOnAction(ActionEvent event) throws ParseException {
+        
+            try {
+          HashMap para = new HashMap();
+            JasperReport report = (JasperReport) JRLoader.loadObject(DetailFactureAvoirBonAvoirOulmesController.class.getResource(nav.getiReportConsultationBonAvoirFactureAvoir()));
+
+            
+               para.put("totalAvoir",montantAvoir.getText());
+               para.put("totalFactureAvoir",montantFacture.getText());
+               para.put("totalEcart",montantEcart.getText());
+               para.put("codeArt",codeArtField.getText());
+               para.put("libelle",LibelleCombo.getSelectionModel().getSelectedItem());
+               para.put("client",clientCombo.getSelectionModel().getSelectedItem());
+               
+               if(dateDebutBonCommande.getValue()!= null && dateFinBonCommande.getValue()!= null){ 
+
+                Date dateDebut=new SimpleDateFormat("yyyy-MM-dd").parse(dateDebutBonCommande.getValue().toString());
+                Date dateFin=new SimpleDateFormat("yyyy-MM-dd").parse(dateFinBonCommande.getValue().toString());
+                   
+               para.put("dateDebut","Date Debut: ");
+               para.put("dateFin","Date Fin: ");
+               para.put("dateDebutParam",dateDebut);
+               para.put("dateFinParam",dateFin);
+               
+               }
+               
+               JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listeDetailFactureAvoirBonAvoir));
+               JasperViewer.viewReport(jp, false);
+            
+        } catch (JRException ex) {
+            Logger.getLogger(DetailFactureAvoirBonAvoirOulmesController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }

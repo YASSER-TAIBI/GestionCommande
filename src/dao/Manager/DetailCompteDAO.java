@@ -39,4 +39,8 @@ public interface DetailCompteDAO {
                 public List<DetailCompte> findFilterDetailCompteByDateOperationAndFourAndClient(Date dateDebut,Date dateFin, int four, int client);
                 
                 public List<Object[]> findBy(Date dateDebut,int client, int comptFour);
+                
+                public List<Object[]> findBySoldeFA(String req);
+                
+                public  Date findByMinDate();
 }

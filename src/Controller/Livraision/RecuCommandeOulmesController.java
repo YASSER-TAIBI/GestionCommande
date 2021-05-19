@@ -18,9 +18,13 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +37,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -95,9 +101,9 @@ public class RecuCommandeOulmesController implements Initializable {
     @FXML
     private Button btnImprimer;
     @FXML
-    private Button btnRafraichir;
-    @FXML
     private Button btnEnCours;
+    @FXML
+    private DatePicker dateCreationPicker;
     
     /**
      * Initializes the controller class.
@@ -115,6 +121,7 @@ public class RecuCommandeOulmesController implements Initializable {
      
      DetailCommande detailCommande;
       public String numCommandeRecupere = null;
+    
     
  
 
@@ -301,7 +308,7 @@ public class RecuCommandeOulmesController implements Initializable {
           ObservableList<Commande> listeCommande=FXCollections.observableArrayList();
     listeCommande.clear();
    
-   listeCommande.addAll(commandeDAO.findFourByRechercheNumCommande(numComRechField.getText(),Constantes.ETAT_COMMANDE_RECU));
+   listeCommande.addAll(commandeDAO.findFourByRechercheNumCommandeOulmes(numComRechField.getText(),Constantes.ETAT_COMMANDE_RECU));
    
    tableCommande.setItems(listeCommande);
     }
@@ -309,9 +316,13 @@ public class RecuCommandeOulmesController implements Initializable {
     @FXML
     private void imprimerOnAction(ActionEvent event) {
         
+           if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){    
+        
+                  if (tableDetailCommande.getSelectionModel().getSelectedIndex()!=-1){    
+        
          try {
           HashMap para = new HashMap();
-            JasperReport report = (JasperReport) JRLoader.loadObject(RecuCommandeController.class.getResource(nav.getiReportRecuCommande()));
+            JasperReport report = (JasperReport) JRLoader.loadObject(RecuCommandeOulmesController.class.getResource(nav.getiReportRecuCommandePF()));
 
             para.put("Fournisseur",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getFourisseur().getNom());
             para.put("NumCommande",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getnCommande());
@@ -319,24 +330,33 @@ public class RecuCommandeOulmesController implements Initializable {
             
     
 
-             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listeDetailCommande));
+             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listeDetailReception));
                JasperViewer.viewReport(jp, false);
             
         } catch (JRException ex) {
-            Logger.getLogger(RecuCommandeController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecuCommandeOulmesController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+           }else{
+              nav.showAlert(Alert.AlertType.ERROR, "Attention", null, Constantes.SELECTIONNER_DETAIL_COMMANDE);
+           }
+                  }else{
+              nav.showAlert(Alert.AlertType.ERROR, "Attention", null, Constantes.SELECTIONNER_COMMANDE);
+           } 
     }
 
-    @FXML
-    private void rafraichirOnAction(ActionEvent event) {
-
-    }
 
     @FXML
     private void enCoursOnAction(ActionEvent event) {
 
 
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+                
         tableReception.getItems().clear();
             listeDetailCommande.clear();
         
@@ -356,7 +376,7 @@ public class RecuCommandeOulmesController implements Initializable {
            
        }else {
           nav.showAlert(Alert.AlertType.CONFIRMATION, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE); 
-       }
+       }}
     }
 
     @FXML
@@ -387,6 +407,40 @@ if (tableDetailCommande.getSelectionModel().getSelectedIndex()!=-1){
         
         tableReception.setEditable(true);
 }
+    }
+
+    @FXML
+    private void refrechTableMouseClicked(MouseEvent event) {
+        
+            numComRechField.clear();
+        dateCreationPicker.setValue(null);
+        tableCommande.getItems().clear();
+        tableDetailCommande.getItems().clear();
+        tableReception.getItems().clear();
+        
+              setColumnProperties();
+        loadDetail();
+    }
+
+    @FXML
+    private void creationDate(ActionEvent event) throws ParseException {
+        
+        
+           LocalDate localDate=dateCreationPicker.getValue();
+             if(localDate!=null){
+                 
+             Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
+             
+            tableDetailCommande.getItems().clear();
+        tableReception.getItems().clear();
+             
+              listeCommande.clear();
+   
+   listeCommande.addAll(commandeDAO.findByDateCommandeOulmes(dateSaisie,Constantes.ETAT_COMMANDE_RECU));
+   
+   tableCommande.setItems(listeCommande);
+             }
+        
     }
 
     

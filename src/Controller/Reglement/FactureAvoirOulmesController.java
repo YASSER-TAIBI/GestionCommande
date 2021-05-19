@@ -226,7 +226,7 @@ public class FactureAvoirOulmesController implements Initializable {
            radPlus.setVisible(false);
         radmoin.setVisible(false);
         
-         List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+         List<Fournisseur> listFournisseur=fournisseurDAO.findAllPF();
         
         listFournisseur.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());
@@ -711,6 +711,8 @@ public class FactureAvoirOulmesController implements Initializable {
     }
 else {
             
+                     Fournisseur fournisseur = mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());  
+                    
                              Produit produit = produitDAO.findByCode(codeArtField.getText());
   
                                     String  client ="";         
@@ -730,7 +732,7 @@ else {
                        lieu = Constantes.SANS;
                        }  
                        
-                    PrixOulmes prixOulmes =prixOulmesDAO.findPrixOulmesByFourAndArt(Constantes.FOURNISSEUR_OULMES,produit.getId(),client,lieu );
+                    PrixOulmes prixOulmes =prixOulmesDAO.findPrixOulmesByFourAndArt(fournisseur.getNom(),produit.getId(),client,lieu );
                     
             BigDecimal  prixB= BigDecimal.ZERO ;
             BigDecimal remise= BigDecimal.ZERO ;

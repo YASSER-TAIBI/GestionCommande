@@ -17,4 +17,10 @@ public interface MagasinDAO {
         public Magasin findById(int id);
         
         public Magasin findStockByMagasinMP(int id);
+        
+        public List<Magasin> findByAllDepot(int idDepot);
+        
+        public List<Magasin> findByDepot(int idDepot);
+
+        public List<Magasin> findByDepotOulmes(int idDepot);
 }

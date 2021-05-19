@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Reglement.AvoirOulmesController">
+   <children>
+      <TableView fx:id="detailAvoireOulmestable" blendMode="MULTIPLY" layoutX="113.0" layoutY="517.0" onMouseClicked="#tableDetailClicked" prefHeight="135.0" prefWidth="1378.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+        <columns>
+          <TableColumn fx:id="bonAvoirColumn" prefWidth="73.0" text="B.Avoir" />
+            <TableColumn fx:id="codeArtColumn" prefWidth="71.0" text="Code" />
+          <TableColumn fx:id="libelleColumn" prefWidth="134.0" text="Libelle" />
+            <TableColumn fx:id="clientColumn" prefWidth="88.0" text="Client" />
+            <TableColumn fx:id="client2Column" prefWidth="82.0" text="Client 2" />
+            <TableColumn fx:id="dateBonAvoirColumn" minWidth="0.0" prefWidth="93.0" text="Date B.A" />
+            <TableColumn fx:id="quantiteColumn" prefWidth="75.0" text="Qte" />
+            <TableColumn fx:id="prixColumn" onEditCommit="#prixOnEditCommit" prefWidth="72.0" text="Prix" />
+            <TableColumn fx:id="montantColumn" prefWidth="89.0" text="Mont" />
+            <TableColumn fx:id="remiseColumn" prefWidth="66.0" text="Remise" />
+            <TableColumn fx:id="montantNetColumn" prefWidth="95.0" text="Mont Net" />
+            <TableColumn fx:id="factAvoirQteColumn" onEditCommit="#editCommitQteAvoirArtColumn" prefWidth="82.0" text="Qte F.A" />
+            <TableColumn fx:id="factAvoirPrixColumn" onEditCommit="#editCommitFactAvoirPrixColumn" prefWidth="89.0" text="Prix F.A" />
+            <TableColumn fx:id="factAvoirRemiseColumn" onEditCommit="#editCommitFactAvoirRemiseColumn" prefWidth="102.0" text="Remise F.A" />
+            <TableColumn fx:id="motifColumn" minWidth="0.0" onEditCommit="#motifOnEditCommit" prefWidth="104.0" text="Motif" />
+            <TableColumn fx:id="actionColumn" minWidth="0.0" prefWidth="63.0" text="Action" />
+        </columns>
+      </TableView>
+      <Pane layoutX="113.0" layoutY="147.0" prefHeight="174.0" prefWidth="1378.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <TextField fx:id="tauxField" alignment="CENTER" layoutX="1053.0" layoutY="5.0" prefHeight="31.0" prefWidth="212.0" promptText="Taux" styleClass="StyleRaduis" />
+            <Label layoutX="996.0" layoutY="10.0" text="Taux:" />
+            <Label layoutX="584.0" layoutY="11.0" text="TRO:" />
+            <ComboBox fx:id="fourCombo" layoutX="633.0" layoutY="5.0" onAction="#fournisseurOnAction" prefHeight="31.0" prefWidth="212.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="149.0" layoutY="10.0" text="Mois:" />
+            <ComboBox fx:id="clientCombo" layoutX="207.0" layoutY="5.0" onAction="#clientOnAction" prefHeight="31.0" prefWidth="212.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="900.0" layoutY="52.0" text="Montant Remise:" />
+            <TextField fx:id="quantiteField" alignment="CENTER" layoutX="1053.0" layoutY="46.0" onKeyReleased="#qteByIntervalleOnAction" prefHeight="31.0" prefWidth="212.0" promptText="Quantite" styleClass="StyleRaduis" />
+            <DatePicker fx:id="dateSaisie" layoutX="634.0" layoutY="116.0" prefHeight="31.0" prefWidth="212.0" promptText="Date Saisie" />
+            <Label layoutX="510.0" layoutY="121.0" text="Date Saisie:" />
+            <Label fx:id="qteAfficchage" alignment="CENTER" contentDisplay="CENTER" layoutX="1059.0" layoutY="110.0" prefHeight="24.0" prefWidth="203.0" />
+            <TextField fx:id="codeArtField" alignment="CENTER" layoutX="208.0" layoutY="47.0" onKeyPressed="#chargeL0ibelleKeyPressed" prefHeight="31.0" prefWidth="212.0" promptText="Code Article" styleClass="StyleRaduis" />
+            <Label layoutX="548.0" layoutY="52.0" text="Libelle:" />
+            <Label layoutX="112.0" layoutY="52.0" text="Code ART:" />
+            <ComboBox fx:id="LibelleCombo" layoutX="634.0" layoutY="46.0" onAction="#LibelleCombOnAction" prefHeight="31.0" prefWidth="212.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="1330.0" layoutY="126.0" onMouseClicked="#ajouterMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../Styles/img/add-1540630_640.png" />
+               </image>
+            </ImageView>
+         </children></Pane>
+      <Pane layoutX="553.0" layoutY="89.0" prefHeight="48.0" prefWidth="499.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="17.0" layoutY="2.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Remise Article Oulmes" />
+         </children>
+      </Pane>
+      <Pane layoutX="113.0" layoutY="468.0" prefHeight="44.0" prefWidth="1378.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="89.0" layoutY="12.0" text="Bon d'Avoir:" />
+            <TextField fx:id="nLivraisonRechField" alignment="CENTER" layoutX="212.0" layoutY="7.0" onKeyPressed="#rechercheBonAvoirKeyPressed" prefHeight="31.0" prefWidth="212.0" promptText="Recherche" styleClass="StyleRaduis" />
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="393.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="558.0" layoutY="12.0" text="Client:" />
+            <ComboBox fx:id="clientCombo1" layoutX="636.0" layoutY="6.0" onAction="#clientOnAction" prefHeight="31.0" prefWidth="212.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <ImageView fitHeight="36.0" fitWidth="38.0" layoutX="1330.0" layoutY="4.0" onMouseClicked="#rechercheMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="957.0" layoutY="12.0" text="Client 2:" />
+            <ComboBox fx:id="client2RechCombo" layoutX="1053.0" layoutY="6.0" onAction="#client2RechOnAction" prefHeight="31.0" prefWidth="212.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+         </children>
+      </Pane>
+      <Pane layoutX="113.0" layoutY="656.0" prefHeight="106.0" prefWidth="1378.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="validerSaisie" layoutX="303.0" layoutY="56.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#validerSaisieAction" prefHeight="36.0" prefWidth="125.0" text="Valider" />
+            <Button fx:id="imprimerBtn" layoutX="449.0" layoutY="56.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="36.0" prefWidth="125.0" text="Imprimer" />
+         </children>
+      </Pane>
+      <TableView fx:id="detailAvoireOulmesListTable" blendMode="MULTIPLY" layoutX="113.0" layoutY="326.0" prefHeight="135.0" prefWidth="1378.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeArtListColumn" prefWidth="91.0" text="Code" />
+            <TableColumn fx:id="libelleListColumn" prefWidth="300.0" text="Libelle" />
+            <TableColumn fx:id="quantiteListColumn" prefWidth="130.0" text="Qte" />
+            <TableColumn fx:id="prixListColumn" prefWidth="178.0" text="Prix" />
+            <TableColumn fx:id="montantListColumn" prefWidth="171.0" text="Montant" />
+            <TableColumn fx:id="remiseListColumn" prefWidth="165.0" text="Remise" />
+            <TableColumn fx:id="montantNetListColumn" prefWidth="157.0" text="Montant Net" />
+         </columns>
+      </TableView>
+      <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1491.0" layoutY="518.0" onMouseClicked="#selectionnerToutBoxMouseClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Styles/img/png-check-mark-1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1491.0" layoutY="547.0" onMouseClicked="#deselectionnerToutBoxMouseClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Styles/img/png-check-mark-2.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

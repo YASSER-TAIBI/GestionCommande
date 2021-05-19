@@ -50,30 +50,30 @@
 				<reportElement x="0" y="0" width="555" height="20" backcolor="#8FDFEF" uuid="1f96c44d-f72a-410a-80c6-24f584e90523"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="445" y="-1" width="102" height="22" uuid="07ce3957-6086-48fb-ad49-e4f2d53e3959"/>
+				<reportElement x="65" y="0" width="237" height="20" uuid="13402997-0f13-4850-a24c-6372d61e798d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" size="12" isBold="false"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Désignation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="-1" width="140" height="22" uuid="07ce3957-6086-48fb-ad49-e4f2d53e3959"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dimension]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="6" y="-1" width="55" height="20" uuid="0cae4e64-b6d6-4bc7-ad4f-d3c2d4120416"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" size="12" isBold="false"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Code Mp]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="65" y="-1" width="279" height="20" uuid="13402997-0f13-4850-a24c-6372d61e798d"/>
+				<reportElement x="307" y="-1" width="93" height="20" uuid="9bec67f1-62c4-4025-b227-69ff539ffe70"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" size="12" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Désignation]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="348" y="-1" width="93" height="20" uuid="9bec67f1-62c4-4025-b227-69ff539ffe70"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" size="12"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Catégorie]]></text>
 			</staticText>
@@ -94,12 +94,12 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Calibri" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="65" y="2" width="279" height="20" uuid="952b4c24-90b3-46d0-bf9c-4bfe77357b5c"/>
+				<reportElement x="65" y="2" width="237" height="20" uuid="952b4c24-90b3-46d0-bf9c-4bfe77357b5c"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -108,29 +108,29 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Calibri" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nom}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="348" y="2" width="93" height="20" uuid="5e939e9b-675c-48c2-a3ce-05f6a0a969e7"/>
+				<reportElement x="307" y="2" width="93" height="20" uuid="5e939e9b-675c-48c2-a3ce-05f6a0a969e7"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Calibri" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{categorieMp.nom}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="445" y="2" width="100" height="20" uuid="28c2776a-fc16-48ec-a476-ab69eb8d536f"/>
+				<reportElement x="405" y="2" width="140" height="20" uuid="28c2776a-fc16-48ec-a476-ab69eb8d536f"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Calibri" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dimension.libelle}]]></textFieldExpression>
 			</textField>
@@ -139,7 +139,7 @@
 	<columnFooter>
 		<band height="50">
 			<staticText>
-				<reportElement x="27" y="2" width="138" height="20" uuid="34283bfe-ddae-496b-8d75-7b86f096131a"/>
+				<reportElement x="27" y="4" width="138" height="20" uuid="34283bfe-ddae-496b-8d75-7b86f096131a"/>
 				<textElement>
 					<font fontName="Calibri" size="12"/>
 				</textElement>

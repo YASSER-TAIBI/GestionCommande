@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.HistoriquePrixOulmesController">
+   <children>
+      <Pane layoutX="453.0" layoutY="99.0" prefHeight="46.0" prefWidth="694.0" styleClass="pane">
+         <children>
+            <Label layoutX="37.0" layoutY="-3.0" prefHeight="52.0" prefWidth="630.0" styleClass="label2" text="Historique Prix Produit Fini" />
+         </children>
+      </Pane>
+      <TableView fx:id="tableHistoriquePrix" blendMode="MULTIPLY" layoutX="177.0" layoutY="507.0" onMouseClicked="#clickTablePrixBox" prefHeight="209.0" prefWidth="1235.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="ProduitDetailColumn" prefWidth="301.0" text="Produit" />
+            <TableColumn fx:id="dateModificationColumn" minWidth="0.0" prefWidth="215.0" text="Date Modification" />
+            <TableColumn fx:id="fournisseurColumn" minWidth="0.0" prefWidth="178.0" text="Fournisseur" />
+            <TableColumn fx:id="cheminColumn" minWidth="0.0" prefWidth="197.0" text="Chemin" />
+            <TableColumn fx:id="ancienPrixDetailColumn" minWidth="0.0" prefWidth="172.0" text="Ancien Prix" />
+            <TableColumn fx:id="nouveauPrixDetailColumn" minWidth="0.0" prefWidth="172.0" text="Nouveau Prix " />
+         </columns>
+      </TableView>
+      <Pane layoutX="178.0" layoutY="725.0" prefHeight="52.0" prefWidth="1235.0" styleClass="pane">
+         <children>
+            <Button fx:id="btnInitialiser" layoutX="552.0" layoutY="7.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#inisialiserOnAction" prefHeight="38.0" prefWidth="131.0" text="Initialiser" />
+         </children>
+      </Pane>
+      <Pane layoutX="178.0" layoutY="453.0" prefHeight="46.0" prefWidth="1235.0" styleClass="pane">
+         <children>
+            <ComboBox fx:id="fourCombo" layoutX="575.0" layoutY="7.0" onAction="#fourComboOnAction" prefHeight="31.0" prefWidth="226.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="450.0" layoutY="13.0" text="Fournisseur: " />
+         </children>
+      </Pane>
+      <TableView fx:id="tableObjetHistoriquePrix" blendMode="MULTIPLY" layoutX="183.0" layoutY="235.0" onMouseClicked="#clickTablePrixBox" prefHeight="209.0" prefWidth="1235.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="ProduitColumn" prefWidth="464.0" text="Produit" />
+            <TableColumn fx:id="ancienPrixColumn" minWidth="0.0" prefWidth="397.0" text="Ancien Prix" />
+            <TableColumn fx:id="nouveauPrixColumn" minWidth="0.0" prefWidth="374.0" text="Nouveau Prix " />
+         </columns>
+      </TableView>
+      <Pane layoutX="185.0" layoutY="179.0" prefHeight="46.0" prefWidth="1233.0" styleClass="pane">
+         <children>
+            <Label layoutX="474.0" layoutY="13.0" text="Produit: " />
+            <ComboBox fx:id="produitCombo" layoutX="561.0" layoutY="7.0" prefHeight="31.0" prefWidth="226.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="1174.0" layoutY="4.0" onMouseClicked="#rechercheMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

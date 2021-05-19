@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="861325b4-8ea7-4768-8f4d-4e0109abf941">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<parameter name="Fournisseur" class="java.lang.String"/>
+	<parameter name="NumCommande" class="java.lang.String"/>
+	<parameter name="Ville" class="java.lang.String"/>
+	<parameter name="DateLiv" class="java.util.Date"/>
+	<parameter name="Chargement" class="java.lang.String"/>
+	<parameter name="Matricule" class="java.lang.String"/>
+	<parameter name="DateChargement" class="java.util.Date"/>
+	<parameter name="NumMatricule" class="java.lang.String"/>
+	<field name="quantite" class="java.math.BigDecimal"/>
+	<field name="prixOulmes.produit.code" class="java.lang.String"/>
+	<field name="prixOulmes.produit.libelle" class="java.lang.String"/>
+	<title>
+		<band height="94" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="163" y="34" width="248" height="24" backcolor="#8FDFEF" uuid="afb0c4b2-43fa-46e0-a7d7-3f615f560eb4"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="180" y="32" width="215" height="24" uuid="48eacf1b-a72a-4a11-b26f-f4c4bd127316"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Suivi Commande Region PF]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="138" splitType="Stretch">
+			<staticText>
+				<reportElement x="42" y="38" width="136" height="18" uuid="3f683fec-93d5-4c0e-9f5d-cdef4666620d"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[Suivi Commande Region PF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="56" width="47" height="18" uuid="2f50477c-53e4-464b-b73d-67c97ce7d30c"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[Réf N°:  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="359" y="56" width="34" height="18" uuid="a7b4773f-06ef-4038-8848-3520c0584e50"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[Date: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="89" y="56" width="130" height="18" uuid="255d2639-22f5-414c-a189-8498f54459c7"/>
+				<textElement>
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NumCommande}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="393" y="56" width="151" height="18" uuid="fb423f55-c58b-4c5e-899f-f519a120b3c4"/>
+				<textElement>
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DateLiv}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="42" y="92" width="94" height="18" uuid="c92056a5-069b-4d00-b895-c6fcdda4fd7b"/>
+				<textElement>
+					<font fontName="calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Chargement}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="136" y="92" width="136" height="18" uuid="b9ab39eb-5716-4ae9-ba7b-ea0bdf97d3ed"/>
+				<textElement>
+					<font fontName="calibri" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DateChargement}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="126" y="74" width="124" height="18" uuid="092bd96b-2a66-4b89-a6bd-c567c2d579f0"/>
+				<textElement>
+					<font fontName="calibri" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NumMatricule}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="42" y="74" width="84" height="18" uuid="b2723449-9349-44fa-a794-e82a61bbe8df"/>
+				<textElement>
+					<font fontName="calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Matricule}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="12" y="0" width="532" height="20" backcolor="#8FDFEF" uuid="1f96c44d-f72a-410a-80c6-24f584e90523"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="32" y="-1" width="115" height="20" uuid="0cae4e64-b6d6-4bc7-ad4f-d3c2d4120416"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Réference]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="416" y="0" width="107" height="20" uuid="30cf713d-db5b-46a6-9297-a59f9538169f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantité]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="151" y="-1" width="260" height="20" uuid="13402997-0f13-4850-a24c-6372d61e798d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Désignation]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="32" y="1" width="115" height="20" uuid="6fb4e8e3-c8b0-40e7-99f4-ffe8ef3774e8"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="CALIBRI" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prixOulmes.produit.code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="151" y="1" width="260" height="20" uuid="7d002b11-285b-4245-8d44-21ddcee240af"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="CALIBRI" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prixOulmes.produit.libelle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="416" y="1" width="107" height="20" uuid="e48a2681-92b4-49a7-a19e-065c9d50d017"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="CALIBRI" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantite}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="38">
+			<rectangle>
+				<reportElement x="12" y="1" width="532" height="3" backcolor="#8FDFEF" uuid="0e1cdaa7-0a75-4148-a58c-2cb0754ee413"/>
+			</rectangle>
+		</band>
+	</summary>
+</jasperReport>

@@ -29,7 +29,7 @@ public class Depot implements Serializable {
 
 	private String code;
 
-	private String Libelle;
+	private String libelle;
 
 	// bi-directional many-to-one association to RipFournisseur
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "depot")
@@ -83,13 +83,13 @@ public class Depot implements Serializable {
 		this.code = code;
 	}
 
-	public String getLibelle() {
-		return Libelle;
-	}
+    public String getLibelle() {
+        return libelle;
+    }
 
-	public void setLibelle(String libelle) {
-		Libelle = libelle;
-	}
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
 
 	public List<Magasin> getListMagasin() {
 		return ListMagasin;

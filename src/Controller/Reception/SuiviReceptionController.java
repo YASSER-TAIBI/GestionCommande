@@ -21,7 +21,6 @@ import dao.Manager.DetailCommandeDAO;
 import dao.Manager.DetailCompteDAO;
 import dao.Manager.DetailReceptionDAO;
 import dao.Manager.FournisseurDAO;
-import dao.Manager.StockMPDAO;
 import dao.ManagerImpl.BonLivraisonDAOImpl;
 import dao.ManagerImpl.ClientMPDAOImpl;
 import dao.ManagerImpl.CommandeDAOImpl;
@@ -31,7 +30,6 @@ import dao.ManagerImpl.DetailCommandeDAOImpl;
 import dao.ManagerImpl.DetailCompteDAOImpl;
 import dao.ManagerImpl.DetailReceptionDAOImpl;
 import dao.ManagerImpl.FournisseurDAOImpl;
-import dao.ManagerImpl.StockMPDAOImpl;
 import function.navigation;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -294,6 +292,7 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
    listeCommande.addAll(commandeDAO.findFourByRechercheNumCommande(numComRechField.getText(),Constantes.ETAT_COMMANDE_ENCOURS));
    
    tableCommande.setItems(listeCommande);
+   
     }
 
     

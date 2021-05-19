@@ -9,6 +9,7 @@ import Utils.HibernateUtil;
 import dao.Entity.Reglement;
 import dao.Manager.CommandeDAO;
 import dao.Manager.ReglementDAO;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -114,4 +115,15 @@ public class ReglementDAOImpl implements ReglementDAO{
 		
                 return query.list();
  }
+                 
+    
+                 
+                   public List<Reglement> findByFourAndCltAndDateRg(int four,int clt,Date dateReglement) {
+		
+		Query query = session.createQuery("select c from Reglement c where c.clientMP.id =:clt and c.fournisseur.id =:four and c.date =:dateReglement");
+		query.setParameter("four",four);
+                query.setParameter("clt",clt);
+                query.setParameter("dateReglement", dateReglement);
+                return query.list();
+}
 }

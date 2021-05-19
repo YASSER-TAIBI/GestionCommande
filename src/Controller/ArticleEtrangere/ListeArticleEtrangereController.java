@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
@@ -37,6 +38,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -199,7 +201,14 @@ public class ListeArticleEtrangereController implements Initializable {
     @FXML
     private void ajouterVille(ActionEvent event) {
         
-        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+                
+            
          if(txtCode.getText().equalsIgnoreCase("")|| 
                  txtLibelle.getText().equalsIgnoreCase("") ||
                  txtUnite.getText().equalsIgnoreCase("") ||
@@ -246,12 +255,19 @@ public class ListeArticleEtrangereController implements Initializable {
         loadDetail();
          clear();
            }
- 
+            }
     }
 
     @FXML
     private void ModifierVille(ActionEvent event) {
-   
+        
+    
+             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
            if (tableArticle.getSelectionModel().getSelectedItem() != null) {
               
         Fournisseur fournisseur = mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
@@ -287,11 +303,18 @@ public class ListeArticleEtrangereController implements Initializable {
         } else {
              nav.showAlert(Alert.AlertType.ERROR, "Erreur", Constantes.SELECTION_ERREUR, Constantes.SELECTION_LIGNE_MODIFIER);
         }
-        
+            }
     }
 
     @FXML
     private void SupprimerVille(ActionEvent event) {
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
             if(tableArticle.getSelectionModel().getSelectedItem()==null){
          
     
@@ -307,7 +330,7 @@ public class ListeArticleEtrangereController implements Initializable {
       loadDetail();
        clear();
     }
-    }
+    }}
 
        void clear (){
     

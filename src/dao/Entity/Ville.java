@@ -28,16 +28,22 @@ public class Ville implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     
-      @Column(name="CODE")
+    @Column(name="CODE")
     private String code;
       
-        @Column(name="LIBELLE")
+    @Column(name="LIBELLE")
     private String libelle;
     
-         @ManyToOne
+    @ManyToOne
     @JoinColumn(name="ID_UTIL_CREATION")
     private Utilisateur utilisateurCreation;  
 
+    @Column(name="ETAT")
+    private String etat;
+         
+     
+     
+     
     public Utilisateur getUtilisateurCreation() {
         return utilisateurCreation;
     }
@@ -45,8 +51,7 @@ public class Ville implements Serializable {
     public void setUtilisateurCreation(Utilisateur utilisateurCreation) {
         this.utilisateurCreation = utilisateurCreation;
     }
-        
-        
+ 
      public Ville() {
     }
 
@@ -60,6 +65,14 @@ public class Ville implements Serializable {
 
     public String getCode() {
         return code;
+    }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
     }
 
     public void setCode(String code) {

@@ -31,6 +31,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
@@ -44,6 +45,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -104,7 +106,7 @@ public class ValiderCommandeController implements Initializable {
     private Button btnAjouter;
     
     
-    private ObservableList<DetailCommande> listeDetailCommande=FXCollections.observableArrayList();
+    private final ObservableList<DetailCommande> listeDetailCommande=FXCollections.observableArrayList();
     private final ObservableList<Commande> listeCommande=FXCollections.observableArrayList();
     
     DetailCommandeDAO detailCommandeDAO = new DetailCommandeDAOImpl();
@@ -166,6 +168,13 @@ public class ValiderCommandeController implements Initializable {
     @FXML
     private void ValiderCommande(ActionEvent event) {
        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
         tableDetailCommande.getItems().clear();
        if (tableCommande.getSelectionModel().getSelectedItem() != null) {
 
@@ -186,7 +195,7 @@ public class ValiderCommandeController implements Initializable {
           nav.showAlert(Alert.AlertType.CONFIRMATION, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE); 
        }
     }
-    
+    }
       void setColumnPropertiesDetailCommande(){
         
           codeMPColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailCommande, String>, ObservableValue<String>>() {
@@ -220,8 +229,6 @@ public class ValiderCommandeController implements Initializable {
      
     }
 
- 
-
   
     void loadDetailCommande (){
         
@@ -243,10 +250,11 @@ public class ValiderCommandeController implements Initializable {
  
              commande=tableCommande.getSelectionModel().getSelectedItem();    
                 
-                
-            setColumnPropertiesDetailCommande();
-            listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByEtat(commande, Constantes.ETAT_AFFICHAGE));
-            tableDetailCommande.setItems(listeDetailCommande);
+             detailCommandeDAO = new DetailCommandeDAOImpl();   
+             
+             setColumnPropertiesDetailCommande();
+             listeDetailCommande.addAll(detailCommandeDAO.findDetailCommandeByEtat(commande, Constantes.ETAT_AFFICHAGE));
+             tableDetailCommande.setItems(listeDetailCommande);
             
            numCommandeRecupere= nCommandeColumn.getCellData(tableCommande.getSelectionModel().getSelectedIndex());
            
@@ -255,9 +263,7 @@ public class ValiderCommandeController implements Initializable {
         LocalDate date = new java.util.Date(commande.getDateCreation().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         dateSaisieField.setValue(date);
-        
-        
-            
+
             }
             
     }
@@ -265,7 +271,8 @@ public class ValiderCommandeController implements Initializable {
 
     private void rechercheNumComOnKeyPressed(KeyEvent event) {
         
-                 ObservableList<Commande> listeCommande=FXCollections.observableArrayList();
+    ObservableList<Commande> listeCommande=FXCollections.observableArrayList();
+    
     listeCommande.clear();
    
    listeCommande.addAll(commandeDAO.findFourByRechercheNumCommande(numComRechField.getText(),Constantes.ETAT_COMMANDE_LANCE));
@@ -298,7 +305,14 @@ public class ValiderCommandeController implements Initializable {
     @FXML
     private void modifierDetailCommande(ActionEvent event) {
         
+          Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
 
+            if (result.get() == ButtonType.OK) {
+                
+  
          if (tableDetailCommande.getSelectionModel().getSelectedItem() != null) {
         
              BigDecimal oldValeur = BigDecimal.ZERO;
@@ -337,11 +351,19 @@ public class ValiderCommandeController implements Initializable {
              nav.showAlert(Alert.AlertType.ERROR, "Erreur", Constantes.SELECTION_ERREUR, Constantes.SELECTION_LIGNE_MODIFIER);
          }
         
-        
+            }
     }
 
     @FXML
     private void modifierCommande(ActionEvent event) throws ParseException {
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
         
                 if (tableCommande.getSelectionModel().getSelectedItem() != null) {
         
@@ -367,11 +389,19 @@ public class ValiderCommandeController implements Initializable {
         }else{
              nav.showAlert(Alert.AlertType.ERROR, "Erreur", Constantes.SELECTION_ERREUR, Constantes.SELECTION_LIGNE_MODIFIER);
          }
-        
+            }
     }
 
     @FXML
     private void supprimerDetailCommande(ActionEvent event) {
+        
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
         
         BigDecimal valeur = BigDecimal.ZERO;
         
@@ -403,12 +433,18 @@ public class ValiderCommandeController implements Initializable {
           prixField.clear();
       
     }
-        
+            }
     }
 
     @FXML
     private void supprimerCommande(ActionEvent event) {
         
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
                 if(tableCommande.getSelectionModel().getSelectedItem()==null){
               
          nav.showAlert(Alert.AlertType.ERROR, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE);
@@ -433,11 +469,19 @@ public class ValiderCommandeController implements Initializable {
         listeDetailCommande.clear();
         tableDetailCommande.setItems(listeDetailCommande);
          
-               }
+                }   }
     }
 
     @FXML
     private void ajouterCommande(ActionEvent event) {
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
         
           if(tableCommande.getSelectionModel().getSelectedItem()==null){
               
@@ -447,38 +491,31 @@ public class ValiderCommandeController implements Initializable {
         
         Commande commande = tableCommande.getSelectionModel().getSelectedItem();
 
-        SaisirMatierePremiereController root = new SaisirMatierePremiereController(Constantes.POUR_AJOUTER ,commande) {
-           @Override
-           public void refresh() {
-              tableDetailCommande.setItems(FXCollections.observableArrayList(commande.getDetailCommandes()));
-              setColumnProperties();
-           }
-       };
-      Stage stage = new Stage(); 
-      Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    
+       FXMLLoader fXMLLoader = new FXMLLoader();
+            fXMLLoader.setLocation(getClass().getResource(nav.getSaisirMatierePremiere0()));
+            try {
+                fXMLLoader.load();
+                Parent parent = fXMLLoader.getRoot();
+                Scene scene = new Scene(parent);
+  
+                SaisirMatierePremiereController saisirMatierePremiereController = fXMLLoader.getController();
+
+                saisirMatierePremiereController.commande = commande;
+                saisirMatierePremiereController.listeDetailCommandeTMP= listeDetailCommande;
+                saisirMatierePremiereController.chargerLesDonnees();
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.initModality(Modality.APPLICATION_MODAL);
+     
+                stage.show();
+            } catch (IOException ex) {           
+                System.err.println("!!!!!!!!" +ex);
+            }
         
-    
-      loadDetail();   
-        
-          }
+          }}
     }
 
-
-
-
-
    
-   
-
-    
-  
-    
-  
-
-      
 
 
 }

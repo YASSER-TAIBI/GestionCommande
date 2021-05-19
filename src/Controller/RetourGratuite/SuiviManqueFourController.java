@@ -10,10 +10,13 @@ import dao.Entity.Commande;
 import dao.Entity.DetailBonLivraison;
 import dao.Entity.DetailCommande;
 import dao.Entity.DetailManqueFour;
+import dao.Entity.SousDetailManqueFour;
 import dao.Manager.CommandeDAO;
 import dao.Manager.DetailManqueFourDAO;
+import dao.Manager.SousDetailManqueFourDAO;
 import dao.ManagerImpl.CommandeDAOImpl;
 import dao.ManagerImpl.DetailManqueFourDAOImpl;
+import dao.ManagerImpl.SousDetailManqueFourDAOImpl;
 import function.navigation;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -33,6 +36,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -55,6 +60,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -80,26 +92,27 @@ public class SuiviManqueFourController implements Initializable {
     @FXML
     private TableColumn<DetailManqueFour, String> nBlColumn;
     @FXML
+    private TableColumn<DetailManqueFour, String> fourColumn;
+    @FXML
+    private TableColumn<DetailManqueFour, String> depotColumn;
+    @FXML
+    private TableColumn<DetailManqueFour, String> magasinColumn;
+    
+    @FXML
+    private TableView<SousDetailManqueFour> tableSousDetailManqueFour;
+    @FXML
+    private TableColumn<SousDetailManqueFour, String> codeMPHisColumn;
+    @FXML
+    private TableColumn<SousDetailManqueFour, String> libelleHisColumn;
+    @FXML
+    private TableColumn<SousDetailManqueFour, String> numManque;
+    @FXML
+    private TableColumn<SousDetailManqueFour, Date> dateSaisieColumn;
+    @FXML
+    private TableColumn<SousDetailManqueFour, BigDecimal> quantiteHisColumn;
+    
+    @FXML
     private TextField qteTotalField;
-    @FXML
-    private TextField nCommandeField;
-    @FXML
-    private ComboBox<String> livraisonCombo;
-    @FXML
-    private TextField nManqueField;
-
-    /**
-     * Initializes the controller class.
-     */
-    
-      private ObservableList<DetailManqueFour> listeDetailManqueFour=FXCollections.observableArrayList();
-    
-       navigation nav = new navigation();
-      
-        CommandeDAO commandeDAO = new  CommandeDAOImpl();
-        DetailManqueFourDAO detailManqueFourDAO = new DetailManqueFourDAOImpl();
-        
-          private Map<String,DetailManqueFour> mapDetailManqueFour=new HashMap<>();
     @FXML
     private TextField qteRecuField;
     @FXML
@@ -108,10 +121,27 @@ public class SuiviManqueFourController implements Initializable {
     private Button btnValider;
     @FXML
     private Button btnRefresh;
+    @FXML
+    private Button btnImprimer;
     
+    /**
+     * Initializes the controller class.
+     */
+    
+    private ObservableList<DetailManqueFour> listeDetailManqueFour=FXCollections.observableArrayList();
+    private ObservableList<SousDetailManqueFour> listeSousDetailManqueFour=FXCollections.observableArrayList();
+    navigation nav = new navigation();
+      
+    CommandeDAO commandeDAO = new  CommandeDAOImpl();
+    DetailManqueFourDAO detailManqueFourDAO = new DetailManqueFourDAOImpl();
+    SousDetailManqueFourDAO sousDetailManqueFourDAO = new SousDetailManqueFourDAOImpl();
         
-          
-          void qteTotal() {
+    private Map<String,DetailManqueFour> mapDetailManqueFour=new HashMap<>();
+    
+    
+    
+
+    void qteTotal() {
           
                BigDecimal ecartQte = BigDecimal.ZERO;
                BigDecimal totalEcartQte = BigDecimal.ZERO;
@@ -124,7 +154,7 @@ public class SuiviManqueFourController implements Initializable {
                   
                   totalEcartQte= totalEcartQte.add(ecartQte);
 
-              }
+    }
           
               qteTotalField.setText(totalEcartQte+"");
               
@@ -142,7 +172,7 @@ public class SuiviManqueFourController implements Initializable {
      void loadDetail(){
 
          listeDetailManqueFour.clear();
-         listeDetailManqueFour.addAll(detailManqueFourDAO.findAll());
+         listeDetailManqueFour.addAll(detailManqueFourDAO.findByStatutMP());
          tableDetailManqueFour.setItems(listeDetailManqueFour);
          
     }
@@ -182,6 +212,31 @@ public class SuiviManqueFourController implements Initializable {
 
         });
       
+      
+       fourColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailManqueFour, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailManqueFour, String> p) {
+                return new ReadOnlyObjectWrapper(p.getValue().getFourisseur().getNom());
+            }
+
+        });
+       
+       magasinColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailManqueFour, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailManqueFour, String> p) {
+                return new ReadOnlyObjectWrapper(p.getValue().getMagasinn().getLibelle());
+            }
+
+        });
+       
+       depotColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailManqueFour, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailManqueFour, String> p) {
+                return new ReadOnlyObjectWrapper(p.getValue().getDepot());
+            }
+
+        });
+       
       nBlColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailManqueFour, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailManqueFour, String> p) {
@@ -211,7 +266,51 @@ public class SuiviManqueFourController implements Initializable {
        
     }
        
-       
+      void setColumnPropertiesSousDetailManqueFour() {
+
+        codeMPHisColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SousDetailManqueFour, String>, ObservableValue<String>>(){
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<SousDetailManqueFour, String> p) {
+                return new ReadOnlyObjectWrapper(p.getValue().getMatierePremier().getCode());
+            }
+        });
+
+        libelleHisColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SousDetailManqueFour, String>, ObservableValue<String>>(){
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<SousDetailManqueFour, String> p) {
+                return new ReadOnlyObjectWrapper(p.getValue().getMatierePremier().getNom());
+            }
+
+        });
+
+           quantiteHisColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SousDetailManqueFour, BigDecimal>, ObservableValue<BigDecimal>>() {
+                @Override
+                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<SousDetailManqueFour, BigDecimal> p) {
+                    
+                     
+                    return new ReadOnlyObjectWrapper(p.getValue().getQuantite());
+                }
+                
+             });
+
+      numManque.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SousDetailManqueFour, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<SousDetailManqueFour, String> p) {
+                return new ReadOnlyObjectWrapper(p.getValue().getNumRetour());
+            }
+
+        });
+      
+      dateSaisieColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SousDetailManqueFour, Date>, ObservableValue<Date>>() {
+            @Override
+            public ObservableValue<Date> call(TableColumn.CellDataFeatures<SousDetailManqueFour, Date> p) {
+                return new ReadOnlyObjectWrapper(p.getValue().getDateSaisie());
+            }
+
+        });
+    } 
+      
+      
         public static void setColumnTextFieldConverter(StringConverter converter, TableColumn... columns) {
 
         for (TableColumn tableColumn : columns) {
@@ -249,71 +348,10 @@ public class SuiviManqueFourController implements Initializable {
         return converter;
     }
 
-
-
-    @FXML
-    private void chargeNlivraisionTableKeyPressed(KeyEvent event) {
-        
-
-        livraisonCombo.getItems().clear();
-        
-        if (event.getCode().equals(KeyCode.ENTER))
-            {
-                
-                
-             String  numCommande = nCommandeField.getText();
-             
-           List<DetailManqueFour> listDetailManqueFour =detailManqueFourDAO.findDetailManqueFourByNumCom(numCommande); 
-           
-           if(listDetailManqueFour!=null){
-               
-
-  
-            listDetailManqueFour.stream().map((detailManqueFour) -> {
-            livraisonCombo.getItems().addAll(detailManqueFour.getNumBonLiv());
-            return detailManqueFour;
-        }).forEachOrdered((detailManqueFour) -> {
-            mapDetailManqueFour.put(detailManqueFour.getNumBonLiv(), detailManqueFour);
-        });          
-           }else{
-           nav.showAlert(Alert.AlertType.WARNING, "Attention", null, Constantes.VERIFIER_NUM_COMMANDE);
-           }
-            }
-        
-    }
-
-    @FXML
-    private void livraisonComboOnAction(ActionEvent event) {
-        
-               DetailManqueFour detailManqueFour  = mapDetailManqueFour.get(livraisonCombo.getSelectionModel().getSelectedItem());
-         
-          if(detailManqueFour!=null){
-              
-         nManqueField.setText(detailManqueFour.getNumRetour());
-
-         listeDetailManqueFour.clear();
-         
-         String  numCommande = nCommandeField.getText();
-
-           DetailManqueFour detailManqueFourTMP =detailManqueFourDAO.findDetailManqueFourByNumComAndNumBL(numCommande, detailManqueFour.getNumBonLiv()); 
-         
-              
-                listeDetailManqueFour.addAll(detailManqueFourTMP);
-                tableDetailManqueFour.setItems(listeDetailManqueFour);
-                setColumnPropertiesDetailCommande();
-                qteTotal();
-         
-          }
-        
-    }
-
-
     @FXML
     private void refrechTableMouseClicked(MouseEvent event) {
         
-        nCommandeField.clear();
-        livraisonCombo.getSelectionModel().clearSelection();
-        nManqueField.clear();
+
         tableDetailManqueFour.getItems().clear();
         qteTotalField.clear();
        
@@ -336,16 +374,17 @@ public class SuiviManqueFourController implements Initializable {
  
                DetailManqueFour detailManqueFour=tableDetailManqueFour.getSelectionModel().getSelectedItem();    
                 
-                
+//        qteRecuField.setText(detailManqueFour.getQuantiteRecu()+"");
+//        
+//        LocalDate date = new java.util.Date(detailManqueFour.getDateSaisie().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//
+//        dateSaisie.setValue(date);
         
-           
-        qteRecuField.setText(detailManqueFour.getQuantiteRecu()+"");
+        listeSousDetailManqueFour.clear();
+          listeSousDetailManqueFour.addAll(sousDetailManqueFourDAO.findByNumManque(detailManqueFour.getNumRetour()));
+         tableSousDetailManqueFour.setItems(listeSousDetailManqueFour);
         
-        LocalDate date = new java.util.Date(detailManqueFour.getDateSaisie().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        dateSaisie.setValue(date);
-        
-        
+         setColumnPropertiesSousDetailManqueFour();
             
             }
             
@@ -355,9 +394,12 @@ public class SuiviManqueFourController implements Initializable {
     @FXML
     private void btnValiderOnAction(ActionEvent event) throws ParseException {
         
-        if (qteRecuField.getText().equalsIgnoreCase("") || dateSaisie.getValue()== null ){
-        
+        if (qteRecuField.getText().equalsIgnoreCase("") || dateSaisie.getValue()== null || tableDetailManqueFour.getSelectionModel().getSelectedIndex()==-1 ){
+            
+         nav.showAlert(Alert.AlertType.ERROR, "Attention", null, Constantes.REMPLIR_CHAMPS);
+      
         }else{
+            
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setContentText(Constantes.MESSAGE_ALERT_VALIDER_QTE_LIVRAISON);
             alert.setTitle("Confirmation");
@@ -369,34 +411,58 @@ public class SuiviManqueFourController implements Initializable {
             
                 Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
                 
-                  DetailManqueFour detailManqueFour=tableDetailManqueFour.getSelectionModel().getSelectedItem();    
+               DetailManqueFour detailManqueFour=tableDetailManqueFour.getSelectionModel().getSelectedItem();    
                 
-               BigDecimal calculeEcartQuantite= BigDecimal.ZERO; 
+               BigDecimal  calculeEcartQuantite= BigDecimal.ZERO; 
                BigDecimal  qteRecuOld= BigDecimal.ZERO; 
                BigDecimal  qteRecuNew= BigDecimal.ZERO; 
                BigDecimal  qteRecu= BigDecimal.ZERO; 
                BigDecimal  qte  = BigDecimal.ZERO;       
 
             
-               qteRecuOld =  detailManqueFour.getQuantiteRecu();
+              qteRecuOld =  detailManqueFour.getQuantiteRecu();
                
-               qteRecuNew = new BigDecimal(qteRecuField.getText());
+              qteRecuNew = new BigDecimal(qteRecuField.getText());
 
-               qte = detailManqueFour.getQuantite();
+              qte = detailManqueFour.getQuantite();
            
-               qteRecu = qteRecuOld.add(qteRecuNew);
+              qteRecu = qteRecuOld.add(qteRecuNew);
                
               calculeEcartQuantite = qte.subtract(qteRecu).setScale(2, RoundingMode.FLOOR);
               
-              
               detailManqueFour.setQuantiteRecu(qteRecu);
               detailManqueFour.setEcartQuantite(calculeEcartQuantite);
-              detailManqueFour.setDateSaisie(dateSaisie);
+              
               detailManqueFourDAO.edit(detailManqueFour);
               
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+                SousDetailManqueFour sousDetailManqueFour = new SousDetailManqueFour();
+
+                sousDetailManqueFour.setQuantite(qteRecuNew);
+                sousDetailManqueFour.setStatut(Constantes.MP);
+                sousDetailManqueFour.setNumRetour(detailManqueFour.getNumRetour());
+                sousDetailManqueFour.setDateSaisie(dateSaisie);
+                sousDetailManqueFour.setMatierePremier(detailManqueFour.getMatierePremier());
+                sousDetailManqueFour.setUtilisateurCreation(nav.getUtilisateur());
+                
+                sousDetailManqueFourDAO.add(sousDetailManqueFour);
+                
+                
               setColumnPropertiesDetailCommande();
               qteTotal();
 
+              
+              
+               listeSousDetailManqueFour.clear();
+               listeSousDetailManqueFour.addAll(sousDetailManqueFourDAO.findByNumManque(detailManqueFour.getNumRetour()));
+               tableSousDetailManqueFour.setItems(listeSousDetailManqueFour);
+              
+               setColumnPropertiesSousDetailManqueFour();
+               
+               qteRecuField.clear();
+               this.dateSaisie.setValue(null);
+               
                } else if (result.get() == ButtonType.CANCEL) {
                 tableDetailManqueFour.refresh();
             }
@@ -408,6 +474,60 @@ public class SuiviManqueFourController implements Initializable {
 
     @FXML
     private void btnRefreshOnAction(ActionEvent event) {
+        
+        
+        qteRecuField.clear();
+        dateSaisie.setValue(null);
+        
+        listeSousDetailManqueFour.clear();
+        
+        loadDetail();
+        setColumnPropertiesDetailCommande();
+        qteTotal();
+        
+        
+    }
+
+    @FXML
+    private void btnImprimerOnAction(ActionEvent event) throws JRException {
+        
+         try {
+             
+               DetailManqueFour detailManqueFour=tableDetailManqueFour.getSelectionModel().getSelectedItem();   
+               
+               if (detailManqueFour!=null){
+                   
+                            HashMap para = new HashMap();
+            JasperReport report = (JasperReport) JRLoader.loadObject(SuiviManqueFourController.class.getResource(nav.getiReportSituationManqueFourMp()));
+
+             
+            
+            para.put("numBonLiv",detailManqueFour.getNumBonLiv());
+            para.put("fournisseur",detailManqueFour.getFourisseur().getNom());
+            para.put("numCommande",detailManqueFour.getNumCommande());
+            para.put("depot",detailManqueFour.getDepot());
+            para.put("magasin",detailManqueFour.getMagasinn().getLibelle());
+            para.put("qte",detailManqueFour.getQuantite());
+            para.put("qteRecu",detailManqueFour.getQuantiteRecu());
+            para.put("qteEcart",detailManqueFour.getEcartQuantite());
+            
+
+
+             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listeSousDetailManqueFour));
+               JasperViewer.viewReport(jp, false);
+
+         }else {
+             
+         nav.showAlert(Alert.AlertType.WARNING, "Attention", null, Constantes.SELECTIONNER_UNE_LIGNE);
+         
+               }
+               
+               } catch (JRException ex) {
+            Logger.getLogger(SuiviManqueFourController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
     }
     
 }

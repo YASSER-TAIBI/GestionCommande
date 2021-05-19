@@ -38,17 +38,14 @@ public class TypeCartonBox implements Serializable{
     @Column(name="CODE")
     private String code;
 
-       @ManyToOne
+    @Column(name="ETAT")
+    private String etat;
+    
+    @ManyToOne
     @JoinColumn(name="ID_UTIL_CREATION")
     private Utilisateur utilisateurCreation;
 
-       
-       
-       
-       
-       
-       
-       
+
        
        
     public Utilisateur getUtilisateurCreation() {
@@ -71,6 +68,14 @@ public class TypeCartonBox implements Serializable{
 
     public String getLibelle() {
         return libelle;
+    }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
     }
 
     public void setLibelle(String libelle) {

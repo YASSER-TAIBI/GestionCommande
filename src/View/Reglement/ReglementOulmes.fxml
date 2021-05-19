@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -15,53 +16,51 @@
 
 <AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Reglement.ReglementOulmesController">
    <children>
-      <TableView fx:id="tableBonLivraison" blendMode="MULTIPLY" layoutX="223.0" layoutY="292.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailOnMouseClicked" prefHeight="210.0" prefWidth="1118.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+      <TableView fx:id="tableBonLivraison" blendMode="MULTIPLY" layoutX="223.0" layoutY="278.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailOnMouseClicked" prefHeight="186.0" prefWidth="1118.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
          <columns>
-            <TableColumn fx:id="numLivraisonColumn" prefWidth="138.0" text="Num Livraison" />
-            <TableColumn fx:id="dateLivraisonColumn" prefWidth="181.0" text="Date Livraison" />
-            <TableColumn fx:id="NumFactureColumn" minWidth="8.0" prefWidth="167.0" text="Num Facture" />
-            <TableColumn fx:id="montantColumn" minWidth="0.0" prefWidth="142.0" text="Montant HT" />
-            <TableColumn fx:id="montantTVAColumn" minWidth="0.0" prefWidth="138.0" text="Montant TVA" />
-            <TableColumn fx:id="montantTTCColumn" minWidth="0.0" prefWidth="142.0" text="Montant TTC" />
-            <TableColumn fx:id="etatColumn" minWidth="8.0" prefWidth="134.0" text="Etat" />
-            <TableColumn fx:id="actionColumn" minWidth="0.0" prefWidth="76.0" text="Action" />
+            <TableColumn fx:id="numLivraisonColumn" prefWidth="143.0" text="Num Livraison" />
+            <TableColumn fx:id="dateLivraisonColumn" prefWidth="150.0" text="Date Livraison" />
+            <TableColumn fx:id="NumFactureColumn" minWidth="8.0" prefWidth="141.0" text="Num Facture" />
+            <TableColumn fx:id="montantColumn" minWidth="0.0" prefWidth="127.0" text="Montant HT" />
+            <TableColumn fx:id="montantTVAColumn" minWidth="0.0" prefWidth="137.0" text="Montant TVA" />
+            <TableColumn fx:id="montantTTCColumn" minWidth="0.0" prefWidth="127.0" text="Montant TTC" />
+            <TableColumn fx:id="montantRgColumn" minWidth="8.0" onEditCommit="#editCommitMontantRGColumn" prefWidth="126.0" text="Montant RG" />
+            <TableColumn fx:id="etatColumn" minWidth="8.0" prefWidth="103.0" text="Etat" />
+            <TableColumn fx:id="actionColumn" minWidth="0.0" prefWidth="64.0" text="Action" />
          </columns>
       </TableView>
-      <TableView fx:id="tableDetailBonLivraison" blendMode="MULTIPLY" layoutX="219.0" layoutY="630.0" maxWidth="1.7976931348623157E308" onMouseClicked="#tableDetailClicked" prefHeight="171.0" prefWidth="932.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+      <TableView fx:id="tableDetailBonLivraison" blendMode="MULTIPLY" layoutX="219.0" layoutY="669.0" maxWidth="1.7976931348623157E308" onMouseClicked="#tableDetailClicked" prefHeight="134.0" prefWidth="932.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
          <columns>
             <TableColumn fx:id="codeArtColumn" prefWidth="69.0" text="Code" />
-            <TableColumn fx:id="artColumn" prefWidth="197.0" text="Article" />
-            <TableColumn fx:id="client2Column" prefWidth="89.0" text="Client 2" />
-            <TableColumn fx:id="bonAvoirColumn" prefWidth="124.0" text="Bon d'Avoir" />
-            <TableColumn fx:id="numFacDetailColumn" prefWidth="113.0" text="Num Facture" />
-            <TableColumn fx:id="qteColumn" prefWidth="85.0" text="Quantite" />
-            <TableColumn fx:id="prixColumn" prefWidth="87.0" text="Prix Un" />
-            <TableColumn fx:id="remiseColumn" prefWidth="70.0" text="Remise" />
-            <TableColumn fx:id="totalColumn" prefWidth="98.0" text="Total " />
+            <TableColumn fx:id="artColumn" prefWidth="188.0" text="Article" />
+            <TableColumn fx:id="client2Column" prefWidth="84.0" text="Client 2" />
+            <TableColumn fx:id="bonAvoirColumn" prefWidth="83.0" text="B.Avoir" />
+            <TableColumn fx:id="numFacDetailColumn" prefWidth="97.0" text="N°Facture" />
+            <TableColumn fx:id="qteColumn" prefWidth="92.0" text="Qte" />
+            <TableColumn fx:id="prixColumn" prefWidth="87.0" text="Prix" />
+            <TableColumn fx:id="remiseColumn" prefWidth="65.0" text="Remise" />
+            <TableColumn fx:id="totalColumn" prefWidth="92.0" text="Total " />
+            <TableColumn fx:id="motifColumn" onEditCommit="#motifOnEditCommit" prefWidth="75.0" text="Motif" />
          </columns>
       </TableView>
-      <Pane layoutX="440.0" layoutY="99.0" prefHeight="46.0" prefWidth="698.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="390.0" layoutY="93.0" prefHeight="46.0" prefWidth="821.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Label layoutX="16.0" layoutY="1.0" prefHeight="44.0" prefWidth="650.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text=" Reglement Fournisseur Oulmes" />
+            <Label layoutX="16.0" layoutY="1.0" prefHeight="44.0" prefWidth="783.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text=" Reglement Fournisseur Produit Fini" />
          </children>
       </Pane>
-      <Pane layoutX="219.0" layoutY="508.0" prefHeight="116.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="219.0" layoutY="473.0" prefHeight="186.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Label layoutX="152.0" layoutY="49.0" prefHeight="20.0" prefWidth="154.0" text="Mode Reglement:" />
-            <ComboBox fx:id="modeReglementCombo" layoutX="306.0" layoutY="42.0" onAction="#modeReglementOnAction" prefHeight="31.0" prefWidth="203.0" promptText="Selectionner..." styleClass="StyleRaduis" />
-            <Pane fx:id="paneView" layoutX="28.0" layoutY="76.0" prefHeight="38.0" prefWidth="1043.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+            <Pane fx:id="paneView" layoutX="28.0" layoutY="146.0" prefHeight="38.0" prefWidth="1043.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
                <children>
                   <TextField fx:id="numCritique" layoutX="278.0" layoutY="4.0" prefHeight="31.0" prefWidth="203.0" promptText="Num Order/Chéque/Traite" styleClass="StyleRaduis" />
                   <Label layoutX="39.0" layoutY="10.0" text="Num Order/Chéque/Traite: " />
-                  <Label layoutX="597.0" layoutY="11.0" text="Date d'Echéance: " />
-                  <DatePicker fx:id="dateEcheance" layoutX="760.0" layoutY="3.0" prefHeight="31.0" prefWidth="203.0" promptText="Date d'Echéance" />
+                  <Label layoutX="629.0" layoutY="12.0" text="Date d'Echéance: " />
+                  <DatePicker fx:id="dateEcheance" layoutX="792.0" layoutY="4.0" prefHeight="31.0" prefWidth="203.0" promptText="Date d'Echéance" />
                </children>
             </Pane>
-            <Label layoutX="152.0" layoutY="12.0" text="Date Reglement: " />
-            <DatePicker fx:id="dateReglement" layoutX="306.0" layoutY="4.0" prefHeight="31.0" prefWidth="203.0" promptText="Date Reglement" />
-            <Label layoutX="644.0" layoutY="16.0" text="Montant Total: " />
-            <TextField fx:id="montantTotalField" alignment="CENTER" disable="true" layoutX="787.0" layoutY="11.0" prefHeight="31.0" prefWidth="203.0" promptText="montant Total" styleClass="StyleRaduis" />
-            <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="1010.0" layoutY="8.0" onMouseClicked="#calculeMouseClicked" pickOnBounds="true" preserveRatio="true">
+            <Label layoutX="674.0" layoutY="10.0" text="Montant Total: " />
+            <TextField fx:id="montantTotalField" alignment="CENTER" disable="true" layoutX="817.0" layoutY="5.0" prefHeight="31.0" prefWidth="203.0" promptText="montant Total" styleClass="StyleRaduis" />
+            <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="1040.0" layoutY="20.0" onMouseClicked="#calculeMouseClicked" pickOnBounds="true" preserveRatio="true">
                <viewport>
                   <Rectangle2D />
                </viewport>
@@ -69,12 +68,25 @@
                   <Image url="@../../Styles/img/dollar-2461576_640-ConvertImage.png" />
                </image>
             </ImageView>
+            <Label fx:id="montantRegLabel" layoutX="635.0" layoutY="48.0" text="Montant Reglement:" />
+            <TextField fx:id="montantReglementField" alignment="CENTER" disable="true" layoutX="817.0" layoutY="42.0" prefHeight="31.0" prefWidth="203.0" promptText="montant Reglement" styleClass="StyleRaduis" />
+            <Label fx:id="commentairesLabel" layoutX="683.0" layoutY="85.0" text="Commentaires:" />
+            <TextField fx:id="commentairesField" alignment="CENTER" layoutX="817.0" layoutY="78.0" prefHeight="31.0" prefWidth="203.0" promptText="Commentaires" styleClass="StyleRaduis" />
+            <Label layoutX="141.0" layoutY="12.0" text="Montant Anonyme:" />
+            <TextField fx:id="montantAnonymeField" alignment="CENTER" disable="true" layoutX="305.0" layoutY="5.0" onKeyReleased="#montantAnonymeOnKeyReleased" prefHeight="31.0" prefWidth="203.0" promptText="Montant Anonyme" styleClass="StyleRaduis" />
+            <Label layoutX="151.0" layoutY="120.0" prefHeight="20.0" prefWidth="154.0" text="Mode Reglement:" />
+            <ComboBox fx:id="modeReglementCombo" layoutX="305.0" layoutY="113.0" onAction="#modeReglementOnAction" prefHeight="31.0" prefWidth="203.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="151.0" layoutY="84.0" text="Date Reglement: " />
+            <DatePicker fx:id="dateReglement" layoutX="305.0" layoutY="76.0" prefHeight="31.0" prefWidth="203.0" promptText="Date Reglement" />
+            <Label layoutX="141.0" layoutY="48.0" text="Facture Anonyme:" />
+            <TextField fx:id="factureAnonymeField" alignment="CENTER" disable="true" layoutX="305.0" layoutY="41.0" prefHeight="31.0" prefWidth="203.0" promptText="Facture Anonyme" styleClass="StyleRaduis" />
+            <CheckBox fx:id="checkAnonyme" layoutX="516.0" layoutY="12.0" mnemonicParsing="false" onAction="#checkAnonymeOnAction" prefHeight="18.0" prefWidth="125.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="T.Anonyme" />
          </children>
       </Pane>
-      <Pane layoutX="1160.0" layoutY="631.0" prefHeight="171.0" prefWidth="181.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="1160.0" layoutY="668.0" prefHeight="134.0" prefWidth="181.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Button fx:id="btnRegler" layoutX="19.0" layoutY="33.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#reglerOnAction" prefHeight="38.0" prefWidth="144.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Régler" />
-            <Button fx:id="btnImprimer" layoutX="19.0" layoutY="101.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="38.0" prefWidth="144.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer" />
+            <Button fx:id="btnRegler" layoutX="19.0" layoutY="21.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#reglerOnAction" prefHeight="38.0" prefWidth="144.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Régler" />
+            <Button fx:id="btnImprimer" layoutX="19.0" layoutY="75.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="38.0" prefWidth="144.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer" />
          </children>
       </Pane>
       <Label fx:id="monHT" layoutX="1458.0" layoutY="511.0" prefHeight="24.0" prefWidth="133.0" styleClass="label3" />
@@ -83,8 +95,8 @@
       <Label layoutX="1354.0" layoutY="516.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Montant HT:" />
       <Label layoutX="1354.0" layoutY="553.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Montant TVA:" />
       <Label layoutX="1354.0" layoutY="591.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Montant TTC:" />
-      <Label fx:id="sommeLabel" layoutX="984.0" layoutY="810.0" prefHeight="24.0" prefWidth="158.0" />
-      <Label layoutX="839.0" layoutY="810.0" prefHeight="24.0" prefWidth="144.0" text="Montant Total:" />
+      <Label fx:id="sommeLabel" layoutX="984.0" layoutY="809.0" prefHeight="24.0" prefWidth="158.0" />
+      <Label layoutX="839.0" layoutY="809.0" prefHeight="24.0" prefWidth="144.0" text="Montant Total:" />
       <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1344.0" layoutY="282.0" onMouseClicked="#selectionnerToutMouseClicked" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../Styles/img/png-check-mark-1.png" />
@@ -97,29 +109,29 @@
          </image>
       </ImageView>
       <Label layoutX="1379.0" layoutY="317.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Désélectionner" />
-      <Pane layoutX="219.0" layoutY="163.0" prefHeight="124.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="219.0" layoutY="154.0" prefHeight="116.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Label layoutX="654.0" layoutY="13.0" text="Fournisseur:" />
-            <ComboBox fx:id="fourCombo" layoutX="780.0" layoutY="7.0" onAction="#fournisseurOnAction" prefHeight="31.0" prefWidth="204.0" promptText="Selectionner..." styleClass="StyleRaduis" />
-            <Label layoutX="220.0" layoutY="13.0" text="Client:" />
-            <ComboBox fx:id="clientCombo" layoutX="297.0" layoutY="7.0" onAction="#clientOnAction" prefHeight="31.0" prefWidth="204.0" promptText="Selectionner..." styleClass="StyleRaduis" />
-            <Label layoutX="654.0" layoutY="51.0" text="Num Facture:" />
-            <TextField fx:id="numFacture" layoutX="779.0" layoutY="45.0" onKeyPressed="#rechercheNumFactureKeyPressed" prefHeight="31.0" prefWidth="203.0" promptText="Recherche" styleClass="StyleRaduis" />
-            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="950.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+            <Label layoutX="654.0" layoutY="10.0" text="Fournisseur:" />
+            <ComboBox fx:id="fourCombo" layoutX="780.0" layoutY="4.0" onAction="#fournisseurOnAction" prefHeight="31.0" prefWidth="204.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="220.0" layoutY="10.0" text="Client:" />
+            <ComboBox fx:id="clientCombo" layoutX="297.0" layoutY="4.0" onAction="#clientOnAction" prefHeight="31.0" prefWidth="204.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="654.0" layoutY="48.0" text="Num Facture:" />
+            <TextField fx:id="numFacture" layoutX="779.0" layoutY="42.0" onKeyPressed="#rechercheNumFactureKeyPressed" prefHeight="31.0" prefWidth="203.0" promptText="Recherche" styleClass="StyleRaduis" />
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="950.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
                </image>
             </ImageView>
-            <Label layoutX="151.0" layoutY="51.0" text="Num Livraison:" />
-            <TextField fx:id="numLivRech" layoutX="295.0" layoutY="45.0" onKeyPressed="#rechercheNumLivKeyPressed" prefHeight="31.0" prefWidth="203.0" promptText="Recherche" styleClass="StyleRaduis" />
-            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="467.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+            <Label layoutX="151.0" layoutY="48.0" text="Num Livraison:" />
+            <TextField fx:id="numLivRech" layoutX="295.0" layoutY="42.0" onKeyPressed="#rechercheNumLivKeyPressed" prefHeight="31.0" prefWidth="203.0" promptText="Recherche" styleClass="StyleRaduis" />
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="467.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
                </image>
             </ImageView>
-            <Label layoutX="143.0" layoutY="87.0" text="Date Livraison:" />
-            <DatePicker fx:id="dateLivraison" layoutX="296.0" layoutY="82.0" prefHeight="31.0" prefWidth="204.0" promptText="Sélectionner Date..." />
-            <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="1021.0" layoutY="41.0" onMouseClicked="#recherchMouseClicked" pickOnBounds="true" preserveRatio="true">
+            <Label layoutX="143.0" layoutY="84.0" text="Date Livraison:" />
+            <DatePicker fx:id="dateLivraison" layoutX="296.0" layoutY="79.0" prefHeight="31.0" prefWidth="204.0" promptText="Sélectionner Date..." />
+            <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="1021.0" layoutY="38.0" onMouseClicked="#recherchMouseClicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
                </image>
@@ -127,7 +139,7 @@
                   <Rectangle2D />
                </viewport>
             </ImageView>
-            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1084.0" layoutY="83.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1085.0" layoutY="77.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
                </image>

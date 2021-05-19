@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5a335326-5e6c-4b2e-84a6-787b20d7585b">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="17"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<field name="matierePremier.nom" class="java.lang.String"/>
+	<field name="matierePremier.code" class="java.lang.String"/>
+	<field name="bonRetour.type" class="java.lang.String"/>
+	<field name="quantiteRetour" class="java.math.BigDecimal"/>
+	<field name="prixUnitaire" class="java.math.BigDecimal"/>
+	<field name="bonRetour.fournisseur" class="java.lang.String"/>
+	<field name="bonRetour.client" class="java.lang.String"/>
+	<field name="bonRetour.etat" class="java.lang.String"/>
+	<title>
+		<band height="44" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="207" y="14" width="393" height="24" backcolor="#8FDFEF" uuid="64f7e2d2-18ec-4e41-b295-141fb9a791c4"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="226" y="11" width="357" height="26" uuid="1155e738-b73b-494e-af0b-da3a754df18e"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Consultation Detail Retour & Manque MP]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="28"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="3" y="0" width="796" height="20" backcolor="#8FDFEF" uuid="fb80749c-1d5e-41e2-a547-a0ba48f9fc28"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="471" y="1" width="78" height="20" uuid="b8b209bd-d8fd-46c2-9abd-5509d3b2256b"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prix]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="387" y="1" width="79" height="20" uuid="0d0975d2-ac54-43a3-ad7f-b74b9a7962d8"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qte]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="295" y="1" width="87" height="20" uuid="bf3b6fa7-d8a6-4e01-ae1d-a2aeb0d02989"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Retour/Manque]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="1" width="210" height="20" uuid="181b28cd-9add-4426-a254-dac4aade3a2b"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Designation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="1" width="59" height="20" uuid="97ebc2e9-2675-407c-bc94-4c393adf1aa7"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Code MP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="553" y="1" width="81" height="20" uuid="a05ab7f2-9b96-4411-a46a-89447e02da76"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fournisseur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="639" y="1" width="72" height="20" uuid="dc926dd4-8423-48fd-a879-97ff5b892e1b"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Client]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="715" y="1" width="72" height="20" uuid="84cc872e-6e5b-422d-95b3-98d394e5607f"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Etat]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="17" y="1" width="59" height="20" uuid="c50c1bcf-b5d5-4a01-a941-1d3b59f50feb"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matierePremier.code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="81" y="1" width="210" height="20" uuid="7b179db6-7bc4-4a2b-b549-69bade241eea"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matierePremier.nom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="1" width="87" height="20" uuid="037468ed-b62d-4710-b010-47212c5db00c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bonRetour.type}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="387" y="1" width="79" height="20" uuid="0447d460-ef4e-4d67-947e-2d427484d196"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantiteRetour}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="471" y="1" width="78" height="20" uuid="96ee6bd7-1950-4445-b754-264436e682f0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prixUnitaire}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="553" y="1" width="81" height="20" uuid="34efd221-72ec-4345-a821-2c31088097a3"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bonRetour.fournisseur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="639" y="1" width="72" height="20" uuid="af31b96b-82ec-4a0c-abb7-125fe8fc1322"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bonRetour.client}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="715" y="1" width="72" height="20" uuid="37362804-2d74-401d-931a-470235b1a913"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bonRetour.etat}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="135">
+			<rectangle>
+				<reportElement x="3" y="1" width="796" height="4" backcolor="#8FDFEF" uuid="1cc6caf3-ce56-4196-9735-fdf39af28dea"/>
+			</rectangle>
+		</band>
+	</summary>
+</jasperReport>

@@ -3,10 +3,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
@@ -25,13 +29,14 @@
                         </Pane>
                         <TableView fx:id="tablePrixBox" blendMode="MULTIPLY" layoutX="167.0" layoutY="204.0" onMouseClicked="#clickTablePrixBox" prefHeight="416.0" prefWidth="1235.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
                           <columns>
-                            <TableColumn fx:id="CategorieColumn" prefWidth="131.0" text="Categorie Mp" />
-                            <TableColumn fx:id="typeCartonColumn" minWidth="0.0" prefWidth="184.0" text="Type Carton Box" />
-                              <TableColumn fx:id="grammageColumn" minWidth="0.0" prefWidth="160.0" text="Grammage" />
-                              <TableColumn fx:id="dimensionColumn" minWidth="0.0" prefWidth="193.0" text="Dimension" />
-                              <TableColumn fx:id="fournisseurColumn" minWidth="0.0" prefWidth="233.0" text="Fournisseur" />
-                              <TableColumn fx:id="intervalleColumn" minWidth="0.0" prefWidth="177.0" text="Intervalle" />
-                              <TableColumn fx:id="prixColumn" minWidth="0.0" prefWidth="157.0" text="Prix" />
+                            <TableColumn fx:id="CategorieColumn" prefWidth="122.0" text="Categorie Mp" />
+                            <TableColumn fx:id="typeCartonColumn" minWidth="0.0" prefWidth="155.0" text="Type Carton Box" />
+                              <TableColumn fx:id="grammageColumn" minWidth="0.0" prefWidth="162.0" text="Grammage" />
+                              <TableColumn fx:id="dimensionColumn" minWidth="0.0" prefWidth="169.0" text="Dimension" />
+                              <TableColumn fx:id="fournisseurColumn" minWidth="0.0" prefWidth="221.0" text="Fournisseur" />
+                              <TableColumn fx:id="intervalleColumn" minWidth="0.0" prefWidth="175.0" text="Intervalle" />
+                              <TableColumn fx:id="prixColumn" minWidth="0.0" prefWidth="167.0" text="Prix" />
+                              <TableColumn fx:id="actionBoxColumn" minWidth="0.0" prefWidth="64.0" text="Action" />
                           </columns>
                         </TableView>
                         <Pane layoutX="168.0" layoutY="101.0" prefHeight="92.0" prefWidth="1233.0" styleClass="pane">
@@ -42,12 +47,30 @@
                         </Pane>
                         <Pane layoutX="167.0" layoutY="632.0" prefHeight="86.0" prefWidth="1235.0" styleClass="pane">
                            <children>
-                              <Button fx:id="modifierBtn" layoutX="777.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" />
-                              <Button fx:id="supprimerBtn" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#supprimerBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
-                              <Button fx:id="imprimerBtn" layoutX="194.0" layoutY="21.0" mnemonicParsing="false" onAction="#imprimerBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
-                              <Button fx:id="refrechBtn" layoutX="336.0" layoutY="20.0" mnemonicParsing="false" onAction="#refrechBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
+                              <Button fx:id="modifierBtn" layoutX="1102.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" visible="false" />
+                              <Button fx:id="supprimerBtn" layoutX="701.0" layoutY="22.0" mnemonicParsing="false" onAction="#supprimerBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                              <Button fx:id="imprimerBtn" layoutX="416.0" layoutY="22.0" mnemonicParsing="false" onAction="#imprimerBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
+                              <Button fx:id="refrechBtn" layoutX="558.0" layoutY="21.0" mnemonicParsing="false" onAction="#refrechBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
+                              <RadioButton fx:id="listeBoxRadio" layoutX="37.0" layoutY="18.0" mnemonicParsing="false" onAction="#listeBoxRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Liste">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="box" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="modBoxRadio" layoutX="37.0" layoutY="42.0" mnemonicParsing="false" onAction="#modBoxRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Modification" toggleGroup="$box" />
                            </children>
                         </Pane>
+                        <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1402.0" layoutY="204.0" onMouseClicked="#selectionnerToutBoxMouseClicked" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Styles/img/png-check-mark-1.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="1437.0" layoutY="211.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Sélectionner Tout" />
+                        <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1402.0" layoutY="232.0" onMouseClicked="#deselectionnerToutBoxMouseClicked" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Styles/img/png-check-mark-2.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="1437.0" layoutY="239.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Désélectionner" />
                      </children>
                   </AnchorPane>
             </content>
@@ -63,12 +86,13 @@
                         </Pane>
                         <TableView fx:id="tablePrixCarton" blendMode="MULTIPLY" layoutX="167.0" layoutY="204.0" onMouseClicked="#clickTablePrixCarton" prefHeight="416.0" prefWidth="1235.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
                            <columns>
-                              <TableColumn fx:id="CategorieCarColumn" prefWidth="234.0" text="Categorie Mp" />
-                              <TableColumn fx:id="typeCartonCarColumn" minWidth="0.0" prefWidth="188.0" text="Type Carton" />
-                              <TableColumn fx:id="dimensionCarColumn" minWidth="0.0" prefWidth="224.0" text="Dimension" />
-                              <TableColumn fx:id="fournisseurCarColumn" minWidth="0.0" prefWidth="209.0" text="Fournisseur" />
-                              <TableColumn fx:id="intervalleCarColumn" minWidth="0.0" prefWidth="212.0" text="Intervalle" />
-                              <TableColumn fx:id="prixCarColumn" minWidth="0.0" prefWidth="167.0" text="Prix" />
+                              <TableColumn fx:id="CategorieCarColumn" prefWidth="153.0" text="Categorie Mp" />
+                              <TableColumn fx:id="typeCartonCarColumn" minWidth="0.0" prefWidth="194.00003051757812" text="Type Carton" />
+                              <TableColumn fx:id="dimensionCarColumn" minWidth="0.0" prefWidth="228.0" text="Dimension" />
+                              <TableColumn fx:id="fournisseurCarColumn" minWidth="0.0" prefWidth="185.0" text="Fournisseur" />
+                              <TableColumn fx:id="intervalleCarColumn" minWidth="0.0" prefWidth="231.0" text="Intervalle" />
+                              <TableColumn fx:id="prixCarColumn" minWidth="0.0" prefWidth="178.0" text="Prix" />
+                              <TableColumn fx:id="actionCarColumn" minWidth="0.0" prefWidth="65.0" text="Action" />
                            </columns>
                         </TableView>
                         <Pane layoutX="168.0" layoutY="101.0" prefHeight="92.0" prefWidth="1233.0" styleClass="pane">
@@ -79,12 +103,30 @@
                         </Pane>
                         <Pane layoutX="167.0" layoutY="632.0" prefHeight="86.0" prefWidth="1235.0" styleClass="pane">
                            <children>
-                              <Button fx:id="modifierCarBtn" layoutX="777.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierCarBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" />
-                              <Button fx:id="supprimerCarBtn" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#supprimerCarBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
-                              <Button fx:id="refrechCarBtn" layoutX="333.0" layoutY="20.0" mnemonicParsing="false" onAction="#refrechCarBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
-                              <Button fx:id="imprimerCarBtn" layoutX="192.0" layoutY="21.0" mnemonicParsing="false" onAction="#imprimerCarBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
+                              <Button fx:id="modifierCarBtn" layoutX="1104.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierCarBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" visible="false" />
+                              <Button fx:id="supprimerCarBtn" layoutX="700.0" layoutY="22.0" mnemonicParsing="false" onAction="#supprimerCarBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                              <Button fx:id="refrechCarBtn" layoutX="557.0" layoutY="21.0" mnemonicParsing="false" onAction="#refrechCarBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
+                              <Button fx:id="imprimerCarBtn" layoutX="416.0" layoutY="22.0" mnemonicParsing="false" onAction="#imprimerCarBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
+                              <RadioButton fx:id="listeCartRadio" layoutX="37.0" layoutY="18.0" mnemonicParsing="false" onAction="#listeCartRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Liste">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="carton" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="modCartRadio" layoutX="37.0" layoutY="42.0" mnemonicParsing="false" onAction="#modCartRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Modification" toggleGroup="$carton" />
                            </children>
                         </Pane>
+                        <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1402.0" layoutY="204.0" onMouseClicked="#selectionnerToutCartonMouseClicked" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Styles/img/png-check-mark-1.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="1440.0" layoutY="208.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Sélectionner Tout" />
+                        <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1402.0" layoutY="233.0" onMouseClicked="#deselectionnerToutCartonMouseClicked" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Styles/img/png-check-mark-2.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="1440.0" layoutY="237.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Désélectionner" />
                      </children>
                   </AnchorPane>
             </content>
@@ -100,12 +142,13 @@
                         </Pane>
                         <TableView fx:id="tablePrixFilm" blendMode="MULTIPLY" layoutX="166.0" layoutY="204.0" onMouseClicked="#clickTablePrixFilm" prefHeight="416.0" prefWidth="1235.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
                            <columns>
-                              <TableColumn fx:id="CategorieFlmColumn" prefWidth="214.0" text="Categorie Mp" />
-                              <TableColumn fx:id="typeFlmColumn" minWidth="0.0" prefWidth="203.0" text="Type Film" />
-                              <TableColumn fx:id="grammageFlmColumn" minWidth="0.0" prefWidth="217.0" text="Grammage Film" />
-                              <TableColumn fx:id="fournisseurFlmColumn" minWidth="0.0" prefWidth="215.0" text="Fournisseur" />
-                              <TableColumn fx:id="intervalleFlmColumn" minWidth="0.0" prefWidth="213.0" text="Intervalle" />
-                              <TableColumn fx:id="prixFlmColumn" minWidth="0.0" prefWidth="172.0" text="Prix" />
+                              <TableColumn fx:id="CategorieFlmColumn" prefWidth="167.0" text="Categorie Mp" />
+                              <TableColumn fx:id="typeFlmColumn" minWidth="0.0" prefWidth="159.0" text="Type Film" />
+                              <TableColumn fx:id="grammageFlmColumn" minWidth="0.0" prefWidth="209.0" text="Grammage Film" />
+                              <TableColumn fx:id="fournisseurFlmColumn" minWidth="0.0" prefWidth="208.0" text="Fournisseur" />
+                              <TableColumn fx:id="intervalleFlmColumn" minWidth="0.0" prefWidth="217.0" text="Intervalle" />
+                              <TableColumn fx:id="prixFlmColumn" minWidth="0.0" prefWidth="209.0" text="Prix" />
+                              <TableColumn fx:id="actionFlmColumn" minWidth="0.0" prefWidth="66.0" text="Action" />
                            </columns>
                         </TableView>
                         <Pane layoutX="168.0" layoutY="101.0" prefHeight="92.0" prefWidth="1233.0" styleClass="pane">
@@ -116,12 +159,30 @@
                         </Pane>
                         <Pane layoutX="166.0" layoutY="632.0" prefHeight="86.0" prefWidth="1235.0" styleClass="pane">
                            <children>
-                              <Button fx:id="imprimerFlmBtn" layoutX="192.0" layoutY="21.0" mnemonicParsing="false" onAction="#imprimerFlmBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
-                              <Button fx:id="refrechFlmBtn" layoutX="334.0" layoutY="20.0" mnemonicParsing="false" onAction="#refrechFlmBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
-                              <Button fx:id="modifierFlmBtn" layoutX="777.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierFlmBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" />
-                              <Button fx:id="supprimerFlmBtn" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#supprimerFlmBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                              <Button fx:id="imprimerFlmBtn" layoutX="414.0" layoutY="22.0" mnemonicParsing="false" onAction="#imprimerFlmBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
+                              <Button fx:id="refrechFlmBtn" layoutX="556.0" layoutY="21.0" mnemonicParsing="false" onAction="#refrechFlmBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
+                              <Button fx:id="modifierFlmBtn" layoutX="1102.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierFlmBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" visible="false" />
+                              <Button fx:id="supprimerFlmBtn" layoutX="703.0" layoutY="22.0" mnemonicParsing="false" onAction="#supprimerFlmBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                              <RadioButton fx:id="listeFilmRadio" layoutX="37.0" layoutY="18.0" mnemonicParsing="false" onAction="#listeFilmRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Liste">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="film" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="modFilmRadio" layoutX="37.0" layoutY="42.0" mnemonicParsing="false" onAction="#modFilmRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Modification" toggleGroup="$film" />
                            </children>
                         </Pane>
+                        <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1401.0" layoutY="204.0" onMouseClicked="#selectionnerToutFilmMouseClicked" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Styles/img/png-check-mark-1.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="1439.0" layoutY="208.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Sélectionner Tout" />
+                        <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1401.0" layoutY="233.0" onMouseClicked="#deselectionnerToutFilmMouseClicked" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Styles/img/png-check-mark-2.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="1439.0" layoutY="237.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Désélectionner" />
                      </children>
                   </AnchorPane>
               </content>
@@ -137,10 +198,11 @@
                         </Pane>
                         <TableView fx:id="tablePrixAdhesif" blendMode="MULTIPLY" layoutX="167.0" layoutY="204.0" onMouseClicked="#clickTablePrixFilm" prefHeight="416.0" prefWidth="1235.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
                            <columns>
-                              <TableColumn fx:id="CategorieAdhesifColumn" prefWidth="297.0000305175781" text="Categorie Mp" />
-                              <TableColumn fx:id="dimAdhesifColumn" minWidth="0.0" prefWidth="331.0" text="Dimension" />
-                              <TableColumn fx:id="fournisseurAdhesifColumn" minWidth="0.0" prefWidth="350.0" text="Fournisseur" />
-                              <TableColumn fx:id="prixAdhesifColumn" minWidth="0.0" prefWidth="257.0" text="Prix" />
+                              <TableColumn fx:id="CategorieAdhesifColumn" prefWidth="258.0000305175781" text="Categorie Mp" />
+                              <TableColumn fx:id="dimAdhesifColumn" minWidth="0.0" prefWidth="283.9999694824219" text="Dimension" />
+                              <TableColumn fx:id="fournisseurAdhesifColumn" minWidth="0.0" prefWidth="393.0" text="Fournisseur" />
+                              <TableColumn fx:id="prixAdhesifColumn" minWidth="0.0" prefWidth="235.0" text="Prix" />
+                              <TableColumn fx:id="actionAdhesifColumn" minWidth="0.0" prefWidth="65.0" text="Action" />
                            </columns>
                         </TableView>
                         <Pane layoutX="168.0" layoutY="101.0" prefHeight="92.0" prefWidth="1233.0" styleClass="pane">
@@ -151,12 +213,30 @@
                         </Pane>
                         <Pane layoutX="167.0" layoutY="631.0" prefHeight="86.0" prefWidth="1235.0" styleClass="pane">
                            <children>
-                              <Button fx:id="imprimerAdhesifBtn" layoutX="192.0" layoutY="21.0" mnemonicParsing="false" onAction="#imprimerAdhesifBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
-                              <Button fx:id="refrechAdhesifBtn" layoutX="334.0" layoutY="20.0" mnemonicParsing="false" onAction="#refrechAdhesifBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
-                              <Button fx:id="modifierAdhesifBtn" layoutX="777.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierAdhesifBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" />
-                              <Button fx:id="supprimerAdhesifBtn" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#supprimerAdhesifBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                              <Button fx:id="imprimerAdhesifBtn" layoutX="416.0" layoutY="20.0" mnemonicParsing="false" onAction="#imprimerAdhesifBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
+                              <Button fx:id="refrechAdhesifBtn" layoutX="558.0" layoutY="19.0" mnemonicParsing="false" onAction="#refrechAdhesifBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
+                              <Button fx:id="modifierAdhesifBtn" layoutX="1102.0" layoutY="20.0" mnemonicParsing="false" onAction="#modifierAdhesifBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" visible="false" />
+                              <Button fx:id="supprimerAdhesifBtn" layoutX="700.0" layoutY="20.0" mnemonicParsing="false" onAction="#supprimerAdhesifBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                              <RadioButton fx:id="listeAdRadio" layoutX="37.0" layoutY="18.0" mnemonicParsing="false" onAction="#listeAdRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Liste">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="adhesif" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="modAdRadio" layoutX="37.0" layoutY="42.0" mnemonicParsing="false" onAction="#modAdRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Modification" toggleGroup="$adhesif" />
                            </children>
                         </Pane>
+                        <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1402.0" layoutY="204.0" onMouseClicked="#selectionnerToutAdhesifMouseClicked" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Styles/img/png-check-mark-1.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="1440.0" layoutY="209.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Sélectionner Tout" />
+                        <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1402.0" layoutY="233.0" onMouseClicked="#deselectionnerToutAdhesifMouseClicked" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Styles/img/png-check-mark-2.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="1440.0" layoutY="237.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Désélectionner" />
                      </children>
                   </AnchorPane>
                </content>
@@ -173,8 +253,9 @@
                         <TableView fx:id="tablePrixBoxMetal" blendMode="MULTIPLY" layoutX="167.0" layoutY="204.0" onMouseClicked="#clickTablePrixFilm" prefHeight="416.0" prefWidth="1235.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
                            <columns>
                               <TableColumn fx:id="CategorieBoxMetalColumn" prefWidth="356.0" text="Categorie Mp" />
-                              <TableColumn fx:id="fournisseurBoxMetalColumn" minWidth="0.0" prefWidth="572.0" text="Fournisseur" />
-                              <TableColumn fx:id="prixBoxMetalColumn" minWidth="0.0" prefWidth="305.0" text="Prix" />
+                              <TableColumn fx:id="fournisseurBoxMetalColumn" minWidth="0.0" prefWidth="432.0" text="Fournisseur" />
+                              <TableColumn fx:id="prixBoxMetalColumn" minWidth="0.0" prefWidth="381.0" text="Prix" />
+                              <TableColumn fx:id="actionBoxMetalColumn" minWidth="0.0" prefWidth="66.0" text="Action" />
                            </columns>
                         </TableView>
                         <Pane layoutX="168.0" layoutY="101.0" prefHeight="92.0" prefWidth="1233.0" styleClass="pane">
@@ -185,35 +266,56 @@
                         </Pane>
                         <Pane layoutX="167.0" layoutY="631.0" prefHeight="86.0" prefWidth="1235.0" styleClass="pane">
                            <children>
-                              <Button fx:id="imprimerBoxMetalBtn" layoutX="192.0" layoutY="21.0" mnemonicParsing="false" onAction="#imprimerBoxMetalBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
-                              <Button fx:id="refrechBoxMetalBtn" layoutX="334.0" layoutY="20.0" mnemonicParsing="false" onAction="#refrechBoxMetalBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
-                              <Button fx:id="modifierBoxMetalBtn" layoutX="777.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierBoxMetalBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" />
-                              <Button fx:id="supprimerBoxMetalBtn" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#supprimerBoxMetalBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                              <Button fx:id="imprimerBoxMetalBtn" layoutX="414.0" layoutY="20.0" mnemonicParsing="false" onAction="#imprimerBoxMetalBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
+                              <Button fx:id="refrechBoxMetalBtn" layoutX="556.0" layoutY="19.0" mnemonicParsing="false" onAction="#refrechBoxMetalBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
+                              <Button fx:id="modifierBoxMetalBtn" layoutX="1102.0" layoutY="20.0" mnemonicParsing="false" onAction="#modifierBoxMetalBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" visible="false" />
+                              <Button fx:id="supprimerBoxMetalBtn" layoutX="703.0" layoutY="20.0" mnemonicParsing="false" onAction="#supprimerBoxMetalBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                              <RadioButton fx:id="modBmRadio" layoutX="37.0" layoutY="42.0" mnemonicParsing="false" onAction="#modBmRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Modification">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="bMetal" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="listeBmRadio" layoutX="37.0" layoutY="18.0" mnemonicParsing="false" onAction="#listeBmRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Liste" toggleGroup="$bMetal" />
                            </children>
                         </Pane>
+                        <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1402.0" layoutY="204.0" onMouseClicked="#selectionnerToutBoxMetalMouseClicked" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Styles/img/png-check-mark-1.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="1440.0" layoutY="208.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Sélectionner Tout" />
+                        <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1402.0" layoutY="233.0" onMouseClicked="#deselectionnerToutBoxMetalMouseClicked" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Styles/img/png-check-mark-2.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="1440.0" layoutY="237.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Désélectionner" />
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Consultation Prix Oulmes">
+            <Tab text="Consultation Prix Produit Fini">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Pane layoutX="600.0" layoutY="21.0" prefHeight="56.0" prefWidth="440.0" styleClass="pane">
+                        <Pane layoutX="493.0" layoutY="21.0" prefHeight="56.0" prefWidth="574.0" styleClass="pane">
                            <children>
-                              <Label layoutX="33.0" layoutY="2.0" prefHeight="52.0" prefWidth="390.0" styleClass="label2" text="Liste Prix Oulmes" />
+                              <Label layoutX="35.0" layoutY="2.0" prefHeight="52.0" prefWidth="522.0" styleClass="label2" text="Liste Prix Produit Fini" />
                            </children>
                         </Pane>
                         <TableView fx:id="tablePrixOulmes" blendMode="MULTIPLY" layoutX="167.0" layoutY="204.0" onMouseClicked="#clickTablePrixFilm" prefHeight="416.0" prefWidth="1235.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
                            <columns>
-                              <TableColumn fx:id="codeOulmesColumn" prefWidth="86.0" text="Code" />
-                              <TableColumn fx:id="libelleOulmesColumn" prefWidth="335.9999694824219" text="Libelle" />
-                              <TableColumn fx:id="conditionnementOulmesColumn" minWidth="0.0" prefWidth="149.0" text="Conditionnement" />
-                              <TableColumn fx:id="conditionnementCaisseOulmesColumn" minWidth="0.0" prefWidth="220.0" text="Conditionnement Caisse" />
-                              <TableColumn fx:id="remiseAchatOulmesColumn" minWidth="0.0" prefWidth="122.0" text="Remise Achat" />
-                              <TableColumn fx:id="remiseAvoirOulmesColumn" minWidth="0.0" prefWidth="125.0" text="Remise Avoir" />
-                              <TableColumn fx:id="typeOulmesColumn" minWidth="0.0" prefWidth="99.0" text="Type" />
-                              <TableColumn fx:id="prixOulmesColumn" minWidth="0.0" prefWidth="98.0" text="Prix" />
+                              <TableColumn fx:id="codeOulmesColumn" prefWidth="68.00003051757812" text="Code" />
+                              <TableColumn fx:id="libelleOulmesColumn" prefWidth="249.0" text="Libelle" />
+                              <TableColumn fx:id="conditionnementOulmesColumn" minWidth="0.0" prefWidth="98.0" text="Cond" />
+                              <TableColumn fx:id="conditionnementCaisseOulmesColumn" minWidth="0.0" prefWidth="87.0" text="C.Caisse" />
+                              <TableColumn fx:id="remiseAchatOulmesColumn" minWidth="0.0" prefWidth="96.0" text="R. Achat" />
+                              <TableColumn fx:id="remiseAvoirOulmesColumn" minWidth="0.0" prefWidth="89.0" text="R.Avoir" />
+                              <TableColumn fx:id="typeOulmesColumn" minWidth="0.0" prefWidth="119.0" text="Type" />
+                              <TableColumn fx:id="fourOulmesColumn" minWidth="0.0" prefWidth="126.0" text="Fournisseur" />
+                              <TableColumn fx:id="client2OulmesColumn" minWidth="0.0" prefWidth="139.0" text="Client 2" />
+                              <TableColumn fx:id="prixOulmesColumn" minWidth="0.0" prefWidth="101.0" text="Prix" />
+                              <TableColumn fx:id="actionOulmesColumn" minWidth="0.0" prefWidth="62.0" text="Action" />
                            </columns>
                         </TableView>
                         <Pane layoutX="168.0" layoutY="101.0" prefHeight="92.0" prefWidth="1233.0" styleClass="pane">
@@ -224,12 +326,30 @@
                         </Pane>
                         <Pane layoutX="167.0" layoutY="631.0" prefHeight="86.0" prefWidth="1235.0" styleClass="pane">
                            <children>
-                              <Button fx:id="imprimerOulmesBtn" layoutX="192.0" layoutY="21.0" mnemonicParsing="false" onAction="#imprimerOulmesBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
-                              <Button fx:id="refrechOulmesBtn" layoutX="334.0" layoutY="20.0" mnemonicParsing="false" onAction="#refrechOulmesBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
-                              <Button fx:id="modifierOulmesBtn" layoutX="777.0" layoutY="21.0" mnemonicParsing="false" onAction="#modifierOulmesBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" />
-                              <Button fx:id="supprimerOulmesBtn" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#supprimerOulmesBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                              <Button fx:id="imprimerOulmesBtn" layoutX="416.0" layoutY="21.0" mnemonicParsing="false" onAction="#imprimerOulmesBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Imprimer" />
+                              <Button fx:id="refrechOulmesBtn" layoutX="558.0" layoutY="20.0" mnemonicParsing="false" onAction="#refrechOulmesBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Rafraichir" />
+                              <Button fx:id="modifierOulmesBtn" layoutX="1102.0" layoutY="20.0" mnemonicParsing="false" onAction="#modifierOulmesBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Modifier" visible="false" />
+                              <Button fx:id="supprimerOulmesBtn" layoutX="701.0" layoutY="21.0" mnemonicParsing="false" onAction="#supprimerOulmesBtnOnAction" prefHeight="45.0" prefWidth="119.0" text="Supprimer" />
+                              <RadioButton fx:id="modPfRadio" layoutX="37.0" layoutY="42.0" mnemonicParsing="false" onAction="#modPfRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Modification">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="Pf" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="listePfRadio" layoutX="37.0" layoutY="18.0" mnemonicParsing="false" onAction="#listePfRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Liste" toggleGroup="$Pf" />
                            </children>
                         </Pane>
+                        <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1402.0" layoutY="204.0" onMouseClicked="#selectionnerToutPrixOulmesMouseClicked" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Styles/img/png-check-mark-1.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="1440.0" layoutY="208.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Sélectionner Tout" />
+                        <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1402.0" layoutY="233.0" onMouseClicked="#deselectionnerToutPrixOulmesMouseClicked" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../Styles/img/png-check-mark-2.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="1440.0" layoutY="238.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Désélectionner" />
                      </children>
                   </AnchorPane>
                </content>

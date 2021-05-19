@@ -51,6 +51,8 @@ public class Fournisseur implements Serializable {
     @Column(name="TYPE_FOURNISSEUR")
     private String typeFournisseur;
     
+    @Column(name="FOURNISSEUR")
+    private String fournisseur;
 
     @ManyToOne
     @JoinColumn(name="ID_COMPTE")
@@ -77,6 +79,14 @@ public class Fournisseur implements Serializable {
 
     public void setUtilisateurCreation(Utilisateur utilisateurCreation) {
         this.utilisateurCreation = utilisateurCreation;
+    }
+
+    public String getFournisseur() {
+        return fournisseur;
+    }
+
+    public void setFournisseur(String fournisseur) {
+        this.fournisseur = fournisseur;
     }
 
     public CompteFourMP getCompteFourMP() {

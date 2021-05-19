@@ -6,9 +6,11 @@
 package dao.ManagerImpl;
 
 import Utils.HibernateUtil;
+import dao.Entity.Commande;
 import dao.Entity.TypeCartonBox;
 import dao.Manager.TypeCartonBoxDAO;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -55,9 +57,23 @@ public class TypeCartonBoxDAOImpl implements TypeCartonBoxDAO   {
 
         
 	public List<TypeCartonBox> findAll() {
-		return session.createQuery("select c from TypeCartonBox c").list();
+		return session.createQuery("select c from TypeCartonBox c where c.etat = 'Lancé'").list();
 		}
 
-
+	 public List<TypeCartonBox> findByCodeCartBox(String code) {
+		
+		Query query = session.createQuery("select u from TypeCartonBox u where u.code like:code and u.etat = 'Lancé'");
+		query.setParameter("code","%"+code+"%");
+		
+                return query.list();
+ }
     
+         	 public List<TypeCartonBox> findBylibelleCartBox(String lib) {
+		
+		Query query = session.createQuery("select u from TypeCartonBox u where u.libelle like:lib and u.etat = 'Lancé'");
+		query.setParameter("lib","%"+lib+"%");
+		
+                return query.list();
+ }
+         
 }

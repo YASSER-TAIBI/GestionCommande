@@ -125,6 +125,8 @@ public class ListeClientMPController implements Initializable {
 
     @FXML
     private void SupprimerClientMP(ActionEvent event) {
+        
+        
         if(tableClientMP.getSelectionModel().getSelectedItem()==null){
 
          nav.showAlert(Alert.AlertType.ERROR, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE);
@@ -151,6 +153,13 @@ public class ListeClientMPController implements Initializable {
 
     @FXML
     private void ModifierClientMP(ActionEvent event) {
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
         if (tableClientMP.getSelectionModel().getSelectedItem() != null) {
               
               ClientMP clientMP= tableClientMP.getSelectionModel().getSelectedItem();
@@ -182,10 +191,17 @@ public class ListeClientMPController implements Initializable {
         } else {
              nav.showAlert(Alert.AlertType.ERROR, "Errreur",Constantes.SELECTION_ERREUR , Constantes.SELECTION_LIGNE_MODIFIER);
         }
-    }
+    }}
 
     @FXML
     private void ajouterClientMP(ActionEvent event) throws IOException {
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
        AjouterClientMPController root = new AjouterClientMPController(Constantes.POUR_AJOUTER,new ClientMP()) {
            @Override
            public void refresh() {
@@ -201,7 +217,7 @@ public class ListeClientMPController implements Initializable {
         
     
       loadDetail();  
-    }
+    }}
     public void changeNomCellEvent (CellEditEvent editedCell){
         
         ClientMP utilisateurSelected =tableClientMP.getSelectionModel().getSelectedItem();

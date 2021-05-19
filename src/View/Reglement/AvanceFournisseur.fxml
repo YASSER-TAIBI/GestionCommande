@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Reglement.AvanceFournisseurController">
+   <children>
+      <TableView fx:id="avanceFourtable" blendMode="MULTIPLY" layoutX="216.0" layoutY="427.0" prefHeight="298.0" prefWidth="1088.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+        <columns>
+          <TableColumn fx:id="fourColumn" prefWidth="129.0" text="Fournissuer" />
+            <TableColumn fx:id="clientColumn" prefWidth="123.0" text="Client" />
+          <TableColumn fx:id="refColumn" prefWidth="136.0" text="Réference" />
+            <TableColumn fx:id="dateAvanceColumn" prefWidth="134.0" text="Date Avance" />
+            <TableColumn fx:id="modeAvanceColumn" prefWidth="130.0" text="Mode d'Avance" />
+            <TableColumn fx:id="numAvanceColumn" prefWidth="137.0" text="Num d'Avance" />
+            <TableColumn fx:id="montantColumn" prefWidth="135.0" text="Montant" />
+            <TableColumn fx:id="etatColumn" prefWidth="102.0" text="Etat" />
+            <TableColumn fx:id="actionColumn" prefWidth="62.0" text="Action" />
+        </columns>
+      </TableView>
+      <Pane layoutX="503.0" layoutY="109.0" prefHeight="48.0" prefWidth="518.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="65.0" layoutY="2.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Avance Fournisseur" />
+         </children>
+      </Pane>
+      <Button fx:id="btnRefresh" layoutX="632.0" layoutY="733.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#refresh" prefHeight="38.0" prefWidth="123.0" text="Rafraîchir" />
+      <Pane layoutX="218.0" layoutY="174.0" prefHeight="202.0" prefWidth="1088.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="606.0" layoutY="12.0" text="Fournisseur:" />
+            <ComboBox fx:id="fourCombo" layoutX="732.0" layoutY="5.0" onAction="#fournisseurOnAction" prefHeight="31.0" prefWidth="233.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="145.0" layoutY="11.0" text="Client:" />
+            <ComboBox fx:id="clientCombo" layoutX="222.0" layoutY="5.0" onAction="#clientOnAction" prefHeight="31.0" prefWidth="233.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="627.0" layoutY="44.0" text="Référence:" />
+            <TextField fx:id="refField" alignment="CENTER" layoutX="732.0" layoutY="42.0" prefHeight="31.0" prefWidth="233.0" promptText="Réference" styleClass="StyleRaduis" />
+            <Label layoutX="164.0" layoutY="48.0" text="Code: " />
+            <TextField fx:id="codeField" alignment="CENTER" disable="true" layoutX="222.0" layoutY="42.0" prefHeight="31.0" prefWidth="233.0" promptText="Code" styleClass="StyleRaduis" />
+            <Label layoutX="78.0" layoutY="86.0" prefHeight="20.0" prefWidth="144.0" text="Mode d'Avance:" />
+            <ComboBox fx:id="modeAvanceCombo" layoutX="223.0" layoutY="79.0" onAction="#modeAvanceOnAction" prefHeight="31.0" prefWidth="233.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <Pane fx:id="paneView" layoutX="56.0" layoutY="113.0" prefHeight="38.0" prefWidth="920.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+               <children>
+                  <TextField fx:id="numAvance" alignment="CENTER" layoutX="167.0" layoutY="4.0" prefHeight="31.0" prefWidth="233.0" promptText="Num d'Avance" styleClass="StyleRaduis" />
+                  <Label layoutX="31.0" layoutY="10.0" text="Num d'Avance: " />
+                  <Label layoutX="512.0" layoutY="10.0" text="Date d'Echéance: " />
+                  <DatePicker fx:id="dateEcheance" layoutX="675.0" layoutY="4.0" prefHeight="31.0" prefWidth="233.0" promptText="Date d'Echéance" />
+               </children>
+            </Pane>
+            <Button fx:id="ajouterSaisie" layoutX="516.0" layoutY="158.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterSaisieAction" prefHeight="36.0" prefWidth="104.0" text="Ajouter" />
+            <DatePicker fx:id="dateAvance" layoutX="731.0" layoutY="79.0" prefHeight="31.0" prefWidth="233.0" promptText="Date Avance" />
+            <Label layoutX="606.0" layoutY="83.0" text="Date Avance:" />
+            <Label layoutX="135.0" layoutY="160.0" text="Montant:" />
+            <TextField fx:id="montantField" alignment="CENTER" layoutX="222.0" layoutY="155.0" prefHeight="31.0" prefWidth="233.0" promptText="Montant" styleClass="StyleRaduis" />
+         </children>
+      </Pane>
+      <Pane layoutX="842.0" layoutY="731.0" prefHeight="40.0" prefWidth="464.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="31.0" layoutY="10.0" text="Montant Total: " />
+            <TextField fx:id="montantTotalField" alignment="CENTER" disable="true" layoutX="174.0" layoutY="4.0" prefHeight="31.0" prefWidth="203.0" promptText="montant Total" styleClass="StyleRaduis" />
+            <ImageView fitHeight="36.0" fitWidth="42.0" layoutX="396.0" layoutY="2.0" onMouseClicked="#calculeMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/dollar-2461576_640-ConvertImage.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+         </children>
+      </Pane>
+      <Button fx:id="validerSaisie" layoutX="348.0" layoutY="733.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#validerSaisieAction" prefHeight="38.0" prefWidth="123.0" text="Valider" />
+      <Button fx:id="btnImprimer" layoutX="491.0" layoutY="733.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="38.0" prefWidth="123.0" text="Imprimer" />
+      <Pane layoutX="218.0" layoutY="382.0" prefHeight="40.0" prefWidth="1088.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="146.0" layoutY="10.0" text="Client:" />
+            <Label layoutX="601.0" layoutY="10.0" text=" Fournissuer: " />
+            <ComboBox fx:id="fourRechCombo" layoutX="735.0" layoutY="3.0" onAction="#fournisseurRechOnAction" prefHeight="31.0" prefWidth="233.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <ComboBox fx:id="clientRechCombo" layoutX="222.0" layoutY="4.0" onAction="#clientRechOnAction" prefHeight="31.0" prefWidth="233.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <ImageView fitHeight="36.0" fitWidth="36.0" layoutX="1023.0" layoutY="2.0" onMouseClicked="#recherchMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

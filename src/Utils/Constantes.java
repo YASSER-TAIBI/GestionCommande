@@ -32,6 +32,7 @@ public class Constantes {
     public static String ETAT_COMMANDE_ENCOURS="En Cours"; 
     public static String ETAT_COMMANDE_EN_PORT="En Port"; 
     public static String ETAT_COMMANDE_RECU="Reçu";
+    public static String ETAT_COMMANDE_ANNULER="Annuler";
     public static String ETAT_COMMANDE_LANCE_REGION="Région Lancé";
     public static String ETAT_COMMANDE_VALIDEE_REGION="Région Validée";
     public static String ETAT_COMMANDE_SUPPRIMER="Supprimer"; 
@@ -55,20 +56,34 @@ public class Constantes {
     public static String RECEPTION_CODE="RCP";
     public static String RECEPTION_ETRANGERE="RCP_ETG ";
     public static String REGLEMENT_CODE="RGL";
-    public static String RECEPTION_OULMES_CODE="RCP_OLM";
+    public static String AVANCE_CODE_MP="AVC_MP";
+    public static String AVANCE_CODE_PF="AVC_PF";
+    public static String RECEPTION_PF_CODE="RCP_PF";
     public static String REGLEMENT_OULMES_CODE="RGL_OLM";
     public static String OFFRE_CODE="OFR";
     public static String REGULARISATION_CODE="RGLS";
     public static String REPORT_CODE="RPT";
     public static String COMMANDE="COM";
+    public static String COMMANDE_SPECIAL_MP="COM_SP_MP";
+    public static String COMMANDE_SPECIAL_PF="COM_SP_PF";
     public static String COMMANDE_OULMES="COM_OLM";
     public static String COMMANDE_REGION="COMR ";
+    public static String COMMANDE_REGION_PF="COMR_PF ";
     public static String COMMANDE_ETRANGERE="COM_ETG ";
     public static String RETOUR_CODE="RTE ";
+    public static String RETOUR_CODE_PF="RTE_PF ";
     public static String FACTURE_AVOIR_CODE="FACT ";
+    public static String AVOIR_ECART="AVR_";
     public static String BON_AVOIR_CODE="BON_AVR ";
+    public static String REGLEMENT_AVANCE_MP="RGL_AVC_MP ";
+    public static String REGLEMENT_AVANCE_PF="RGL_AVC_PF ";
     public static String MANQUE_CODE="MNQ ";
+    public static String MANQUE_CODE_PF="MNQ_PF ";
     public static String MATIERE_PREMIER="MP_";
+    public static String RECEPTION_REGION="RCPR ";
+    public static String RECEPTION_REGION_PF="RCPR_PF ";
+    
+    
     
     /*Etat Suppetion Detail Commande*/
     public static String  ETAT_SUPPRIMER="1";
@@ -99,17 +114,26 @@ public class Constantes {
     public static String PACK="PACK";
     
     public static String CLIENT_SAHARA="SAHARA PACKING";
+    public static String FOUR_3SOLES="3 SOLES";
     
     public static String ETAT_BL_AV="BL N° ";
     public static String ETAT_BL_FACTUR="Facture N° ";
     
+     public static String REGLEMENT="Règlement";
+     public static String PARAMETRAGE_PRIX="Paramétrage Prix";
+    
     public static String ETAT_BL_AVOIR="BL Avoir";
     public static String ETAT_FACTURE_AVOIR="FAC Avoir";
     public static String ETAT_REGLEMENT_AVOIR="RGL Avoir";
+    public static String ETAT_EN_ATTENTE_AVOIR="ATT Avoir";
+    public static String ETAT_VALIDER_ADMIN_AVOIR="ADM Avoir";
     
     public static String FACTURE_AVOIR_N="Facture Avoir N° ";
     public static String SUR_BON_AVOIR_N=" sur Bon d'Avoir N° "; 
     public static String SUR_FACTURE_N=" sur Facture N° ";
+    public static String SUR_ECART=" sur Ecart: ";
+    
+    public static String AVANCE_SUR__BL="Avance sur BL N° ";
     
     public static String REGULARISATION_AUGMENTATION_FACTURE ="Regularisation d'augmentation des prix sur Facture N° ";
     public static String REGULARISATION_DIMINUTION_FACTURE ="Regularisation de diminution des prix sur Facture N° ";
@@ -117,7 +141,7 @@ public class Constantes {
     public static String DESIGNATION_RECEPTION_BON_LIVRAISION="Reception Bon Livraison N° ";
     public static String DESIGNATION_COMMANDE_N="Commande N° ";
     
-    public static String MANQUE_RETOUR_N="N° ";
+    public static String N="N° ";
     public static String SUR_DATE_ECHEANCE="sur Date d'Echéance ";
     public static String SUR_COMMANDE_N="sur Commande N° ";
     public static String RECEPTION_BON_LIVRAISON="_Reception Bon Livraison N°  ";
@@ -137,6 +161,12 @@ public class Constantes {
     public static String RETOUR_SUR_COMMANDE_N="Retour sur Commande N° ";
     public static String MANQUE_SUR_COMMANDE_N="Manque sur Commande N° ";
     
+    public static String AVANCE_N="Avance N° ";
+    public static String VALIDATION_SUR_AVANCE_N="Validation sur Avance N° ";
+    
+    public static String SUR_FOURNISSEUR=" sur Fournisseur ";
+    public static String SUR_REFERENCE=" sur Référence ";
+    
     public static String VALIDATION_SUR_BON_RETOUR_N="Validation sur Bon de Retour N° ";
     public static String VALIDATION_SUR_BON_MANQUE_N="Validation sur Bon de Manque N° ";
 
@@ -149,6 +179,7 @@ public class Constantes {
     
     public static String RETOUR= "Retour";
     public static String RETOUR_EN_ATT_REGLEMENT= "En Attente Reglement";
+    public static String INVALIDER= "Invalider";
     public static String RETOUR_VALIDER= "Retour Valider";
     public static String MANQUE_VALIDER= "Manque Valider";
     public static String RETOUR_PAYE= "Retour Payé";
@@ -165,15 +196,21 @@ public class Constantes {
     
     public static String EN_STOCK_OUI= "Oui";
     public static String EN_STOCK_NON= "Non";
+    
+    public static String MOINS= "Moins"; 
+    public static String PLUS= "Plus"; 
     public static String SANS= "Sans"; 
     
     public static String ETAT_RTR= "RTR";
     public static String ETAT_MNQ= "MNQ";
     public static String ETAT_BL= "BL";
     public static String ETAT_OULMES= "OLS";
+    public static String ETAT_PF_RTR= "PF_RTR";
+    public static String ETAT_PF_MNQ= "PF_MNQ";
+    
     public static String ETAT_FACTURE= "FACT";
-    
-    
+    public static String ETAT_AVANCE_FOUR_MP= "AVC_MP_FOUR";
+    public static String ETAT_AVANCE_FOUR_PF= "AVC_PF_FOUR";
     
     public static String RECEPTION_TYPE= "Reception";
     public static String USINE_TYPE= "Usine";
@@ -193,6 +230,7 @@ public class Constantes {
     
     public static String CODE_DEPOT_SIEGE= "SIEGE";
     public static String MAGASIN_CODE_TYPE_MP= "MP";
+     public static String MAGASIN_CODE_TYPE_PF= "PF";
     public static String MATIERE_PREMIERE_SERVICE_PRODUCTION= "MP_SERV";
     public static String CATEGORIE_MAGASIN = "STK";
     
@@ -202,10 +240,16 @@ public class Constantes {
     public static String MAROCAINE= "Marocaine";
     public static String ETRANGER= "Etranger";
     
+    public static String MP= "Mp";
+    public static String PF= "Pf";
+    public static String PRODUIT_FINI= "Produit Fini";
+    
     public static String CHEQUE= "Chèque";
     public static String ESPECE="Espèce";
     public static String ORDER_DE_VIREMENT="Ordre de Virement";
-    public static String TRAITE="Traite";
+    public static String TRAITE="Traité";
+    public static String NON_TRAITE="Non Traité";
+    
     
     public static String REPORT="Report";
     
@@ -217,6 +261,7 @@ public class Constantes {
     
     public static String CLIENT_MARJANE="Marjane";
     public static String CLIENT_MINURSO="Minurso";
+    public static String CLIENT_MAROCEAN="MAROCEAN";
     
     public static String FOURNISSEUR_FLEXIMAT= "FLEXIMAT S.A";
     public static String FOURNISSEUR_OULMES= "OULMES ETAT";
@@ -241,6 +286,7 @@ public class Constantes {
    
     public static String COMMANDE_VALIDER = "Commande Valideé avec Succès";
     public static String COMMANDE_RECU = "Commande Reçu avec Succès";
+    public static String COMMANDE_ANNULER = "Commande Annuler avec Succès";
     public static String COMMANDE_RETOUR_EN_ATTENTE ="Traitement En Attente";
     public static String COMMANDE_RETOUR ="Commande Retour Valideé avec Succès";
     public static String COMMANDE_RETOUR_REGLE ="Commande Retour Réglé avec Succès";
@@ -318,7 +364,10 @@ public class Constantes {
     public static String COMBO_EXTERNE = "Externe";
     public static String MESSAGE_ALERT_AUCUN_TRAITEMENT = "Aucun Traitement n'a été réalisée";
     public static String COMMANDE_DEJA_TRAITEE ="La commande a déjà été traitée ! ";
-    public static String SELECTIONNER_UNE_LIGNE ="attention vous devez sélectionner une ligne";
+    public static String SELECTIONNER_UNE_LIGNE ="Attention vous devez sélectionner une ligne";
+    public static String SELECTIONNER_COMMANDE ="Attention vous devez sélectionner une ligne 'Commande'";
+    public static String SELECTIONNER_DETAIL_COMMANDE ="Attention vous devez sélectionner une ligne 'Détail Commande'";
+    public static String ATTENTION_MOIS_TRAITE ="Attention Le mois que vous validez a déjà été traité !!";
     public static String TRAITEMENT_BIEN_ENREGESTRE ="Traitement Bien Enregestre SVP Imprimer l'Etat !!";
     public static String TRAITEMENT_ENREGESTRE ="Traitement Bien Enregestre ";
     public static String SELECTION_LIGNE_MODIFIER ="Il faut Séléctionner la ligne à modifier SVP !!";
@@ -327,6 +376,8 @@ public class Constantes {
     public static String ERREUR ="Erreur";
     public static String SELECTION_MONTANT = "Tapez le Montant !!";
     public static String SELECTION_FOURNISSEUR = "Sélectionner un Fournisseur";
+    public static String VERIFIER_BON_AVOIR = "Veuillez s'il vous plait vérifier les Bons d'Avoir que Vous avez Sélectionné !!";
+    public static String VERIFIER_MONTANT_ANONYME = "Veuillez s'il vous plait vérifier, le Montant Anonyme est supérieur du montant Régler !!";
     public static String VERIFIER_QTE_LIVREE = "Veuillez s'il vous plaît vérifier que la Qte Livrée de set Article n'est pas vide !!";
     public static String VERIFIER_QTE = "Veuillez s'il vous plaît vérifier la Qte que Vous avez Saisi !!";
     public static String VERIFIER_CODE_ARTICLE = "Veuillez s'il vous plaît vérifier le Code Article que Vous avez Saisi !!";
@@ -338,8 +389,12 @@ public class Constantes {
     public static String MESSAGE_ALERT_DATE_FIN_SUPPERIEUR_DATE_DEBUT ="Vous devez Vérifier la Date Fin et Supérieur du Date Debut SVP!!";
     public static String REMPLIR_COCHE = "Vous devez coché une cellule pour règle SVP!!";
     public static String VERIFIER_NUM_COMMANDE = "Veuillez s'il vous plaît vérifier votre NUM COMMANDE que Vous avez Saisi !!";
-    public static String VERIFIER_BON_RETOUR_BON_GRATUITE_MANQUE = "Vous devez cocher un Type (Retour/ Gratuité/ Manque) SVP !!";
-    public static String VERIFIER_FIX_VARIABLE ="Vous devez cochez un Type (Fix/Variable) SVP !!";
+    public static String VERIFIER_BON_RETOUR_BON_GRATUITE_MANQUE = "Vous devez cocher un Type (Retour/ Manque) SVP !!";
+    public static String VERIFIER_RECEPTION_USINE = "Vous devez cocher un Type (Reception/ Usine) SVP !!";
+    public static String VERIFIER_RECEPTION_USINE_FOURNISSEUR = "Vous devez cocher un Type (Reception/ Usine/ Fournisseur) SVP !!";
+    public static String VERIFIER_OUI_NON = "Vous devez cocher Stock (Oui/ Non) SVP !!";
+    public static String VERIFIER_FIX_VARIABLE ="Vous devez cocher un Type (Fix/Variable) SVP !!";
+    public static String VERIFIER_CASE_ANNULATION ="Vous devez cocher la case 'Annulation' pour continuer le traitement !!";
     public static String VERIFIER_COORDONEES_EXISTE ="Veuillez s'il vous plaît vérifier votre traitement les coordonnées et deja existe !!";
     public static String VERIFIER_AJOUTER_BOX_CARTON_FILMGOLD_FILMNORMAL_ADHESIF ="Les Prix que vous pouvez Ajouter jusqu'a maintenant sont: (Prix Box, Prix Carton, Prix Cellophane, Prix Adhesif) SVP !!";
     public static String VERIFICATION_DATE_SAISIE ="Vous devez saisir une Date Correcte par exemple: 2018/05/10 SVP!!";
@@ -357,5 +412,8 @@ public class Constantes {
     public static String VERIFIER_MONTANT_COMPTE = "Veuillez s'il vous plaît vérifier le montant du compte n'existe pas!!";    
     public static String VERIFIER_CODE_LIBELLE = "Veuillez s'il vous plaît vérifier que les champs (Code Article/Libelle) n'ont pas Vide !!";
     public static String VERIFIER_TABLE = "Veuillez s'il vous plaît vérifier La Table de Traitement des valeurs vides !!";
+    public static String MESSAGE_ALERT_CONTINUER ="Voulez-vous vraiment continuer ce processus ?";
+    public static String VERIFIER_MONTANT_RG = "Veuillez s'il vous plait vérifier la somme du 'Montant Total RG' !!";
+    public static String VERIFIER_QTE_PALETTE = "Veuillez s'il vous plait vérifier la Qte Palette de cet article dans la partie 'Paramètre >> Article Produit Fini'";
 }
   

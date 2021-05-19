@@ -7,6 +7,7 @@ package Controller.Referentiel;
 
 import Utils.Constantes;
 import dao.Entity.Intervalle;
+import dao.Entity.TypeCartonBox;
 import dao.Manager.IntervalleDAO;
 import dao.ManagerImpl.IntervalleDAOImpl;
 import function.navigation;
@@ -26,6 +27,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
@@ -70,6 +72,10 @@ public class ListeIntervalleController implements Initializable {
      IntervalleDAO intervalleDAO = new IntervalleDAOImpl();
       
      private final ObservableList<Intervalle> listeIntervalle=FXCollections.observableArrayList();
+    @FXML
+    private Pane paneLibelle;
+    @FXML
+    private TextField txtLibelle;
       
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -109,6 +115,7 @@ public class ListeIntervalleController implements Initializable {
        intervalle.setValeurMax(valeurMax);
        intervalle.setValeurMin(valeurMin);
        intervalle.setLibelle("["+valeurMin+","+valeurMax+"]");
+       intervalle.setEtat(Constantes.ETAT_COMMANDE_LANCE);
        intervalle.setUtilisateurCreation(nav.getUtilisateur());
       
         intervalleDAO.add(intervalle);
@@ -159,7 +166,9 @@ public class ListeIntervalleController implements Initializable {
         
      }else {
        Intervalle intervalle=tableIntervale.getSelectionModel().getSelectedItem();
-        intervalleDAO.delete(intervalle);
+          intervalle.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
+
+            intervalleDAO.edit(intervalle);
     
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.SUPRIMER_ENREGISTREMENT);
         
@@ -183,13 +192,6 @@ public class ListeIntervalleController implements Initializable {
         txtValeurMin.setText("");
     }
 
-    @FXML
-    private void rechercheCodeVilleOnKeyPressed(KeyEvent event) {
-    }
-
-    @FXML
-    private void rechercheLibelleVilleOnKeyPressed(KeyEvent event) {
-    }
 
     @FXML
     private void clickChargeOnMouseEntered(MouseEvent event) {
@@ -205,6 +207,44 @@ public class ListeIntervalleController implements Initializable {
               txtValeurMax.setText(valeurMaxColumn.getCellData(val)+"");
 
           }
+    }
+
+    @FXML
+    private void rechercheCodeOnKeyPressed(KeyEvent event) {
+        
+                      ObservableList<Intervalle> listeIntervalle=FXCollections.observableArrayList();
+          
+        listeIntervalle.clear();
+   
+        listeIntervalle.addAll(intervalleDAO.findByCodeIntervalle(codeRechField.getText()));
+   
+        tableIntervale.setItems(listeIntervalle);
+        
+    }
+
+    @FXML
+    private void rechercheLibelleOnKeyPressed(KeyEvent event) {
+        
+                         ObservableList<Intervalle> listeIntervalle=FXCollections.observableArrayList();
+          
+        listeIntervalle.clear();
+   
+        listeIntervalle.addAll(intervalleDAO.findBylibelleIntervalle(libelleRechField.getText()));
+   
+        tableIntervale.setItems(listeIntervalle);
+        
+        
+    }
+
+    @FXML
+    private void rechercheTableMouseClicked(MouseEvent event) {
+        
+                    libelleRechField.clear();
+            codeRechField.clear();
+
+            setColumnProperties();
+            loadDetail();
+        
     }
     
 }

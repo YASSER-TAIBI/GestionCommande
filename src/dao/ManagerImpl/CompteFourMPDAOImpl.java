@@ -56,9 +56,24 @@ public class CompteFourMPDAOImpl implements CompteFourMPDAO {
 
         
     public List<CompteFourMP> findAll() {
-              return session.createQuery("select c from CompteFourMP c").list();
+              return session.createQuery("select c from CompteFourMP c where c.etat = 'Lancé'").list();
     }
 
- 
+ 	 public List<CompteFourMP> findByCodeCompteFourMP(String code) {
+		
+		Query query = session.createQuery("select u from CompteFourMP u where u.code like:code and u.etat = 'Lancé'");
+		query.setParameter("code","%"+code+"%");
+		
+                return query.list();
+ }
+    
+         	 public List<CompteFourMP> findBylibelleCompteFourMP(String lib) {
+		
+		Query query = session.createQuery("select u from CompteFourMP u where u.libelle like:lib and u.etat = 'Lancé'");
+		query.setParameter("lib","%"+lib+"%");
+		
+                return query.list();
+ }
+
 
 }

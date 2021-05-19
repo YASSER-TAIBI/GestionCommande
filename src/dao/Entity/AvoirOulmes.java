@@ -3,6 +3,8 @@ package dao.Entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -30,35 +33,43 @@ public class AvoirOulmes implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
-        @ManyToOne
-        @JoinColumn(name = "ID_PRIX_OULMES")
-        private PrixOulmes prixOulmes;
-	
-        @Column(name="QUANTITE")
-	private BigDecimal  qte;
-        
-        @Column(name="PRIX")
-	private BigDecimal  prix;
-        
-        @Column(name="MONTANT")
-	private BigDecimal  montant;
-        
-        @Column(name="REMISE_AVOIR")
-	private BigDecimal  remiseAvoir;
         
         @Column(name="ETAT")
 	private String etat;
         
-        @Column(name="MONTANT_NET")
-	private BigDecimal  montantNet;
-        
         @Column(name="CLIENT")
         private String client ;
+        
+        @Column(name="FOURNISSEUR")
+        private String fournisseur ;
         
         @Column(name="DESIGNATION")
         private String designation ;
         
-        private Boolean action;
+        @Column(name="NUM_FACTURE")
+        private String numFacture ;
+        
+        @Column(name="FACTURE_AVOIR")
+        private BigDecimal factureAvoir ;
+        
+        @Column(name="FACTURE_SYSTEME")
+        private BigDecimal factureSysteme ;
+        
+        @Column(name="FACTURE_OULMES")
+        private BigDecimal factureOulmes ;
+        
+        @Column(name="AVOIR")
+        private BigDecimal avoir ;
+        
+        @Column(name="ECART")
+	private BigDecimal ecart;
+        
+         @Column(name="REGULARISATION")
+	private BigDecimal regularisation;
+        
+         @Column(name="DATE_FACTURE")
+        @Temporal(javax.persistence.TemporalType.DATE)
+        private Date dateFacture;
         
         @Column(name="DATE_SAISIE")
         @Temporal(javax.persistence.TemporalType.DATE)
@@ -80,7 +91,19 @@ public class AvoirOulmes implements Serializable {
         
         @Column(name="LIEU_LIVRAISON")
 	private String lieuLivraison;
+        
+        @Column(name="TYPE_ECART")
+	private String typeEcart;
+        
+        @OneToMany(cascade = CascadeType.ALL,mappedBy="avoirOulmes")
+        private List<DetailAvoirOulmes> detailAvoirOulmes;
 
+        private Boolean action;
+        
+        
+        
+        
+        
 	public AvoirOulmes() {
 	}
 
@@ -92,57 +115,125 @@ public class AvoirOulmes implements Serializable {
 		this.id = id;
 	}
 
-    public PrixOulmes getPrixOulmes() {
-        return prixOulmes;
+    public List<DetailAvoirOulmes> getDetailAvoirOulmes() {
+        return detailAvoirOulmes;
     }
 
-    public void setPrixOulmes(PrixOulmes prixOulmes) {
-        this.prixOulmes = prixOulmes;
+    public void setDetailAvoirOulmes(List<DetailAvoirOulmes> detailAvoirOulmes) {
+        this.detailAvoirOulmes = detailAvoirOulmes;
     }
 
-    public String getEtat() {
-        return etat;
+    public Date getDateFacture() {
+        return dateFacture;
     }
 
-    public void setEtat(String etat) {
-        this.etat = etat;
+    public BigDecimal getFactureSysteme() {
+        return factureSysteme;
     }
 
-    public String getNumLivraison() {
-        return numLivraison;
+    public void setFactureSysteme(BigDecimal factureSysteme) {
+        this.factureSysteme = factureSysteme;
     }
 
-    public void setNumLivraison(String numLivraison) {
-        this.numLivraison = numLivraison;
+    public BigDecimal getFactureOulmes() {
+        return factureOulmes;
     }
 
-    public BigDecimal getQte() {
-        return qte;
-    }
-
-    public void setQte(BigDecimal qte) {
-        this.qte = qte;
-    }
-
-    public BigDecimal getPrix() {
-        return prix;
-    }
-
-    public Date getDateSaisie() {
-        return dateSaisie;
-    }
-
-    public void setDateSaisie(Date dateSaisie) {
-        this.dateSaisie = dateSaisie;
-    }
-
-    public void setPrix(BigDecimal prix) {
-        this.prix = prix;
+    public void setFactureOulmes(BigDecimal factureOulmes) {
+        this.factureOulmes = factureOulmes;
     }
 
     public Boolean getAction() {
         return action;
     }
+
+    public String getTypeEcart() {
+        return typeEcart;
+    }
+
+    public void setTypeEcart(String typeEcart) {
+        this.typeEcart = typeEcart;
+    }
+
+    public void setAction(Boolean action) {
+        this.action = action;
+    }
+
+    public void setDateFacture(Date dateFacture) {
+        this.dateFacture = dateFacture;
+    }
+
+        public BigDecimal getAvoir() {
+        return avoir;
+        }
+
+        public void setAvoir(BigDecimal avoir) {
+        this.avoir = avoir;
+        }
+
+        public String getEtat() {
+        return etat;
+        }
+
+        public void setEtat(String etat) {
+        this.etat = etat;
+        }
+
+        public String getNumLivraison() {
+        return numLivraison;
+        }
+
+        public BigDecimal getFactureAvoir() {
+        return factureAvoir;
+        }
+
+        public void setFactureAvoir(BigDecimal factureAvoir) {
+        this.factureAvoir = factureAvoir;
+        }
+
+        public String getNumFacture() {
+        return numFacture;
+        }
+
+        public void setNumFacture(String numFacture) {
+        this.numFacture = numFacture;
+        }
+
+        public BigDecimal getEcart() {
+        return ecart;
+        }
+
+        public void setEcart(BigDecimal ecart) {
+        this.ecart = ecart;
+        }
+
+        public String getFournisseur() {
+        return fournisseur;
+        }
+
+        public void setFournisseur(String fournisseur) {
+        this.fournisseur = fournisseur;
+        }
+
+    public BigDecimal getRegularisation() {
+        return regularisation;
+    }
+
+    public void setRegularisation(BigDecimal regularisation) {
+        this.regularisation = regularisation;
+    }
+
+        public void setNumLivraison(String numLivraison) {
+        this.numLivraison = numLivraison;
+        }
+
+        public Date getDateSaisie() {
+        return dateSaisie;
+        }
+
+        public void setDateSaisie(Date dateSaisie) {
+        this.dateSaisie = dateSaisie;
+        }
 
     public String getClient2() {
         return client2;
@@ -168,40 +259,12 @@ public class AvoirOulmes implements Serializable {
         this.designation = designation;
     }
 
-    public void setAction(Boolean action) {
-        this.action = action;
-    }
-
-    public BigDecimal getMontant() {
-        return montant;
-    }
-
     public String getClient() {
         return client;
     }
 
     public void setClient(String client) {
         this.client = client;
-    }
-
-    public void setMontant(BigDecimal montant) {
-        this.montant = montant;
-    }
-
-    public BigDecimal getRemiseAvoir() {
-        return remiseAvoir;
-    }
-
-    public void setRemiseAvoir(BigDecimal remiseAvoir) {
-        this.remiseAvoir = remiseAvoir;
-    }
-
-    public BigDecimal getMontantNet() {
-        return montantNet;
-    }
-
-    public void setMontantNet(BigDecimal montantNet) {
-        this.montantNet = montantNet;
     }
 
         public Date getDateCreation() {

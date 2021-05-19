@@ -63,26 +63,27 @@ public class CommandeRegion implements Serializable {
     @Column(name="ETAT")
     private String etat;
     
+    @Column(name="TYPE_COMMANDE")
+    private String typeCommande;
   
     @ManyToOne
     @JoinColumn(name="ID_DEPOT")
     private Depot depot;
 
+    @Column(name="N_MATRICULE")
+    private String nMatricule;
+    
+    @Column(name="DATE_CHARGEMENT")
+    @Temporal(javax.persistence.TemporalType.DATE)
+     private Date dateChargement;
+    
     //bi-directional many-to-one association to DetailCommande  fetch = FetchType.EAGER , orphanRemoval = true
     @OneToMany(mappedBy="commandeRegion",cascade = {CascadeType.ALL})
     private List<DetailCommandeRegion> detailCommandeRegion= new ArrayList<DetailCommandeRegion>();
         
           //bi-directional many-to-one association to MatierePremier
-    @ManyToOne
-    @JoinColumn(name="ID_CLIENT")
-    private ClientMP clientMP;
-        
-        @ManyToOne
-	@JoinColumn(name="ID_FOURNISSEUR")
-	private Fournisseur fourisseur;
 
-   
-    
+
     @Column(name="PRIX_TOTAL")
     private BigDecimal prixTotal ;
 
@@ -101,8 +102,32 @@ public class CommandeRegion implements Serializable {
         return depot;
     }
 
+    public String getnMatricule() {
+        return nMatricule;
+    }
+
+    public void setnMatricule(String nMatricule) {
+        this.nMatricule = nMatricule;
+    }
+
+    public Date getDateChargement() {
+        return dateChargement;
+    }
+
+    public void setDateChargement(Date dateChargement) {
+        this.dateChargement = dateChargement;
+    }
+
     public void setDepot(Depot depot) {
         this.depot = depot;
+    }
+
+    public String getTypeCommande() {
+        return typeCommande;
+    }
+
+    public void setTypeCommande(String typeCommande) {
+        this.typeCommande = typeCommande;
     }
 
     public BigDecimal getPrixTotal() {
@@ -127,22 +152,6 @@ public class CommandeRegion implements Serializable {
 
     public void setUtilisateurCreation(Utilisateur utilisateurCreation) {
         this.utilisateurCreation = utilisateurCreation;
-    }
-
-    public ClientMP getClientMP() {
-        return clientMP;
-    }
-
-    public void setClientMP(ClientMP clientMP) {
-        this.clientMP = clientMP;
-    }
-
-    public Fournisseur getFourisseur() {
-        return fourisseur;
-    }
-
-    public void setFourisseur(Fournisseur fourisseur) {
-        this.fourisseur = fourisseur;
     }
     
     public CommandeRegion(){}

@@ -11,6 +11,7 @@
 	<parameter name="MontantHT" class="java.lang.String"/>
 	<parameter name="MontantTVA" class="java.lang.String"/>
 	<parameter name="MontantTTC" class="java.lang.String"/>
+	<parameter name="MontantRG" class="java.math.BigDecimal"/>
 	<field name="livraisonFour" class="java.lang.String"/>
 	<field name="dateLivraison" class="java.util.Date"/>
 	<field name="montant" class="java.math.BigDecimal"/>
@@ -18,6 +19,7 @@
 	<field name="montantTTC" class="java.math.BigDecimal"/>
 	<field name="etat" class="java.lang.String"/>
 	<field name="numFacture" class="java.lang.String"/>
+	<field name="montantRG" class="java.math.BigDecimal"/>
 	<variable name="montantHt" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{montant}]]></variableExpression>
 	</variable>
@@ -33,11 +35,11 @@
 				<reportElement x="281" y="21" width="245" height="24" backcolor="#8FDFEF" uuid="f53611c5-a768-4b0a-8ab7-ba76346fff4a"/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Transparent" x="315" y="18" width="170" height="27" backcolor="#CCCCCC" uuid="46f7c606-09e7-4346-9bfb-a19a13f054cb"/>
+				<reportElement mode="Transparent" x="307" y="18" width="194" height="27" backcolor="#CCCCCC" uuid="46f7c606-09e7-4346-9bfb-a19a13f054cb"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Calibri" size="20" isBold="true" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[Réglement Oulmes]]></text>
+				<text><![CDATA[Réglement Produit Fini]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -50,63 +52,67 @@
 				<reportElement x="12" y="0" width="779" height="20" backcolor="#8FDFEF" uuid="70a82888-796e-476d-bff4-bfcbda550c98"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="29" y="1" width="100" height="20" uuid="b839d1ab-b170-4f16-9bcf-f511dbef1e67"/>
+				<reportElement x="29" y="1" width="87" height="20" uuid="b839d1ab-b170-4f16-9bcf-f511dbef1e67"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[LivraisonFour]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="134" y="1" width="100" height="20" uuid="b0e9d6de-64a5-4414-ae2e-d997ca53ee71"/>
+				<reportElement x="121" y="1" width="86" height="20" uuid="b0e9d6de-64a5-4414-ae2e-d997ca53ee71"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Date Livraison]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="430" y="1" width="113" height="20" uuid="ecbab088-9a91-4ecb-9102-12a83e0dbd16"/>
+				<reportElement x="365" y="1" width="97" height="20" uuid="ecbab088-9a91-4ecb-9102-12a83e0dbd16"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Montant]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="548" y="0" width="111" height="20" uuid="311a001d-06ea-49a7-bd48-a7c6f9a2e38b"/>
+				<reportElement x="467" y="0" width="97" height="20" uuid="311a001d-06ea-49a7-bd48-a7c6f9a2e38b"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Montant TVA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="664" y="1" width="109" height="20" uuid="3b408947-152d-48fd-882b-1ca3181852b1"/>
+				<reportElement x="569" y="1" width="97" height="20" uuid="3b408947-152d-48fd-882b-1ca3181852b1"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Montant TTC]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="342" y="0" width="83" height="20" uuid="db36c1c9-ad93-4109-80b0-ca4892aa8572"/>
+				<reportElement x="295" y="0" width="65" height="20" uuid="db36c1c9-ad93-4109-80b0-ca4892aa8572"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Etat]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="239" y="1" width="99" height="20" uuid="11724d4a-090d-4c41-8d58-f95b52b6a946"/>
+				<reportElement x="211" y="1" width="80" height="20" uuid="11724d4a-090d-4c41-8d58-f95b52b6a946"/>
 				<textElement textAlignment="Center">
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[N° Facture]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="671" y="0" width="97" height="20" uuid="a3ddb058-470b-4d9f-897e-803ea1fb685c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Montant RG]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="26" splitType="Stretch">
-			<rectangle>
-				<reportElement x="18" y="23" width="773" height="3" backcolor="#8FDFEF" uuid="d2fb7d68-ac5c-49cb-b258-0aef9bcbae11"/>
-			</rectangle>
-			<textField>
-				<reportElement x="29" y="1" width="100" height="20" uuid="7ccc1e39-fe82-46c3-bea0-b6482a74b7e2"/>
+		<band height="23" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="29" y="1" width="87" height="20" isPrintWhenDetailOverflows="true" uuid="7ccc1e39-fe82-46c3-bea0-b6482a74b7e2"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -116,8 +122,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{livraisonFour}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="134" y="1" width="100" height="20" uuid="985e9047-baf4-4c0c-be50-5129aa79c7e7"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="121" y="1" width="86" height="20" isPrintWhenDetailOverflows="true" uuid="985e9047-baf4-4c0c-be50-5129aa79c7e7"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -127,8 +133,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dateLivraison}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="430" y="1" width="113" height="20" uuid="ef3353d1-78f2-4a06-a153-2bd11ba1dff0"/>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="365" y="1" width="97" height="20" isPrintWhenDetailOverflows="true" uuid="ef3353d1-78f2-4a06-a153-2bd11ba1dff0"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -138,19 +144,19 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{montant}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="548" y="1" width="111" height="20" uuid="90ad17a0-fe96-4298-8a3d-c0ed3b1c65af"/>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="467" y="1" width="97" height="20" isPrintWhenDetailOverflows="true" uuid="90ad17a0-fe96-4298-8a3d-c0ed3b1c65af"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="calibri" size="11"/>
+					<font fontName="calibri" size="11" isBold="false" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{montantTVA}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="664" y="1" width="109" height="20" uuid="3d0280b4-a745-4d71-ac10-f5e9d1e0e008"/>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="569" y="1" width="97" height="20" isPrintWhenDetailOverflows="true" uuid="3d0280b4-a745-4d71-ac10-f5e9d1e0e008"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -160,8 +166,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{montantTTC}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="342" y="1" width="83" height="20" uuid="7e390a5d-503d-406a-a6d4-767145a48bb2"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="295" y="1" width="65" height="20" isPrintWhenDetailOverflows="true" uuid="7e390a5d-503d-406a-a6d4-767145a48bb2"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -171,8 +177,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{etat}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="239" y="1" width="99" height="20" uuid="40152dfe-b650-4f20-be21-350b483ad446"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="211" y="1" width="80" height="20" isPrintWhenDetailOverflows="true" uuid="40152dfe-b650-4f20-be21-350b483ad446"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -182,12 +188,23 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{numFacture}]]></textFieldExpression>
 			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="673" y="1" width="95" height="20" uuid="8d73786f-9782-4965-aee0-5b805a86b310"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montantRG}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<summary>
 		<band height="130">
 			<staticText>
-				<reportElement x="509" y="27" width="150" height="18" uuid="798f002b-62ae-4635-8800-92792f2f8015"/>
+				<reportElement x="509" y="32" width="150" height="18" uuid="798f002b-62ae-4635-8800-92792f2f8015"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -198,7 +215,7 @@
 				<text><![CDATA[Montant TVA:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="509" y="5" width="150" height="18" uuid="85499507-2bfd-45c8-91ba-a1e5fe6b2ee5"/>
+				<reportElement x="509" y="10" width="150" height="18" uuid="85499507-2bfd-45c8-91ba-a1e5fe6b2ee5"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -209,7 +226,7 @@
 				<text><![CDATA[Montant HT:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="509" y="49" width="150" height="18" uuid="ce12353c-c383-4fa5-9fd7-bc400f84e715"/>
+				<reportElement x="509" y="54" width="150" height="18" uuid="ce12353c-c383-4fa5-9fd7-bc400f84e715"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -220,7 +237,7 @@
 				<text><![CDATA[Montant TTC:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="664" y="5" width="109" height="18" uuid="ea4a6f2f-5a3c-4c17-878d-ef0854dc68c9"/>
+				<reportElement x="664" y="10" width="109" height="18" uuid="ea4a6f2f-5a3c-4c17-878d-ef0854dc68c9"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -231,7 +248,7 @@
 				<textFieldExpression><![CDATA[$P{MontantHT}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="664" y="27" width="109" height="18" uuid="dfb513f3-a030-4198-8e6d-8dadc13f7005"/>
+				<reportElement x="664" y="32" width="109" height="18" uuid="dfb513f3-a030-4198-8e6d-8dadc13f7005"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -242,7 +259,7 @@
 				<textFieldExpression><![CDATA[$P{MontantTVA}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="664" y="49" width="109" height="18" uuid="79279e85-a0d3-4e9a-8f6c-1bf8b85cff54"/>
+				<reportElement x="664" y="54" width="109" height="18" uuid="79279e85-a0d3-4e9a-8f6c-1bf8b85cff54"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -251,6 +268,31 @@
 					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{MontantTTC}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="16" y="1" width="773" height="3" backcolor="#8FDFEF" uuid="d2fb7d68-ac5c-49cb-b258-0aef9bcbae11"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="509" y="85" width="150" height="18" uuid="e7ae07c8-ad63-41d6-861e-89720ca20526"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Montant RG:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="664" y="85" width="109" height="18" uuid="64ae8af0-10f1-41db-8cd2-1f03b2d54f8b"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{MontantRG}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

@@ -5,28 +5,32 @@
  */
 package Controller.Livraision;
 
-import static Controller.Livraision.SuiviCommandeController.setColumnTextFieldConverter;
 import Controller.commande.EnvoyerCommandeController;
 import Utils.Constantes;
 import dao.Entity.BonLivraison;
+import dao.Entity.Chauffeur;
 import dao.Entity.ClientMP;
 import dao.Entity.Commande;
 import dao.Entity.CompteFourMP;
+import dao.Entity.DelaiPaiementFour;
 import dao.Entity.Depot;
 import dao.Entity.DetailBonLivraison;
 import dao.Entity.DetailCommande;
 import dao.Entity.DetailCompte;
+import dao.Entity.DetailPromotion;
 import dao.Entity.DetailReception;
 import dao.Entity.Fournisseur;
 import dao.Entity.Magasin;
 import dao.Entity.MatierePremier;
 import dao.Entity.PrixOulmes;
+import dao.Entity.Promotion;
+import dao.Entity.ReferencePromo;
 import dao.Entity.Sequenceur;
-import dao.Entity.StockArt;
-import dao.Entity.StockMP;
 import dao.Manager.BonLivraisonDAO;
+import dao.Manager.ChauffeurDAO;
 import dao.Manager.ClientMPDAO;
 import dao.Manager.CommandeDAO;
+import dao.Manager.DelaiPaiementFourDAO;
 import dao.Manager.DepotDAO;
 import dao.Manager.DetailBonLivraisonDAO;
 import dao.Manager.DetailCommandeDAO;
@@ -34,12 +38,15 @@ import dao.Manager.DetailCompteDAO;
 import dao.Manager.DetailReceptionDAO;
 import dao.Manager.FournisseurDAO;
 import dao.Manager.MagasinDAO;
+import dao.Manager.PromotionDAO;
+import dao.Manager.ReferencePromoDAO;
 import dao.Manager.SequenceurDAO;
 import dao.Manager.StockArtDAO;
-import dao.Manager.StockMPDAO;
 import dao.ManagerImpl.BonLivraisonDAOImpl;
+import dao.ManagerImpl.ChauffeurDAOImpl;
 import dao.ManagerImpl.ClientMPDAOImpl;
 import dao.ManagerImpl.CommandeDAOImpl;
+import dao.ManagerImpl.DelaiPaiementFourDAOImpl;
 import dao.ManagerImpl.DepotDAOImpl;
 import dao.ManagerImpl.DetailBonLivraisonDAOImpl;
 import dao.ManagerImpl.DetailCommandeDAOImpl;
@@ -47,9 +54,10 @@ import dao.ManagerImpl.DetailCompteDAOImpl;
 import dao.ManagerImpl.DetailReceptionDAOImpl;
 import dao.ManagerImpl.FournisseurDAOImpl;
 import dao.ManagerImpl.MagasinDAOImpl;
+import dao.ManagerImpl.PromotionDAOImpl;
+import dao.ManagerImpl.ReferencePromoDAOImpl;
 import dao.ManagerImpl.SequenceurDAOImpl;
 import dao.ManagerImpl.StockArtDAOImpl;
-import dao.ManagerImpl.StockMPDAOImpl;
 import function.navigation;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -114,8 +122,6 @@ public class SuiviCommandeOulmesController implements Initializable {
     @FXML
     private TableColumn<Commande, String> etatColumn;
     @FXML
-    private Button btnSuivi;
-    @FXML
     private TableView<DetailCommande> tableDetailCommande;
     @FXML
     private TableColumn<DetailCommande, String> codeArtColumn;
@@ -159,10 +165,23 @@ public class SuiviCommandeOulmesController implements Initializable {
     private CheckBox checkDd;
     @FXML
     private CheckBox checkSc;
+    @FXML
+    private Button btnAnnuler;
+    @FXML
+    private TextField MotifTxt;
+    @FXML
+    private CheckBox annulationCheckBox;
+    @FXML
+    private ComboBox<String> matriculeCombo;
+    @FXML
+    private ComboBox<String> chauffeurCombo;
+    
+    
     private final ObservableList<DetailCommande> listeDetailCommande = FXCollections.observableArrayList();
     private final ObservableList<DetailCommande> listeDetailCommandeTMP = FXCollections.observableArrayList();
+    private final ObservableList<DetailCommande> listeDetailCommandeBC = FXCollections.observableArrayList();
     private final ObservableList<Commande> listeCommande = FXCollections.observableArrayList();
-
+    private final ObservableList<DetailPromotion> listeDetailPromotion = FXCollections.observableArrayList();
    
     List<Fournisseur> listeFour = new ArrayList<>();
     List<ClientMP> listeClient = new ArrayList<>();
@@ -172,7 +191,6 @@ public class SuiviCommandeOulmesController implements Initializable {
     FournisseurDAO fournisseurDAO = new FournisseurDAOImpl();
     ClientMPDAO clientMPDAO = new ClientMPDAOImpl();
     CommandeDAO commandeDAO = new CommandeDAOImpl();
-    StockArtDAO stockArtDAO = new StockArtDAOImpl();
     DetailReceptionDAO detailReceptionDAO = new DetailReceptionDAOImpl();
     DepotDAO depotDAO = new DepotDAOImpl();
     MagasinDAO magasinDAO = new MagasinDAOImpl();
@@ -180,30 +198,39 @@ public class SuiviCommandeOulmesController implements Initializable {
     DetailCompteDAO detailCompteDAO = new DetailCompteDAOImpl();
     DetailBonLivraisonDAO detailBonLivraisonDAO = new DetailBonLivraisonDAOImpl();
     SequenceurDAO sequenceurDAO = new SequenceurDAOImpl();
+    ReferencePromoDAO referencePromoDAO = new ReferencePromoDAOImpl();
+    PromotionDAO promotionDAO = new  PromotionDAOImpl();
+    DelaiPaiementFourDAO delaiPaiementFourDAO = new DelaiPaiementFourDAOImpl();
+    ChauffeurDAO chauffeurDAO = new ChauffeurDAOImpl();
     
     navigation nav = new navigation();
     Commande commande = new Commande();
     Fournisseur fournisseur = new Fournisseur();
     DetailCompte detailCompte = new DetailCompte();
+    Promotion promotion = new Promotion();
+    
+    
     
     private Map<String, Depot> mapDepot = new HashMap<>();
     private Map<String, Magasin> mapMagasin = new HashMap<>();
     private Map<String, Fournisseur> mapFournisseur = new HashMap<>();
     private Map<String, ClientMP> mapClientMP = new HashMap<>();
+    private Map<String,Chauffeur> mapChauffeur=new HashMap<>();
     
       String codeReception = "";
     
 //    BigDecimal montantTotal = BigDecimal.ZERO;
 //    public BigDecimal qteLivree =BigDecimal.ZERO;
     public BigDecimal montantDebit =BigDecimal.ZERO;
+    
 
     
     
     
 void Incrementation (){
        
-          Sequenceur sequenceur = sequenceurDAO.findByCode(Constantes.RECEPTION_OULMES_CODE);
-          codeReception = Constantes.RECEPTION_OULMES_CODE+" "+(sequenceur.getValeur()+1);
+          Sequenceur sequenceur = sequenceurDAO.findByCode(Constantes.RECEPTION_PF_CODE);
+          codeReception = Constantes.RECEPTION_PF_CODE+" "+(sequenceur.getValeur()+1);
    }
    
     /**
@@ -229,6 +256,19 @@ void Incrementation (){
         }).forEachOrdered((depot) -> {
             mapDepot.put(depot.getLibelle(), depot);
         });
+        
+        
+           List<Chauffeur> listChauffeur=chauffeurDAO.findAll();
+        
+            listChauffeur.stream().map((chauffeur) -> {
+            chauffeurCombo.getItems().addAll(chauffeur.getChauffeur());
+            matriculeCombo.getItems().addAll(chauffeur.getMatricule());
+            return chauffeur;
+        }).forEachOrdered((chauffeur) -> {
+            mapChauffeur.put(chauffeur.getChauffeur(), chauffeur);
+            mapChauffeur.put(chauffeur.getMatricule(), chauffeur);
+        });
+        
         
            btnValider.setDisable(true);
         btnImprimer.setDisable(false);
@@ -407,66 +447,15 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
         fournisseurField.setText(commande.getFourisseur().getNom());
         
         clientField.setText(commande.getClientMP().getNom());
+        
+        chauffeurCombo.setValue(commande.getChauffeur().getChauffeur());
+        
+        matriculeCombo.setValue(commande.getChauffeur().getMatricule());
 }
 
         
     }
 
-     void validationStock() {
-
-        Depot depot = mapDepot.get(depotCombo.getSelectionModel().getSelectedItem());
-        Magasin magasin = mapMagasin.get(magasinCombo.getSelectionModel().getSelectedItem());
-        List<DetailReception> listDetailReceptionTmp = detailReceptionDAO.findReceptionBycode(codeReception);
-
-        
-
-        if (depot != null && magasin != null) {
-            for (int i = 0; i < listDetailReceptionTmp.size(); i++) {
-
-                DetailReception detailReceptionTmp = listDetailReceptionTmp.get(i);
-                PrixOulmes prixOulmes = detailReceptionTmp.getDetailCommande().getPrixOulmes();
-
-                BigDecimal prixU = detailReceptionTmp.getDetailCommande().getPrixUnitaire();
-
-                BigDecimal QteLivree = BigDecimal.ZERO;
-                
-                     QteLivree = detailReceptionTmp.getQuantiteRecu().multiply(detailReceptionTmp.getDetailCommande().getPrixOulmes().getConditionnement());
-  
-                StockArt stockArt = stockArtDAO.findStockByMagasinArt(prixOulmes.getId(), magasin.getId()); 
-
-                if (stockArt == null) {
-
-                    StockArt stockArtTmp = new StockArt();
-
-                    stockArtTmp.setStock(QteLivree);
-                    stockArtTmp.setPrixOulmes(prixOulmes);
-                    stockArtTmp.setUtilisateurCreation(nav.getUtilisateur());
-                    stockArtTmp.setMagasin(magasin);
-                    stockArtTmp.setPrixUnitaire(prixU);
-
-                    stockArtDAO.add(stockArtTmp);
-
-                } else if (stockArt != null) {
-
-                    BigDecimal Qte = stockArt.getStock();
-                    BigDecimal prix = stockArt.getPrixUnitaire();
- 
-                    BigDecimal pmc = ((QteLivree.multiply(prixU)).add(Qte.multiply(prix))).divide(QteLivree.add(Qte),2);
-
-                    
-                    BigDecimal QteTotal = QteLivree.add(Qte).setScale(2,RoundingMode.FLOOR);
-                    stockArt.setPrixUnitaire(pmc);
-                    stockArt.setStock(QteTotal);
-
-                    stockArtDAO.edit(stockArt);
-
-                }
-                
-            }
-        }
-    }
-    
-    
     
     @FXML
     private void rechercheNumComOnKeyPressed(KeyEvent event) {
@@ -483,20 +472,31 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
     @FXML
     private void creationDate(ActionEvent event) throws ParseException  {
         
-           LocalDate localDate=dateCreationPicker.getValue();
-            
-          SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
+           
+          LocalDate localDate=dateCreationPicker.getValue();
+             if(localDate!=null){
+                 
              Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
              
-             
-        nav.showAlert(Alert.AlertType.CONFIRMATION, "Erreur", null,sdf.format(dateSaisie)+""); 
-        
+            
+              listeCommande.clear();
+   
+   listeCommande.addAll(commandeDAO.findByDateCommandeOulmes(dateSaisie,Constantes.ETAT_COMMANDE_ENCOURS));
+   
+   tableCommande.setItems(listeCommande);
+             }
     }
 
     @FXML
     private void recuCommande(ActionEvent event) {
         
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
                  tableDetailCommande.getItems().clear();
        if (tableCommande.getSelectionModel().getSelectedItem() != null) {
 
@@ -515,43 +515,54 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
        }else {
           nav.showAlert(Alert.AlertType.CONFIRMATION, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE); 
        }
-        
+            }
     }
 
-    @FXML
-    private void SuiviCommande(ActionEvent event) {
-    }
 
     @FXML
     private void imprimerBcOnAction(ActionEvent event) {
         
              try {
           HashMap para = new HashMap();
-            JasperReport report = (JasperReport) JRLoader.loadObject(SuiviCommandeController.class.getResource(nav.getiReportBonCommandeOulmes()));
+            JasperReport report = (JasperReport) JRLoader.loadObject(SuiviCommandeOulmesController.class.getResource(nav.getiReportBonCommandeOulmes()));
 
-            
+            listeDetailCommandeBC.clear();
             
             para.put("Fournisseur",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getFourisseur().getNom());
             para.put("NumCommande",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getnCommande());
             para.put("Ville",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getFourisseur().getVille().getLibelle());
             para.put("DateLiv",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getDateCreation());
             
-    
-            for (int i =0;i<listeDetailCommande.size();i++){
+              if (listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getChauffeur()!=null){
+                
+            para.put("Matricule","Num Matricule:");
+            para.put("NumMatricule",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getChauffeur().getMatricule());
             
+            para.put("Chauffeur","Nom Chauffeur:");
+            para.put("nomChauffeur",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getChauffeur().getChauffeur());
+            
+            }else if(listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getDateChargement()!=null){
+
+             para.put("Chargement","Date Chargement:");
+            para.put("DateChargement",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getDateChargement());
+            }
+    
+          for (int i = 0; i < listeDetailCommande.size(); i++) {
+                
                 DetailCommande detailCommande = listeDetailCommande.get(i);
                 
-                detailCommande.setQuantiteLivree(BigDecimal.ZERO);
-            
-                listeDetailCommande.set(i, detailCommande);
+                if(!detailCommande.getPrixOulmes().getProduit().getCode().equals("1500") && !detailCommande.getPrixOulmes().getProduit().getCode().equals("1504") && !detailCommande.getPrixOulmes().getProduit().getCode().equals("1503")){
+ 
+                    listeDetailCommandeBC.add(detailCommande);
+                
+                }
             }
-            
 
-             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listeDetailCommande));
+             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listeDetailCommandeBC));
                JasperViewer.viewReport(jp, false);
             
         } catch (JRException ex) {
-            Logger.getLogger(SuiviCommandeController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SuiviCommandeOulmesController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -559,7 +570,7 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
     @FXML
     private void editCommitQuantiteLivreeColumn(TableColumn.CellEditEvent<DetailCommande, BigDecimal> event) {
         
-            if (nLivraisonField.getText().equalsIgnoreCase("") || depotCombo.getSelectionModel().getSelectedItem() == null || depotCombo.getSelectionModel().getSelectedItem().isEmpty()) {
+            if (nLivraisonField.getText().equalsIgnoreCase("") || depotCombo.getSelectionModel().getSelectedItem() == null || depotCombo.getSelectionModel().getSelectedItem().isEmpty() || matriculeCombo.getSelectionModel().getSelectedItem().isEmpty() || chauffeurCombo.getSelectionModel().getSelectedItem().isEmpty() ) {
 
             nav.showAlert(Alert.AlertType.ERROR, "Attention", null, Constantes.REMPLIR_CHAMPS);
             tableDetailCommande.refresh();
@@ -597,12 +608,11 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
                
                  getCalculeQuantiteRestee =  qteRestee.subtract(qteLiv).setScale(2, RoundingMode.FLOOR);
                 
-                 listeDetailCommande.get(tableDetailCommande.getSelectionModel().getSelectedIndex()).setMagasin(magasin.getLibelle());
+                 listeDetailCommande.get(tableDetailCommande.getSelectionModel().getSelectedIndex()).setMagasinn(magasin);
                  listeDetailCommande.get(tableDetailCommande.getSelectionModel().getSelectedIndex()).setQuantiteRecu(calculeQuantiteRecu);
                  listeDetailCommande.get(tableDetailCommande.getSelectionModel().getSelectedIndex()).setQuantiteRestee(getCalculeQuantiteRestee);
                 
-                 
-                 
+
                 setColumnProperties();
 
            
@@ -617,6 +627,17 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
     @FXML
     private void btnValiderOnAction(ActionEvent event) throws ParseException {
         
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+                
+                try {
+                    
+               
+                
           BigDecimal montantTotal= BigDecimal.ZERO;
           BigDecimal montantPalette= BigDecimal.ZERO;
             
@@ -624,6 +645,9 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
             
                 Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
           
+                Chauffeur chauffeur  = mapChauffeur.get(chauffeurCombo.getSelectionModel().getSelectedItem());
+                
+                
            for( int rows = 0;rows<listeDetailCommande.size() ;rows++ ){
         
 
@@ -635,6 +659,7 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
                   
                 detailReception.setDetailCommande(detailCommande);
                 detailReception.setDateReception(dateSaisie);
+                detailReception.setChauffeur(chauffeur);
                 detailReception.setUtilisateurCreation(nav.getUtilisateur());
                 detailReception.setQuantiteRecu(detailCommande.getQuantiteLivree());
                 detailReception.setPrix(detailCommande.getPrixUnitaire());
@@ -670,13 +695,29 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
                 detailReceptionDAO.add(detailReception);
                
 //------------------------------- Traitement Compte par Four ------------------------------------------------------------------------------------------------------------------------------------------
+           
+        PrixOulmes prixOulmes = detailCommande.getPrixOulmes();
+        MatierePremier matierePremier = detailCommande.getMatierePremier();
+        ReferencePromo referencePromo = referencePromoDAO.findByPrixOulmes(prixOulmes.getId());
+
 
        BigDecimal montant = BigDecimal.ZERO;
        BigDecimal montantRms = BigDecimal.ZERO;
        BigDecimal pu = BigDecimal.ZERO;
        BigDecimal remise = BigDecimal.ZERO;
-            
-               remise = detailCommande.getRemiseAchat();
+       BigDecimal valeur = BigDecimal.ZERO;   
+       
+       if (referencePromo==null){
+       
+       valeur= BigDecimal.ZERO;
+           
+       }else {
+       
+       valeur= referencePromo.getDefautPromo();
+       }
+       
+       
+               remise = detailCommande.getRemiseAchat().add(valeur);
                pu =detailCommande.getPrixUnitaire();
                montant = pu.multiply(detailCommande.getQuantiteLivree()).setScale(2,RoundingMode.FLOOR);
                montantRms = montant.subtract((montant.multiply(remise)).divide(new BigDecimal(100)));
@@ -684,10 +725,7 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
                
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------       
      
-    PrixOulmes prixOulmes = detailCommande.getPrixOulmes();
-     MatierePremier matierePremier = detailCommande.getMatierePremier();
-
-    
+ 
       
                 DetailBonLivraison detailBonLivraison = new DetailBonLivraison();  
          
@@ -720,10 +758,11 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
                       }
                     
           detailBonLivraison.setMatierePremier(matierePremier);
-          detailBonLivraison.setRemiseAchat(detailCommande.getRemiseAchat());
+          detailBonLivraison.setRemiseAchat(remise);
           detailBonLivraison.setPrixOulmes(prixOulmes);
           detailBonLivraison.setQuantite(detailCommande.getQuantiteLivree());
           detailBonLivraison.setMontant(montantRms);
+          detailBonLivraison.setMotif(Constantes.SANS);
           detailBonLivraison.setDatedetailBonLivraison(dateSaisie);
           detailBonLivraison.setPrix(pu);
           detailBonLivraison.setUtilisateurCreation(nav.getUtilisateur());
@@ -732,32 +771,48 @@ if (tableCommande.getSelectionModel().getSelectedIndex()!=-1){
           
                 detailBonLivraisonDAO.add(detailBonLivraison);
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------       
+                
+                    if(fournisseurField.getText().equals(Constantes.FOURNISSEUR_OULMES) && prixOulmes.getProduit().getPalette()== Boolean.FALSE ){
+
+
+                DetailPromotion detailPromotion = new DetailPromotion();
+                
+                detailPromotion.setPrixOulmes(prixOulmes);
+                detailPromotion.setQuantite(detailCommande.getQuantiteLivree().multiply(referencePromo.getDefautPromo()).divide(new BigDecimal(100)));
+                detailPromotion.setPrix(pu);
+                detailPromotion.setRemiseDefaut(referencePromo.getDefautPromo());
+                detailPromotion.setUtilisateurCreation(nav.getUtilisateur());
+                detailPromotion.setMontant(pu.multiply(detailPromotion.getQuantite()));
+                detailPromotion.setPromotion(promotion);
+                
+                listeDetailPromotion.add(detailPromotion);
+                    }
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------       
+                  
                 if (detailBonLivraison.getPrixOulmes().getProduit().getPalette() == true){
                 
                 montantPalette = montantPalette.add(quantiteLivreeColumn.getCellData(rows).multiply(detailCommande.getPrixUnitaire()));
                 
                 }else{
 
-                montantTotal = montantTotal.add((quantiteLivreeColumn.getCellData(rows).multiply(detailCommande.getPrixUnitaire())).subtract(((quantiteLivreeColumn.getCellData(rows).multiply(detailCommande.getPrixUnitaire())).multiply(detailCommande.getRemiseAchat())).divide(new BigDecimal(100))));  
+                montantTotal = montantTotal.add((quantiteLivreeColumn.getCellData(rows).multiply(detailCommande.getPrixUnitaire())).subtract(((quantiteLivreeColumn.getCellData(rows).multiply(detailCommande.getPrixUnitaire())).multiply(remise)).divide(new BigDecimal(100))));  
                 }
 
                }
     }
         
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-        String date ="00-00-0000 00:00:00";
-       
-        Date date1 = simpleDateFormat.parse(date);
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+//        String date ="00-00-0000 00:00:00";
+//       
+//        Date date1 = simpleDateFormat.parse(date);
         
 
          if (nLivraisonField.getText().equalsIgnoreCase("") || depotCombo.getSelectionModel().getSelectedItem() == null || depotCombo.getSelectionModel().getSelectedItem().isEmpty() || tableDetailCommande.getItems().isEmpty() /*|| depot.getText().equals("")*/) {
                 nav.showAlert(Alert.AlertType.ERROR, "Attention", null,Constantes.REMPLIR_CHAMPS);
                 
         } else {
-
-            validationStock();
-//______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
-       
+   
 String BL = null ;
 
                     if (commande.getnCommande().contains("F")){
@@ -809,11 +864,11 @@ String BL = null ;
 
 //--------------------------------------- Methode date livraison + periode = date paiement -------------------------------------------------------------------------------          
       
-int valeur= commande.getFourisseur().getDelaiPaiement();
+DelaiPaiementFour delaiPaiementFour = delaiPaiementFourDAO.findByFour(commande.getFourisseur().getNom());
 
          Calendar calendar = Calendar.getInstance();
          calendar.setTime(dateSaisie);   
-         calendar.add(Calendar.DAY_OF_MONTH, Integer.valueOf(valeur));
+         calendar.add(Calendar.DAY_OF_MONTH,delaiPaiementFour.getNbJour().intValue());
          Date dt=calendar.getTime();
             
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------           
@@ -848,35 +903,14 @@ int valeur= commande.getFourisseur().getDelaiPaiement();
             bonLivraison.setClient(clientField.getText());
             bonLivraison.setEtat(Constantes.ETAT_NON_REGLE);
             bonLivraison.setDateLivraison(dateSaisie);
-            
-            boolean existe = false;
-            List <Commande> listeCommandeTMP = commandeDAO.findByNumCommande(Constantes.CODE_SPECIAL_DEPOT, Constantes.CODE_SPECIAL_FOUR);
-            Commande commandeNum = listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex());
-            
-            for(int i=0 ;i<listeCommandeTMP.size();i++){
-                
-              Commande commande = listeCommandeTMP.get(i);
-                
-            if (commandeNum.getnCommande().equals(commande.getnCommande())){
-            
-                existe=true;
-                
-                
-            bonLivraison.setDatePaiement(date1);
- 
-            }
-            }
-       
-            if(existe == false ){
             bonLivraison.setDatePaiement(dt);
-            }
-            
             bonLivraison.setNombreJour(nbrJr);
             bonLivraison.setUtilisateurCreation(nav.getUtilisateur());
             bonLivraison.setMontant(montantTotal.add(montantPalette));
             bonLivraison.setTypeBon(Constantes.ETAT_OULMES);
             bonLivraison.setMontantTVA(montantTVA);
             bonLivraison.setMontantTTC(montantTTC);
+            bonLivraison.setMontantRG(montantTTC);
             bonLivraison.setAction(Boolean.FALSE);
             bonLivraison.setSansTVA(Boolean.FALSE);
             bonLivraison.setNumCommande(nComColumn.getCellData(tableCommande.getSelectionModel().getSelectedIndex()));
@@ -950,9 +984,9 @@ int valeur= commande.getFourisseur().getDelaiPaiement();
        BigDecimal montantTTC= BigDecimal.ZERO;
        
        
-      montantHT = montantTotal.add(montantPalette).add(bonLivraison.getMontant()).setScale(2,RoundingMode.FLOOR);
-      montantTVA=  montantTotal.multiply(Constantes.TAUX_TVA_20).setScale(2,RoundingMode.FLOOR);  
-      montantTTC= montantTVA.add(montantHT).setScale(2,RoundingMode.FLOOR);
+       montantHT = montantTotal.add(montantPalette).add(bonLivraison.getMontant()).setScale(2,RoundingMode.FLOOR);
+       montantTVA=  montantTotal.multiply(Constantes.TAUX_TVA_20).setScale(2,RoundingMode.FLOOR);  
+       montantTTC= montantTVA.add(montantHT).setScale(2,RoundingMode.FLOOR);
       
             bonLivraison.setMontant(montantHT);
             bonLivraison.setMontantTVA(montantTVA);
@@ -1005,27 +1039,46 @@ int valeur= commande.getFourisseur().getDelaiPaiement();
                detailCompteDAO.add(detailCompte);
             
    }
+//===========================================================================================================================================================================================================================================================================
 
+       if(!listeDetailPromotion.isEmpty()){
+
+    Promotion promotionTmp = promotionDAO.findByNumCommandeAndNumLivraison(BL,commande.getnCommande());
+   
+   if (promotionTmp == null){
+       
+       promotion.setClient(clientField.getText());
+       promotion.setFournisseur(fournisseurField.getText());
+       promotion.setDateLivraison(dateSaisie);
+       promotion.setDetailPromotion(listeDetailPromotion);
+       promotion.setLivraisonFour(bonLivraison.getLivraisonFour());
+       promotion.setNumCommande(bonLivraison.getNumCommande());
+       promotion.setUtilisateurCreation(nav.getUtilisateur());
+       
+       promotionDAO.add(promotion);
+       
+       promotion = new Promotion();
+       
+   }else {
+   
+       promotion.setDetailPromotion(listeDetailPromotion);
+       
+       promotionDAO.edit(promotion);
+   
+   }
+       }
+//===========================================================================================================================================================================================================================================================================
                 
         Fournisseur fournisseur = commande.getFourisseur();
         CompteFourMP compteFourMP = fournisseur.getCompteFourMP();
-   
 
-        montantDebit= montantTotal.add(compteFourMP.getMontantDebit()).setScale(2,RoundingMode.FLOOR);
-        
-        compteFourMP.setMontantDebit(montantDebit);
-        
-        BigDecimal solde = (compteFourMP.getMontantDebit().subtract(compteFourMP.getMontantCredit())).setScale(2,RoundingMode.FLOOR);
-        
-        compteFourMP.setSolde(solde);
-        
         commande.getFourisseur().setCompteFourMP(compteFourMP);
         
         commandeDAO.edit(commande);
             
 
 
-           Sequenceur sequenceur = sequenceurDAO.findByCode(Constantes.RECEPTION_OULMES_CODE);
+           Sequenceur sequenceur = sequenceurDAO.findByCode(Constantes.RECEPTION_PF_CODE);
            sequenceur.setValeur(sequenceur.getValeur()+1);
            sequenceurDAO.edit(sequenceur);
            Incrementation ();
@@ -1136,8 +1189,13 @@ int valeur= commande.getFourisseur().getDelaiPaiement();
             
             tableDetailCommande.setEditable(false);
         
-    }
-        
+    } 
+            } catch (Exception e) {
+                    
+                nav.showAlert(Alert.AlertType.ERROR, "Attention", null, e.toString());
+                    
+                }
+            }
     }
 
     @FXML
@@ -1159,6 +1217,8 @@ int valeur= commande.getFourisseur().getDelaiPaiement();
                 Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
             
                   Depot depot = mapDepot.get(depotCombo.getSelectionModel().getSelectedItem());
+                  
+                  Chauffeur chauffeur = mapChauffeur.get(chauffeurCombo.getSelectionModel().getSelectedItem());
             
             para.put("Fournisseur",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getFourisseur().getNom());
             para.put("NumCommande",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getnCommande());
@@ -1167,6 +1227,13 @@ int valeur= commande.getFourisseur().getDelaiPaiement();
             para.put("Depot",depot.getLibelle());
             para.put("NumLivraison",nLivraisonField.getText());
             para.put("DateLivraison",dateSaisie);
+            para.put("NumReception",codeReception);
+            
+            para.put("Matricule","Num Matricule:");
+            para.put("NumMatricule",chauffeur.getMatricule());
+            
+            para.put("Chauffeur","Nom Chauffeur:");
+            para.put("nomChauffeur",chauffeur.getChauffeur());
             
             for(int i=0;i<listeDetailCommande.size();i++){
             
@@ -1197,8 +1264,10 @@ int valeur= commande.getFourisseur().getDelaiPaiement();
               magasinCombo.getItems().clear();
             Depot depot  = mapDepot.get(depotCombo.getSelectionModel().getSelectedItem());
             
+            
+            
             if(depot!=null){
-            List<Magasin> listMagasin = depot.getListMagasin();
+            List<Magasin> listMagasin = magasinDAO.findByDepotOulmes(depot.getId());
             listMagasin.stream().map((magasin) -> {
                 magasinCombo.getItems().addAll(magasin.getLibelle());
                 return magasin;
@@ -1214,6 +1283,92 @@ int valeur= commande.getFourisseur().getDelaiPaiement();
         
         
     }
+
+    @FXML
+    private void annulerCommande(ActionEvent event) {
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+                
+                if(annulationCheckBox.isSelected()== true){
+                
+               
+       if (tableCommande.getSelectionModel().getSelectedItem() != null) {
+           
+            tableDetailCommande.getItems().clear();
+            
+            commande=tableCommande.getSelectionModel().getSelectedItem();
+         
+            commande.setEtat(Constantes.ETAT_COMMANDE_ANNULER);
+            commande.setMotif(MotifTxt.getText());
+            commandeDAO.edit(commande);
+            
+            nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.COMMANDE_RECU); 
+  
+              setColumnPropertiesDetailCommande();
+              loadDetail();
+                      
+              annulationCheckBox.setSelected(false);
+              MotifTxt.clear();
+              MotifTxt.setDisable(true);
+           
+       }else {
+                    nav.showAlert(Alert.AlertType.CONFIRMATION, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE); 
+       }
+       }else{
+                
+                    nav.showAlert(Alert.AlertType.CONFIRMATION, "Erreur", null, Constantes.VERIFIER_CASE_ANNULATION); 
+                
+                }
+            }
+    }
+
+    @FXML
+    private void annulationCheckBoxOnAction(ActionEvent event) {
+        
+        if (annulationCheckBox.isSelected()==true){
+        
+        MotifTxt.clear();
+        MotifTxt.setDisable(false);
+            
+        }else{
+        
+        MotifTxt.clear();
+        MotifTxt.setDisable(true);
+        }
+        
+    }
+
+    @FXML
+    private void matriculeOnAction(ActionEvent event) {
+        
+                 Chauffeur chauffeur  = mapChauffeur.get(matriculeCombo.getSelectionModel().getSelectedItem());
+         
+          if(chauffeur!=null){
+
+                         chauffeurCombo.setValue(chauffeur.getChauffeur());
+          }
+
+    }
+
+    @FXML
+    private void chauffeurOnAction(ActionEvent event) {
+        
+                  Chauffeur chauffeur  = mapChauffeur.get(chauffeurCombo.getSelectionModel().getSelectedItem());
+         
+          if(chauffeur!=null){
+
+                         matriculeCombo.setValue(chauffeur.getMatricule());
+          }
+        
+        
+    }
+
+
 
     
 }

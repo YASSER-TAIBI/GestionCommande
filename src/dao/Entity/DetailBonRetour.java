@@ -47,6 +47,20 @@ public class DetailBonRetour implements Serializable {
     @JoinColumn(name = "id_mat_pre")
     private MatierePremier matierePremier;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_PRIX_OULMES")
+    private PrixOulmes prixOulmes;
+     
+    @ManyToOne
+    @JoinColumn(name = "ID_MAGASIN")
+    private Magasin magasinn;
+    
+    @Column(name="DEPOT")
+    private String depot;
+     
+    @Column(name = "REMISE_ACHAT")
+    private BigDecimal remiseAchat ;
+     
     @Column(name = "Montant")
     private BigDecimal montant;
       
@@ -54,7 +68,7 @@ public class DetailBonRetour implements Serializable {
     @JoinColumn(name="ID_UTIL_CREATION")
     private Utilisateur utilisateurCreation;
 
-     @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "ID_BON_RETOUR")
     private BonRetour bonRetour;
 
@@ -104,6 +118,14 @@ public class DetailBonRetour implements Serializable {
         return prixUnitaire;
     }
 
+    public String getDepot() {
+        return depot;
+    }
+
+    public void setDepot(String depot) {
+        this.depot = depot;
+    }
+
     public void setPrixUnitaire(BigDecimal prixUnitaire) {
         this.prixUnitaire = prixUnitaire;
     }
@@ -112,8 +134,32 @@ public class DetailBonRetour implements Serializable {
         return quantiteRetour;
     }
 
+    public Magasin getMagasinn() {
+        return magasinn;
+    }
+
+    public void setMagasinn(Magasin magasinn) {
+        this.magasinn = magasinn;
+    }
+
     public void setQuantiteRetour(BigDecimal quantiteRetour) {
         this.quantiteRetour = quantiteRetour;
+    }
+
+    public PrixOulmes getPrixOulmes() {
+        return prixOulmes;
+    }
+
+    public BigDecimal getRemiseAchat() {
+        return remiseAchat;
+    }
+
+    public void setRemiseAchat(BigDecimal remiseAchat) {
+        this.remiseAchat = remiseAchat;
+    }
+
+    public void setPrixOulmes(PrixOulmes prixOulmes) {
+        this.prixOulmes = prixOulmes;
     }
     
 

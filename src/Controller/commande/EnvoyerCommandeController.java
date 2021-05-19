@@ -16,9 +16,13 @@ import function.navigation;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +35,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -93,6 +99,10 @@ public class EnvoyerCommandeController implements Initializable {
     private TextField numComRechField;
     @FXML
     private Button btnImprimer;
+    @FXML
+    private DatePicker dateCreationPicker;
+    @FXML
+    private Button btnInitialiser;
      
      
     @Override
@@ -170,6 +180,13 @@ public class EnvoyerCommandeController implements Initializable {
     @FXML
     private void EnvoyerCommande(ActionEvent event) {
         
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
          tableDetailCommande.getItems().clear();
          if (tableCommande.getSelectionModel().getSelectedItem() != null) {
 
@@ -188,7 +205,7 @@ public class EnvoyerCommandeController implements Initializable {
        }else {
           nav.showAlert(Alert.AlertType.CONFIRMATION, "Erreur", null,Constantes.VERIFICATION_SELECTION_LIGNE); 
        }
-    }
+    }}
 
 
     @FXML
@@ -237,6 +254,20 @@ public class EnvoyerCommandeController implements Initializable {
             para.put("Ville",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getFourisseur().getVille().getLibelle());
             para.put("DateLiv",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getDateCreation());
     
+            
+               if (listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getChauffeur()!=null){
+                
+            para.put("Matricule","Num Matricule:");
+            para.put("NumMatricule",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getChauffeur().getMatricule());
+            
+            para.put("Chauffeur","Nom Chauffeur:");
+            para.put("nomChauffeur",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getChauffeur().getChauffeur());
+            
+            }else if (listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getDateChargement()!=null){
+
+             para.put("Chargement","Date Chargement:");
+            para.put("DateChargement",listeCommande.get(tableCommande.getSelectionModel().getSelectedIndex()).getDateChargement());
+            }
 
              JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listeDetailCommande));
                JasperViewer.viewReport(jp, false);
@@ -248,5 +279,41 @@ public class EnvoyerCommandeController implements Initializable {
         }
     
     
+    }
+
+    @FXML
+    private void creationDate(ActionEvent event) throws ParseException {
+        
+
+          LocalDate localDate=dateCreationPicker.getValue();
+             if(localDate!=null){
+                 
+             Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
+             
+            
+              listeCommande.clear();
+   
+   listeCommande.addAll(commandeDAO.findByDateCommande(dateSaisie,Constantes.ETAT_COMMANDE_VALIDEE));
+   
+   tableCommande.setItems(listeCommande);
+             }
+             
+        
+        
+    }
+
+    @FXML
+    private void initialiserCommande(ActionEvent event) {
+        
+        dateCreationPicker.setValue(null);
+        numComRechField.clear();
+        
+        
+        setColumnProperties();
+        loadDetail();
+        btnEnvoyer.setDisable(true);
+        
+        listeDetailCommande.clear();
+        
     }
 }

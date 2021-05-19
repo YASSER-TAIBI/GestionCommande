@@ -27,5 +27,7 @@ public interface FactureAvoirOulmesDAO {
         public List<Object[]> findFactureOulmesByCodeAndClient(String code, String client);
          
         public List<Object[]> findBySituationGlobalClient();
+        
+        public List<FactureAvoirOulmes> findByFactureAvoirOulmes();
 
 }

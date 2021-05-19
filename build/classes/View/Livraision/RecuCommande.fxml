@@ -45,7 +45,7 @@
                   <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1076.0" layoutY="15.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1076.0" layoutY="17.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
                </image>
@@ -60,7 +60,7 @@
       </Pane>
       <Pane layoutX="578.0" layoutY="99.0" prefHeight="55.0" prefWidth="413.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Label layoutX="62.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Reçu Commande" />
+            <Label layoutX="31.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Reçu Commande MP" />
          </children>
       </Pane>
       <TableView fx:id="tableReception" blendMode="MULTIPLY" layoutX="220.0" layoutY="643.0" maxWidth="1.7976931348623157E308" prefHeight="197.0" prefWidth="951.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">

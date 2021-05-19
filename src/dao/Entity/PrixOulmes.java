@@ -42,19 +42,19 @@ public class PrixOulmes  implements Serializable{
     private BigDecimal prix ;
       
      @Column(name="REMISE_AVOIR")
-    private BigDecimal RemiseAvoir ;
+    private BigDecimal remiseAvoir ;
     
      @Column(name="REMISE_ACHAT")
-    private BigDecimal RemiseAchat ;
+    private BigDecimal remiseAchat ;
     
       @Column(name="CONDITIONNEMENT")
-    private BigDecimal Conditionnement ;
+    private BigDecimal conditionnement ;
       
        @Column(name="CONDITIONNEMENT_CAISSE")
-    private BigDecimal ConditionnementCaisse ;
+    private BigDecimal conditionnementCaisse ;
        
      @Column(name="TYPE_ARTICLE")
-    private String TypeArticle ;  
+    private String typeArticle ;  
      
     @ManyToOne
     @JoinColumn(name="ID_UTIL_CREATION")
@@ -66,8 +66,14 @@ public class PrixOulmes  implements Serializable{
     @Column(name="LIEU_LIVRAISON")
     private String lieuLivraison ;  
          
+    @Column(name="ETAT")
+    private String etat;     
          
-         
+    
+      private Boolean action;
+    
+      
+      
     public Utilisateur getUtilisateurCreation() {
         return utilisateurCreation;
     }
@@ -92,6 +98,14 @@ public class PrixOulmes  implements Serializable{
         this.produit = produit;
     }
 
+    public Boolean getAction() {
+        return action;
+    }
+
+    public void setAction(Boolean action) {
+        this.action = action;
+    }
+
     public String getFournisseur() {
         return fournisseur;
     }
@@ -105,15 +119,25 @@ public class PrixOulmes  implements Serializable{
     }
 
     public BigDecimal getRemiseAvoir() {
-        return RemiseAvoir;
+        return remiseAvoir;
     }
 
-    public void setRemiseAvoir(BigDecimal RemiseAvoir) {
-        this.RemiseAvoir = RemiseAvoir;
+    public void setRemiseAvoir(BigDecimal remiseAvoir) {
+        this.remiseAvoir = remiseAvoir;
     }
+
+
 
     public String getClient() {
         return client;
+    }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
     }
 
     public void setClient(String client) {
@@ -121,11 +145,11 @@ public class PrixOulmes  implements Serializable{
     }
 
     public BigDecimal getRemiseAchat() {
-        return RemiseAchat;
+        return remiseAchat;
     }
 
-    public void setRemiseAchat(BigDecimal RemiseAchat) {
-        this.RemiseAchat = RemiseAchat;
+    public void setRemiseAchat(BigDecimal remiseAchat) {
+        this.remiseAchat = remiseAchat;
     }
 
     public void setPrix(BigDecimal prix) {
@@ -133,9 +157,30 @@ public class PrixOulmes  implements Serializable{
     }
 
     public BigDecimal getConditionnement() {
-        return Conditionnement;
+        return conditionnement;
     }
 
+    public void setConditionnement(BigDecimal conditionnement) {
+        this.conditionnement = conditionnement;
+    }
+
+    public BigDecimal getConditionnementCaisse() {
+        return conditionnementCaisse;
+    }
+
+    public void setConditionnementCaisse(BigDecimal conditionnementCaisse) {
+        this.conditionnementCaisse = conditionnementCaisse;
+    }
+
+    public String getTypeArticle() {
+        return typeArticle;
+    }
+
+    public void setTypeArticle(String typeArticle) {
+        this.typeArticle = typeArticle;
+    }
+
+  
     public String getLieuLivraison() {
         return lieuLivraison;
     }
@@ -144,24 +189,6 @@ public class PrixOulmes  implements Serializable{
         this.lieuLivraison = lieuLivraison;
     }
 
-    public void setConditionnement(BigDecimal Conditionnement) {
-        this.Conditionnement = Conditionnement;
-    }
-
-    public BigDecimal getConditionnementCaisse() {
-        return ConditionnementCaisse;
-    }
-
-    public void setConditionnementCaisse(BigDecimal ConditionnementCaisse) {
-        this.ConditionnementCaisse = ConditionnementCaisse;
-    }
-
-    public String getTypeArticle() {
-        return TypeArticle;
-    }
-
-    public void setTypeArticle(String TypeArticle) {
-        this.TypeArticle = TypeArticle;
-    }
+   
          
 }

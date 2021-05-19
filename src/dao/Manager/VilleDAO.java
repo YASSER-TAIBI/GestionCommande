@@ -28,5 +28,9 @@ public interface VilleDAO {
                 public List<Ville> findVilleByRechercheLibelle(String libelle);
                 
                 public List<Ville> findVilleByRechercheCode(String code);
+                
+                public List<Ville> findByCodeVille(String code);
+		
+         	public List<Ville> findBylibelleVille(String lib);
 
 }

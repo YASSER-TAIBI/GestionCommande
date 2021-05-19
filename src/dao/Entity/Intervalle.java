@@ -43,7 +43,10 @@ public class Intervalle implements Serializable {
 
     @Column(name="LIBELLE")
     private String libelle;
-
+    
+     @Column(name="ETAT")
+    private String etat;
+    
        @ManyToOne
     @JoinColumn(name="ID_UTIL_CREATION")
     private Utilisateur utilisateurCreation;
@@ -82,6 +85,14 @@ public class Intervalle implements Serializable {
 
     public void setValeurMin(int valeurMin) {
         this.valeurMin = valeurMin;
+    }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
     }
     
     public int getId() {

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.StockInitialEmballageController">
+   <children>
+      <TableView fx:id="tableEmballage" blendMode="MULTIPLY" layoutX="183.0" layoutY="378.0" maxWidth="1.7976931348623157E308" onMouseClicked="#clickChargeOnMouse" prefHeight="327.0" prefWidth="1191.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeColumn" prefWidth="124.0" text="Code" />
+            <TableColumn fx:id="libelleColumn" prefWidth="376.0" text="Libelle" />
+            <TableColumn fx:id="dateInitialColumn" prefWidth="164.0" text="Date Initial" />
+            <TableColumn fx:id="fourColumn" prefWidth="180.0" text="Fournisseur" />
+            <TableColumn fx:id="clientColumn" prefWidth="181.0" text="Client" />
+            <TableColumn fx:id="qteColumn" prefWidth="166.0" text="Qte Emballage" />
+         </columns>
+      </TableView>
+      <Pane layoutX="178.0" layoutY="715.0" prefHeight="63.0" prefWidth="1191.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnAjouter" alignment="CENTER" layoutX="372.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouter" prefHeight="44.0" prefWidth="116.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Ajouter" />
+            <Button fx:id="btnModifier" alignment="CENTER" layoutX="538.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#Modifier" prefHeight="44.0" prefWidth="116.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Modifier" />
+            <Button fx:id="btnSupprimer" alignment="CENTER" layoutX="703.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#Supprimer" prefHeight="44.0" prefWidth="116.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Supprimer" />
+         </children>
+      </Pane>
+      <Pane layoutX="183.0" layoutY="199.0" prefHeight="169.0" prefWidth="1191.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <TextField fx:id="txtCode" alignment="CENTER" layoutX="242.0" layoutY="69.0" maxWidth="1.7976931348623157E308" onKeyReleased="#searche" prefHeight="32.0" prefWidth="234.0" promptText="Code" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1143.0" layoutY="121.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="174.0" layoutY="75.0" text="Code: " />
+            <Label fx:id="msgCode" layoutX="971.0" layoutY="37.0" prefHeight="32.0" prefWidth="25.0" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <TextField fx:id="txtQte" alignment="CENTER" layoutX="242.0" layoutY="113.0" maxWidth="1.7976931348623157E308" onKeyReleased="#searche" prefHeight="32.0" prefWidth="234.0" promptText="Qte Emballage" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <Label layoutX="88.0" layoutY="119.0" text="Qte Emballage: " />
+            <Label layoutX="703.0" layoutY="77.0" text="Libelle: " />
+            <ComboBox fx:id="LibelleCombo" layoutX="799.0" layoutY="70.0" onAction="#LibelleComboOnAction" prefHeight="31.0" prefWidth="225.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <Label layoutX="162.0" layoutY="26.0" prefHeight="20.0" prefWidth="80.0" text="Client: " />
+            <ComboBox fx:id="clientCombo" layoutX="242.0" layoutY="22.0" prefHeight="31.0" prefWidth="233.0" promptText="Sélectionner..." style="-fx-background-radius: 14;" />
+            <Label layoutX="665.0" layoutY="28.0" text="Fournisseur: " />
+            <ComboBox fx:id="fourCombo" layoutX="799.0" layoutY="22.0" onAction="#fournisseurOnAction" prefHeight="31.0" prefWidth="225.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <DatePicker fx:id="dateInitial" layoutX="799.0" layoutY="114.0" prefHeight="31.0" prefWidth="225.0" promptText="Date Initial" />
+            <Label layoutX="665.0" layoutY="119.0" text="Date Initial: " />
+         </children>
+      </Pane>
+      <Pane layoutX="495.0" layoutY="99.0" prefHeight="55.0" prefWidth="562.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="26.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Stock Initial Emballage" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

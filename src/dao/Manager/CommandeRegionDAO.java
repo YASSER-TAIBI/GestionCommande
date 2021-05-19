@@ -28,6 +28,11 @@ public interface CommandeRegionDAO {
 		
 		public  void delete(CommandeRegion e); 
 		
-
+                public List<CommandeRegion>  findCommandeByEtatPF(String etat);
+                
+                public List<CommandeRegion> findAll(String typeCommandeRegion);
+                
+                public List<CommandeRegion> findByTypeComAndDepot(String typeCommandeRegion, int depot);
+                
                  
 }

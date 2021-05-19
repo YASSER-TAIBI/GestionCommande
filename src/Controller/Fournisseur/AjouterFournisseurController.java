@@ -61,7 +61,13 @@ private int POUR;
     @FXML
     private ToggleGroup typeFour;
     @FXML
+    private ToggleGroup Four;
+    @FXML
     private RadioButton etrangerFour;
+    @FXML
+    private RadioButton mpFour;
+    @FXML
+    private RadioButton produitFiniFour;
     @FXML
     private TextField nomField;
     @FXML
@@ -148,9 +154,6 @@ private int POUR;
      }else {
          
 
-            
-          
-         
            fournisseur =new Fournisseur();
            
            if (marocainFour.isSelected()){
@@ -161,6 +164,16 @@ private int POUR;
                fournisseur.setTypeFournisseur(Constantes.ETRANGER);
              }
         
+              if (mpFour.isSelected()){
+             
+              fournisseur.setFournisseur(Constantes.MP);
+              
+             }else if(produitFiniFour.isSelected()){
+                 
+              fournisseur.setFournisseur(Constantes.PRODUIT_FINI);
+              
+             }
+           
        fournisseur.setNom(nomField.getText());
        fournisseur.setCode(codeField.getText());
        fournisseur.setVille(mapVille.get(villeCombo.getSelectionModel().getSelectedItem()));

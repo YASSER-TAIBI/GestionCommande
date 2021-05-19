@@ -23,11 +23,11 @@
       <TableView fx:id="tableDetailCommande" blendMode="MULTIPLY" layoutX="240.0" layoutY="618.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherChampsOnMouse" prefHeight="166.0" prefWidth="1021.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
          <columns>
             <TableColumn fx:id="codeMPColumn" prefWidth="106.0" text="Code MP " />
-            <TableColumn fx:id="libelleColumn" prefWidth="425.0" text="Libelle" />
-            <TableColumn fx:id="quantiteColumn" prefWidth="123.0" text="Qte" />
-            <TableColumn fx:id="qteRecColumn" prefWidth="123.0" text="Qte Reçu" />
+            <TableColumn fx:id="libelleColumn" prefWidth="401.0" text="Libelle" />
+            <TableColumn fx:id="quantiteColumn" prefWidth="122.0" text="Qte" />
+            <TableColumn fx:id="qteRecColumn" prefWidth="122.0" text="Qte Reçu" />
             <TableColumn fx:id="qteResColumn" prefWidth="123.0" text="Qte Restant" />
-            <TableColumn fx:id="qteLivColumn" onEditCommit="#editCommitQuantiteLivreeColumn" prefWidth="121.0" text="Qte Livrée" />
+            <TableColumn fx:id="qteLivColumn" onEditCommit="#editCommitQuantiteLivreeColumn" prefWidth="147.0" text="Qte Confirmer" />
          </columns>
       </TableView>
       <Pane layoutX="241.0" layoutY="164.0" prefHeight="44.0" prefWidth="1021.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
@@ -40,13 +40,14 @@
       </Pane>
       <Pane layoutX="241.0" layoutY="792.0" prefHeight="44.0" prefWidth="1021.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Button fx:id="btnModifierDC" layoutX="519.0" layoutY="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#modifierDetailCommande" prefHeight="31.0" prefWidth="115.0" text="Refrech" />
-            <Button fx:id="btnModifier" layoutX="358.0" layoutY="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ValiderCommande" prefHeight="31.0" prefWidth="115.0" text="Valider" />
+            <Button fx:id="btnModifierDC" layoutX="452.0" layoutY="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#modifierDetailCommande" prefHeight="31.0" prefWidth="115.0" text="Refrech" />
+            <Button fx:id="btnModifier" layoutX="291.0" layoutY="6.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ValiderCommande" prefHeight="31.0" prefWidth="115.0" text="Valider" />
+            <Button fx:id="btnImprimer" layoutX="616.0" layoutY="7.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="31.0" prefWidth="115.0" text="Imprimer" />
          </children>
       </Pane>
-      <Pane layoutX="458.0" layoutY="99.0" prefHeight="55.0" prefWidth="584.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="439.0" layoutY="98.0" prefHeight="55.0" prefWidth="626.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Label layoutX="40.0" layoutY="6.0" prefHeight="44.0" prefWidth="520.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Valider Commande Région" />
+            <Label layoutX="24.0" layoutY="6.0" prefHeight="44.0" prefWidth="584.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Valider Commande Région MP" />
          </children>
       </Pane>
       <Pane layoutX="240.0" layoutY="390.0" prefHeight="221.0" prefWidth="1021.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">

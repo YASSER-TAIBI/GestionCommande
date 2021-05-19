@@ -5,18 +5,15 @@
  */
 package Controller.Referentiel;
 
-import Controller.Reglement.ConsultationReglementController;
-import Controller.commande.EnvoyerCommandeController;
 import Utils.Constantes;
-import dao.Entity.DetailCommande;
 import dao.Entity.Fournisseur;
-import dao.Entity.Magasin;
 import dao.Entity.PrixAdhesif;
 import dao.Entity.PrixBox;
 import dao.Entity.PrixBoxMetal;
 import dao.Entity.PrixCarton;
 import dao.Entity.PrixFilm;
 import dao.Entity.PrixOulmes;
+import dao.Entity.ReferencePromo;
 import dao.Manager.FournisseurDAO;
 import dao.Manager.PrixAdhesifDAO;
 import dao.Manager.PrixBoxDAO;
@@ -24,6 +21,7 @@ import dao.Manager.PrixBoxMetalDAO;
 import dao.Manager.PrixCartonDAO;
 import dao.Manager.PrixFilmDAO;
 import dao.Manager.PrixOulmesDAO;
+import dao.Manager.ReferencePromoDAO;
 import dao.ManagerImpl.FournisseurDAOImpl;
 import dao.ManagerImpl.PrixAdhesifDAOImpl;
 import dao.ManagerImpl.PrixBoxDAOImpl;
@@ -31,19 +29,22 @@ import dao.ManagerImpl.PrixBoxMetalDAOImpl;
 import dao.ManagerImpl.PrixCartonDAOImpl;
 import dao.ManagerImpl.PrixFilmDAOImpl;
 import dao.ManagerImpl.PrixOulmesDAOImpl;
+import dao.ManagerImpl.ReferencePromoDAOImpl;
 import function.navigation;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -57,9 +58,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -232,7 +236,25 @@ public class ConsultationPrixCategorieController implements Initializable {
     @FXML
     private TableColumn<PrixOulmes, BigDecimal> remiseAvoirOulmesColumn;
     @FXML
+    private TableColumn<PrixOulmes, String> fourOulmesColumn;
+    @FXML
     private TableColumn<PrixOulmes, String> typeOulmesColumn;
+    @FXML
+    private TableColumn<PrixOulmes, String> client2OulmesColumn;
+    
+    @FXML
+    private TableColumn<PrixBox, Boolean> actionBoxColumn;
+    @FXML
+    private TableColumn<PrixCarton, Boolean> actionCarColumn;
+    @FXML
+    private TableColumn<PrixFilm, Boolean> actionFlmColumn;
+    @FXML
+    private TableColumn<PrixAdhesif, Boolean> actionAdhesifColumn;
+    @FXML
+    private TableColumn<PrixBoxMetal, Boolean> actionBoxMetalColumn;
+    @FXML
+    private TableColumn<PrixOulmes, Boolean> actionOulmesColumn;
+    
     @FXML
     private ComboBox<String> fourOulmesCombo;
     @FXML
@@ -243,6 +265,44 @@ public class ConsultationPrixCategorieController implements Initializable {
     private Button modifierOulmesBtn;
     @FXML
     private Button supprimerOulmesBtn;
+    
+     @FXML
+    private RadioButton listeBoxRadio;
+    @FXML
+    private RadioButton modBoxRadio;
+    @FXML
+    private RadioButton listeCartRadio;
+    @FXML
+    private RadioButton modCartRadio;
+    @FXML
+    private RadioButton listeFilmRadio;
+    @FXML
+    private RadioButton modFilmRadio;
+    @FXML
+    private RadioButton listeAdRadio;
+    @FXML
+    private RadioButton modAdRadio;
+    @FXML
+    private RadioButton modBmRadio;
+    @FXML
+    private RadioButton listeBmRadio;
+    @FXML
+    private RadioButton modPfRadio;
+    @FXML
+    private RadioButton listePfRadio;
+    @FXML
+    private ToggleGroup box;
+    @FXML
+    private ToggleGroup carton;
+    @FXML
+    private ToggleGroup film;
+    @FXML
+    private ToggleGroup adhesif;
+    @FXML
+    private ToggleGroup bMetal;
+    @FXML
+    private ToggleGroup Pf;
+    
     /**
      * Initializes the controller class.
      */
@@ -260,12 +320,24 @@ public class ConsultationPrixCategorieController implements Initializable {
           private final ObservableList<PrixBoxMetal> listePrixBoxMetal=FXCollections.observableArrayList();
           private final ObservableList<PrixOulmes> listePrixOulmes=FXCollections.observableArrayList();
           
+          
+          private final ObservableList<PrixBox> listePrixBoxTMP=FXCollections.observableArrayList();
+          private final ObservableList<PrixCarton> listePrixCartonTMP=FXCollections.observableArrayList();
+          private final ObservableList<PrixFilm> listePrixFilmTMP=FXCollections.observableArrayList();
+          private final ObservableList<PrixAdhesif> listePrixAdhesifTMP=FXCollections.observableArrayList();
+          private final ObservableList<PrixBoxMetal> listePrixBoxMetalTMP=FXCollections.observableArrayList();
+          private final ObservableList<PrixOulmes> listePrixOulmesTMP=FXCollections.observableArrayList();
+          
           PrixBoxDAO prixBoxDAO = new PrixBoxDAOImpl();
           PrixCartonDAO prixCartonDAO = new PrixCartonDAOImpl();
           PrixFilmDAO prixFilmDAO = new PrixFilmDAOImpl();
           PrixAdhesifDAO prixAdhesifDAO = new PrixAdhesifDAOImpl();
           PrixBoxMetalDAO prixBoxMetalDAO = new PrixBoxMetalDAOImpl();
           PrixOulmesDAO prixOulmesDAO = new PrixOulmesDAOImpl();
+          ReferencePromoDAO referencePromoDAO = new ReferencePromoDAOImpl();
+    
+   
+    
     
 
           
@@ -275,7 +347,7 @@ public class ConsultationPrixCategorieController implements Initializable {
         
  
         
-           List<Fournisseur> listFournisseurBox=fournisseurDAO.findAll();
+           List<Fournisseur> listFournisseurBox=fournisseurDAO.findAllMp();
         
         listFournisseurBox.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());
@@ -284,7 +356,7 @@ public class ConsultationPrixCategorieController implements Initializable {
             mapFournisseur.put(fournisseur.getNom(), fournisseur);
         });
 
-           List<Fournisseur> listFournisseurCarton=fournisseurDAO.findAll();
+           List<Fournisseur> listFournisseurCarton=fournisseurDAO.findAllMp();
         
         listFournisseurCarton.stream().map((fournisseur) -> {
             fourCarCombo.getItems().addAll(fournisseur.getNom());
@@ -293,7 +365,7 @@ public class ConsultationPrixCategorieController implements Initializable {
             mapFournisseur.put(fournisseur.getNom(), fournisseur);
         });
 
-           List<Fournisseur> listFournisseurFilm=fournisseurDAO.findAll();
+           List<Fournisseur> listFournisseurFilm=fournisseurDAO.findAllMp();
         
         listFournisseurFilm.stream().map((fournisseur) -> {
             fourFilmCombo.getItems().addAll(fournisseur.getNom());
@@ -302,7 +374,7 @@ public class ConsultationPrixCategorieController implements Initializable {
             mapFournisseur.put(fournisseur.getNom(), fournisseur);
         });
         
-          List<Fournisseur> listFournisseurAdhesif=fournisseurDAO.findAll();
+          List<Fournisseur> listFournisseurAdhesif=fournisseurDAO.findAllMp();
         
         listFournisseurAdhesif.stream().map((fournisseur) -> {
             fourAdhesifCombo.getItems().addAll(fournisseur.getNom());
@@ -311,7 +383,7 @@ public class ConsultationPrixCategorieController implements Initializable {
             mapFournisseur.put(fournisseur.getNom(), fournisseur);
         });
 
-         List<Fournisseur> listFournisseurBoxMetal=fournisseurDAO.findAll();
+         List<Fournisseur> listFournisseurBoxMetal=fournisseurDAO.findAllMp();
         
         listFournisseurBoxMetal.stream().map((fournisseur) -> {
             fourBoxMetalCombo.getItems().addAll(fournisseur.getNom());
@@ -320,7 +392,7 @@ public class ConsultationPrixCategorieController implements Initializable {
             mapFournisseur.put(fournisseur.getNom(), fournisseur);
         });
         
-        List<Fournisseur> listeFournisseurOulmes=fournisseurDAO.findAll();
+        List<Fournisseur> listeFournisseurOulmes=fournisseurDAO.findAllPF();
         
         listeFournisseurOulmes.stream().map((fournisseur) -> {
             fourOulmesCombo.getItems().addAll(fournisseur.getNom());
@@ -347,6 +419,13 @@ public class ConsultationPrixCategorieController implements Initializable {
          setColumnPropertiesPrixOulmes();
          loadDetailPrixOulmes();
          
+         
+         imprimerBtn.setDisable(true);
+         imprimerAdhesifBtn.setDisable(true);
+         imprimerBoxMetalBtn.setDisable(true);
+         imprimerCarBtn.setDisable(true);
+         imprimerOulmesBtn.setDisable(true);
+         imprimerFlmBtn.setDisable(true);
     }    
 
       void setColumnPropertiesPrixBox(){
@@ -406,6 +485,23 @@ public class ConsultationPrixCategorieController implements Initializable {
 
         });
       
+                    
+                      actionBoxColumn.cellValueFactoryProperty();
+          actionBoxColumn.setCellValueFactory((cellData) -> {
+          PrixBox cellvalue= cellData.getValue();
+              BooleanProperty property = new SimpleBooleanProperty();
+                      property.set(cellvalue.getAction());
+                      
+                      property.addListener((observabel, oldvalue,newvalue)->cellvalue.setAction(newvalue));
+              
+              return property; 
+          });
+          actionBoxColumn.setCellFactory(act-> new CheckBoxTableCell<>());
+    
+          actionBoxColumn.setEditable(true);
+      
+          
+          tablePrixBox.setEditable(true);
     }
     
     void loadDetailPrixBox(){
@@ -463,6 +559,23 @@ public class ConsultationPrixCategorieController implements Initializable {
 
         });
       
+                    
+                        actionCarColumn.cellValueFactoryProperty();
+          actionCarColumn.setCellValueFactory((cellData) -> {
+          PrixCarton cellvalue= cellData.getValue();
+              BooleanProperty property = new SimpleBooleanProperty();
+                      property.set(cellvalue.getAction());
+                      
+                      property.addListener((observabel, oldvalue,newvalue)->cellvalue.setAction(newvalue));
+              
+              return property; 
+          });
+          actionCarColumn.setCellFactory(act-> new CheckBoxTableCell<>());
+    
+          actionCarColumn.setEditable(true);
+      
+          
+          tablePrixCarton.setEditable(true);
     }
     
     void loadDetailPrixCarton(){
@@ -522,6 +635,23 @@ public class ConsultationPrixCategorieController implements Initializable {
 
         });
       
+                                 actionFlmColumn.cellValueFactoryProperty();
+          actionFlmColumn.setCellValueFactory((cellData) -> {
+          PrixFilm cellvalue= cellData.getValue();
+              BooleanProperty property = new SimpleBooleanProperty();
+                      property.set(cellvalue.getAction());
+                      
+                      property.addListener((observabel, oldvalue,newvalue)->cellvalue.setAction(newvalue));
+              
+              return property; 
+          });
+          actionFlmColumn.setCellFactory(act-> new CheckBoxTableCell<>());
+    
+          actionFlmColumn.setEditable(true);
+      
+          
+          tablePrixFilm.setEditable(true); 
+                    
     }
     
     void loadDetailPrixFilm(){
@@ -565,6 +695,23 @@ public class ConsultationPrixCategorieController implements Initializable {
 
         });
       
+            actionAdhesifColumn.cellValueFactoryProperty();
+          actionAdhesifColumn.setCellValueFactory((cellData) -> {
+          PrixAdhesif cellvalue= cellData.getValue();
+              BooleanProperty property = new SimpleBooleanProperty();
+                      property.set(cellvalue.getAction());
+                      
+                      property.addListener((observabel, oldvalue,newvalue)->cellvalue.setAction(newvalue));
+              
+              return property; 
+          });
+          actionAdhesifColumn.setCellFactory(act-> new CheckBoxTableCell<>());
+    
+          actionAdhesifColumn.setEditable(true);
+      
+          
+          tablePrixAdhesif.setEditable(true); 
+         
     }
     
     void loadDetailPrixAdhesif(){
@@ -596,6 +743,23 @@ public class ConsultationPrixCategorieController implements Initializable {
 
         });
       
+          actionBoxMetalColumn.cellValueFactoryProperty();
+          actionBoxMetalColumn.setCellValueFactory((cellData) -> {
+              PrixBoxMetal cellvalue= cellData.getValue();
+              BooleanProperty property = new SimpleBooleanProperty();
+                      property.set(cellvalue.getAction());
+                      
+                      property.addListener((observabel, oldvalue,newvalue)->cellvalue.setAction(newvalue));
+              
+              return property; 
+          });
+          actionBoxMetalColumn.setCellFactory(act-> new CheckBoxTableCell<>());
+    
+          actionBoxMetalColumn.setEditable(true);
+      
+          
+          tablePrixBoxMetal.setEditable(true); 
+         
     }
     
     void loadDetailPrixBoxMetal(){
@@ -676,6 +840,38 @@ public class ConsultationPrixCategorieController implements Initializable {
 
         });
          
+         fourOulmesColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PrixOulmes , String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<PrixOulmes, String> p) {
+                return new ReadOnlyObjectWrapper(p.getValue().getFournisseur());
+            }
+
+        });
+         
+         client2OulmesColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<PrixOulmes , String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<PrixOulmes, String> p) {
+                return new ReadOnlyObjectWrapper(p.getValue().getClient());
+            }
+
+        });
+         
+          actionOulmesColumn.cellValueFactoryProperty();
+          actionOulmesColumn.setCellValueFactory((cellData) -> {
+              PrixOulmes cellvalue= cellData.getValue();
+              BooleanProperty property = new SimpleBooleanProperty();
+                      property.set(cellvalue.getAction());
+                      
+                      property.addListener((observabel, oldvalue,newvalue)->cellvalue.setAction(newvalue));
+              
+              return property; 
+          });
+          actionOulmesColumn.setCellFactory(act-> new CheckBoxTableCell<>());
+    
+          actionOulmesColumn.setEditable(true);
+      
+          
+          tablePrixOulmes.setEditable(true); 
     }
     
     void loadDetailPrixOulmes(){
@@ -701,31 +897,74 @@ public class ConsultationPrixCategorieController implements Initializable {
 
     @FXML
     private void imprimerBtnOnAction(ActionEvent event) {
+        
+        
+        
+        
             try {
+                
+                     listePrixBoxTMP.clear();
+            
+                for( int rows = 0;rows<tablePrixBox.getItems().size() ;rows++ ){
+    
+         if (actionBoxColumn.getCellData(rows).booleanValue()==true){
+             
+              PrixBox prixBox = tablePrixBox.getItems().get(rows);
+            
+                listePrixBoxTMP.add(prixBox); 
+         }
+                
+                }
+                
+                
+                  if (listePrixBoxTMP.size()!= 0){
+                
           HashMap para = new HashMap();
             JasperReport report = (JasperReport) JRLoader.loadObject(ConsultationPrixCategorieController.class.getResource(nav.getiReportPrixBox()));
 
             Fournisseur fournisseur = mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
             
-                     if(fournisseur!=null){
-                 para.put("Fournisseur",fournisseur.getNom());
-            }else {
+                    if(fournisseur!=null){
+                   para.put("Fournisseur",fournisseur.getNom());
+                    }else {
                    para.put("Fournisseur","TOUT FOURNISSEUR");
-            }
-            
-            
-             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(tablePrixBox.getItems()));
+                    }
+           
+                   if(listeBoxRadio.isSelected()== true){
+                     para.put("prixBox","Liste Prix Box"); 
+                   }else{
+                     para.put("prixBox","Modifier Prix Box"); 
+                   }  
+                     
+                     
+             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listePrixBoxTMP));
                JasperViewer.viewReport(jp, false);
             
+                 }else{
+                  
+                  nav.showAlert(Alert.AlertType.ERROR, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE);
+                      
+                  }
+
+               
         } catch (JRException ex) {
             Logger.getLogger(ConsultationPrixCategorieController.class.getName()).log(Level.SEVERE, null, ex);
         }
+            
+            
+            
+            
     }
 
     @FXML
     private void refrechBtnOnAction(ActionEvent event) {
              loadDetailPrixBox();
           fourCombo.getSelectionModel().select(-1);
+          
+          listeBoxRadio.setSelected(false);
+          modBoxRadio.setSelected(false);
+          
+          imprimerBtn.setDisable(true);
     }
 
     @FXML
@@ -744,20 +983,56 @@ public class ConsultationPrixCategorieController implements Initializable {
     @FXML
     private void imprimerCarBtnOnAction(ActionEvent event) {
             try {
+                
+                
+                     listePrixCartonTMP.clear();
+            
+                for( int rows = 0;rows<tablePrixCarton.getItems().size() ;rows++ ){
+    
+         if (actionCarColumn.getCellData(rows).booleanValue()==true){
+             
+              PrixCarton prixCarton = tablePrixCarton.getItems().get(rows);
+            
+                listePrixCartonTMP.add(prixCarton); 
+         }
+                
+                }
+                
+                
+                  if (listePrixCartonTMP.size()!= 0){
+                
           HashMap para = new HashMap();
+          
             JasperReport report = (JasperReport) JRLoader.loadObject(ConsultationPrixCategorieController.class.getResource(nav.getiReportCartonBox()));
 
                 Fournisseur fournisseur = mapFournisseur.get(fourCarCombo.getSelectionModel().getSelectedItem());
             
             if(fournisseur!=null){
+                
                  para.put("Fournisseur",fournisseur.getNom());
             }else {
                    para.put("Fournisseur","TOUT FOURNISSEUR");
             }
 
-             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(tablePrixCarton.getItems()));
-               JasperViewer.viewReport(jp, false);
             
+               if(listeCartRadio.isSelected()== true){
+                     para.put("prixCarton","Liste Prix Carton"); 
+                   }else{
+                     para.put("prixCarton","Modifier Prix Carton"); 
+                   }  
+            
+            
+             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listePrixCartonTMP));
+               JasperViewer.viewReport(jp, false);
+                  
+                  
+                  }else{
+                  
+                  nav.showAlert(Alert.AlertType.ERROR, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE);
+                      
+                  }
+                  
+                  
         } catch (JRException ex) {
             Logger.getLogger(ConsultationPrixCategorieController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -767,6 +1042,11 @@ public class ConsultationPrixCategorieController implements Initializable {
     private void refrechCarBtnOnAction(ActionEvent event) {
              loadDetailPrixCarton();
           fourCarCombo.getSelectionModel().select(-1);
+          
+           listeCartRadio.setSelected(false);
+          modCartRadio.setSelected(false);
+          
+          imprimerCarBtn.setDisable(true);
     }
 
     @FXML
@@ -784,7 +1064,28 @@ public class ConsultationPrixCategorieController implements Initializable {
 
     @FXML
     private void imprimerFlmBtnOnAction(ActionEvent event) {
+        
+        
+        
               try {
+                  
+                  
+                         listePrixFilmTMP.clear();
+            
+                for( int rows = 0;rows<tablePrixFilm.getItems().size() ;rows++ ){
+    
+         if (actionFlmColumn.getCellData(rows).booleanValue()==true){
+             
+              PrixFilm prixFilm = tablePrixFilm.getItems().get(rows);
+            
+                listePrixFilmTMP.add(prixFilm); 
+         }
+                
+                }
+                
+                
+                  if (listePrixFilmTMP.size()!= 0){
+                  
           HashMap para = new HashMap();
             JasperReport report = (JasperReport) JRLoader.loadObject(ConsultationPrixCategorieController.class.getResource(nav.getiReportFilmBox()));
 
@@ -796,9 +1097,22 @@ public class ConsultationPrixCategorieController implements Initializable {
                    para.put("Fournisseur","TOUT FOURNISSEUR");
             }
             
-             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(tablePrixFilm.getItems()));
-               JasperViewer.viewReport(jp, false);
+               if(listeFilmRadio.isSelected()== true){
+                     para.put("prixFilm","Liste Prix Film"); 
+                   }else{
+                     para.put("prixFilm","Modifier Prix Film"); 
+                   }  
             
+            
+             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listePrixFilmTMP));
+               JasperViewer.viewReport(jp, false);
+               
+                  }else{
+                  
+                  nav.showAlert(Alert.AlertType.ERROR, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE);
+                      
+                  }
+                  
         } catch (JRException ex) {
             Logger.getLogger(ConsultationPrixCategorieController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -808,6 +1122,11 @@ public class ConsultationPrixCategorieController implements Initializable {
     private void refrechFlmBtnOnAction(ActionEvent event) {
             loadDetailPrixFilm();
           fourFilmCombo.getSelectionModel().select(-1);
+          
+          listeFilmRadio.setSelected(false);
+          modFilmRadio.setSelected(false);
+          
+          imprimerFlmBtn.setDisable(true);
     }
 
     @FXML
@@ -828,6 +1147,7 @@ public class ConsultationPrixCategorieController implements Initializable {
            
                 modifierPrixBoxController.prixBox = prixBox;
                 modifierPrixBoxController.chargerLesDonnees();
+                modifierPrixBoxController.listePrixBoxTMP=listePrixBox;
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
@@ -893,6 +1213,7 @@ public class ConsultationPrixCategorieController implements Initializable {
 
                 modifierPrixCartonController.prixCarton = prixCarton;
                 modifierPrixCartonController.chargerLesDonnees();
+                modifierPrixCartonController.listePrixCartonTMP=listePrixCarton;
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
@@ -993,6 +1314,7 @@ public class ConsultationPrixCategorieController implements Initializable {
 
                 modifierPrixFilmController.prixFilm = prixFilm;
                 modifierPrixFilmController.chargerLesDonnees();
+                modifierPrixFilmController.listePrixFilmTMP=listePrixFilm;
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
@@ -1019,7 +1341,26 @@ public class ConsultationPrixCategorieController implements Initializable {
 
     @FXML
     private void imprimerAdhesifBtnOnAction(ActionEvent event) {
+        
+        
           try {
+
+                    listePrixAdhesifTMP.clear();
+            
+                for( int rows = 0;rows<tablePrixAdhesif.getItems().size() ;rows++ ){
+    
+         if (actionAdhesifColumn.getCellData(rows).booleanValue()==true){
+             
+              PrixAdhesif prixAdhesif = tablePrixAdhesif.getItems().get(rows);
+            
+                listePrixAdhesifTMP.add(prixAdhesif); 
+         }
+                
+                }
+                
+                  if (listePrixAdhesifTMP.size()!= 0){
+                      
+              
           HashMap para = new HashMap();
             JasperReport report = (JasperReport) JRLoader.loadObject(ConsultationPrixCategorieController.class.getResource(nav.getiReportAdhesifBox()));
 
@@ -1031,9 +1372,23 @@ public class ConsultationPrixCategorieController implements Initializable {
                    para.put("Fournisseur","TOUT FOURNISSEUR");
             }
             
-             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(tablePrixAdhesif.getItems()));
+            
+            if(listeAdRadio.isSelected()== true){
+                     para.put("prixAdhesif","Liste Prix Adhesif"); 
+                   }else{
+                     para.put("prixAdhesif","Modifier Prix Adhesif"); 
+                   }  
+            
+            
+             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listePrixAdhesifTMP));
                JasperViewer.viewReport(jp, false);
             
+                  }else{
+                  
+                  nav.showAlert(Alert.AlertType.ERROR, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE);
+                      
+                  }
+               
         } catch (JRException ex) {
             Logger.getLogger(ConsultationPrixCategorieController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1058,6 +1413,7 @@ public class ConsultationPrixCategorieController implements Initializable {
 
                 modifierPrixAdhesifController.prixAdhesif = prixAdhesif;
                 modifierPrixAdhesifController.chargerLesDonnees();
+                modifierPrixAdhesifController.listePrixAdhesifTMP=listePrixAdhesif;
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
@@ -1112,6 +1468,11 @@ public class ConsultationPrixCategorieController implements Initializable {
            loadDetailPrixAdhesif();
           fourAdhesifCombo.getSelectionModel().select(-1);
         
+           listeAdRadio.setSelected(false);
+          modAdRadio.setSelected(false);
+          
+          imprimerAdhesifBtn.setDisable(true);
+          
     }
 
     @FXML
@@ -1126,6 +1487,55 @@ public class ConsultationPrixCategorieController implements Initializable {
 
     @FXML
     private void imprimerBoxMetalBtnOnAction(ActionEvent event) {
+        
+        
+           try {
+         
+             listePrixBoxMetalTMP.clear();
+            
+                for( int rows = 0;rows<tablePrixBoxMetal.getItems().size() ;rows++ ){
+    
+         if (actionBoxMetalColumn.getCellData(rows).booleanValue()==true){
+             
+              PrixBoxMetal prixBoxMetal = tablePrixBoxMetal.getItems().get(rows);
+            
+                listePrixBoxMetalTMP.add(prixBoxMetal); 
+         }
+                
+                }
+                
+                
+                  if (listePrixBoxMetalTMP.size()!= 0){
+                      
+                      HashMap para = new HashMap();
+            JasperReport report = (JasperReport) JRLoader.loadObject(ConsultationPrixCategorieController.class.getResource(nav.getiReportPrixBoxMetal()));
+
+               Fournisseur fournisseur=mapFournisseur.get(fourBoxMetalCombo.getSelectionModel().getSelectedItem());
+            
+            if(fournisseur!=null){
+                 para.put("Fournisseur",fournisseur.getNom());
+            }else {
+                   para.put("Fournisseur","TOUT FOURNISSEUR");
+            } 
+   
+             if(listeBmRadio.isSelected()== true){
+                     para.put("prixBoxMetal","Liste Prix Box Metal"); 
+                   }else{
+                     para.put("prixBoxMetal","Modifier Prix Box Metal"); 
+                   }  
+            
+             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listePrixBoxMetalTMP));
+               JasperViewer.viewReport(jp, false);
+            
+                  }else{
+                  
+                  nav.showAlert(Alert.AlertType.ERROR, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE);
+                      
+                  }
+        } catch (JRException ex) {
+            Logger.getLogger(ConsultationPrixCategorieController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     @FXML
@@ -1133,6 +1543,11 @@ public class ConsultationPrixCategorieController implements Initializable {
         
           loadDetailPrixBoxMetal();
           fourBoxMetalCombo.getSelectionModel().select(-1);
+          
+           listeBmRadio.setSelected(false);
+          modBmRadio.setSelected(false);
+          
+          imprimerBoxMetalBtn.setDisable(true);
     }
 
     @FXML
@@ -1154,6 +1569,7 @@ public class ConsultationPrixCategorieController implements Initializable {
 
                 modifierPrixBoxMetalController.prixBoxMetal = prixBoxMetal;
                 modifierPrixBoxMetalController.chargerLesDonnees();
+                modifierPrixBoxMetalController.listePrixBoxMetalTMP=listePrixBoxMetal;
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
@@ -1220,6 +1636,58 @@ public class ConsultationPrixCategorieController implements Initializable {
 
     @FXML
     private void imprimerOulmesBtnOnAction(ActionEvent event) {
+        
+        
+           try {
+               
+                    listePrixOulmesTMP.clear();
+            
+                for( int rows = 0;rows<tablePrixOulmes.getItems().size() ;rows++ ){
+    
+         if (actionOulmesColumn.getCellData(rows).booleanValue()==true){
+             
+              PrixOulmes prixOulmes = tablePrixOulmes.getItems().get(rows);
+            
+                listePrixOulmesTMP.add(prixOulmes); 
+         }
+                
+                }
+                
+                
+                  if (listePrixOulmesTMP.size()!= 0){
+                      
+               
+          HashMap para = new HashMap();
+            JasperReport report = (JasperReport) JRLoader.loadObject(ConsultationPrixCategorieController.class.getResource(nav.getiReportPrixOulmes()));
+
+               Fournisseur fournisseur=mapFournisseur.get(fourOulmesCombo.getSelectionModel().getSelectedItem());
+            
+            if(fournisseur!=null){
+                 para.put("Fournisseur",fournisseur.getNom());
+            }else {
+                   para.put("Fournisseur","TOUT FOURNISSEUR");
+            }
+            
+                 if(listePfRadio.isSelected()== true){
+                     para.put("prixPf","Liste Prix Produit Fini"); 
+                   }else{
+                     para.put("prixPf","Modifier Prix Produit Fini"); 
+                   }  
+            
+            
+             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listePrixOulmesTMP));
+               JasperViewer.viewReport(jp, false);
+            
+                  }else{
+                  
+                  nav.showAlert(Alert.AlertType.ERROR, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE);
+                      
+                  }
+               
+        } catch (JRException ex) {
+            Logger.getLogger(ConsultationPrixCategorieController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     @FXML
@@ -1227,11 +1695,17 @@ public class ConsultationPrixCategorieController implements Initializable {
         
                loadDetailPrixOulmes();
           fourOulmesCombo.getSelectionModel().select(-1);
+          
+           listePfRadio.setSelected(false);
+          modPfRadio.setSelected(false);
+          
+          imprimerOulmesBtn.setDisable(true);
         
     }
 
     @FXML
     private void modifierOulmesBtnOnAction(ActionEvent event) {
+        
                 if (tablePrixOulmes.getSelectionModel().getSelectedItem() != null) {
               
               PrixOulmes prixOulmes = tablePrixOulmes.getSelectionModel().getSelectedItem();
@@ -1245,10 +1719,6 @@ public class ConsultationPrixCategorieController implements Initializable {
 
                 ModifierPrixOulmesController modifierPrixOulmesController = fXMLLoader.getController();
                
-//                typeVenteMixteController.detailTournee = detailTournee;
-//                typeVenteMixteController.chargerLesDonnees();
-//                typeVenteMixteController.listeDetailTourneeTMP = listeDetailTournee;
-//                typeVenteMixteController.loadDetail();
 
                 modifierPrixOulmesController.prixOulmes = prixOulmes;
                 modifierPrixOulmesController.chargerLesDonnees();
@@ -1257,11 +1727,7 @@ public class ConsultationPrixCategorieController implements Initializable {
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
            
-                
-                
-                
-                
-                
+
                 stage.show();
             } catch (IOException ex) {
               
@@ -1276,8 +1742,7 @@ public class ConsultationPrixCategorieController implements Initializable {
 
     @FXML
     private void supprimerOulmesBtnOnAction(ActionEvent event) {
-        
-        
+
            if(tablePrixOulmes.getSelectionModel().getSelectedItem()==null){
          
     
@@ -1294,8 +1759,19 @@ public class ConsultationPrixCategorieController implements Initializable {
 
         PrixOulmes prixOulmes =tablePrixOulmes.getSelectionModel().getSelectedItem();
         
-        prixOulmesDAO.delete(prixOulmes);
+          prixOulmes.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
+
+            prixOulmesDAO.edit(prixOulmes);
     
+            ReferencePromo referencePromo = referencePromoDAO.findByPrixOulmes(prixOulmes.getId());
+            
+            if(referencePromo!=null){
+            
+                referencePromo.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
+                        
+                referencePromoDAO.edit(referencePromo);
+            }
+                
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null,Constantes.SUPRIMER_ENREGISTREMENT);
         
         setColumnPropertiesPrixOulmes();
@@ -1306,6 +1782,268 @@ public class ConsultationPrixCategorieController implements Initializable {
                  tablePrixOulmes.refresh();
             }
     }
+      
+           
+           
+           
+           
+    }
+
+    @FXML
+    private void selectionnerToutBoxMouseClicked(MouseEvent event) {
+        
+               
+        ObservableList<PrixBox> list=tablePrixBox.getItems();
+        
+        for (Iterator<PrixBox> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(true);
+        }
+
+        tablePrixBox.refresh(); 
+        
+    }
+
+    @FXML
+    private void deselectionnerToutBoxMouseClicked(MouseEvent event) {
+        
+                 ObservableList<PrixBox> list=tablePrixBox.getItems();
+        
+        for (Iterator<PrixBox> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(false);
+        }
+
+        tablePrixBox.refresh(); 
+        
+    }
+
+    @FXML
+    private void selectionnerToutCartonMouseClicked(MouseEvent event) {
+        
+                  
+        ObservableList<PrixCarton> list=tablePrixCarton.getItems();
+        
+        for (Iterator<PrixCarton> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(true);
+        }
+
+        tablePrixCarton.refresh(); 
+        
+    }
+
+    @FXML
+    private void deselectionnerToutCartonMouseClicked(MouseEvent event) {
+        
+                         ObservableList<PrixCarton> list=tablePrixCarton.getItems();
+        
+        for (Iterator<PrixCarton> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(false);
+        }
+
+        tablePrixCarton.refresh(); 
+        
+    }
+
+    @FXML
+    private void selectionnerToutFilmMouseClicked(MouseEvent event) {
+        
+                  
+        ObservableList<PrixFilm> list=tablePrixFilm.getItems();
+        
+        for (Iterator<PrixFilm> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(true);
+        }
+
+        tablePrixFilm.refresh(); 
+        
+    }
+
+    @FXML
+    private void deselectionnerToutFilmMouseClicked(MouseEvent event) {
+        
+                         ObservableList<PrixFilm> list=tablePrixFilm.getItems();
+        
+        for (Iterator<PrixFilm> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(false);
+        }
+
+        tablePrixFilm.refresh(); 
+        
+    }
+
+    @FXML
+    private void selectionnerToutAdhesifMouseClicked(MouseEvent event) {
+        
+        
+                  
+        ObservableList<PrixAdhesif> list=tablePrixAdhesif.getItems();
+        
+        for (Iterator<PrixAdhesif> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(true);
+        }
+
+        tablePrixAdhesif.refresh(); 
+        
+    }
+
+    @FXML
+    private void deselectionnerToutAdhesifMouseClicked(MouseEvent event) {
+        
+                         ObservableList<PrixAdhesif> list=tablePrixAdhesif.getItems();
+        
+        for (Iterator<PrixAdhesif> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(false);
+        }
+
+        tablePrixAdhesif.refresh(); 
+        
+        
+    }
+
+    @FXML
+    private void selectionnerToutBoxMetalMouseClicked(MouseEvent event) {
+        
+        
+                  
+        ObservableList<PrixBoxMetal> list=tablePrixBoxMetal.getItems();
+        
+        for (Iterator<PrixBoxMetal> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(true);
+        }
+
+        tablePrixBoxMetal.refresh(); 
+        
+    }
+
+    @FXML
+    private void deselectionnerToutBoxMetalMouseClicked(MouseEvent event) {
+        
+                         ObservableList<PrixBoxMetal> list=tablePrixBoxMetal.getItems();
+        
+        for (Iterator<PrixBoxMetal> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(false);
+        }
+
+        tablePrixBoxMetal.refresh(); 
+        
+    }
+
+    @FXML
+    private void selectionnerToutPrixOulmesMouseClicked(MouseEvent event) {
+        
+                  
+        ObservableList<PrixOulmes> list=tablePrixOulmes.getItems();
+        
+        for (Iterator<PrixOulmes> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(true);
+        }
+
+        tablePrixOulmes.refresh(); 
+        
+    }
+
+    @FXML
+    private void deselectionnerToutPrixOulmesMouseClicked(MouseEvent event) {
+        
+                         ObservableList<PrixOulmes> list=tablePrixOulmes.getItems();
+        
+        for (Iterator<PrixOulmes> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(false);
+        }
+        
+        tablePrixOulmes.refresh(); 
+    }
+
+    @FXML
+    private void listeBoxRadioOnAction(ActionEvent event) {
+        
+        imprimerBtn.setDisable(false);
+        
+    }
+
+    @FXML
+    private void modBoxRadioOnAction(ActionEvent event) {
+        
+        imprimerBtn.setDisable(false);
+        
+    }
+
+    @FXML
+    private void listeCartRadioOnAction(ActionEvent event) {
+        
+        imprimerCarBtn.setDisable(false);
+    }
+
+    @FXML
+    private void modCartRadioOnAction(ActionEvent event) {
+        
+        imprimerCarBtn.setDisable(false);
+    }
+
+    @FXML
+    private void listeFilmRadioOnAction(ActionEvent event) {
+        
+        imprimerFlmBtn.setDisable(false);
+        
+    }
+
+    @FXML
+    private void modFilmRadioOnAction(ActionEvent event) {
+        
+        imprimerFlmBtn.setDisable(false);
+        
+    }
+
+    @FXML
+    private void listeAdRadioOnAction(ActionEvent event) {
+        
+        imprimerAdhesifBtn.setDisable(false);
+        
+    }
+
+    @FXML
+    private void modAdRadioOnAction(ActionEvent event) {
+        
+        imprimerAdhesifBtn.setDisable(false);
+        
+    }
+
+    @FXML
+    private void modBmRadioOnAction(ActionEvent event) {
+        
+        imprimerBoxMetalBtn.setDisable(false);
+        
+    }
+
+    @FXML
+    private void listeBmRadioOnAction(ActionEvent event) {
+        
+        imprimerBoxMetalBtn.setDisable(false);
+        
+    }
+
+    @FXML
+    private void modPfRadioOnAction(ActionEvent event) {
+        
+        imprimerOulmesBtn.setDisable(false);
+        
+    }
+
+    @FXML
+    private void listePfRadioOnAction(ActionEvent event) {
+        
+        imprimerOulmesBtn.setDisable(false);
         
     }
     

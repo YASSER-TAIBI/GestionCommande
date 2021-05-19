@@ -9,13 +9,28 @@
    <children>
       <TableView fx:id="tableStock" blendMode="MULTIPLY" layoutX="183.0" layoutY="451.0" maxWidth="1.7976931348623157E308" onMouseClicked="#tableDetailClicked" prefHeight="225.0" prefWidth="1118.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
          <columns>
-            <TableColumn fx:id="codeMPColumn" prefWidth="161.99996948242188" text="Code MP" />
-            <TableColumn fx:id="libelleColumn" prefWidth="378.0000305175781" text="Libelle" />
-            <TableColumn fx:id="qteColumn" prefWidth="289.0" text="Quantite" />
-            <TableColumn fx:id="prixColumn" prefWidth="290.0" text="Prix Un" />
+            <TableColumn fx:id="codeMPColumn" prefWidth="99.0" text="Code MP" />
+            <TableColumn fx:id="libelleColumn" prefWidth="437.0" text="Libelle" />
+            <TableColumn fx:id="dateColumn" prefWidth="183.0" text="Date Livraison" />
+            <TableColumn fx:id="qteColumn" prefWidth="192.0" text="Quantite" />
+            <TableColumn fx:id="prixColumn" prefWidth="207.0" text="Prix Un" />
          </columns>
       </TableView>
       <Button fx:id="btnRegler" layoutX="675.0" layoutY="400.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#reglerOnAction" prefHeight="38.0" prefWidth="133.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="A Régler" />
       <Button fx:id="btnImprimer" layoutX="675.0" layoutY="688.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerEtatOnAction" prefHeight="38.0" prefWidth="133.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer" />
+      <TableView fx:id="tableDetailLivraison" blendMode="MULTIPLY" layoutX="174.0" layoutY="145.0" maxWidth="1.7976931348623157E308" onMouseClicked="#tableDetailClicked" prefHeight="225.0" prefWidth="1118.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="mpColumn" prefWidth="103.0" text="MP " />
+            <TableColumn fx:id="libelleColumn" prefWidth="103.0" text="LIBELLE" />
+            <TableColumn fx:id="dateColumn" prefWidth="99.0" text="Date Bl" />
+            <TableColumn fx:id="nComColumn" prefWidth="138.0" text="n COM" />
+            <TableColumn fx:id="nBlColumn" prefWidth="112.0" text="N BL " />
+            <TableColumn fx:id="fourColumn" prefWidth="111.0" text="FOUR" />
+            <TableColumn fx:id="qteRecuColumn" prefWidth="124.0" text="QTE reCU" />
+            <TableColumn fx:id="prixColumn" prefWidth="143.0" text=" pRIX" />
+            <TableColumn fx:id="HtColumn" prefWidth="97.0" text="hT" />
+            <TableColumn fx:id="ttcColumn" prefWidth="97.0" text="TTC" />
+         </columns>
+      </TableView>
    </children>
 </AnchorPane>

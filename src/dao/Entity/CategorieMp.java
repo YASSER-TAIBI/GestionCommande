@@ -27,6 +27,9 @@ public class CategorieMp implements Serializable {
 
 	private String nom;
 
+        @Column(name="ETAT")
+        private String etat;
+        
 	//bi-directional many-to-one association to SubCategorieMp
 	@ManyToOne
 	@JoinColumn(name="id_sub_cat")
@@ -62,6 +65,14 @@ public class CategorieMp implements Serializable {
 	public String getNom() {
 		return this.nom;
 	}
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
+    }
 
     public Utilisateur getUtilisateurCreation() {
         return utilisateurCreation;

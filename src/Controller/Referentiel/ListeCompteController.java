@@ -26,6 +26,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import dao.Manager.CompteFourMPDAO;
 import java.math.BigDecimal;
+import javafx.scene.input.KeyEvent;
 
 
 /**
@@ -42,12 +43,6 @@ public class ListeCompteController implements Initializable {
     @FXML
     private TableColumn<CompteFourMP, String> libelleColumn;
     @FXML
-    private TableColumn<CompteFourMP, Double> soldeColumn;
-     @FXML
-    private TableColumn<CompteFourMP, Double> soldeReportColumn;
-    @FXML
-    private TableColumn<CompteFourMP, Double> totalColumn;
-    @FXML
     private Button btnSupprimer;
     @FXML
     private Button btnValider;
@@ -57,7 +52,6 @@ public class ListeCompteController implements Initializable {
     private TextField codeRechField;
     @FXML
     private TextField libelleRechField;
-
     @FXML
     private TextField codeField;
     @FXML
@@ -93,9 +87,6 @@ public class ListeCompteController implements Initializable {
         
         codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
         libelleColumn.setCellValueFactory(new PropertyValueFactory<>("libelle"));
-        soldeColumn.setCellValueFactory(new PropertyValueFactory<>("solde"));
-        soldeReportColumn.setCellValueFactory(new PropertyValueFactory<>("soldeReport"));
-                totalColumn.setCellValueFactory(new PropertyValueFactory<>("Total"));
      }
     
      void loadDetail(){
@@ -114,7 +105,8 @@ public class ListeCompteController implements Initializable {
         
      }else {
        CompteFourMP compteFourMP=tableCompte.getSelectionModel().getSelectedItem();
-        compteDAO.delete(compteFourMP);
+        compteFourMP.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
+       compteDAO.edit(compteFourMP);
  
     clear();
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.SUPRIMER_ENREGISTREMENT);
@@ -136,11 +128,9 @@ public class ListeCompteController implements Initializable {
          
        compte.setCode(codeField.getText());
        compte.setLibelle(libelleField.getText());
+       compte.setEtat(Constantes.ETAT_COMMANDE_LANCE);
        compte.setUtilisateurCreation(nav.getUtilisateur());
-       compte.setSolde(BigDecimal.ZERO);
-       compte.setMontantCredit(BigDecimal.ZERO);
-       compte.setMontantDebit(BigDecimal.ZERO);
-       compte.setSoldeReport(BigDecimal.ZERO);
+  
 
           compteDAO.add(compte);
                 clear();
@@ -198,6 +188,43 @@ public class ListeCompteController implements Initializable {
     @FXML
     private void refrechTableMouseClicked(MouseEvent event) {
         clear();
+    }
+
+    @FXML
+    private void rechercheCodeOnKeyPressed(KeyEvent event) {
+        
+                        ObservableList<CompteFourMP> listeCompteFourMPs=FXCollections.observableArrayList();
+          
+        listeCompteFourMPs.clear();
+   
+        listeCompteFourMPs.addAll(compteDAO.findByCodeCompteFourMP(codeRechField.getText()));
+   
+        tableCompte.setItems(listeCompteFourMPs);
+        
+    }
+
+    @FXML
+    private void rechercheLibelleOnKeyPressed(KeyEvent event) {
+        
+                             ObservableList<CompteFourMP> listeCompteFourMPs=FXCollections.observableArrayList();
+          
+        listeCompteFourMPs.clear();
+   
+        listeCompteFourMPs.addAll(compteDAO.findBylibelleCompteFourMP(libelleField.getText()));
+   
+        tableCompte.setItems(listeCompteFourMPs);
+        
+    }
+
+    @FXML
+    private void rechercheTableMouseClicked(MouseEvent event) {
+        
+                    libelleRechField.clear();
+            codeRechField.clear();
+
+            setColumnProperties();
+            loadDetail();
+        
     }
 
  

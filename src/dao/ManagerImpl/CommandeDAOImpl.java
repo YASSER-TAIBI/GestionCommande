@@ -90,31 +90,31 @@ public List<Commande>  findCommandeByEtat(String etat, String typeCommande) {
 
     
 
-    public int getMaxId() {
-          int id=0;
-        Query query= session.createQuery("select Max(id) from Commande c");
-        
-        if( query.uniqueResult()==null)
-            id= 1;
-        else 
-            id= (int) query.uniqueResult();
-        
-        
-       return id+100;
-    }
+//    public int getMaxId() {
+//          int id=0;
+//        Query query= session.createQuery("select Max(id) from Commande c");
+//        
+//        if( query.uniqueResult()==null)
+//            id= 1;
+//        else 
+//            id= (int) query.uniqueResult();
+//        
+//        
+//       return id+100;
+//    }
        
-   public int getMaxIdSpecial() {
-          int id=0;
-        Query query= session.createQuery("select Max(id) from Commande c");
-        
-        if( query.uniqueResult()==null)
-            id= 1;
-        else 
-            id= (int) query.uniqueResult();
-        
-        
-       return id;
-    }
+//   public int getMaxIdSpecial() {
+//          int id=0;
+//        Query query= session.createQuery("select Max(id) from Commande c");
+//        
+//        if( query.uniqueResult()==null)
+//            id= 1;
+//        else 
+//            id= (int) query.uniqueResult();
+//        
+//        
+//       return id;
+//    }
 
 	 public List<Commande> findFourByRechercheNumCommande(String nCommande,String etat) {
 		
@@ -139,6 +139,16 @@ public List<Commande>  findCommandeByEtat(String etat, String typeCommande) {
                	 public Commande findCommandeByNumCommande(String nCommande,String etat) {
 		
 		Query query = session.createQuery("select u from Commande u where u.etat <> :etat and u.nCommande =:nCommande and u.typeCommande ='Interne'");
+		query.setParameter("nCommande",nCommande);
+                query.setParameter("etat",etat);
+	
+                return (Commande)query.uniqueResult();
+ }
+                 
+                 
+                 public Commande findCommandeByNumCommandePF(String nCommande,String etat) {
+		
+		Query query = session.createQuery("select u from Commande u where u.etat <> :etat and u.nCommande =:nCommande and u.typeCommande ='Interne Art'");
 		query.setParameter("nCommande",nCommande);
                 query.setParameter("etat",etat);
 	
@@ -176,10 +186,16 @@ public List<Commande>  findCommandeByEtat(String etat, String typeCommande) {
          
                      public List<Commande> findByDateCommande(Date dateCreation ,String etat) {
 		
-		Query query = session.createQuery("select u from Commande u where u.dateCreation= :dateCreation and u.etat=:etat");
+		Query query = session.createQuery("select u from Commande u where u.dateCreation= :dateCreation and u.etat=:etat and u.typeCommande ='Interne'");
 		query.setParameter("dateCreation", dateCreation);
                 query.setParameter("etat",etat);
                   return query.list();
  }
-	
+	                     public List<Commande> findByDateCommandeOulmes(Date dateCreation ,String etat) {
+		
+		Query query = session.createQuery("select u from Commande u where u.dateCreation= :dateCreation and u.etat=:etat and u.typeCommande ='Interne Art'");
+		query.setParameter("dateCreation", dateCreation);
+                query.setParameter("etat",etat);
+                  return query.list();
+ }
 }

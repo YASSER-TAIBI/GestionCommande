@@ -9,6 +9,7 @@ import Utils.HibernateUtil;
 import dao.Entity.TypeFilm;
 import dao.Manager.TypeFilmDAO;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -55,9 +56,24 @@ public class TypeFilmDAOImpl  implements TypeFilmDAO   {
 
         
 	public List<TypeFilm> findAll() {
-		return session.createQuery("select c from TypeFilm c").list();
+		return session.createQuery("select c from TypeFilm c where c.etat = 'Lancé'").list();
 		}
 
+	 public List<TypeFilm> findByCodeTypeFilm(String code) {
+		
+		Query query = session.createQuery("select u from TypeFilm u where u.code like:code and u.etat = 'Lancé'");
+		query.setParameter("code","%"+code+"%");
+		
+                return query.list();
+ }
+    
+         	 public List<TypeFilm> findBylibelleTypeFilm(String lib) {
+		
+		Query query = session.createQuery("select u from TypeFilm u where u.libelle like:lib and u.etat = 'Lancé'");
+		query.setParameter("lib","%"+lib+"%");
+		
+                return query.list();
+ }
 
     
 }

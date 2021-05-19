@@ -16,48 +16,70 @@
    <children>
       <TableView fx:id="tableArticle" blendMode="MULTIPLY" layoutX="183.0" layoutY="448.0" maxWidth="1.7976931348623157E308" onMouseClicked="#clickChargeOnMouse" prefHeight="339.0" prefWidth="993.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
          <columns>
-            <TableColumn fx:id="codeColumn" prefWidth="411.0" text="Code" />
-            <TableColumn fx:id="libelleColumn" prefWidth="582.0" text="libelle" />
+            <TableColumn fx:id="codeColumn" prefWidth="98.99996948242188" text="Code" />
+            <TableColumn fx:id="libelleColumn" prefWidth="302.9999694824219" text="libelle" />
+            <TableColumn fx:id="qtePaletteColumn" prefWidth="147.0" text="Qte Palette" />
+            <TableColumn fx:id="qteCaisseColumn" prefWidth="151.0" text="Qte Caisse" />
+            <TableColumn fx:id="qteBouteilleColumn" prefWidth="156.0" text="Qte Bouteille" />
+            <TableColumn fx:id="emballageColumn" prefWidth="137.0" text="Emballage" />
          </columns>
       </TableView>
       <Pane layoutX="1188.0" layoutY="449.0" prefHeight="339.0" prefWidth="181.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Button fx:id="btnAjouter" alignment="CENTER" layoutX="32.0" layoutY="69.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterVille" prefHeight="44.0" prefWidth="116.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Ajouter" />
+            <Button fx:id="btnAjouter" alignment="CENTER" layoutX="32.0" layoutY="68.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterVille" prefHeight="44.0" prefWidth="116.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Ajouter" />
             <Button fx:id="btnModifier" alignment="CENTER" layoutX="32.0" layoutY="147.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ModifierVille" prefHeight="44.0" prefWidth="116.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Modifier" />
-            <Button fx:id="btnSupprimer" alignment="CENTER" layoutX="31.0" layoutY="231.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#SupprimerVille" prefHeight="44.0" prefWidth="116.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Supprimer" />
+            <Button fx:id="btnSupprimer" alignment="CENTER" layoutX="31.0" layoutY="230.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#SupprimerVille" prefHeight="44.0" prefWidth="116.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Supprimer" />
          </children>
       </Pane>
-      <Pane layoutX="180.0" layoutY="321.0" prefHeight="104.0" prefWidth="1191.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="180.0" layoutY="270.0" prefHeight="169.0" prefWidth="1191.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <TextField fx:id="txtCode" alignment="CENTER" layoutX="259.0" layoutY="20.0" maxWidth="1.7976931348623157E308" onKeyReleased="#searche" prefHeight="32.0" prefWidth="234.0" promptText="code" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+            <TextField fx:id="txtCode" alignment="CENTER" layoutX="259.0" layoutY="14.0" maxWidth="1.7976931348623157E308" onKeyReleased="#searche" prefHeight="32.0" prefWidth="234.0" promptText="code" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
                <effect>
                   <Blend />
                </effect>
             </TextField>
-            <TextField fx:id="txtLibelle" alignment="CENTER" layoutX="739.0" layoutY="20.0" maxWidth="1.7976931348623157E308" onKeyReleased="#searche" prefHeight="32.0" prefWidth="234.0" promptText="libelle" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+            <TextField fx:id="txtLibelle" alignment="CENTER" layoutX="739.0" layoutY="14.0" maxWidth="1.7976931348623157E308" onKeyReleased="#searche" prefHeight="32.0" prefWidth="234.0" promptText="libelle" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
                <effect>
                   <Blend />
                </effect>
             </TextField>
-            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1145.0" layoutY="61.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1150.0" layoutY="127.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
                </image>
             </ImageView>
-            <Label layoutX="636.0" layoutY="26.0" text="Libelle: " />
-            <Label layoutX="191.0" layoutY="26.0" text="Code: " />
+            <Label layoutX="652.0" layoutY="20.0" text="Libelle:" />
+            <Label layoutX="191.0" layoutY="20.0" text="Code: " />
             <Label fx:id="msgCode" layoutX="971.0" layoutY="37.0" prefHeight="32.0" prefWidth="25.0" stylesheets="@../../Styles/css/FigureDeStyle.css" />
-            <CheckBox fx:id="paletteCheck" layoutX="266.0" layoutY="66.0" mnemonicParsing="false" onAction="#paletteCheckOnAction" prefHeight="22.0" prefWidth="116.0" styleClass="label" stylesheets="@../../Styles/css/FigureDeStyle.css" text="SANS TVA" />
-         </children>
-      </Pane>
-      <Pane layoutX="180.0" layoutY="228.0" prefHeight="71.0" prefWidth="1191.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
-         <children>
-            <TextField fx:id="codeRechField" layoutX="261.0" layoutY="20.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheCodeVilleOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+            <TextField fx:id="txtQtePalette" alignment="CENTER" layoutX="259.0" layoutY="58.0" maxWidth="1.7976931348623157E308" onKeyReleased="#searche" prefHeight="32.0" prefWidth="234.0" promptText="qte Palette" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
                <effect>
                   <Blend />
                </effect>
             </TextField>
-            <TextField fx:id="libelleRechField" layoutX="740.0" layoutY="21.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheLibelleVilleOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+            <Label layoutX="125.0" layoutY="64.0" text="Qte Palette: " />
+            <TextField fx:id="txtQteCaisse" alignment="CENTER" layoutX="739.0" layoutY="58.0" maxWidth="1.7976931348623157E308" onKeyReleased="#searche" prefHeight="32.0" prefWidth="234.0" promptText="Qte Caisse" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <Label layoutX="624.0" layoutY="64.0" text="Qte Caisse:" />
+            <TextField fx:id="txtQteBouteille" alignment="CENTER" layoutX="259.0" layoutY="102.0" maxWidth="1.7976931348623157E308" onKeyReleased="#searche" prefHeight="32.0" prefWidth="234.0" promptText="Qte Bouteille" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <Label layoutX="106.0" layoutY="108.0" text="Qte Bouteille: " />
+            <CheckBox fx:id="emballageCheck" layoutX="999.0" layoutY="19.0" mnemonicParsing="false" onAction="#emballageCheckOnAction" prefHeight="22.0" prefWidth="125.0" styleClass="label" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Emballage" />
+         </children>
+      </Pane>
+      <Pane layoutX="180.0" layoutY="190.0" prefHeight="71.0" prefWidth="1191.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <TextField fx:id="codeRechField" layoutX="261.0" layoutY="20.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheCodeOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <TextField fx:id="libelleRechField" layoutX="740.0" layoutY="21.0" maxWidth="1.7976931348623157E308" onKeyPressed="#rechercheLibelleOnKeyPressed" prefHeight="32.0" prefWidth="194.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
                <effect>
                   <Blend />
                </effect>
@@ -72,6 +94,11 @@
             <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="904.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1150.0" layoutY="30.0" onMouseClicked="#rechercheTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
                </image>
             </ImageView>
          </children>

@@ -137,6 +137,7 @@ public class ModifierFournisseurController implements Initializable {
                fournisseur.setTypeFournisseur(Constantes.ETRANGER);
              }
         
+            
        fournisseur.setNom(nomField.getText());
        fournisseur.setCode(codeField.getText());
        fournisseur.setVille(mapVille.get(villeCombo.getSelectionModel().getSelectedItem()));

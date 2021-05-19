@@ -73,6 +73,9 @@ public class DetailCommandeRegion implements Serializable {
     @Column(name="CMD_REGLE")
     private String cmdRegle;
     
+    @Column(name = "REMISE_ACHAT")
+    private BigDecimal remiseAchat ;
+    
     @ManyToOne
     @JoinColumn(name="ID_UTIL_CREATION")
     private Utilisateur utilisateurCreation;
@@ -89,12 +92,20 @@ public class DetailCommandeRegion implements Serializable {
     @JoinColumn(name = "id_commandeRegion")
     private CommandeRegion commandeRegion;
 
+     @ManyToOne
+    @JoinColumn(name = "ID_PRIX_OULMES")
+    private PrixOulmes prixOulmes;
+    
 //    (cascade = {CascadeType.ALL})
     @ManyToOne
     @JoinColumn(name = "DIMENSION")
     private Dimension dimension = new Dimension();
 
-      
+    @OneToMany(cascade ={CascadeType.ALL},fetch = FetchType.EAGER,mappedBy = "detailCommandeRegion")
+    private List<DetailReceptionRegion> detailReceptionRegion= new ArrayList<DetailReceptionRegion>();
+    
+    
+    
     public Utilisateur getUtilisateurCreation() {
         return utilisateurCreation;
     }
@@ -111,8 +122,6 @@ public class DetailCommandeRegion implements Serializable {
         this.quantite = quantite;
     }
 
-
-    
     public Dimension getDimension() {
         return dimension;
     }
@@ -126,6 +135,14 @@ public class DetailCommandeRegion implements Serializable {
        
     public int getId() {
         return id;
+    }
+
+    public BigDecimal getRemiseAchat() {
+        return remiseAchat;
+    }
+
+    public void setRemiseAchat(BigDecimal remiseAchat) {
+        this.remiseAchat = remiseAchat;
     }
 
     public void setId(int id) {
@@ -158,6 +175,14 @@ public class DetailCommandeRegion implements Serializable {
 
     public CommandeRegion getCommandeRegion() {
         return commandeRegion;
+    }
+
+    public PrixOulmes getPrixOulmes() {
+        return prixOulmes;
+    }
+
+    public void setPrixOulmes(PrixOulmes prixOulmes) {
+        this.prixOulmes = prixOulmes;
     }
 
     public void setCommandeRegion(CommandeRegion commandeRegion) {

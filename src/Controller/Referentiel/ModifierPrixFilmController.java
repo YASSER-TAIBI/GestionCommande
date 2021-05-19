@@ -11,6 +11,7 @@ import dao.Entity.Dimension;
 import dao.Entity.Fournisseur;
 import dao.Entity.Grammage;
 import dao.Entity.GrammageFilm;
+import dao.Entity.HistoriquePrix;
 import dao.Entity.Intervalle;
 import dao.Entity.PrixBox;
 import dao.Entity.PrixFilm;
@@ -22,6 +23,7 @@ import dao.Manager.DimensionDAO;
 import dao.Manager.FournisseurDAO;
 import dao.Manager.GrammageDAO;
 import dao.Manager.GrammageFilmDAO;
+import dao.Manager.HistoriquePrixDAO;
 import dao.Manager.IntervalleDAO;
 import dao.Manager.PrixBoxDAO;
 import dao.Manager.PrixFilmDAO;
@@ -33,6 +35,7 @@ import dao.ManagerImpl.DimensionDAOImpl;
 import dao.ManagerImpl.FournisseurDAOImpl;
 import dao.ManagerImpl.GrammageDAOImpl;
 import dao.ManagerImpl.GrammageFilmDAOImpl;
+import dao.ManagerImpl.HistoriquePrixDAOImpl;
 import dao.ManagerImpl.IntervalleDAOImpl;
 import dao.ManagerImpl.PrixBoxDAOImpl;
 import dao.ManagerImpl.PrixFilmDAOImpl;
@@ -43,12 +46,16 @@ import function.navigation;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -98,8 +105,9 @@ public class ModifierPrixFilmController implements Initializable {
     CategorieMpDAO categorieMpDAO  = new CategorieMpDAOImpl();
     GrammageFilmDAO grammageFilmDAO = new GrammageFilmDAOImpl();
     TypeFilmDAO typeFilmDAO = new TypeFilmDAOImpl();
+    HistoriquePrixDAO historiquePrixDAO = new HistoriquePrixDAOImpl();
    
-   
+         public ObservableList<PrixFilm> listePrixFilmTMP=FXCollections.observableArrayList();
       
      public void chargerLesDonnees(){
 
@@ -116,7 +124,7 @@ public class ModifierPrixFilmController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         
-          List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+          List<Fournisseur> listFournisseur=fournisseurDAO.findAllMp();
         
         listFournisseur.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());
@@ -166,6 +174,20 @@ public class ModifierPrixFilmController implements Initializable {
     private void modifierBtnOnAction(ActionEvent event) {
         
         
+                  HistoriquePrix historiquePrix = new HistoriquePrix();
+        
+        historiquePrix.setAncienPrix(prixFilm.getPrix());
+        historiquePrix.setNouveauPrix(new BigDecimal(prixField.getText()));
+        historiquePrix.setFournisseur(mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem()));
+        historiquePrix.setCategorieMp(mapCategorieMp.get(typeCategorieCombo.getSelectionModel().getSelectedItem()));
+        historiquePrix.setDateCreation(new Date());
+        historiquePrix.setChemin(Constantes.PARAMETRAGE_PRIX);
+        historiquePrix.setUtilisateurCreation(nav.getUtilisateur());
+        
+        historiquePrixDAO.add(historiquePrix);
+        
+  //######################################################################################################################################################################################################################################################################################################################      
+       
         
        prixFilm.setFournisseur(mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem()));
        prixFilm.setCategorieMp(mapCategorieMp.get(typeCategorieCombo.getSelectionModel().getSelectedItem()));
@@ -175,6 +197,13 @@ public class ModifierPrixFilmController implements Initializable {
        
       prixFilmDAO.edit(prixFilm);
              
+            FXMLLoader fXMLLoader = new FXMLLoader();
+            fXMLLoader.setLocation(getClass().getResource(nav.getConsultationPrixCategorie()));
+       
+               listePrixFilmTMP.clear();
+               listePrixFilmTMP.addAll(prixFilmDAO.findAll());
+      
+      
        nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null,  Constantes.MODIFIER_ENREGISTREMENT);
        
         Stage stage = (Stage) modifierBtn.getScene().getWindow();

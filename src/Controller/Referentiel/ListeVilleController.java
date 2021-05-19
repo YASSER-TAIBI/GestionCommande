@@ -111,8 +111,11 @@ public class ListeVilleController implements Initializable {
          nav.showAlert(Alert.AlertType.ERROR, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE);
         
      }else {
-       Ville fournisseur=tableVille.getSelectionModel().getSelectedItem();
-        villeDAO.delete(fournisseur);
+       Ville ville=tableVille.getSelectionModel().getSelectedItem();
+       
+            ville.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
+
+            villeDAO.edit(ville);
     
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succés", null, Constantes.SUPRIMER_ENREGISTREMENT);
         
@@ -126,10 +129,9 @@ public class ListeVilleController implements Initializable {
         if (tableVille.getSelectionModel().getSelectedItem() != null) {
               
               Ville ville= tableVille.getSelectionModel().getSelectedItem();
-               txtCode.setText(ville.getCode());
-               txtLibelle.setText(ville.getLibelle());
-      
-               
+
+               ville.setCode(txtCode.getText());
+               ville.setLibelle(txtLibelle.getText());
                
           villeDAO.edit(ville);
       
@@ -153,6 +155,7 @@ public class ListeVilleController implements Initializable {
   ville.setCode(txtCode.getText());
        ville.setLibelle(txtLibelle.getText());
       ville.setUtilisateurCreation(nav.getUtilisateur());
+      ville.setEtat(Constantes.ETAT_COMMANDE_LANCE);
         villeDAO.add(ville);
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.AJOUTER_ENREGISTREMENT);
            setColumnProperties();
@@ -164,7 +167,6 @@ public class ListeVilleController implements Initializable {
     private void searche(KeyEvent event) {
     }
 
-    @FXML
     private void rechercheLibelleVilleOnKeyPressed(KeyEvent event) {
              ObservableList<Ville> listeClientMP=FXCollections.observableArrayList();
     listeVille.clear();
@@ -174,7 +176,6 @@ public class ListeVilleController implements Initializable {
    tableVille.setItems(listeVille);
     }
 
-    @FXML
     private void rechercheCodeVilleOnKeyPressed(KeyEvent event) {
                  ObservableList<Ville> listeClientMP=FXCollections.observableArrayList();
     listeVille.clear();
@@ -194,6 +195,44 @@ public class ListeVilleController implements Initializable {
     @FXML
     private void refrechTableMouseClicked(MouseEvent event) {
         clear();
+    }
+
+    @FXML
+    private void rechercheCodeOnKeyPressed(KeyEvent event) {
+        
+                        ObservableList<Ville> listeVille=FXCollections.observableArrayList();
+          
+        listeVille.clear();
+   
+        listeVille.addAll(villeDAO.findByCodeVille(codeRechField.getText()));
+   
+        tableVille.setItems(listeVille);
+        
+    }
+
+    @FXML
+    private void rechercheLibelleOnKeyPressed(KeyEvent event) {
+        
+                            ObservableList<Ville> listeVille=FXCollections.observableArrayList();
+          
+        listeVille.clear();
+   
+        listeVille.addAll(villeDAO.findBylibelleVille(libelleRechField.getText()));
+   
+        tableVille.setItems(listeVille);
+        
+    }
+
+    @FXML
+    private void rechercheTableMouseClicked(MouseEvent event) {
+        
+        
+                  libelleRechField.clear();
+            codeRechField.clear();
+
+            setColumnProperties();
+            loadDetail(); 
+        
     }
     
 }

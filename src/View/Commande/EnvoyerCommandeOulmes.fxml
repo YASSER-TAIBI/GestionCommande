@@ -24,8 +24,9 @@
       <TableView fx:id="tableDetailCommande" blendMode="MULTIPLY" layoutX="222.0" layoutY="557.0" maxWidth="1.7976931348623157E308" prefHeight="263.0" prefWidth="916.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <columns>
             <TableColumn fx:id="codeArtColumn" prefWidth="168.99996948242188" text="Code Article" />
-            <TableColumn fx:id="libelleColumn" prefWidth="520.0" text="Libelle" />
-            <TableColumn fx:id="quantiteColumn" prefWidth="226.0" text="Quantite" />
+            <TableColumn fx:id="libelleColumn" prefWidth="396.0" text="Libelle" />
+            <TableColumn fx:id="quantiteColumn" prefWidth="179.0" text="Quantite Pack" />
+            <TableColumn fx:id="quantiteCaisseColumn" prefWidth="172.0" text="Quantite Caisse" />
          </columns>
       </TableView>
       <Pane layoutX="220.0" layoutY="176.0" prefHeight="74.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
@@ -35,7 +36,7 @@
                   <Blend />
                </effect>
             </TextField>
-            <DatePicker layoutX="743.0" layoutY="20.0" prefHeight="31.0" prefWidth="194.0" promptText="Date Création" />
+            <DatePicker fx:id="dateCreationPicker" layoutX="743.0" layoutY="20.0" onAction="#creationDate" prefHeight="31.0" prefWidth="194.0" promptText="Date Création" />
             <Label layoutX="168.0" layoutY="27.0" text="N° Command: " />
             <Label layoutX="599.0" layoutY="26.0" text="Date Création: " />
             <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="448.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
@@ -47,13 +48,14 @@
       </Pane>
       <Pane layoutX="1165.0" layoutY="557.0" prefHeight="263.0" prefWidth="181.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Button fx:id="btnImprimer" layoutX="18.0" layoutY="153.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="38.0" prefWidth="144.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer" />
-            <Button fx:id="btnEnvoyer" layoutX="17.0" layoutY="71.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#EnvoyerCommande" prefHeight="38.0" prefWidth="144.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Envoyer" />
+            <Button fx:id="btnImprimer" layoutX="19.0" layoutY="113.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="38.0" prefWidth="144.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer" />
+            <Button fx:id="btnEnvoyer" layoutX="16.0" layoutY="51.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#EnvoyerCommande" prefHeight="38.0" prefWidth="144.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Envoyer" />
+            <Button fx:id="btnInitialiser" layoutX="19.0" layoutY="173.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#initialiserCommande" prefHeight="38.0" prefWidth="144.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Initialiser" />
          </children>
       </Pane>
-      <Pane layoutX="499.0" layoutY="99.0" prefHeight="55.0" prefWidth="570.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="457.0" layoutY="99.0" prefHeight="55.0" prefWidth="687.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Label layoutX="31.0" layoutY="5.0" prefHeight="44.0" prefWidth="521.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Envoyer Commande Oulmes" />
+            <Label layoutX="16.0" layoutY="5.0" prefHeight="44.0" prefWidth="656.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Envoyer Commande Produit Fini" />
          </children>
       </Pane>
    </children>

@@ -54,6 +54,9 @@ public class PrixAdhesif implements Serializable{
     @JoinColumn(name="ID_UTIL_CREATION")
     private Utilisateur utilisateurCreation;
        
+            private Boolean action;
+          
+          
     public int getId() {
         return id;
     }
@@ -89,6 +92,14 @@ public class PrixAdhesif implements Serializable{
 
     public Fournisseur getFournisseur() {
         return fournisseur;
+    }
+
+    public Boolean getAction() {
+        return action;
+    }
+
+    public void setAction(Boolean action) {
+        this.action = action;
     }
 
     public void setFournisseur(Fournisseur fournisseur) {

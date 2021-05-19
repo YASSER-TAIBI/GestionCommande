@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ConsultationRegularisationAvoirPF" pageWidth="802" pageHeight="554" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="5100b6b5-0855-4232-9885-c5ebd91fb041">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="bonAvoir" class="java.lang.String"/>
+	<field name="dateSaisie" class="java.util.Date"/>
+	<field name="numFacture" class="java.lang.String"/>
+	<field name="qte" class="java.math.BigDecimal"/>
+	<pageHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="5" width="110" height="19" uuid="790f4f34-212d-4468-9f42-748d4a6eac17"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Liste Regularisation]]></text>
+			</staticText>
+			<line>
+				<reportElement x="115" y="14" width="687" height="1" uuid="e16dda13-477e-47c9-8b21-3489c447f11d"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="0" y="0" width="802" height="20" backcolor="#8FDFEF" uuid="71ef3eda-8d02-43eb-9e04-d33f55664f03"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="606" y="1" width="185" height="19" uuid="576ee3e3-7226-46bd-b339-b752d9ac06bf"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Montant Régularisation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="1" width="178" height="19" uuid="cf81bf72-28ec-45a5-aab0-e3c9e040be41"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[B.Avoir]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="195" y="0" width="199" height="20" uuid="a401bac6-c621-484a-945e-65dca21e84ea"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Num Facture]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="399" y="1" width="203" height="19" uuid="bcda680e-c305-487a-a32f-97936c384c06"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date Facture]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="195" y="2" width="199" height="20" uuid="aebb1e40-cd84-47ae-9bba-53e555ddd9d4"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numFacture}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="399" y="2" width="203" height="20" uuid="8c55a79c-f463-44da-b63d-9994faec45d9"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dateSaisie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="606" y="2" width="185" height="20" uuid="b19943dc-37a9-4bae-9d41-3afb9bad8bb6"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="2" width="178" height="20" uuid="4c56cf51-9099-45cd-ba99-6c7415808592"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bonAvoir}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

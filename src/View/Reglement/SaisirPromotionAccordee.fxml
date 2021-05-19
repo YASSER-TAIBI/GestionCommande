@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Reglement.SaisirPromotionAccordeeController">
+   <children>
+      <Pane layoutX="113.0" layoutY="186.0" prefHeight="115.0" prefWidth="1378.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <TextField fx:id="nBonField" alignment="CENTER" layoutX="1053.0" layoutY="16.0" prefHeight="31.0" prefWidth="212.0" promptText="Num Bon" styleClass="StyleRaduis" />
+            <Label layoutX="976.0" layoutY="21.0" text="N° Bon:" />
+            <DatePicker fx:id="datePromotion" layoutX="208.0" layoutY="63.0" prefHeight="31.0" prefWidth="212.0" promptText="Date Promotion" />
+            <Label layoutX="55.0" layoutY="68.0" text="Date Promotion:" />
+            <TextField fx:id="codeClientField" alignment="CENTER" layoutX="208.0" layoutY="16.0" onKeyPressed="#chargeL0ibelleKeyPressed" prefHeight="31.0" prefWidth="212.0" promptText="Code Clinet" styleClass="StyleRaduis" />
+            <Label layoutX="84.0" layoutY="21.0" text="Code Client:" />
+            <TextField fx:id="clientField" alignment="CENTER" layoutX="634.0" layoutY="16.0" onKeyPressed="#chargeL0ibelleKeyPressed" prefHeight="31.0" prefWidth="212.0" promptText="Client" styleClass="StyleRaduis" />
+            <Label layoutX="558.0" layoutY="21.0" text="Client:" />
+            <Label layoutX="567.0" layoutY="69.0" text="Depot:" />
+            <ComboBox fx:id="depotCombo" layoutX="634.0" layoutY="63.0" onAction="#depotCombOnAction" prefHeight="31.0" prefWidth="212.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+         </children></Pane>
+      <Pane layoutX="455.0" layoutY="107.0" prefHeight="48.0" prefWidth="676.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="17.0" layoutY="2.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Saisir Promotion Produit Fini" />
+         </children>
+      </Pane>
+      <Pane layoutX="113.0" layoutY="756.0" prefHeight="55.0" prefWidth="1378.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="ajouterSaisie" layoutX="596.0" layoutY="9.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterSaisieAction" prefHeight="36.0" prefWidth="125.0" text="Ajouter" />
+            <Button fx:id="btnRefreshGlobal" layoutX="755.0" layoutY="9.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#refreshGlobal" prefHeight="36.0" prefWidth="125.0" text="Rafraîchir" />
+         </children>
+      </Pane>
+      <TableView fx:id="detailPromotionAccoTable" blendMode="MULTIPLY" layoutX="113.0" layoutY="395.0" prefHeight="352.0" prefWidth="1378.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeArtColumn" prefWidth="155.99998474121094" text="Code" />
+            <TableColumn fx:id="libelleColumn" prefWidth="496.0" text="Libelle" />
+            <TableColumn fx:id="quantiteColumn" prefWidth="223.0" text="Qte" />
+            <TableColumn fx:id="prixColumn" prefWidth="226.0" text="Prix" />
+            <TableColumn fx:id="montantColumn" prefWidth="277.0" text="Montant" />
+         </columns>
+      </TableView>
+      <Pane layoutX="113.0" layoutY="312.0" prefHeight="73.0" prefWidth="1378.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="1330.0" layoutY="18.0" onMouseClicked="#ajouterMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../Styles/img/add-1540630_640.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="955.0" layoutY="16.0" text="Quantite:" />
+            <Label fx:id="qteAfficchage" alignment="CENTER" contentDisplay="CENTER" layoutX="1059.0" layoutY="45.0" prefHeight="24.0" prefWidth="203.0" />
+            <TextField fx:id="quantiteField" alignment="CENTER" layoutX="1054.0" layoutY="12.0" onKeyReleased="#qteByIntervalleOnAction" prefHeight="31.0" prefWidth="212.0" promptText="Quantite" styleClass="StyleRaduis" />
+            <TextField fx:id="codeArtField" alignment="CENTER" layoutX="208.0" layoutY="13.0" onKeyPressed="#chargeL0ibelleKeyPressed" prefHeight="31.0" prefWidth="212.0" promptText="Code Article" styleClass="StyleRaduis" />
+            <Label layoutX="548.0" layoutY="18.0" text="Libelle:" />
+            <Label layoutX="112.0" layoutY="18.0" text="Code ART:" />
+            <ComboBox fx:id="LibelleCombo" layoutX="634.0" layoutY="12.0" onAction="#LibelleCombOnAction" prefHeight="31.0" prefWidth="212.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

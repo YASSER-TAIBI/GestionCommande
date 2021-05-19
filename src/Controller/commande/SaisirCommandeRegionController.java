@@ -74,7 +74,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -84,6 +87,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -92,6 +96,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -129,33 +140,10 @@ public class SaisirCommandeRegionController implements Initializable {
     @FXML
     private Button validerSaisie;
 
-    private Map<String,ClientMP> mapClientMP=new HashMap<>();
-    private Map<String,Dimension> mapDimension=new HashMap<>();
-    private Map<String,Fournisseur> mapFournisseur=new HashMap<>();
-    private Map<String,Grammage> mapGrammage=new HashMap<>();
-    private Map<String,TypeCartonBox> mapTypeCarton=new HashMap<>();
-    private Map<String,TypeFilm> mapTypeFilm=new HashMap<>();
-    private Map<String,GrammageFilm> mapGrammageFilm=new HashMap<>();
-    private Map<String,TypeCarton> mapTypeCar=new HashMap<>();
-    private Map<String,Intervalle> mapIntervalle=new HashMap<>();
-    
-    FournisseurDAO fournisseurDAO = new FournisseurDAOImpl();
-    ClientMPDAO clientMPDAO = new ClientMPDAOImpl();
-    DetailCommandeRegionDAO detailCommandeRegionDAO = new DetailCommandeRegionDAOImpl(); 
+
     MatierePremiereDAO matierePremiereDAO = new MatierePremierDAOImpl();
-    DimensionDAO dimensionDAO = new DimensionDAOImpl();
     CommandeRegionDAO commandeRegionDAO = new CommandeRegionDAOImpl(); 
-    PrixDimFourDAO prixDimFourDAO = new PrixDimFourDAOImpl();
-    GrammageDAO grammageDAO = new GrammageDAOImpl();
-    TypeCartonBoxDAO typeCartonBoxDAO = new TypeCartonBoxDAOImpl();
-    PrixBoxDAO prixBoxDAO = new PrixBoxDAOImpl();
-    PrixAdhesifDAO prixAdhesifDAO = new PrixAdhesifDAOImpl();
-    PrixCartonDAO prixCartonDAO =new PrixCartonDAOImpl();
-    PrixFilmDAO prixFilmDAO =new  PrixFilmDAOImpl();
-    TypeFilmDAO typeFilmDAO = new  TypeFilmDAOImpl();
-    GrammageFilmDAO grammageFilmDAO = new GrammageFilmDAOImpl();
-    TypeCartonDAO typeCartonDAO = new TypeCartonDAOImpl();
-    IntervalleDAO intervalleDAO = new IntervalleDAOImpl();
+
     SequenceurDAO sequenceurDAO = new SequenceurDAOImpl();
       
     private final ObservableList<DetailCommandeRegion> listeDetailCommandeRegion=FXCollections.observableArrayList();
@@ -171,6 +159,8 @@ public class SaisirCommandeRegionController implements Initializable {
     
             Date date = new  Date();
     SimpleDateFormat dateFormat= new SimpleDateFormat("yy");
+    @FXML
+    private Button imprimerSaisie;
        
  
   
@@ -238,6 +228,8 @@ public class SaisirCommandeRegionController implements Initializable {
 
           setColumnProperties();    
         
+           validerSaisie.setDisable(true);
+          
     }    
 
 
@@ -263,6 +255,14 @@ public class SaisirCommandeRegionController implements Initializable {
 
     @FXML
     private void ajouterSaisieAction(ActionEvent event) {
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
            DetailCommandeRegion detailCommandeRegion = new DetailCommandeRegion();
 
      
@@ -303,7 +303,7 @@ public class SaisirCommandeRegionController implements Initializable {
             
 }
         
-         
+            }
               
 }
        
@@ -329,6 +329,14 @@ public class SaisirCommandeRegionController implements Initializable {
     @FXML
     private void validerSaisieAction(ActionEvent event) throws ParseException {
           
+        
+                  Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
          if( detailCommandetable.getItems().size() ==0 ){
          nav.showAlert(Alert.AlertType.WARNING, "Attention", null, Constantes.REMPLIR_CHAMPS);
      }
@@ -343,6 +351,7 @@ public class SaisirCommandeRegionController implements Initializable {
         commandeRegion.setDateSaisie(new Date());
         commandeRegion.setDateCreation(dateSaisie);
         commandeRegion.setEtat(Constantes.ETAT_COMMANDE_LANCE_REGION);
+        commandeRegion.setTypeCommande(Constantes.COMMANDE_INTERNE);
         commandeRegion.setnCommande(nCommandeField.getText());
         commandeRegion.setDetailCommandeRegion(listeDetailCommandeRegion);
 
@@ -365,5 +374,31 @@ public class SaisirCommandeRegionController implements Initializable {
         }
         
     }
+    }
+
+    @FXML
+    private void imprimerOnAction(ActionEvent event) throws ParseException {
+
+                try {
+          HashMap para = new HashMap();
+            JasperReport report = (JasperReport) JRLoader.loadObject(SaisirCommandeRegionController.class.getResource(nav.getiReportBonCommandeRegion()));
+        
+            para.put("NumCommande",nCommandeField.getText());
+        
+           LocalDate localDate=dateSaisie.getValue();
+            
+          Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
+            para.put("DateLiv",dateSaisie);
     
+
+             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listeDetailCommandeRegion));
+               JasperViewer.viewReport(jp, false);
+               
+                validerSaisie.setDisable(false);
+            
+        } catch (JRException ex) {
+            Logger.getLogger(SaisirCommandeRegionController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 }

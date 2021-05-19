@@ -15,11 +15,11 @@
 
 <AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Reglement.EtatReglementOulmesController">
    <children>
-      <TableView fx:id="tableBonLivraison" blendMode="MULTIPLY" layoutX="223.0" layoutY="260.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailOnMouseClicked" prefHeight="215.0" prefWidth="1118.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+      <TableView fx:id="tableBonLivraison" blendMode="MULTIPLY" layoutX="223.0" layoutY="331.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailOnMouseClicked" prefHeight="175.0" prefWidth="1118.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
          <columns>
             <TableColumn fx:id="numLivraisonColumn" prefWidth="138.0" text="Num Livraison" />
             <TableColumn fx:id="dateLivraisonColumn" prefWidth="146.0" text="Date Livraison" />
-            <TableColumn fx:id="datePaiementColumn" minWidth="0.0" onEditCommit="#datePaiementOnEditCommit" prefWidth="134.0" text="Date Paiement" />
+            <TableColumn fx:id="datePaiementColumn" minWidth="0.0" prefWidth="134.0" text="Date Paiement" />
             <TableColumn fx:id="nombreJourColumn" minWidth="0.0" prefWidth="120.0" text="Nbr du Jour" />
             <TableColumn fx:id="montantColumn" minWidth="0.0" prefWidth="114.0" text="Montant HT" />
             <TableColumn fx:id="montantTVAColumn" minWidth="0.0" prefWidth="132.0" text="Montant TVA" />
@@ -28,7 +28,7 @@
             <TableColumn fx:id="actionColumn" minWidth="0.0" prefWidth="65.0" text="Action" />
          </columns>
       </TableView>
-      <TableView fx:id="tableDetailBonLivraison" blendMode="MULTIPLY" layoutX="221.0" layoutY="536.0" maxWidth="1.7976931348623157E308" onMouseClicked="#tableDetailClicked" prefHeight="166.0" prefWidth="925.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+      <TableView fx:id="tableDetailBonLivraison" blendMode="MULTIPLY" layoutX="221.0" layoutY="563.0" maxWidth="1.7976931348623157E308" onMouseClicked="#tableDetailClicked" prefHeight="166.0" prefWidth="925.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
          <columns>
             <TableColumn fx:id="codeArtColumn" prefWidth="108.0" text="Code Art" />
             <TableColumn fx:id="articleColumn" prefWidth="310.0" text="Article" />
@@ -38,12 +38,12 @@
             <TableColumn fx:id="totalColumn" prefWidth="140.0" text="Total " />
          </columns>
       </TableView>
-      <Pane layoutX="407.0" layoutY="99.0" prefHeight="46.0" prefWidth="789.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="323.0" layoutY="101.0" prefHeight="46.0" prefWidth="910.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Label layoutX="27.0" layoutY="1.0" prefHeight="44.0" prefWidth="737.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Etat Reglement Fournisseur Oulmes" />
+            <Label layoutX="17.0" layoutY="1.0" prefHeight="44.0" prefWidth="875.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Suivi Factures Fournisseur Produit Fini" />
          </children>
       </Pane>
-      <Pane layoutX="219.0" layoutY="483.0" prefHeight="46.0" prefWidth="1118.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="219.0" layoutY="512.0" prefHeight="46.0" prefWidth="1118.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
             <Label layoutX="89.0" layoutY="12.0" text="Num Facture: " />
             <TextField fx:id="numFacture" layoutX="224.0" layoutY="7.0" prefHeight="31.0" prefWidth="203.0" promptText="num Facture" styleClass="StyleRaduis" />
@@ -59,31 +59,25 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane layoutX="1156.0" layoutY="536.0" prefHeight="166.0" prefWidth="181.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="1156.0" layoutY="563.0" prefHeight="166.0" prefWidth="181.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
             <Button fx:id="btnRegler" layoutX="24.0" layoutY="34.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#reglerOnAction" prefHeight="38.0" prefWidth="133.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="A Régler" />
             <Button fx:id="btnImprimer" layoutX="26.0" layoutY="84.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerEtatOnAction" prefHeight="38.0" prefWidth="133.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer" />
          </children>
       </Pane>
-      <Label fx:id="monHT" layoutX="1458.0" layoutY="530.0" prefHeight="24.0" prefWidth="133.0" styleClass="label3" />
-      <Label fx:id="monTVA" layoutX="1456.0" layoutY="567.0" prefHeight="24.0" prefWidth="133.0" styleClass="label3" />
-      <Label fx:id="monTTC" layoutX="1456.0" layoutY="605.0" prefHeight="24.0" prefWidth="133.0" styleClass="label3" />
-      <ImageView fitHeight="24.0" fitWidth="25.0" layoutX="1349.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../Styles/img/vert.JPG" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="23.0" fitWidth="25.0" layoutX="1349.0" layoutY="447.0" pickOnBounds="true" preserveRatio="true">
+      <Label fx:id="monHT" layoutX="1458.0" layoutY="558.0" prefHeight="24.0" prefWidth="133.0" styleClass="label3" />
+      <Label fx:id="monTVA" layoutX="1456.0" layoutY="595.0" prefHeight="24.0" prefWidth="133.0" styleClass="label3" />
+      <Label fx:id="monTTC" layoutX="1456.0" layoutY="633.0" prefHeight="24.0" prefWidth="133.0" styleClass="label3" />
+      <ImageView fitHeight="23.0" fitWidth="25.0" layoutX="1349.0" layoutY="479.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../Styles/img/rouge.JPG" />
          </image>
       </ImageView>
-      <Label layoutX="1382.0" layoutY="413.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Saisie la Date de Paiement" />
-      <Label layoutX="1384.0" layoutY="449.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Reglé la Commande" />
-      <Label layoutX="1354.0" layoutY="535.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Montant HT:" />
-      <Label layoutX="1354.0" layoutY="572.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Montant TVA:" />
-      <Label layoutX="1354.0" layoutY="610.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Montant TTC:" />
-      <Pane layoutX="220.0" layoutY="709.0" prefHeight="53.0" prefWidth="1118.0" styleClass="pane">
+      <Label layoutX="1384.0" layoutY="481.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Reglé la Commande" />
+      <Label layoutX="1354.0" layoutY="563.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Montant HT:" />
+      <Label layoutX="1354.0" layoutY="600.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Montant TVA:" />
+      <Label layoutX="1354.0" layoutY="638.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Montant TTC:" />
+      <Pane layoutX="220.0" layoutY="735.0" prefHeight="53.0" prefWidth="1118.0" styleClass="pane" visible="false">
          <children>
             <Label layoutX="115.0" layoutY="17.0" text="Qte:" />
             <TextField fx:id="prixTxt" alignment="CENTER" layoutX="448.0" layoutY="11.0" prefHeight="31.0" prefWidth="192.0" promptText="prix" styleClass="StyleRaduis" />
@@ -101,7 +95,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane layoutX="221.0" layoutY="168.0" prefHeight="86.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="221.0" layoutY="188.0" prefHeight="86.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
             <Label layoutX="615.0" layoutY="13.0" text="Fournisseur:" />
             <ComboBox fx:id="fourCombo" layoutX="741.0" layoutY="7.0" onAction="#fournisseurOnAction" prefHeight="31.0" prefWidth="204.0" promptText="Selectionner..." styleClass="StyleRaduis" />
@@ -127,6 +121,34 @@
             <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1084.0" layoutY="45.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1350.0" layoutY="331.0" onMouseClicked="#selectionnerToutMouseClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Styles/img/png-check-mark-1.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="1385.0" layoutY="338.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Sélectionner Tout" />
+      <ImageView fitHeight="44.0" fitWidth="38.0" layoutX="1350.0" layoutY="359.0" onMouseClicked="#deselectionnerToutMouseClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../Styles/img/png-check-mark-2.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="1385.0" layoutY="366.0" prefHeight="20.0" prefWidth="133.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Désélectionner" />
+      <Pane layoutX="223.0" layoutY="280.0" prefHeight="46.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="113.0" layoutY="11.0" text="Date Debut: " />
+            <Label layoutX="644.0" layoutY="12.0" text="Date Fin: " />
+            <DatePicker fx:id="dateDebut" layoutX="228.0" layoutY="6.0" onAction="#dateDebutOnAction" prefHeight="31.0" prefWidth="204.0" promptText="Sélectionner Date..." />
+            <DatePicker fx:id="dateFin" layoutX="740.0" layoutY="6.0" onAction="#dateFinOnAction" prefHeight="31.0" prefWidth="204.0" promptText="Sélectionner Date..." />
+            <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="1014.0" layoutY="3.0" onMouseClicked="#recherchDateMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
                </image>
             </ImageView>
          </children>

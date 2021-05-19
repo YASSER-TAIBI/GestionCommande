@@ -37,4 +37,9 @@ public interface DimensionDAO {
        public List<Dimension> findDimensionByCodeDIM(String code);
        
        public List<Dimension>  findDimensionByCat(String cat);
+       
+       public List<Dimension> findByCodeDimension(String code);
+
+       public List<Dimension> findBylibelleDimension(String lib);
+       
 }

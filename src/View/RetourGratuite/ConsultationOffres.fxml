@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.RetourGratuite.ConsultationOffresController">
+   <children>
+      <TableView fx:id="tableOffre" blendMode="MULTIPLY" layoutX="188.0" layoutY="285.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailAndStockProdOnMouseClicked" prefHeight="442.0" prefWidth="1258.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeColumn" prefWidth="84.99996948242188" text="Code MP" />
+            <TableColumn fx:id="designationColumn" prefWidth="287.0" text="Designation" />
+            <TableColumn fx:id="nLivraisonColumn" prefWidth="129.0" text="Num Livraison" />
+            <TableColumn fx:id="dateCreationColumn" prefWidth="149.0" text="Date Creation" />
+            <TableColumn fx:id="fournisseurColumn" prefWidth="137.0" text="Fournisseur" />
+            <TableColumn fx:id="clientColumn" prefWidth="124.0" text="Client" />
+            <TableColumn fx:id="prixColumn" prefWidth="119.0" text="Prix" />
+            <TableColumn fx:id="qteColumn" prefWidth="108.0" text="Quantite" />
+            <TableColumn fx:id="montantColumn" prefWidth="120.0" text="Montant " />
+         </columns>
+      </TableView>
+      <Pane layoutX="188.0" layoutY="187.0" prefHeight="89.0" prefWidth="1258.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <TextField fx:id="codeMpRechField" layoutX="262.0" layoutY="9.0" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="219.0" promptText="Recherche" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css" text="MP_">
+               <effect>
+                  <Blend />
+               </effect>
+            </TextField>
+            <Label layoutX="167.0" layoutY="15.0" text="Code MP: " />
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="451.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="1159.0" layoutY="22.0" onMouseClicked="#recherchMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+            <Label layoutX="716.0" layoutY="15.0" text="Fournisseur: " />
+            <ComboBox fx:id="fourCombo" layoutX="851.0" layoutY="9.0" onAction="#fourOnAction" prefHeight="32.0" prefWidth="219.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+            <Label layoutX="175.0" layoutY="53.0" text="Client: " />
+            <ComboBox fx:id="clientCombo" layoutX="262.0" layoutY="47.0" onAction="#clientOnAction" prefHeight="32.0" prefWidth="219.0" promptText="Selectionner..." styleClass="StyleRaduis" />
+         </children>
+      </Pane>
+      <Pane layoutX="593.0" layoutY="109.0" prefHeight="55.0" prefWidth="463.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="23.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Consultation Offres" />
+         </children>
+      </Pane>
+      <Button fx:id="btnImprimer" alignment="CENTER" layoutX="603.0" layoutY="743.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="40.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer" />
+      <Button fx:id="btnRefrech" alignment="CENTER" layoutX="465.0" layoutY="743.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#refrechOnAction" prefHeight="40.0" prefWidth="110.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Refrech" />
+      <Pane layoutX="994.0" layoutY="737.0" prefHeight="55.0" prefWidth="454.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <GridPane layoutX="28.0" layoutY="5.0" prefHeight="45.0" prefWidth="399.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="442.0" minWidth="10.0" prefWidth="262.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="218.0" minWidth="10.0" prefWidth="137.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label fx:id="qteTotal" prefHeight="20.0" prefWidth="147.0" GridPane.columnIndex="1" />
+                  <Label text="Qte Total:" />
+                  <Label text="Montant TTC:" GridPane.rowIndex="1" />
+                  <Label fx:id="totalTtcDebit" prefHeight="20.0" prefWidth="147.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

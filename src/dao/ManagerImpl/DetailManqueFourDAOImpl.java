@@ -43,6 +43,15 @@ public class DetailManqueFourDAOImpl implements DetailManqueFourDAO {
 		return session.createQuery("select c from DetailManqueFour c").list();
 		}
 
+        
+        public List<DetailManqueFour> findByStatutMP() {
+		return session.createQuery("select c from DetailManqueFour c where c.statut='Mp'").list();
+		}
+        
+        public List<DetailManqueFour> findByStatutPF() {
+		return session.createQuery("select c from DetailManqueFour c where c.statut='Pf'").list();
+		}
+        
         public List<DetailManqueFour>  findDetailManqueFourByNumCom(String numCom) {
 		// TODO Auto-generated method stub
 		Query query= session.createQuery("select c from DetailManqueFour c where c.numCommande=:numCom");

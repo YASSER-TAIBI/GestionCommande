@@ -38,6 +38,9 @@ public class TypeFilm implements Serializable{
     @Column(name="CODE")
     private String code;
 
+     @Column(name="ETAT")
+    private String etat;
+    
        @ManyToOne
     @JoinColumn(name="ID_UTIL_CREATION")
     private Utilisateur utilisateurCreation;
@@ -71,6 +74,14 @@ public class TypeFilm implements Serializable{
 
     public String getCode() {
         return code;
+    }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
     }
 
     public void setCode(String code) {

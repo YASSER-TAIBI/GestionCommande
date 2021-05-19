@@ -16,12 +16,15 @@ public interface TypeCartonBoxDAO {
        public TypeCartonBox findById(int id);
           
 		public void add(TypeCartonBox typeCartonBox);
-		
-		
+
 		public  TypeCartonBox edit(TypeCartonBox e);
 		
 		public  void delete(TypeCartonBox e); 
 		
 		public List<TypeCartonBox> findAll();
     
+                public List<TypeCartonBox> findByCodeCartBox(String code) ;
+                 
+         	public List<TypeCartonBox> findBylibelleCartBox(String lib);
+                
 }

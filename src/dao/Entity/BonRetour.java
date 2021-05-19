@@ -59,9 +59,15 @@ public class BonRetour implements Serializable {
     @Column(name="N_LIVRAISON")
     private String numLivraison;
     
+    @Column(name="MOTIF")
+    private String motif;
+    
      @Column(name="N_FACTURE")
     private String numFacture;
     
+    @Column(name="MONTANT_REGLER")
+    private BigDecimal montantRegler;
+     
     @Column(name="MONTANT_TOTAL")
     private BigDecimal montantTotal;
     
@@ -79,6 +85,9 @@ public class BonRetour implements Serializable {
 
     @Column(name="CLIENT")
     private String client;
+    
+    @Column(name="STATUT")
+    private String statut;
     
     @Column(name="N_TRAITE")
     private String numTraite;
@@ -122,6 +131,14 @@ public class BonRetour implements Serializable {
         return numFacture;
     }
 
+    public String getMotif() {
+        return motif;
+    }
+
+    public void setMotif(String motif) {
+        this.motif = motif;
+    }
+
     public void setNumFacture(String numFacture) {
         this.numFacture = numFacture;
     }
@@ -130,12 +147,28 @@ public class BonRetour implements Serializable {
         this.numCommande = nCommande;
     }
 
+    public BigDecimal getMontantRegler() {
+        return montantRegler;
+    }
+
+    public void setMontantRegler(BigDecimal montantRegler) {
+        this.montantRegler = montantRegler;
+    }
+
     public Date getDateCreation() {
         return dateCreation;
     }
 
     public Boolean getAction() {
         return action;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
     }
 
     public void setAction(Boolean action) {

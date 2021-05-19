@@ -9,20 +9,13 @@ package Controller;
 import Utils.Constantes;
 import animasi.FadeInTransition;
 import dao.Entity.Habilitation;
-import dao.Entity.StockMP;
-import dao.Entity.StockPF;
 import dao.Entity.Utilisateur;
 import dao.Manager.DetailCommandeDAO;
 import dao.Manager.HabilitationDAO;
-import dao.Manager.StockMPDAO;
-import dao.Manager.StockPFDAO;
 import dao.ManagerImpl.DetailCommandeDAOImpl;
 import dao.ManagerImpl.HabilitationDAOImpl;
-import dao.ManagerImpl.StockMPDAOImpl;
-import dao.ManagerImpl.StockPFDAOImpl;
 import function.navigation;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +47,7 @@ import javafx.stage.StageStyle;
 /**
  * FXML Controller class
  *
- * @author khatari-pc
+ * @author
  */
 public class HomeController implements Initializable {
           navigation nav = new navigation(); 
@@ -201,13 +194,6 @@ public class HomeController implements Initializable {
     private Menu douaneMenu;
     @FXML
     private MenuItem suiviDouaneMenu;
-
-    
-     private final ObservableList<StockPF> listeStockProd=FXCollections.observableArrayList();
-    
-      StockPFDAO  stockPFDAO = new StockPFDAOImpl();
-         DetailCommandeDAO detailCommandeDAO = new DetailCommandeDAOImpl();
-      private List <Object[]> listeObject=new ArrayList<Object[]>();
     @FXML
     private ImageView alerticone;
     @FXML
@@ -220,8 +206,6 @@ public class HomeController implements Initializable {
     private ListView<String> listeViewAlertMin;
     @FXML
     private ImageView alerticone11;
-    @FXML
-    private MenuItem regularisationDesPrixMenu;
     @FXML
     private MenuItem saisirCommandeOulmesMenu;
     @FXML
@@ -245,8 +229,6 @@ public class HomeController implements Initializable {
     @FXML
     private MenuItem consultationStockOulmesMenu;
     @FXML
-    private MenuItem factureAvoirOulmesMenu;
-    @FXML
     private MenuItem situationGlobalAvoirOulmesMenu;
     @FXML
     private MenuItem ConsultationRegularisationPrixMenu;
@@ -266,7 +248,93 @@ public class HomeController implements Initializable {
     private MenuItem suiviManqueFourMenu;
     @FXML
     private MenuItem consultationManqueMpMenu;
-      
+    @FXML
+    private MenuItem annulerCommandeMenu;
+    @FXML
+    private MenuItem consultationOffresMenu;
+    @FXML
+    private MenuItem historiquePrixMenu;
+    @FXML
+    private MenuItem historiquePrixOulmesMenu;
+    
+        
+         DetailCommandeDAO detailCommandeDAO = new DetailCommandeDAOImpl();
+      private List <Object[]> listeObject=new ArrayList<Object[]>();
+    @FXML
+    private MenuItem prixMoyenMenu;
+    @FXML
+    private MenuItem avanceFournisseurMenu;
+    @FXML
+    private MenuItem ecartAvoirOulmesMenu;
+    @FXML
+    private MenuItem factureAvoirOulmesMenu;
+    @FXML
+    private MenuItem consultationAvoirOulmesMenu;
+    @FXML
+    private MenuItem factureMenu;
+    @FXML
+    private MenuItem annulerCommandeOulmesMenu;
+    @FXML
+    private MenuItem situationGlobalCommandePfMenu;
+    @FXML
+    private MenuItem historiqueAvoirPrixOulmesMenu;
+    @FXML
+    private MenuItem saisirCommandeRegionPFMenu;
+    @FXML
+    private MenuItem validerCommandeRegionPFMenu;
+    @FXML
+    private MenuItem consultationCommandeRegionMPMenu;
+    @FXML
+    private MenuItem consultationCommandeRegionPFMenu;
+    @FXML
+    private MenuItem consultationGlobComOulmesRegionMenu;
+    @FXML
+    private MenuItem consultationGlobComRegionMenu;
+    @FXML
+    private MenuItem saisirRetourManquePFMenu;
+    @FXML
+    private MenuItem suiviRetourManquePFMenu;
+    @FXML
+    private MenuItem suiviManqueFourPFMenu;
+    @FXML
+    private MenuItem consultationManquePFMenu;
+    @FXML
+    private MenuItem depotMenu;
+    @FXML
+    private MenuItem bonValidationAdminMenu;
+    @FXML
+    private MenuItem soldeFinAnneeMenu;
+    @FXML
+    private MenuItem delaiPaiementFourMenu;
+    @FXML
+    private MenuItem chauffeurMenu;
+    @FXML
+    private MenuItem remiseFinPeriodeMenu;
+    @FXML
+    private MenuItem promotionAccordeeMenu;
+    @FXML
+    private Menu materialCommandeEtrangereMenu1;
+    @FXML
+    private MenuItem stockInitialEmballageMenu;
+    @FXML
+    private MenuItem situationEmballageMenu;
+    @FXML
+    private Menu reglementOulmesMenu1;
+    @FXML
+    private MenuItem consultationPromotionAccordeeMenu;
+    @FXML
+    private MenuItem client2Menu;
+    @FXML
+    private MenuItem inventaireMenu;
+    @FXML
+    private Menu inventaireStockMenu;
+    @FXML
+    private MenuItem consultationInventaireMenu;
+   
+    
+    
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -276,78 +344,7 @@ public class HomeController implements Initializable {
      autoriseMenuUtilisateur();
         
         
-//     
-//     
-//    listeStockProd.clear();
-//    listeStockProd.addAll(stockPFDAO.findAll());
-//     
-//    
-//    
-//    
-//    
-//       for (int i = 0; i < listeStockProd.size(); i++) {
-//            
-//             StockPF stockPF = listeStockProd.get(i);
-//             
-//            BigDecimal qteRestee = BigDecimal.ZERO;
-//            BigDecimal qteStock = BigDecimal.ZERO;
-//            
-//            listeObject = detailCommandeDAO.findDetailCommandeByQteRestee(stockPF.getMatierePremier().getId(), stockPF.getMagasin().getDepot().getId(),Constantes.ETAT_AFFICHAGE,nav.utilisateur.getId(), stockPF.getMagasin().getLibelle());
-//             
-//    
-//      if(!listeObject.isEmpty()){
-//
-//                     Object[] object = listeObject.get(0);
-//                      qteRestee=(BigDecimal) object[0];
-//
-//      }
-//                       
-//               qteStock= qteRestee.add(stockPF.getStock());
-//               
-//          
-//               
-//             if (qteStock.compareTo(stockPF.getMatierePremier().getStockAlert())<0){
-//                 
-//             stockPF.setManque(qteStock.subtract(stockPF.getMatierePremier().getValMinMP()));
-//             
-//          listeStockProd.set(i, stockPF);
-//
-//             }else if (qteStock.compareTo(stockPF.getMatierePremier().getStockAlert())>0){
-//             
-//                     stockPF.setManque(qteStock.subtract(stockPF.getMatierePremier().getValMaxMP()));
-//             
-//          listeStockProd.set(i, stockPF);
-//
-//             }
-//             else {
-//             
-//               stockPF.setManque(BigDecimal.ZERO);
-//             
-//          listeStockProd.set(i, stockPF);  
-//             
-//             }
-// 
-//        }
-//         ObservableList<String> alertMin = FXCollections.observableArrayList();
-//         ObservableList<String> alertMax = FXCollections.observableArrayList();
-//         
-//        for (int i = 0; i < listeStockProd.size(); i++) {
-//            
-//             StockPF stockPF = listeStockProd.get(i);
-//             
-//            if (stockPF.getManque().compareTo(BigDecimal.ZERO)<0)
-//            {
-//                
-//                alertMin.add("MP: "+stockPF.getMatierePremier().getCode()+" || PRODUIT: "+stockPF.getMatierePremier().getNom()+" || QUANTITE: "+stockPF.getManque());
-//
-//            }else if (stockPF.getManque().compareTo(BigDecimal.ZERO)>0){
-//                
-//                alertMax.add("MP: "+stockPF.getMatierePremier().getCode()+" || PRODUIT: "+stockPF.getMatierePremier().getNom()+" || QUANTITE: "+stockPF.getManque()); 
-//            }
-//        }
-//           listeViewAlertMin.setItems(alertMin);
-//           
-//           listeViewAlertMax.setItems(alertMax);
+
     }    
  
    
@@ -782,7 +779,7 @@ public class HomeController implements Initializable {
             centrePane.getChildren().clear();
             centrePane.setOpacity(0);
             new FadeInTransition(centrePane).play();
-           AnchorPane pane1 = FXMLLoader.load(getClass().getResource(nav.getBonRetour()));
+           AnchorPane pane1 = FXMLLoader.load(getClass().getResource(nav.getSaisirRetourManque()));
             centrePane.getChildren().setAll(pane1);
         } catch (Exception e) {
             
@@ -1116,7 +1113,7 @@ public class HomeController implements Initializable {
             centrePane.getChildren().clear();
             centrePane.setOpacity(0);
             new FadeInTransition(centrePane).play();
-           AnchorPane pane1 = FXMLLoader.load(getClass().getResource(nav.getConsultationBonRetourGratuite()));
+           AnchorPane pane1 = FXMLLoader.load(getClass().getResource(nav.getSuiviRetourManque()));
             centrePane.getChildren().setAll(pane1);
         } catch (Exception e) {
             
@@ -1398,7 +1395,6 @@ public class HomeController implements Initializable {
         
     }
 
-    @FXML
     private void menuRegularisationDesPrix(ActionEvent event) {
         
           try {
@@ -1510,7 +1506,7 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    private void menuReglementOulmes(ActionEvent event) {
+    private void menuReglementOulmes(ActionEvent event) throws IOException {
         
                 try {
             centrePane.getChildren().clear();
@@ -1570,24 +1566,6 @@ public class HomeController implements Initializable {
             centrePane.setOpacity(0);
             new FadeInTransition(centrePane).play();
            AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getStockOulmes()));
-           centrePane.getChildren().setAll(pane);
-        } catch (Exception e) {
-            
-            System.out.println("Exception !!!!!!!!!");
-            System.out.println(e);
-
-        }
-        
-    }
-
-    @FXML
-    private void menuFactureAvoirOulmes(ActionEvent event) {
-        
-            try {
-            centrePane.getChildren().clear();
-            centrePane.setOpacity(0);
-            new FadeInTransition(centrePane).play();
-           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getFactureAvoirOulmes()));
            centrePane.getChildren().setAll(pane);
         } catch (Exception e) {
             
@@ -1771,7 +1749,7 @@ public class HomeController implements Initializable {
             centrePane.getChildren().clear();
             centrePane.setOpacity(0);
             new FadeInTransition(centrePane).play();
-           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getConsultationManqueMp()));
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getConsultationRetourManqueMp()));
            centrePane.getChildren().setAll(pane);
         } catch (Exception e) {
             
@@ -1782,6 +1760,7 @@ public class HomeController implements Initializable {
         
     }
 
+    @FXML
     private void prixMoyenOnAction(ActionEvent event) {
         
                                   try {
@@ -1797,6 +1776,647 @@ public class HomeController implements Initializable {
 
         }
         
+        
+    }
+
+    @FXML
+    private void menuAnnulerCommande(ActionEvent event) {
+        
+            try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getAnnulerCommande()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+        
+    }
+
+    @FXML
+    private void menuconsultationOffres(ActionEvent event) {
+        
+               try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getConsultationOffres()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+    }
+
+    @FXML
+    private void menuHistoriquePrix(ActionEvent event) {
+        
+           try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getHistoriquePrix()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+    }
+
+    @FXML
+    private void menuHistoriquePrixOulmes(ActionEvent event) {
+        
+               try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getHistoriquePrixOulmes()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+    }
+
+    @FXML
+    private void avanceFournisseurOnAction(ActionEvent event) {
+        
+        
+                  try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getAvanceFournisseur()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+    }
+
+    @FXML
+    private void menuEcartAvoirOulmes(ActionEvent event) {
+        
+                    try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getEcartAvoirOulmes()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+    }
+
+    @FXML
+    private void menuFactureAvoirOulmes(ActionEvent event) {
+        
+                            try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getFactureAvoirOulmes()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+    }
+
+    @FXML
+    private void menuConsultationAvoirOulmes(ActionEvent event) {
+        
+                            try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getConsultationAvoirOulmes()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+    }
+
+    @FXML
+    private void factureOnAction(ActionEvent event) {
+        
+                              try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getFacture()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+    }
+
+    @FXML
+    private void menuAnnulerCommandeOulmes(ActionEvent event) {
+        
+                                      try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getAnnulerCommandeOulmes()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+    }
+
+    @FXML
+    private void menuSituationGlobalPfCommande(ActionEvent event) {
+        
+                                      try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getSituationGlobalCommandeOulmes()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+        
+    }
+
+    @FXML
+    private void menuHistoriqueAvoirPrixOulmes(ActionEvent event) {
+        
+        
+                                      try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getHistoriqueAvoirPrixOulmes()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+    }
+
+    @FXML
+    private void menuSaisirCommandeRegionPF(ActionEvent event) {
+        
+        
+                                      try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getSaisirCommandeRegionOulmes()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+    }
+
+    @FXML
+    private void menuValiderCommandeRegionPF(ActionEvent event) {
+        
+                                      try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getValiderCommandeRegionOulmes()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+    }
+
+    @FXML
+    private void menuConsultationCommandeRegionMP(ActionEvent event) {
+        
+              try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getConsultationCommandeRegion()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+    }
+
+    @FXML
+    private void menuConsultationCommandeRegionPF(ActionEvent event) {
+        
+        
+              try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getConsultationCommandeRegionOulmes()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+    }
+
+    @FXML
+    private void menuConsultationGlobComOulmesRegion(ActionEvent event) {
+        
+        
+            try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getConsultationGlobalCommandeRegionOulmes()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+    }
+
+    @FXML
+    private void MenuConsultationGlobComRegion(ActionEvent event) {
+        
+          try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getConsultationGlobalCommandeRegion()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+        
+        
+    }
+
+    @FXML
+    private void menuSaisirRetourManquePF(ActionEvent event) {
+        
+         try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getSaisirRetourManquePF()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+        
+    }
+
+    @FXML
+    private void menuSuiviRetourManquePF(ActionEvent event) {
+        
+        
+          
+         try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getSuiviRetourManquePF()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+        
+        
+    }
+
+    @FXML
+    private void menuSuiviManqueFourPFMenu(ActionEvent event) {
+        
+         try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getSuiviManqueFourPF()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+    }
+
+    @FXML
+    private void menuConsultationManquePF(ActionEvent event) {
+        
+            try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getConsultationRetourManquePF()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+
+        
+    }
+
+    @FXML
+    private void menuDepot(ActionEvent event) {
+        
+        
+        
+            try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getDepot()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+
+        
+        
+    }
+
+    @FXML
+    private void menuBonValidationAdmin(ActionEvent event) {
+        
+          try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getBonValidationAdministration()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+
+    }
+
+    @FXML
+    private void menuSoldeFinAnnee(ActionEvent event) throws IOException {
+        
+          
+          try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getSoldeFinAnnee()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+    }
+
+    @FXML
+    private void menuDelaiPaiementFour(ActionEvent event) {
+        
+           
+          try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getDelaiPaiementFour()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+
+        }
+        
+        
+    }
+
+    @FXML
+    private void menuChauffeur(ActionEvent event) {
+
+          try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getChauffeur()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+        }
+
+    }
+
+    @FXML
+    private void menuremiseFinPeriode(ActionEvent event) throws IOException {
+        
+//                  try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getSuiviRemiseFinPeriode()));
+           centrePane.getChildren().setAll(pane);
+//        } catch (Exception e) {
+//            
+//            System.out.println("Exception !!!!!!!!!");
+//            System.out.println(e);
+//        }
+
+        
+    }
+
+    @FXML
+    private void promotionAccordeeOnAction(ActionEvent event) {
+        
+           try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getSaisirPromotionAccordee()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+        }
+        
+    }
+
+    @FXML
+    private void menuStockInitialEmballage(ActionEvent event) {
+        
+                   try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getStockInitialEmballage()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+        }
+        
+    }
+
+    @FXML
+    private void menuSituationEmballage(ActionEvent event) {
+        
+                        try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getSituationEmballage()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+        }
+        
+    }
+
+    @FXML
+    private void consultationPromotionAccordeeOnAction(ActionEvent event) {
+        
+         try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getConsultationPromotionAccordee()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+        }
+        
+    }
+
+
+    @FXML
+    private void menuClient2(ActionEvent event) {
+        
+                      try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getClient()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+        }
+    }
+
+    @FXML
+    private void inventaireOnAction(ActionEvent event) {
+        
+        
+                      try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getSaisirInventaire()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+        }
+    }
+
+    @FXML
+    private void menuConsultationInventaire(ActionEvent event) {
+        
+           try {
+            centrePane.getChildren().clear();
+            centrePane.setOpacity(0);
+            new FadeInTransition(centrePane).play();
+           AnchorPane pane = FXMLLoader.load(getClass().getResource(nav.getConsultationInventaire()));
+           centrePane.getChildren().setAll(pane);
+        } catch (Exception e) {
+            
+            System.out.println("Exception !!!!!!!!!");
+            System.out.println(e);
+        }
         
     }
 

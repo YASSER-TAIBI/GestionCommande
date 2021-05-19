@@ -21,4 +21,8 @@ public interface CategorieMpDAO {
         public List<CategorieMp> findCategorieMpByBox(String box);
         
         public CategorieMp findCategorieMpByCat(String cat);
+        
+        public List<CategorieMp> findByCodeCategorieMp(String code);
+
+        public List<CategorieMp> findBylibelleCategorieMp(String lib);
 }

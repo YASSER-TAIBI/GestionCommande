@@ -49,14 +49,27 @@ public class DetailCommande implements Serializable {
     @Column(name = "Quantite")
     private BigDecimal quantite ;
     
+    @Column(name = "Quantite_Caisse")
+    private BigDecimal quantiteCaisse;
+    
+    @Column(name = "Quantite_Palette")
+    private BigDecimal quantitePalette;
+    
+    @Column(name = "Quantite_Caisse_Produit")
+    private BigDecimal quantiteCaisseProduit;
+    
+    @Column(name = "Quantite_Bouteille")
+    private BigDecimal quantiteBouteille;
+    
     @Column(name = "REMISE_ACHAT")
     private BigDecimal remiseAchat ;
     
     @Column(name="ETAT")
     private String etat;
     
-    @Column(name="MAGASIN")
-    private String magasin;
+    @ManyToOne
+    @JoinColumn(name = "ID_MAGASIN")
+    private Magasin magasinn;
     
     @ManyToOne
     @JoinColumn(name="ID_UTIL_CREATION")
@@ -125,8 +138,48 @@ public class DetailCommande implements Serializable {
         this.quantiteRecu = quantiteRecu;
     }
 
+    public Magasin getMagasinn() {
+        return magasinn;
+    }
+
+    public void setMagasinn(Magasin magasinn) {
+        this.magasinn = magasinn;
+    }
+
     public BigDecimal getQuantiteRestee() {
         return quantiteRestee;
+    }
+
+    public BigDecimal getQuantiteCaisse() {
+        return quantiteCaisse;
+    }
+
+    public BigDecimal getQuantitePalette() {
+        return quantitePalette;
+    }
+
+    public void setQuantitePalette(BigDecimal quantitePalette) {
+        this.quantitePalette = quantitePalette;
+    }
+
+    public BigDecimal getQuantiteCaisseProduit() {
+        return quantiteCaisseProduit;
+    }
+
+    public void setQuantiteCaisseProduit(BigDecimal quantiteCaisseProduit) {
+        this.quantiteCaisseProduit = quantiteCaisseProduit;
+    }
+
+    public BigDecimal getQuantiteBouteille() {
+        return quantiteBouteille;
+    }
+
+    public void setQuantiteBouteille(BigDecimal quantiteBouteille) {
+        this.quantiteBouteille = quantiteBouteille;
+    }
+
+    public void setQuantiteCaisse(BigDecimal quantiteCaisse) {
+        this.quantiteCaisse = quantiteCaisse;
     }
 
     public void setQuantiteRestee(BigDecimal quantiteRestee) {
@@ -215,14 +268,6 @@ public class DetailCommande implements Serializable {
 
     public BigDecimal getPrixUnitaire() {
         return prixUnitaire;
-    }
-
-    public String getMagasin() {
-        return magasin;
-    }
-
-    public void setMagasin(String magasin) {
-        this.magasin = magasin;
     }
 
     public void setPrixUnitaire(BigDecimal prixUnitaire) {

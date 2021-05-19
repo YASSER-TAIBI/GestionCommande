@@ -128,7 +128,7 @@ public class ConsultationSoldeClientController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-            List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+            List<Fournisseur> listFournisseur=fournisseurDAO.findAllPfAndMp();
         
         listFournisseur.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());
@@ -153,7 +153,7 @@ public class ConsultationSoldeClientController implements Initializable {
            calcule ();
            
              tableDetailCompte.setEditable(true);
-              dateLivraisonColumn.setEditable(true);
+             dateLivraisonColumn.setEditable(true);
            
            
            
@@ -218,7 +218,7 @@ public class ConsultationSoldeClientController implements Initializable {
         dateLivraisonColumn.setCellValueFactory(new PropertyValueFactory<DetailCompte, Date>("dateBonLivraison"));
         setColumnTextFieldConverter(getConverter(),dateLivraisonColumn);
         
-          montantDebitColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailCompte, BigDecimal>, ObservableValue<BigDecimal>>() {
+        montantDebitColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailCompte, BigDecimal>, ObservableValue<BigDecimal>>() {
                 @Override
                 public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<DetailCompte, BigDecimal> p) {
                     
@@ -327,7 +327,18 @@ public class ConsultationSoldeClientController implements Initializable {
                Fournisseur fournisseur=mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
                ClientMP client=mapClient.get(clientCombo.getSelectionModel().getSelectedItem());
                  listeDetailCompte.addAll(detailCompteDAO.findFourByRechercheNomReglement(fournisseur.getCompteFourMP().getId(),client.getId()));
-             
+     
+      soldeAn = BigDecimal.ZERO;           
+                 
+    totalCreditAncien.setText("");
+    totalDebitAncien.setText("");
+    soldeAncien.setText("");
+                
+    totalCredit.setText("");
+    totalDebit.setText("");
+    solde.setText("");
+    soldeTotal.setText("");
+                 
                  calcule ();
           } 
 
@@ -396,13 +407,25 @@ public class ConsultationSoldeClientController implements Initializable {
         
     
       loadDetail();
-      calcule();
+   
     clientCombo.getSelectionModel().select(-1);     
     fourCombo.getSelectionModel().select(-1);    
     
+    soldeAn = BigDecimal.ZERO;
+    
+    totalCreditAncien.setText("");
+    totalDebitAncien.setText("");
+    soldeAncien.setText("");
+                
+    totalCredit.setText("");
+    totalDebit.setText("");
+    solde.setText("");
+    soldeTotal.setText("");
+    
     dateDebut.setValue(null);
     dateFin.setValue(null);
-        
+    
+           calcule();
     }
 
     @FXML

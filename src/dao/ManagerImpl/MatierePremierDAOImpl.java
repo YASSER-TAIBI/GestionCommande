@@ -41,7 +41,7 @@ public class MatierePremierDAOImpl implements MatierePremiereDAO {
 	}
 
 	public List<MatierePremier> findAll() {
-		return session.createQuery("select c from MatierePremier c").list();
+		return session.createQuery("select c from MatierePremier c where c.etat = 'Lancé'").list();
 		}
 
 	public MatierePremier findById(int id) {
@@ -52,7 +52,7 @@ public class MatierePremierDAOImpl implements MatierePremiereDAO {
 	public MatierePremier findByCode(String code) {
 		// TODO Auto-generated method stub
 		MatierePremier matierPremiere= new MatierePremier();
-		Query query= session.createQuery("select c from MatierePremier c where c.code=:code");
+		Query query= session.createQuery("select c from MatierePremier c where c.code=:code and c.etat = 'Lancé'");
 		query.setParameter("code", code);
 		
 		matierPremiere= (MatierePremier) query.uniqueResult();
@@ -63,19 +63,19 @@ public class MatierePremierDAOImpl implements MatierePremiereDAO {
 	@Override
 	public List<MatierePremier> findMatierePremierSaufCatTHE() {
 		// TODO Auto-generated method stub
-		return session.createQuery("select c from MatierePremier c where CategorieMp.id <>1 and CategorieMp.id <> 2").list();
+		return session.createQuery("select c from MatierePremier c where CategorieMp.id <>1 and CategorieMp.id <> 2 and c.etat = 'Lancé'").list();
 	}
 
 	@Override
 	public List<CategorieMp> listeCategorieTHE() {
 		// TODO Auto-generated method stub
-		return session.createQuery("select c from CategorieMp c where code ='CH001' or code = 'HB001'").list();
+		return session.createQuery("select c from CategorieMp c where c.etat = 'Lancé' and code ='CH001' or code = 'HB001' ").list();
 	}
 
 	@Override
 	public List<MatierePremier> listeMatierePremierByCategorie(String codeCat) {
 		// TODO Auto-generated method stub
-		Query query= session.createQuery("select c from MatierePremier c where CategorieMp.code =:codeCat");
+		Query query= session.createQuery("select c from MatierePremier c where CategorieMp.code =:codeCat and c.etat = 'Lancé'");
 		query.setParameter("codeCat", codeCat);
 		
 		return query.list();
@@ -95,7 +95,7 @@ public class MatierePremierDAOImpl implements MatierePremiereDAO {
 	
 	    public List<MatierePremier> listeMatierePremierByNomMp(String nom) {
 		// TODO Auto-generated method stub
-		Query query= session.createQuery("select c from MatierePremier c WHERE c.nom like:nom");
+		Query query= session.createQuery("select c from MatierePremier c WHERE c.nom like:nom ");
 		query.setParameter("nom","%"+nom+"%");
 		
 		return query.list();

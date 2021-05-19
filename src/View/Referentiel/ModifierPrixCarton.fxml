@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="432.0" prefWidth="737.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.ModifierPrixCartonController">
+<AnchorPane id="AnchorPane" prefHeight="432.0" prefWidth="737.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.ModifierPrixCartonController">
    <children>
       <Label layoutX="44.0" layoutY="154.0" prefHeight="20.0" prefWidth="127.0" text="Fournisseur:" />
       <ComboBox fx:id="fourCombo" layoutX="170.0" layoutY="148.0" prefHeight="31.0" prefWidth="201.0" promptText="Sélectionner..." styleClass="StyleRaduis" />
@@ -23,7 +23,7 @@
       <Button fx:id="modifierBtn" layoutX="319.0" layoutY="353.0" mnemonicParsing="false" onAction="#modifierBtnOnAction" prefHeight="41.0" prefWidth="116.0" text="Modifier" />
       <Pane layoutX="167.0" layoutY="24.0" prefHeight="47.0" prefWidth="417.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Label layoutX="25.0" layoutY="6.0" prefHeight="36.0" prefWidth="368.0" styleClass="label5" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Modifier Prix Carton" />
+            <Label layoutX="45.0" layoutY="6.0" prefHeight="36.0" prefWidth="339.0" styleClass="label5" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Modifier Prix Film" />
          </children>
       </Pane>
       <Separator layoutX="373.0" layoutY="131.0" orientation="VERTICAL" prefHeight="173.0" prefWidth="24.0" />

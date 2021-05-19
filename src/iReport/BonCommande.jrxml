@@ -8,6 +8,12 @@
 	<parameter name="NumCommande" class="java.lang.String"/>
 	<parameter name="Ville" class="java.lang.String"/>
 	<parameter name="DateLiv" class="java.util.Date"/>
+	<parameter name="nomChauffeur" class="java.lang.String"/>
+	<parameter name="Chauffeur" class="java.lang.String"/>
+	<parameter name="Chargement" class="java.lang.String"/>
+	<parameter name="Matricule" class="java.lang.String"/>
+	<parameter name="DateChargement" class="java.util.Date"/>
+	<parameter name="NumMatricule" class="java.lang.String"/>
 	<field name="matierePremier.code" class="java.lang.String"/>
 	<field name="matierePremier.nom" class="java.lang.String"/>
 	<field name="quantite" class="java.math.BigDecimal"/>
@@ -16,16 +22,16 @@
 		<band height="156" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="125" splitType="Stretch">
+		<band height="130" splitType="Stretch">
 			<staticText>
-				<reportElement x="42" y="38" width="105" height="18" uuid="3f683fec-93d5-4c0e-9f5d-cdef4666620d"/>
+				<reportElement x="41" y="20" width="105" height="18" uuid="3f683fec-93d5-4c0e-9f5d-cdef4666620d"/>
 				<textElement>
 					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<text><![CDATA[Bon de Commande]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="42" y="56" width="47" height="18" uuid="2f50477c-53e4-464b-b73d-67c97ce7d30c"/>
+				<reportElement x="41" y="38" width="47" height="18" uuid="2f50477c-53e4-464b-b73d-67c97ce7d30c"/>
 				<textElement>
 					<font fontName="Calibri" size="12"/>
 				</textElement>
@@ -53,7 +59,7 @@
 				<textFieldExpression><![CDATA[$P{Fournisseur}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="89" y="56" width="130" height="18" uuid="255d2639-22f5-414c-a189-8498f54459c7"/>
+				<reportElement x="88" y="38" width="130" height="18" uuid="255d2639-22f5-414c-a189-8498f54459c7"/>
 				<textElement>
 					<font fontName="Calibri" size="12" isBold="true"/>
 				</textElement>
@@ -73,6 +79,48 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{DateLiv}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="41" y="74" width="84" height="18" uuid="656d6113-afd9-41bf-8254-d4b73ef2e62b"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Chauffeur}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="135" y="92" width="124" height="18" uuid="6bd27b43-b1ff-4338-8d25-7e8eff9a5312"/>
+				<textElement>
+					<font fontName="calibri" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DateChargement}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="41" y="56" width="84" height="18" uuid="959cfd1e-22a4-4ce4-9235-c27dde03ce8f"/>
+				<textElement>
+					<font fontName="calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Matricule}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="125" y="56" width="124" height="18" uuid="23c5c634-8264-4849-a0e7-6e23d6619b3b"/>
+				<textElement>
+					<font fontName="calibri" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NumMatricule}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="41" y="92" width="94" height="18" uuid="c1458c1e-7207-41c4-9cc1-91a1f27eb26a"/>
+				<textElement>
+					<font fontName="calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Chargement}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="125" y="74" width="124" height="18" uuid="be7620bb-7d9b-4074-97c9-c09c203e33c9"/>
+				<textElement>
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomChauffeur}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -81,28 +129,28 @@
 				<reportElement x="12" y="0" width="532" height="20" backcolor="#8FDFEF" uuid="1f96c44d-f72a-410a-80c6-24f584e90523"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="23" y="-1" width="59" height="20" uuid="0cae4e64-b6d6-4bc7-ad4f-d3c2d4120416"/>
+				<reportElement x="27" y="-1" width="59" height="20" uuid="0cae4e64-b6d6-4bc7-ad4f-d3c2d4120416"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Réference]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="359" y="-1" width="60" height="20" uuid="30cf713d-db5b-46a6-9297-a59f9538169f"/>
+				<reportElement x="319" y="-1" width="67" height="20" uuid="30cf713d-db5b-46a6-9297-a59f9538169f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Quantité]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="91" y="-1" width="255" height="20" uuid="13402997-0f13-4850-a24c-6372d61e798d"/>
+				<reportElement x="90" y="-1" width="224" height="20" uuid="13402997-0f13-4850-a24c-6372d61e798d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Désignation]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="431" y="-1" width="90" height="19" uuid="9bec67f1-62c4-4025-b227-69ff539ffe70"/>
+				<reportElement x="391" y="-1" width="136" height="19" uuid="9bec67f1-62c4-4025-b227-69ff539ffe70"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri"/>
 				</textElement>
@@ -112,8 +160,8 @@
 	</columnHeader>
 	<detail>
 		<band height="31" splitType="Stretch">
-			<textField>
-				<reportElement x="24" y="3" width="59" height="20" uuid="47769023-dacb-4561-8de9-3b75ea9a818e"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="28" y="3" width="58" height="20" isPrintWhenDetailOverflows="true" uuid="47769023-dacb-4561-8de9-3b75ea9a818e"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
@@ -123,8 +171,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{matierePremier.code}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="93" y="3" width="255" height="20" uuid="38b9d8fa-9a09-4aaf-b0ea-dbb57321b960"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="92" y="3" width="222" height="20" isPrintWhenDetailOverflows="true" uuid="38b9d8fa-9a09-4aaf-b0ea-dbb57321b960"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid"/>
 					<bottomPen lineWidth="1.0"/>
@@ -137,19 +185,19 @@
 			<rectangle>
 				<reportElement x="18" y="26" width="519" height="3" backcolor="#8FDFEF" uuid="0e1cdaa7-0a75-4148-a58c-2cb0754ee413"/>
 			</rectangle>
-			<textField>
-				<reportElement x="433" y="3" width="90" height="20" uuid="43537e67-1f82-485e-9443-86cd7e904a67"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="391" y="3" width="136" height="20" isPrintWhenDetailOverflows="true" uuid="43537e67-1f82-485e-9443-86cd7e904a67"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" isBold="true"/>
+					<font fontName="Calibri" isBold="true" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dimension.libelle}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
-				<reportElement x="359" y="3" width="60" height="20" uuid="3f9e25b1-3dfa-4b3a-9038-479637fdfb26"/>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="319" y="3" width="67" height="20" isPrintWhenDetailOverflows="true" uuid="3f9e25b1-3dfa-4b3a-9038-479637fdfb26"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>

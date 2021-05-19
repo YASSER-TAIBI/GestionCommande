@@ -76,6 +76,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
@@ -87,6 +88,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -106,9 +108,8 @@ import javafx.util.Callback;
  *  
  * @author Hp
  */
-public abstract class SaisirMatierePremiereController extends AnchorPane implements Initializable {
-    private int POUR;
-    Commande commande;
+public class SaisirMatierePremiereController implements Initializable {
+   
     
     @FXML    
     private TableView<DetailCommande> detailCommandetable;
@@ -128,28 +129,6 @@ public abstract class SaisirMatierePremiereController extends AnchorPane impleme
     private Button initialiserBtn;
     @FXML
     private Label qteAfficchage;
-    
-    
-    public SaisirMatierePremiereController (int POUR,Commande commande){
-    this.commande= commande;
-    this.POUR=POUR;
-    setAll(nav.getSaisirMatierePremiere(), this);
-    }
-    
-    public static void setAll(String path, Object root){
-    FXMLLoader fxmlLoader = new FXMLLoader(root.getClass().getResource(path));
-        fxmlLoader.setRoot(root);
-        fxmlLoader.setController(root);
-        try {
-            System.out.println(path);
-            fxmlLoader.load();
-        } catch (IOException exception){
-            throw new RuntimeException(exception);
-        }
-
-    }
-    public abstract void refresh();
-    
     @FXML
     private TextField nCommandeField;
     @FXML
@@ -212,7 +191,7 @@ public abstract class SaisirMatierePremiereController extends AnchorPane impleme
     SequenceurDAO sequenceurDAO = new SequenceurDAOImpl();
       
     
-    private ObservableList<DetailCommande> listeDetailCommande;
+    ObservableList<DetailCommande> listeDetailCommandeTMP=FXCollections.observableArrayList();
   
      private final ObservableList<PrixBox> listeprixBox=FXCollections.observableArrayList();
     private final ObservableList<PrixCarton> listeprixCarton=FXCollections.observableArrayList();
@@ -220,10 +199,13 @@ public abstract class SaisirMatierePremiereController extends AnchorPane impleme
     private final ObservableList<PrixFilm> listeprixFilmGolde=FXCollections.observableArrayList();
     private final ObservableList<PrixAdhesif> listeprixAdhesif=FXCollections.observableArrayList();
     
+    
+    Commande commande;
     navigation nav = new navigation();
     MatierePremier matierePremiere=new MatierePremier();
     
        BigDecimal montanTotal=BigDecimal.ZERO;
+    
     
       void setColumnProperties(){
          
@@ -269,9 +251,23 @@ public abstract class SaisirMatierePremiereController extends AnchorPane impleme
 
     }
     
+       public void chargerLesDonnees(){
+       
+        nCommandeField.setText(commande.getnCommande());
+        clientCombo.setValue(commande.getClientMP().getNom());
+        LocalDate date = new java.util.Date(commande.getDateCreation().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        dateSaisie.setValue(date);
+        fornisseurCombo.setValue(commande.getFourisseur().getNom());
+        
+         detailCommandetable.setItems(listeDetailCommandeTMP);
+        
+         setColumnProperties();    
+       
+       }
+      
     void loadDetail(){
 
-        detailCommandetable.setItems(listeDetailCommande);
+        detailCommandetable.setItems(listeDetailCommandeTMP);
     }
     /**
      * Initializes the controller class.
@@ -279,18 +275,9 @@ public abstract class SaisirMatierePremiereController extends AnchorPane impleme
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
-        
-       listeDetailCommande =FXCollections.observableArrayList(detailCommandeDAO.findDetailCommandeByEtat(commande, Constantes.ETAT_AFFICHAGE));
-       
-       
-    
-        nCommandeField.setText(commande.getnCommande());
-        clientCombo.setValue(commande.getClientMP().getNom());
-        LocalDate date = new java.util.Date( commande.getDateCreation().getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        dateSaisie.setValue(date);
-        fornisseurCombo.setValue(commande.getFourisseur().getNom());
-        ////
+
+
+      
            List<Grammage> listGrammage=grammageDAO.findAll();
         
         listGrammage.stream().map((grammage) -> {
@@ -353,9 +340,7 @@ public abstract class SaisirMatierePremiereController extends AnchorPane impleme
           detailCommandetable.setEditable(true);
           quantiteColumn.setEditable(true);
           montanTotal=BigDecimal.ZERO;
-    
-          setColumnProperties();    
-          loadDetail();
+
     }    
 
     @FXML
@@ -731,31 +716,41 @@ public abstract class SaisirMatierePremiereController extends AnchorPane impleme
 
     @FXML
     private void ajouterMpAction(ActionEvent event) {
+        
+          Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+        
         if(clientCombo.getSelectionModel().getSelectedItem()== null || clientCombo.getSelectionModel().getSelectedItem().isEmpty() ||fornisseurCombo.getSelectionModel().getSelectedItem()== null || fornisseurCombo.getSelectionModel().getSelectedItem().isEmpty() || detailCommandetable.getItems().size() ==0 ){
          nav.showAlert(Alert.AlertType.WARNING, "Attention", null, Constantes.REMPLIR_CHAMPS);
      }
         else {
             
-
-        commande.setDetailCommandes(listeDetailCommande);
-        commandeDAO.edit(commande);
      
-        
+          FXMLLoader fXMLLoader = new FXMLLoader();
+            fXMLLoader.setLocation(getClass().getResource(nav.getValiderCommande()));
+       
+               listeDetailCommandeTMP.clear();
+               listeDetailCommandeTMP.addAll(detailCommandeDAO.findDetailCommandeByEtat(commande, Constantes.ETAT_AFFICHAGE));
        
          nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.AJOUTER_ENREGISTREMENT);
  
-            refresh();
-            Stage stage = (Stage)
-            ajouterMp.getScene().getWindow();
+    
+            Stage stage = (Stage) ajouterMp.getScene().getWindow();
             stage.close();
         }
       
-
+            }
         
     }
 
     @FXML
     private void initialiserAction(ActionEvent event) {
+        
+        clear();
     }
 
     @FXML
@@ -824,8 +819,10 @@ public abstract class SaisirMatierePremiereController extends AnchorPane impleme
 
              montanTotal=montanTotal.add(montantB).setScale(2,RoundingMode.FLOOR);
 
-            listeDetailCommande.add(detailCommande);
+            detailCommandeDAO.add(detailCommande);
 
+            listeDetailCommandeTMP.add(detailCommande);
+            
             setColumnProperties();
             loadDetail();
             clear();
@@ -883,8 +880,10 @@ public abstract class SaisirMatierePremiereController extends AnchorPane impleme
 
              montanTotal=montanTotal.add(montantB).setScale(2,RoundingMode.FLOOR);
  
-            listeDetailCommande.add(detailCommande);
+            detailCommandeDAO.add(detailCommande);
 
+            listeDetailCommandeTMP.add(detailCommande);
+            
             setColumnProperties();
             loadDetail();
             clear();
@@ -947,8 +946,10 @@ public abstract class SaisirMatierePremiereController extends AnchorPane impleme
 
              montanTotal=montanTotal.add(montantB).setScale(2,RoundingMode.FLOOR);
  
-            listeDetailCommande.add(detailCommande);
+            detailCommandeDAO.add(detailCommande);
 
+            listeDetailCommandeTMP.add(detailCommande);
+            
             setColumnProperties();
             loadDetail();
             clear();
@@ -1011,8 +1012,10 @@ public abstract class SaisirMatierePremiereController extends AnchorPane impleme
 
              montanTotal=montanTotal.add(montantB).setScale(2,RoundingMode.FLOOR);
  
-            listeDetailCommande.add(detailCommande);
+            detailCommandeDAO.add(detailCommande);
 
+            listeDetailCommandeTMP.add(detailCommande);
+            
             setColumnProperties();
             loadDetail();
             clear();
@@ -1070,8 +1073,10 @@ public abstract class SaisirMatierePremiereController extends AnchorPane impleme
 
              montanTotal=montanTotal.add(montantB).setScale(2,RoundingMode.FLOOR);
  
-            listeDetailCommande.add(detailCommande);
+            detailCommandeDAO.add(detailCommande);
 
+            listeDetailCommandeTMP.add(detailCommande);
+            
             setColumnProperties();
             loadDetail();
             clear();
@@ -1127,8 +1132,10 @@ public abstract class SaisirMatierePremiereController extends AnchorPane impleme
              montanTotal=montanTotal.add(montantA).setScale(2,RoundingMode.FLOOR);
 
              
-            listeDetailCommande.add(detailCommande);
+            detailCommandeDAO.add(detailCommande);
 
+            listeDetailCommandeTMP.add(detailCommande);
+            
             setColumnProperties();
             loadDetail();
             clear();
@@ -1165,9 +1172,10 @@ public abstract class SaisirMatierePremiereController extends AnchorPane impleme
 
              montanTotal=montanTotal.add(montantA).setScale(2,RoundingMode.FLOOR);
 
-             
-            listeDetailCommande.add(detailCommande);
+            detailCommandeDAO.add(detailCommande);
 
+            listeDetailCommandeTMP.add(detailCommande);
+            
             setColumnProperties();
             loadDetail();
             clear();

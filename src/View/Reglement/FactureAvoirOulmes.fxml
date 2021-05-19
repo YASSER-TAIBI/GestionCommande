@@ -17,9 +17,9 @@
 
 <AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Reglement.FactureAvoirOulmesController">
    <children>
-      <Pane layoutX="534.0" layoutY="110.0" prefHeight="48.0" prefWidth="482.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="444.0" layoutY="110.0" prefHeight="48.0" prefWidth="609.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Label layoutX="19.0" layoutY="2.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Facture Avoir Oulmes" />
+            <Label layoutX="19.0" layoutY="2.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Facture Avoir Produit Fini" />
          </children>
       </Pane>
       <TableView fx:id="avoireOulmestable" blendMode="MULTIPLY" layoutX="173.0" layoutY="527.0" prefHeight="199.0" prefWidth="1141.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">

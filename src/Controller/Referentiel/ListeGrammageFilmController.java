@@ -7,6 +7,7 @@ package Controller.Referentiel;
 
 import Utils.Constantes;
 import dao.Entity.GrammageFilm;
+import dao.Entity.TypeCartonBox;
 import dao.Manager.GrammageFilmDAO;
 import dao.ManagerImpl.GrammageFilmDAOImpl;
 import function.navigation;
@@ -118,6 +119,7 @@ public class ListeGrammageFilmController implements Initializable {
        
        grammageFilm.setCode(txtCode.getText());
        grammageFilm.setLibelle(txtLibelle.getText());
+       grammageFilm.setEtat(Constantes.ETAT_COMMANDE_LANCE);
        grammageFilm.setUtilisateurCreation(nav.getUtilisateur());
 
       
@@ -163,7 +165,11 @@ public class ListeGrammageFilmController implements Initializable {
         
      }else {
        GrammageFilm grammageFilm=tableGrammageFilm.getSelectionModel().getSelectedItem();
-        grammageFilmDAO.delete(grammageFilm);
+        
+       grammageFilm.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
+       
+       grammageFilmDAO.edit(grammageFilm);
+                
     
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null,Constantes.SUPRIMER_ENREGISTREMENT);
         
@@ -186,11 +192,42 @@ public class ListeGrammageFilmController implements Initializable {
     }
 
     @FXML
-    private void rechercheCodeVilleOnKeyPressed(KeyEvent event) {
+    private void rechercheCodeOnKeyPressed(KeyEvent event) {
+        
+                        ObservableList<GrammageFilm> listeGrammageFilm=FXCollections.observableArrayList();
+          
+        listeGrammageFilm.clear();
+   
+        listeGrammageFilm.addAll(grammageFilmDAO.findByCodeGrammageFilm(codeRechField.getText()));
+   
+        tableGrammageFilm.setItems(listeGrammageFilm);
+        
     }
 
     @FXML
-    private void rechercheLibelleVilleOnKeyPressed(KeyEvent event) {
+    private void rechercheLibelleOnKeyPressed(KeyEvent event) {
+        
+                       ObservableList<GrammageFilm> listeGrammageFilm=FXCollections.observableArrayList();
+          
+        listeGrammageFilm.clear();
+   
+        listeGrammageFilm.addAll(grammageFilmDAO.findBylibelleGrammageFilm(libelleRechField.getText()));
+   
+        tableGrammageFilm.setItems(listeGrammageFilm);
+        
+    }
+
+    @FXML
+    private void rechercheTableMouseClicked(MouseEvent event) {
+        
+        
+            libelleRechField.clear();
+            codeRechField.clear();
+
+            setColumnProperties();
+            loadDetail();
+
+        
     }
     
 }

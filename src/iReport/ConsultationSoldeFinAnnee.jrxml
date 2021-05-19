@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c738b9ef-7462-44e3-babf-6057de58bdfc">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dateDebut" class="java.lang.String"/>
+	<parameter name="dateFin" class="java.lang.String"/>
+	<parameter name="periodeDateDebut" class="java.util.Date"/>
+	<parameter name="periodeDateFin" class="java.util.Date"/>
+	<parameter name="montantTotal" class="java.lang.String"/>
+	<parameter name="dateSituation" class="java.lang.String"/>
+	<parameter name="dateSituationText" class="java.lang.String"/>
+	<field name="fournisseur.nom" class="java.lang.String"/>
+	<field name="ahlBrahim" class="java.math.BigDecimal"/>
+	<field name="nassTeaPacking" class="java.math.BigDecimal"/>
+	<field name="saharaPacking" class="java.math.BigDecimal"/>
+	<field name="elAllaouiFilali" class="java.math.BigDecimal"/>
+	<field name="greenTea" class="java.math.BigDecimal"/>
+	<field name="montant" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="48" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="245" y="11" width="315" height="24" backcolor="#8FDFEF" uuid="5bf9e8a0-629c-4b5b-af1b-75a1a84fdef7"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="251" y="8" width="305" height="32" uuid="f095cca9-13a7-4c7b-b3b2-3d071f9b76fe"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Consultation Solde Fin d'Année]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="56" splitType="Stretch">
+			<textField>
+				<reportElement x="186" y="16" width="100" height="20" uuid="34eceffc-a6bf-4deb-a744-21822ef908bb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dateSituation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="81" y="16" width="105" height="20" uuid="7337d567-8762-4917-b0e6-50207511c8b7"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dateSituationText}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="21" y="0" width="761" height="20" backcolor="#8FDFEF" uuid="0d3a106e-e1d8-434e-85f4-13a75745161a"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="144" y="0" width="100" height="20" uuid="1cc76da6-9279-4b3e-88ff-3d59c0f5c89a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ahl Brahim]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="0" width="100" height="20" uuid="e5c42d01-2141-490c-af48-0df9bbec365e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fournisseur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="456" y="0" width="100" height="20" uuid="967b4ae1-b86c-4267-8acd-d417fb56087c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[El Allaoui El Filali]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="248" y="0" width="100" height="20" uuid="907f3e78-6b96-40a4-8269-c35728fdc1d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[El Nass Tea Packing]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="352" y="0" width="100" height="20" uuid="da11ddfe-bcab-4eab-873a-eb5d9fd54d30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sahara Packing]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="560" y="0" width="100" height="20" uuid="cfb54578-7cf2-46da-9f2b-ab34617b8416"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sud Green Tea]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="664" y="0" width="100" height="20" uuid="ca5d5a97-3657-496d-b9fa-d591b4a32747"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Montant]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement x="144" y="1" width="101" height="20" uuid="40aed825-320a-4838-938f-a339e67a34ff"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ahlBrahim}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="40" y="1" width="100" height="20" uuid="79dc7a9b-41fe-4742-90df-c4caa03fe73c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fournisseur.nom}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="248" y="1" width="100" height="20" uuid="b4945cd5-d7c5-4c94-90e1-58266544a42f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nassTeaPacking}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="352" y="1" width="100" height="20" uuid="df84954c-45b6-427d-903c-98ca867f5937"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saharaPacking}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="456" y="1" width="100" height="20" uuid="609b1eb3-b3ef-47b3-85f3-e8b637eaf102"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{elAllaouiFilali}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="560" y="1" width="100" height="20" uuid="bd156439-1f7d-4fb3-9eba-3f4dda029d41"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{greenTea}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="664" y="1" width="100" height="20" uuid="eed98836-58dc-4a70-b6d7-d311eb63074e"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montant}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="84">
+			<rectangle>
+				<reportElement x="21" y="0" width="761" height="4" backcolor="#8FDFEF" uuid="622782fa-877a-49ca-badf-83c157d7835b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="565" y="8" width="99" height="19" uuid="4af8ed0d-87a8-4f30-80f5-03d9fade9ec0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Montant Total:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="664" y="8" width="100" height="19" uuid="9e77dfd8-3366-4d98-ad69-be90a89c51f8"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{montantTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

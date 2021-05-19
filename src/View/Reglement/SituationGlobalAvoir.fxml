@@ -1,56 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
 <AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Reglement.SutiationGlobalAvoirController">
    <children>
-      <TableView fx:id="tableSituationAvoir" blendMode="MULTIPLY" layoutX="117.0" layoutY="185.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailOnMouseClicked" prefHeight="232.0" prefWidth="1371.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+      <TableView fx:id="tableSituationAvoir" blendMode="MULTIPLY" layoutX="117.0" layoutY="234.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailOnMouseClicked" prefHeight="187.0" prefWidth="1371.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
          <columns>
-            <TableColumn fx:id="codeColumn" prefWidth="77.0" text="Code" />
-            <TableColumn fx:id="libelleColumn" prefWidth="326.0" text="Libelle" />
-            <TableColumn fx:id="avoirColumn" prefWidth="187.0" text="Avoir" />
-            <TableColumn fx:id="factureAvoirColumn" minWidth="0.0" prefWidth="163.0" text="Facture Avoir" />
-            <TableColumn fx:id="qteResteeColumn" minWidth="0.0" prefWidth="125.0" text="Qte Restee" />
-            <TableColumn fx:id="prixColumn" minWidth="0.0" prefWidth="114.0" text="Prix" />
-            <TableColumn fx:id="montantColumn" minWidth="0.0" prefWidth="126.0" text="Montant HT" />
-            <TableColumn fx:id="MontantTvaColumn" minWidth="0.0" prefWidth="127.0" text="Montant TVA" />
-            <TableColumn fx:id="MontantTtcColumn" minWidth="0.0" prefWidth="126.0" text="Montant TTC" />
+            <TableColumn fx:id="codeColumn" prefWidth="120.0" text="Code" />
+            <TableColumn fx:id="libelleColumn" prefWidth="419.0" text="Libelle" />
+            <TableColumn fx:id="avoirColumn" prefWidth="278.0" text="Avoir" />
+            <TableColumn fx:id="factureAvoirColumn" minWidth="0.0" prefWidth="281.0" text="Facture Avoir" />
+            <TableColumn fx:id="ecartColumn" minWidth="0.0" prefWidth="273.0" text="Ecart" />
          </columns>
       </TableView>
-      <Pane layoutX="446.0" layoutY="111.0" prefHeight="55.0" prefWidth="708.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="421.0" layoutY="107.0" prefHeight="55.0" prefWidth="769.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Label layoutX="55.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Situation Global des Avoirs" />
+            <Label layoutX="33.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Situation Global Avoir &quot;Article&quot;" />
          </children>
       </Pane>
-      <Pane layoutX="120.0" layoutY="426.0" prefHeight="55.0" prefWidth="1371.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="120.0" layoutY="428.0" prefHeight="23.0" prefWidth="1371.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Label layoutX="949.0" layoutY="18.0" text="Montant Total TTC: " />
-            <TextField fx:id="montantTotalField" alignment="CENTER" disable="true" layoutX="1141.0" layoutY="12.0" prefHeight="31.0" prefWidth="203.0" promptText="montant Total" styleClass="StyleRaduis" />
+            <Label fx:id="totalEcart" layoutX="1095.0" layoutY="2.0" prefHeight="18.0" prefWidth="146.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <Label fx:id="totalFactureAv" layoutX="683.0" layoutY="2.0" prefHeight="18.0" prefWidth="146.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <Label layoutX="955.0" layoutY="4.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Total Ecart:" />
+            <Label layoutX="481.0" layoutY="4.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Total Facture Avoir:" />
+            <Label fx:id="totalAvoir" layoutX="232.0" layoutY="2.0" prefHeight="18.0" prefWidth="146.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <Label layoutX="92.0" layoutY="4.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Total Avoir:" />
          </children>
       </Pane>
-      <TableView fx:id="detailTableSituationAvoir" blendMode="MULTIPLY" layoutX="117.0" layoutY="490.0" maxWidth="1.7976931348623157E308" prefHeight="232.0" prefWidth="1371.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+      <TableView fx:id="detailTableSituationAvoir" blendMode="MULTIPLY" layoutX="117.0" layoutY="538.0" maxWidth="1.7976931348623157E308" prefHeight="161.0" prefWidth="1371.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
          <columns>
-            <TableColumn fx:id="detailCodeColumn" prefWidth="74.99996948242188" text="Code" />
-            <TableColumn fx:id="detailLibelleColumn" prefWidth="277.0" text="Libelle" />
-            <TableColumn fx:id="clientColumn" minWidth="0.0" prefWidth="172.0" text="Client" />
-            <TableColumn fx:id="detailAvoirColumn" prefWidth="120.0" text="Avoir" />
-            <TableColumn fx:id="detailFactureAvoirColumn" minWidth="0.0" prefWidth="144.0" text="Facture Avoir" />
-            <TableColumn fx:id="detailQteResteeColumn" minWidth="0.0" prefWidth="106.0" text="Qte Restee" />
-            <TableColumn fx:id="detailPrixColumn" minWidth="0.0" prefWidth="99.0" text="Prix" />
-            <TableColumn fx:id="detailMontantColumn" minWidth="0.0" prefWidth="126.0" text="Montant HT" />
-            <TableColumn fx:id="detailMontantTvaColumn" minWidth="0.0" prefWidth="126.0" text="Montant TVA" />
-            <TableColumn fx:id="detailMontantTtcColumn" minWidth="0.0" prefWidth="126.0" text="Montant TTC" />
+            <TableColumn fx:id="detailCodeColumn" prefWidth="97.0" text="Code" />
+            <TableColumn fx:id="detailLibelleColumn" prefWidth="272.0" text="Libelle" />
+            <TableColumn fx:id="clientColumn" minWidth="0.0" prefWidth="126.0" text="Client" />
+            <TableColumn fx:id="dateColumn" minWidth="0.0" prefWidth="136.0" text="Date d'Avoir" />
+            <TableColumn fx:id="bonAvrColumn" minWidth="0.0" prefWidth="114.0" text="Bon d'Avoir" />
+            <TableColumn fx:id="nFactureColumn" minWidth="0.0" prefWidth="123.0" text="N° Facture" />
+            <TableColumn fx:id="detailAvoirColumn" prefWidth="179.0" text="Avoir" />
+            <TableColumn fx:id="detailFactureAvoirColumn" minWidth="0.0" prefWidth="180.0" text="Facture Avoir" />
+            <TableColumn fx:id="detailEcartColumn" minWidth="0.0" prefWidth="144.0" text="Ecart" />
          </columns>
       </TableView>
-      <Pane layoutX="117.0" layoutY="731.0" prefHeight="55.0" prefWidth="1371.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="117.0" layoutY="706.0" prefHeight="23.0" prefWidth="1371.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Label layoutX="951.0" layoutY="18.0" text="Montant Total TTC: " />
-            <TextField fx:id="detailMontantTotalField" alignment="CENTER" disable="true" layoutX="1142.0" layoutY="12.0" prefHeight="31.0" prefWidth="203.0" promptText="montant Total" styleClass="StyleRaduis" />
+            <Label fx:id="totalEcartDetail" layoutX="1095.0" layoutY="2.0" prefHeight="18.0" prefWidth="146.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <Label fx:id="totalFactureAvDetail" layoutX="683.0" layoutY="2.0" prefHeight="18.0" prefWidth="146.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <Label layoutX="955.0" layoutY="4.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Total Ecart:" />
+            <Label layoutX="481.0" layoutY="4.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Total Facture Avoir:" />
+            <Label fx:id="totalAvoirDetail" layoutX="232.0" layoutY="2.0" prefHeight="18.0" prefWidth="146.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <Label layoutX="92.0" layoutY="4.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Total Avoir:" />
+         </children>
+      </Pane>
+      <Pane layoutX="117.0" layoutY="737.0" prefHeight="50.0" prefWidth="1371.0" styleClass="pane">
+         <children>
+            <Button fx:id="imprimerBtn" layoutX="541.0" layoutY="5.0" mnemonicParsing="false" onAction="#imprimerBtnOnAction" prefHeight="40.0" prefWidth="125.0" text="Imprimer" />
+            <RadioButton fx:id="listeAvoirRadio" layoutX="37.0" layoutY="4.0" mnemonicParsing="false" onAction="#listeAvoirRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Liste Avoir &quot;Article&quot;">
+               <toggleGroup>
+                  <ToggleGroup fx:id="avoir" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="detailAvoirRadio" layoutX="37.0" layoutY="27.0" mnemonicParsing="false" onAction="#detailAvoirRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Detail Avoir &quot;Article&quot;" toggleGroup="$avoir" />
+            <Button fx:id="refrachBtn" layoutX="705.0" layoutY="6.0" mnemonicParsing="false" onAction="#refrechBtnOnAction" prefHeight="40.0" prefWidth="125.0" text="Rafraîchir" />
+         </children>
+      </Pane>
+      <Pane layoutX="118.0" layoutY="184.0" prefHeight="44.0" prefWidth="1371.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <ImageView fitHeight="36.0" fitWidth="38.0" layoutX="1323.0" layoutY="4.0" onMouseClicked="#rechercheMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="codeArtField" alignment="CENTER" layoutX="279.0" layoutY="7.0" onKeyPressed="#chargeL0ibelleKeyPressed" prefHeight="31.0" prefWidth="212.0" promptText="Code Article" styleClass="StyleRaduis" />
+            <Label layoutX="775.0" layoutY="12.0" text="Libelle:" />
+            <Label layoutX="186.0" layoutY="12.0" text="Code ART:" />
+            <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="460.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+            <ComboBox fx:id="LibelleCombo" layoutX="861.0" layoutY="6.0" onAction="#LibelleCombOnAction" prefHeight="31.0" prefWidth="266.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+         </children>
+      </Pane>
+      <Pane layoutX="120.0" layoutY="457.0" prefHeight="75.0" prefWidth="1371.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="785.0" layoutY="10.0" text="Client:" />
+            <Label layoutX="152.0" layoutY="44.0" text="Bon d'Avoir:" />
+            <TextField fx:id="bonAvrField" alignment="CENTER" layoutX="276.0" layoutY="39.0" prefHeight="31.0" prefWidth="212.0" promptText="Bon d'Avoir" styleClass="StyleRaduis" />
+            <Label layoutX="152.0" layoutY="9.0" text="Num Facture:" />
+            <TextField fx:id="numFactureField" alignment="CENTER" layoutX="276.0" layoutY="4.0" prefHeight="31.0" prefWidth="212.0" promptText="Num Facture" styleClass="StyleRaduis" />
+            <DatePicker fx:id="dateAvr" layoutX="864.0" layoutY="38.0" prefHeight="31.0" prefWidth="212.0" promptText="Date d'Avoir" />
+            <Label layoutX="730.0" layoutY="43.0" text="Date d'Avoir:" />
+            <ImageView fitHeight="36.0" fitWidth="38.0" layoutX="1323.0" layoutY="19.0" onMouseClicked="#rechercheDetailMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
+               </image>
+            </ImageView>
+            <ComboBox fx:id="clientCombo" layoutX="864.0" layoutY="3.0" prefHeight="31.0" prefWidth="212.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
          </children>
       </Pane>
    </children>

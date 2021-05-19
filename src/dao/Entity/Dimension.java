@@ -42,6 +42,9 @@
     @Column(name="LIBELLE")
     private String libelle;
     
+     @Column(name="ETAT")
+    private String etat;
+    
     @ManyToOne
     @JoinColumn(name="ID_UTIL_CREATION")
     private Utilisateur utilisateurCreation;
@@ -89,6 +92,14 @@
 
     public void setFamille(String famille) {
         this.famille = famille;
+    }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
     }
 
     public String getLibelle() {

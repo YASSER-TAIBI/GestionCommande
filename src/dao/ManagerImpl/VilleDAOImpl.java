@@ -56,12 +56,12 @@ public class VilleDAOImpl implements VilleDAO  {
 
         
 	public List<Ville> findAll() {
-		return session.createQuery("select c from Ville c").list();
+		return session.createQuery("select c from Ville c where c.etat = 'Lancé'").list();
 		}
 
     @Override
     public List<Ville> findVilleByRechercheLibelle(String libelle) {
-     Query query = session.createQuery("select u from Ville u where libelle like :libelle");
+     Query query = session.createQuery("select u from Ville u where libelle u.like :libelle and u.etat = 'Lancé'");
 		query.setParameter("libelle","%"+libelle+"%");
                
 		
@@ -70,7 +70,7 @@ public class VilleDAOImpl implements VilleDAO  {
 
     @Override
     public List<Ville> findVilleByRechercheCode(String code) {
-          Query query = session.createQuery("select u from Ville u where code like :code");
+          Query query = session.createQuery("select u from Ville u where u.code like :code and u.etat = 'Lancé'");
 		query.setParameter("code","%"+code+"%");
                
 		
@@ -78,6 +78,21 @@ public class VilleDAOImpl implements VilleDAO  {
     }
 	
 
-	
+		 public List<Ville> findByCodeVille(String code) {
+		
+		Query query = session.createQuery("select u from Ville u where u.code like:code and u.etat = 'Lancé'");
+		query.setParameter("code","%"+code+"%");
+		
+                return query.list();
+ }
+    
+         	 public List<Ville> findBylibelleVille(String lib) {
+		
+		Query query = session.createQuery("select u from Ville u where u.libelle like:lib and u.etat = 'Lancé'");
+		query.setParameter("lib","%"+lib+"%");
+		
+                return query.list();
+ }
+
 
 }

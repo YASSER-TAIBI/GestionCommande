@@ -12,6 +12,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import Utils.HibernateUtil;
+import dao.Entity.CompteFourMP;
 
 /**
  *
@@ -54,10 +55,18 @@ public class FournisseurDAOImpl implements FournisseurDAO {
 		
 	}
 
-	public List<Fournisseur> findAll() {
-		return session.createQuery("select c from Fournisseur c").list();
+	public List<Fournisseur> findAllMp() {
+		return session.createQuery("select c from Fournisseur c where c.fournisseur= 'Mp'").list();
+		}
+        
+        public List<Fournisseur> findAllPF() {
+		return session.createQuery("select c from Fournisseur c where c.fournisseur= 'Produit Fini'").list();
 		}
 
+        public List<Fournisseur> findAllPfAndMp() {
+		return session.createQuery("select c from Fournisseur c where c.fournisseur in ('Produit Fini','Mp')").list();
+		}
+        
     @Override
     public int getMaxId() {
           int id;
@@ -105,6 +114,14 @@ public class FournisseurDAOImpl implements FournisseurDAO {
                 return (Fournisseur)query.uniqueResult();
  }
  
+    
+        public Fournisseur findByFournisseur() {
+		
+		Query query = session.createQuery("select u from Fournisseur u where u.nom ='OULMES ETAT'");
+                
+                return (Fournisseur)query.uniqueResult();
+ }
+    
         public List<Fournisseur> findFourByTypeFour() {
 		
 		Query query = session.createQuery("select u from Fournisseur u where u.typeFournisseur = 'Etranger'");
@@ -112,4 +129,12 @@ public class FournisseurDAOImpl implements FournisseurDAO {
                 return query.list();
  }
     
+         public Fournisseur findByCompte(int compte) {
+		
+		Query query = session.createQuery("select u from Fournisseur u where u.compteFourMP.id =:compte");
+                query.setParameter("compte",compte);
+                
+                return (Fournisseur)query.uniqueResult();
+ }
+        
 }

@@ -5,34 +5,68 @@
  */
 package Controller.Reglement;
 
+import Controller.Referentiel.ConsultationPrixCategorieController;
 import Utils.Constantes;
+import dao.Entity.ClientMP;
+import dao.Entity.DetailAvoirOulmes;
+import dao.Entity.Fournisseur;
 import dao.Entity.PrixOulmes;
+import dao.Entity.Produit;
 import dao.Entity.SituationGlobalAvoir;
 import dao.Manager.AvoirOulmesDAO;
+import dao.Manager.ClientMPDAO;
+import dao.Manager.DetailAvoirOulmesDAO;
 import dao.Manager.FactureAvoirOulmesDAO;
+import dao.Manager.PrixOulmesDAO;
 import dao.ManagerImpl.AvoirOulmesDAOImpl;
+import dao.ManagerImpl.ClientMPDAOImpl;
+import dao.ManagerImpl.DetailAvoirOulmesDAOImpl;
 import dao.ManagerImpl.FactureAvoirOulmesDAOImpl;
+import dao.ManagerImpl.PrixOulmesDAOImpl;
 import function.navigation;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -52,181 +86,166 @@ public class SutiationGlobalAvoirController implements Initializable {
     @FXML
     private TableColumn<SituationGlobalAvoir, BigDecimal> factureAvoirColumn;
     @FXML
-    private TableColumn<SituationGlobalAvoir, BigDecimal> qteResteeColumn;
-    @FXML
-    private TableColumn<SituationGlobalAvoir, BigDecimal> prixColumn;
-    @FXML
-    private TableColumn<SituationGlobalAvoir, BigDecimal> montantColumn;
-    @FXML
-    private TableColumn<SituationGlobalAvoir, BigDecimal> MontantTvaColumn;
-    @FXML
-    private TableColumn<SituationGlobalAvoir, BigDecimal> MontantTtcColumn;
-    @FXML
-    private TextField montantTotalField;
+    private TableColumn<SituationGlobalAvoir, BigDecimal> ecartColumn;
 
     @FXML
-    private TableView<SituationGlobalAvoir> detailTableSituationAvoir;
+    private TableView<DetailAvoirOulmes> detailTableSituationAvoir;
     @FXML
-    private TableColumn<SituationGlobalAvoir, String> detailCodeColumn;
+    private TableColumn<DetailAvoirOulmes, String> detailCodeColumn;
     @FXML
-    private TableColumn<SituationGlobalAvoir, String> detailLibelleColumn;
+    private TableColumn<DetailAvoirOulmes, String> detailLibelleColumn;
     @FXML
-    private TableColumn<SituationGlobalAvoir, BigDecimal> detailAvoirColumn;
+    private TableColumn<DetailAvoirOulmes, BigDecimal> detailAvoirColumn;
     @FXML
-    private TableColumn<SituationGlobalAvoir, BigDecimal> detailFactureAvoirColumn;
+    private TableColumn<DetailAvoirOulmes, BigDecimal> detailFactureAvoirColumn;
     @FXML
-    private TableColumn<SituationGlobalAvoir, BigDecimal> detailQteResteeColumn;
+    private TableColumn<DetailAvoirOulmes, String> clientColumn;
     @FXML
-    private TableColumn<SituationGlobalAvoir, BigDecimal> detailPrixColumn;
+    private TableColumn<DetailAvoirOulmes, BigDecimal> detailEcartColumn;
     @FXML
-    private TableColumn<SituationGlobalAvoir, BigDecimal> detailMontantColumn;
-     @FXML
-    private TableColumn<SituationGlobalAvoir, String> clientColumn;
+    private TableColumn<DetailAvoirOulmes, Date> dateColumn;
     @FXML
-    private TableColumn<SituationGlobalAvoir, BigDecimal> detailMontantTvaColumn;
+    private TableColumn<DetailAvoirOulmes, String> bonAvrColumn;
     @FXML
-    private TableColumn<SituationGlobalAvoir, BigDecimal> detailMontantTtcColumn;
-     
+    private TableColumn<DetailAvoirOulmes, String> nFactureColumn;
+
     @FXML
-    private TextField detailMontantTotalField;
+    private Label totalEcart;
+    @FXML
+    private Label totalFactureAv;
+    @FXML
+    private Label totalAvoir;
+    @FXML
+    private Label totalEcartDetail;
+    @FXML
+    private Label totalFactureAvDetail;
+    @FXML
+    private Label totalAvoirDetail;
+    @FXML
+    private Button imprimerBtn;
+    @FXML
+    private RadioButton listeAvoirRadio;
+    @FXML
+    private RadioButton detailAvoirRadio;
+    @FXML
+    private ToggleGroup avoir;
+    @FXML
+    private Button refrachBtn;
+    @FXML
+    private TextField codeArtField;
+    @FXML
+    private ComboBox<String> LibelleCombo;
+    @FXML
+    private TextField bonAvrField;
+    @FXML
+    private TextField numFactureField;
+    @FXML
+    private DatePicker dateAvr;
+    @FXML
+    private ComboBox<String> clientCombo;
     /**
      * Initializes the controller class.
      */
        
-    FactureAvoirOulmesDAO factureAvoirOulmesDAO = new FactureAvoirOulmesDAOImpl();
-    AvoirOulmesDAO avoirOulmesDAO = new AvoirOulmesDAOImpl();
+    DetailAvoirOulmesDAO detailAvoirOulmesDAO = new DetailAvoirOulmesDAOImpl();
+    PrixOulmesDAO prixOulmesDAO = new PrixOulmesDAOImpl();
+    ClientMPDAO clientMPDAO = new ClientMPDAOImpl();
+    
     navigation nav = new navigation(); 
+    PrixOulmes prixOulmes =new PrixOulmes();
+      
+    private Map<String,PrixOulmes> mapPrixOulmes=new HashMap<>();
+    private Map<String,ClientMP> mapClientMP=new HashMap<>();
     
      private final  ObservableList<SituationGlobalAvoir> listeSituationGlobalAvoir = FXCollections.observableArrayList();    
-     private final  ObservableList<SituationGlobalAvoir> listeDetailSituationGlobalAvoir = FXCollections.observableArrayList();    
+     private final  ObservableList<DetailAvoirOulmes> listeDetailAvoirOulmes = FXCollections.observableArrayList();    
     
-   
-             
+    
+     
+     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         
-        Boolean exist = false;
+                List<ClientMP> listClientMP=clientMPDAO.findAll();
         
-      BigDecimal montantTotal = BigDecimal.ZERO;
-        
-        List <Object[]> listeObjectFactureAvoir =factureAvoirOulmesDAO.findBySituationGlobal();
-        List <Object[]> listeObjectAvoir =avoirOulmesDAO.findBySituationGlobal();
+        listClientMP.stream().map((clientMP) -> {
+            clientCombo.getItems().addAll(clientMP.getNom());
+            return clientMP;
+        }).forEachOrdered((clientMP) -> {
+            mapClientMP.put(clientMP.getNom(), clientMP);
+        });
 
+               List<PrixOulmes> listPrixOulmes = prixOulmesDAO.findAll();
+
+        listPrixOulmes.stream().map((prixOulmes) -> {
+            LibelleCombo.getItems().addAll(prixOulmes.getProduit().getLibelle());
+            return prixOulmes;
+        }).forEachOrdered((prixOulmes) -> {
+            mapPrixOulmes.put(prixOulmes.getProduit().getLibelle(), prixOulmes);
+        });
+          
+        
+            loadDetail();
+            setColumnProperties();
+            imprimerBtn.setDisable(true);
+            
+            
+    }    
+    
+     void loadDetail(){
+       
+         BigDecimal montantAvoir = BigDecimal.ZERO;
+      BigDecimal montantFactureAvoir = BigDecimal.ZERO;
+      BigDecimal montantEcart = BigDecimal.ZERO;
+        
+        List <Object[]> listeObjectDetailAvoir =detailAvoirOulmesDAO.findBySitiationGlobalAvoir();
+
+        System.out.println("listeObjectDetailAvoir     "+listeObjectDetailAvoir.size());
+        
              listeSituationGlobalAvoir.clear();
          
-            for(int i=0; i<listeObjectFactureAvoir.size(); i++) {
+            for(int i=0; i<listeObjectDetailAvoir.size(); i++) {
 
-                    Object[] object=listeObjectFactureAvoir.get(i);
+                    Object[] object=listeObjectDetailAvoir.get(i);
                    
-                    PrixOulmes article =(PrixOulmes)object[0];
-                    BigDecimal factureAvoir = (BigDecimal)object[1]; 
-                    String client = (String)object[2]; 
-                    
-                    
-                    if(article == null && factureAvoir == null && client == null){
-                    
-                         nav.showAlert(Alert.AlertType.INFORMATION, "Alert", null, Constantes.MESSAGE_ALERT_AUCUN_TRAITEMENT);
-                        break;
-                    }else{
+                    Produit produit =(Produit)object[0];
+                    BigDecimal avoir = (BigDecimal)object[1]; 
+                    BigDecimal factureAvoir = (BigDecimal)object[2]; 
+                    BigDecimal ecart = (BigDecimal)object[3]; 
+
 
                SituationGlobalAvoir situationGlobalAvoir = new SituationGlobalAvoir();
                
+                  situationGlobalAvoir.setProduit(produit);
+                  situationGlobalAvoir.setAvoirQte(avoir);
                   situationGlobalAvoir.setFactureAvoirQte(factureAvoir);
-                  situationGlobalAvoir.setPrixOulmes(article);
-                  situationGlobalAvoir.setPrix(article.getPrix());
-                  situationGlobalAvoir.setClient(client);
-                  situationGlobalAvoir.setAvoirQte(BigDecimal.ZERO);
-                  situationGlobalAvoir.setQteRestee(BigDecimal.ZERO);
-                  situationGlobalAvoir.setMontant(BigDecimal.ZERO);
-                  situationGlobalAvoir.setMontantTVA(BigDecimal.ZERO);
-                  situationGlobalAvoir.setMontantTTC(BigDecimal.ZERO);
-                  
+                  situationGlobalAvoir.setQteRestee(ecart);
+
+
+                  montantAvoir = montantAvoir.add(situationGlobalAvoir.getAvoirQte()) ;
+                  montantFactureAvoir = montantFactureAvoir.add(situationGlobalAvoir.getFactureAvoirQte()) ;
+                  montantEcart = montantEcart.add(situationGlobalAvoir.getQteRestee()) ;
+                    
                   listeSituationGlobalAvoir.add(situationGlobalAvoir);
-                    }
             }
             
-            
-         
-            for(int i=0; i<listeObjectAvoir.size(); i++) {
-
-                exist = false;
-                    Object[] object=listeObjectAvoir.get(i);
-
-                    PrixOulmes article =(PrixOulmes)object[0];
-                    BigDecimal avoir = (BigDecimal)object[1]; 
-                    String client = (String)object[2]; 
-                    
-                    if(article == null && avoir == null && client == null){
-                    
-                         nav.showAlert(Alert.AlertType.INFORMATION, "Alert", null, Constantes.MESSAGE_ALERT_AUCUN_TRAITEMENT);
-                        break;
-                    }else{
-                        
-                      
-                      
-                         
-                        for(int j=0; j<listeSituationGlobalAvoir.size(); j++) {
-                     
-                     SituationGlobalAvoir situationGlobalAvoir = listeSituationGlobalAvoir.get(j);
-       
-                     
-                     if(situationGlobalAvoir.getPrixOulmes().getId() == article.getId() && situationGlobalAvoir.getClient().equals(client)){
-                     
-                     situationGlobalAvoir.setAvoirQte(avoir);
-                     situationGlobalAvoir.setQteRestee(avoir.subtract(situationGlobalAvoir.getFactureAvoirQte()));
-                     situationGlobalAvoir.setMontant(situationGlobalAvoir.getQteRestee().multiply(situationGlobalAvoir.getPrix()));
-                     situationGlobalAvoir.setMontantTVA(situationGlobalAvoir.getMontant().multiply(Constantes.TAUX_TVA_20).setScale(2,RoundingMode.FLOOR));
-                     situationGlobalAvoir.setMontantTTC(situationGlobalAvoir.getMontant().add(situationGlobalAvoir.getMontantTVA()).setScale(2,RoundingMode.FLOOR));
-                     
-                     listeSituationGlobalAvoir.set(j, situationGlobalAvoir);
-                     exist = true;
-                     
-                     }
-                     
-                     }
-                        if (exist == false){
-                          SituationGlobalAvoir situationGlobalAvoir = new SituationGlobalAvoir();
-                          
-                          situationGlobalAvoir.setAvoirQte(avoir);
-                          situationGlobalAvoir.setClient(client);
-                          situationGlobalAvoir.setPrixOulmes(article);
-                          situationGlobalAvoir.setFactureAvoirQte(BigDecimal.ZERO);
-                          situationGlobalAvoir.setPrix(article.getPrix());
-                          situationGlobalAvoir.setQteRestee(avoir.subtract(situationGlobalAvoir.getFactureAvoirQte()));
-                          situationGlobalAvoir.setMontant(situationGlobalAvoir.getQteRestee().multiply(situationGlobalAvoir.getPrix()));
-                          situationGlobalAvoir.setMontantTVA(situationGlobalAvoir.getMontant().multiply(Constantes.TAUX_TVA_20).setScale(2,RoundingMode.FLOOR));
-                          situationGlobalAvoir.setMontantTTC(situationGlobalAvoir.getMontant().add(situationGlobalAvoir.getMontantTVA()).setScale(2,RoundingMode.FLOOR));
-                          
-                     listeSituationGlobalAvoir.add(situationGlobalAvoir);
-                        }
-            
-                        
-                    }
-            }
-            
-             for(int k=0; k<listeSituationGlobalAvoir.size(); k++) {
-                     
-                     SituationGlobalAvoir situationGlobalAvoir = listeSituationGlobalAvoir.get(k);
-              
-                       montantTotal = montantTotal.add(situationGlobalAvoir.getMontantTTC()) ;
-             }
-            
-                DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
+     
+        
+                      DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
                 dfs.setDecimalSeparator(',');
                 dfs.setGroupingSeparator('.');
                 DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
                 df.setGroupingUsed(true);
               
-            montantTotalField.setText(df.format(montantTotal));
+            totalAvoir.setText(df.format(montantAvoir));
+            totalFactureAv.setText(df.format(montantFactureAvoir));
+            totalEcart.setText(df.format(montantEcart));
             
-
+                  tableSituationAvoir.setItems(listeSituationGlobalAvoir);
             
-            tableSituationAvoir.setItems(listeSituationGlobalAvoir);
-            setColumnProperties();
-        
-           
-    }    
+       
+   }
     
       void setColumnProperties() {
 
@@ -235,7 +254,7 @@ public class SutiationGlobalAvoirController implements Initializable {
                 public ObservableValue<String> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, String> p) {
                     
         
-                    return new ReadOnlyObjectWrapper(p.getValue().getPrixOulmes().getProduit().getCode());
+                    return new ReadOnlyObjectWrapper(p.getValue().getProduit().getCode());
                 }
                 
              });
@@ -245,7 +264,7 @@ public class SutiationGlobalAvoirController implements Initializable {
                 public ObservableValue<String> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, String> p) {
                     
              
-                    return new ReadOnlyObjectWrapper(p.getValue().getPrixOulmes().getProduit().getLibelle());
+                    return new ReadOnlyObjectWrapper(p.getValue().getProduit().getLibelle());
                 }
                 
              });
@@ -279,7 +298,7 @@ public class SutiationGlobalAvoirController implements Initializable {
                 
              });
       
-            qteResteeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal>, ObservableValue<BigDecimal>>() {
+            ecartColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal>, ObservableValue<BigDecimal>>() {
                 @Override
                 public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal> p) {
                     
@@ -293,61 +312,7 @@ public class SutiationGlobalAvoirController implements Initializable {
                 
              });
             
-            prixColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal>, ObservableValue<BigDecimal>>() {
-                @Override
-                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal> p) {
-                    
-                       DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
-                dfs.setDecimalSeparator(',');
-                dfs.setGroupingSeparator('.');
-                DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
-                df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getPrix()));
-                }
-                
-             });
-      
-              montantColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal>, ObservableValue<BigDecimal>>() {
-                @Override
-                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal> p) {
-                    
-                       DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
-                dfs.setDecimalSeparator(',');
-                dfs.setGroupingSeparator('.');
-                DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
-                df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getMontant()));
-                }
-                
-             });
-
-              MontantTvaColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal>, ObservableValue<BigDecimal>>() {
-                @Override
-                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal> p) {
-                    
-                       DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
-                dfs.setDecimalSeparator(',');
-                dfs.setGroupingSeparator('.');
-                DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
-                df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getMontantTVA()));
-                }
-                
-             });
-              
-              MontantTtcColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal>, ObservableValue<BigDecimal>>() {
-                @Override
-                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal> p) {
-                    
-                       DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
-                dfs.setDecimalSeparator(',');
-                dfs.setGroupingSeparator('.');
-                DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
-                df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getMontantTTC()));
-                }
-                
-             });
+         
               
                tableSituationAvoir.setEditable(false);
               
@@ -356,9 +321,9 @@ public class SutiationGlobalAvoirController implements Initializable {
      void setColumnPropertiesDetail(){
       
       
-        detailCodeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, String>, ObservableValue<String>>() {
+        detailCodeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailAvoirOulmes, String>, ObservableValue<String>>() {
                 @Override
-                public ObservableValue<String> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, String> p) {
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailAvoirOulmes, String> p) {
                     
         
                     return new ReadOnlyObjectWrapper(p.getValue().getPrixOulmes().getProduit().getCode());
@@ -366,9 +331,9 @@ public class SutiationGlobalAvoirController implements Initializable {
                 
              });
          
-          detailLibelleColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, String>, ObservableValue<String>>() {
+          detailLibelleColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailAvoirOulmes, String>, ObservableValue<String>>() {
                 @Override
-                public ObservableValue<String> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, String> p) {
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailAvoirOulmes, String> p) {
                     
              
                     return new ReadOnlyObjectWrapper(p.getValue().getPrixOulmes().getProduit().getLibelle());
@@ -376,242 +341,450 @@ public class SutiationGlobalAvoirController implements Initializable {
                 
              });
           
-            clientColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, String>, ObservableValue<String>>() {
+            clientColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailAvoirOulmes, String>, ObservableValue<String>>() {
                 @Override
-                public ObservableValue<String> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, String> p) {
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailAvoirOulmes, String> p) {
                     
         
-                    return new ReadOnlyObjectWrapper(p.getValue().getClient());
+                    return new ReadOnlyObjectWrapper(p.getValue().getAvoirOulmes().getClient());
                 }
                 
              });
           
-           detailAvoirColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal>, ObservableValue<BigDecimal>>() {
+            nFactureColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailAvoirOulmes, String>, ObservableValue<String>>() {
                 @Override
-                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal> p) {
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailAvoirOulmes, String> p) {
+                    
+                     
+                    return new ReadOnlyObjectWrapper(p.getValue().getAvoirOulmes().getNumFacture());
+                }
+                
+             });
+            
+            bonAvrColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailAvoirOulmes, String>, ObservableValue<String>>() {
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<DetailAvoirOulmes, String> p) {
+                    
+                     
+                    return new ReadOnlyObjectWrapper(p.getValue().getAvoirOulmes().getNumLivraison());
+                }
+                
+             });
+            
+             dateColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailAvoirOulmes, Date>, ObservableValue<Date>>() {
+                @Override
+                public ObservableValue<Date> call(TableColumn.CellDataFeatures<DetailAvoirOulmes, Date> p) {
+                    
+                     
+                    return new ReadOnlyObjectWrapper(p.getValue().getAvoirOulmes().getDateSaisie());
+                }
+                
+             });
+            
+           detailAvoirColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailAvoirOulmes, BigDecimal>, ObservableValue<BigDecimal>>() {
+                @Override
+                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<DetailAvoirOulmes, BigDecimal> p) {
                     
                        DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
                 dfs.setDecimalSeparator(',');
                 dfs.setGroupingSeparator('.');
                 DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
                 df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getAvoirQte()));
+                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getQte()));
                 }
                 
              });
            
            
-            detailFactureAvoirColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal>, ObservableValue<BigDecimal>>() {
+            detailFactureAvoirColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailAvoirOulmes, BigDecimal>, ObservableValue<BigDecimal>>() {
                 @Override
-                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal> p) {
+                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<DetailAvoirOulmes, BigDecimal> p) {
                     
                        DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
                 dfs.setDecimalSeparator(',');
                 dfs.setGroupingSeparator('.');
                 DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
                 df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getFactureAvoirQte()));
+                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getQteFactureAvoir()));
                 }
                 
              });
       
-            detailQteResteeColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal>, ObservableValue<BigDecimal>>() {
+            detailEcartColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<DetailAvoirOulmes, BigDecimal>, ObservableValue<BigDecimal>>() {
                 @Override
-                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal> p) {
+                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<DetailAvoirOulmes, BigDecimal> p) {
                     
                        DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
                 dfs.setDecimalSeparator(',');
                 dfs.setGroupingSeparator('.');
                 DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
                 df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getQteRestee()));
-                }
-                
-             });
-            
-            detailPrixColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal>, ObservableValue<BigDecimal>>() {
-                @Override
-                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal> p) {
-                    
-                       DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
-                dfs.setDecimalSeparator(',');
-                dfs.setGroupingSeparator('.');
-                DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
-                df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getPrix()));
+                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getQteEcart()));
                 }
                 
              });
       
-            
-              detailMontantColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal>, ObservableValue<BigDecimal>>() {
-                @Override
-                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal> p) {
-                    
-                       DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
-                dfs.setDecimalSeparator(',');
-                dfs.setGroupingSeparator('.');
-                DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
-                df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getMontant()));
-                }
-                
-             });
-    
-              
-              detailMontantTvaColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal>, ObservableValue<BigDecimal>>() {
-                @Override
-                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal> p) {
-                    
-                       DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
-                dfs.setDecimalSeparator(',');
-                dfs.setGroupingSeparator('.');
-                DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
-                df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getMontantTVA()));
-                }
-                
-             });
-              
-              detailMontantTtcColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal>, ObservableValue<BigDecimal>>() {
-                @Override
-                public ObservableValue<BigDecimal> call(TableColumn.CellDataFeatures<SituationGlobalAvoir, BigDecimal> p) {
-                    
-                       DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
-                dfs.setDecimalSeparator(',');
-                dfs.setGroupingSeparator('.');
-                DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
-                df.setGroupingUsed(true);
-                    return new ReadOnlyObjectWrapper(df.format(p.getValue().getMontantTTC()));
-                }
-                
-             });
       }
       
       
     @FXML
     private void afficherDetailOnMouseClicked(MouseEvent event) {
-        
-            detailTableSituationAvoir.getItems().clear();
           
 if (tableSituationAvoir.getSelectionModel().getSelectedIndex()!=-1){
 
+      listeDetailAvoirOulmes.clear();
+    
+      BigDecimal montantAvoir = BigDecimal.ZERO;
+      BigDecimal montantFactureAvoir = BigDecimal.ZERO;
+      BigDecimal montantEcart = BigDecimal.ZERO;
+    
          SituationGlobalAvoir situationGlobalAvoir=tableSituationAvoir.getSelectionModel().getSelectedItem();
-          
-          
-            BigDecimal montantTotal = BigDecimal.ZERO;
+
+        listeDetailAvoirOulmes.addAll(detailAvoirOulmesDAO.findByPrixOulmes(situationGlobalAvoir.getProduit().getLibelle()));
+
+        detailTableSituationAvoir.setItems(listeDetailAvoirOulmes);
         
-             List <Object[]> listeObjectAvoir =avoirOulmesDAO.findBySituationGlobalArticle(situationGlobalAvoir.getPrixOulmes().getProduit().getCode());
-             List <Object[]> listeObjectFactureAvoir =factureAvoirOulmesDAO.findBySituationGlobalArticle(situationGlobalAvoir.getPrixOulmes().getProduit().getCode());
-       
+        setColumnPropertiesDetail();
         
-    System.out.println("listeObjectFactureAvoir "+listeObjectFactureAvoir.size());    
-    System.out.println("listeObjectAvoir "+listeObjectAvoir.size());
-    
-            listeDetailSituationGlobalAvoir.clear();
-         
-            for(int i=0; i<listeObjectAvoir.size(); i++) {
-
-                    Object[] object=listeObjectAvoir.get(i);
-                   
-                    PrixOulmes article =(PrixOulmes)object[0];
-                    BigDecimal avoir = (BigDecimal)object[1]; 
-                    String client = (String)object[2]; 
-           
-                    
-                    
-                    if(article == null && avoir == null && client == null){
-                    
-                         nav.showAlert(Alert.AlertType.INFORMATION, "Alert", null, Constantes.MESSAGE_ALERT_AUCUN_TRAITEMENT);
-                        break;
-                    }else{
-
-
-               SituationGlobalAvoir situationGlobalAvoirTmp = new SituationGlobalAvoir();
-               
-                  situationGlobalAvoirTmp.setFactureAvoirQte(BigDecimal.ZERO);
-                  situationGlobalAvoirTmp.setPrixOulmes(article);
-                  situationGlobalAvoirTmp.setPrix(article.getPrix());
-                  situationGlobalAvoirTmp.setClient(client);
-                  situationGlobalAvoirTmp.setAvoirQte(avoir);
-                  
-                     System.out.println("avoir "+avoir);
-                     
-                  situationGlobalAvoirTmp.setQteRestee(avoir.subtract(situationGlobalAvoirTmp.getFactureAvoirQte()));
-                  situationGlobalAvoirTmp.setMontant(situationGlobalAvoirTmp.getQteRestee().multiply(situationGlobalAvoirTmp.getPrix()));
-                  situationGlobalAvoirTmp.setMontantTVA(situationGlobalAvoirTmp.getMontant().multiply(Constantes.TAUX_TVA_20).setScale(2,RoundingMode.FLOOR));
-                  situationGlobalAvoirTmp.setMontantTTC(situationGlobalAvoirTmp.getMontant().add(situationGlobalAvoirTmp.getMontantTVA()).setScale(2,RoundingMode.FLOOR));
-                  
-                  listeDetailSituationGlobalAvoir.add(situationGlobalAvoirTmp);
-                  
-                  
-                    }
-            }
+        for (int i = 0; i < listeDetailAvoirOulmes.size(); i++) {
             
+            DetailAvoirOulmes detailAvoirOulmes = listeDetailAvoirOulmes.get(i);
             
-         
-            for(int i=0; i<listeObjectFactureAvoir.size(); i++) {
+                  montantAvoir = montantAvoir.add(detailAvoirOulmes.getQte()) ;
+                  montantFactureAvoir = montantFactureAvoir.add(detailAvoirOulmes.getQteFactureAvoir()) ;
+                  montantEcart = montantEcart.add(detailAvoirOulmes.getQteEcart()) ;
 
-                    Object[] object=listeObjectFactureAvoir.get(i);
-                   
-
-                    PrixOulmes article =(PrixOulmes)object[0];
-                    BigDecimal factureAvoir = (BigDecimal)object[1]; 
-                    String client = (String)object[2]; 
-                    
-                    if(article == null && factureAvoir == null){
-                    
-                         nav.showAlert(Alert.AlertType.INFORMATION, "Alert", null, Constantes.MESSAGE_ALERT_AUCUN_TRAITEMENT);
-                        break;
-                    }else{
-    
-                         
-                        for(int j=0; j<listeDetailSituationGlobalAvoir.size(); j++) {
-                     
-                 SituationGlobalAvoir   situationGlobalAvoirTmp = listeDetailSituationGlobalAvoir.get(j);
-                     
-  
-                 
-                     if(situationGlobalAvoirTmp.getPrixOulmes().getId() == article.getId() && situationGlobalAvoirTmp.getClient().equals(client) && situationGlobalAvoirTmp.getAvoirQte().compareTo(factureAvoir)==0){
-                     
-                     situationGlobalAvoirTmp.setFactureAvoirQte(factureAvoir);
-    
-                     
-                     situationGlobalAvoirTmp.setQteRestee(situationGlobalAvoirTmp.getAvoirQte().subtract(factureAvoir));
-                     situationGlobalAvoirTmp.setMontant(situationGlobalAvoirTmp.getQteRestee().multiply(situationGlobalAvoirTmp.getPrix()));
-                     situationGlobalAvoirTmp.setMontantTVA(situationGlobalAvoirTmp.getMontant().multiply(Constantes.TAUX_TVA_20).setScale(2,RoundingMode.FLOOR));
-                     situationGlobalAvoirTmp.setMontantTTC(situationGlobalAvoirTmp.getMontant().add(situationGlobalAvoirTmp.getMontantTVA()).setScale(2,RoundingMode.FLOOR));
-                     
-                     listeDetailSituationGlobalAvoir.set(j, situationGlobalAvoirTmp);
-
-                     }
-                     }
-                    }
-            }
-            
-             for(int k=0; k<listeDetailSituationGlobalAvoir.size(); k++) {
-                     
-                     SituationGlobalAvoir situationGlobalAvoirTmp = listeDetailSituationGlobalAvoir.get(k);
-              
-                       montantTotal = montantTotal.add(situationGlobalAvoirTmp.getMontantTTC()) ;
-             }
-            
+    }
                 DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
                 dfs.setDecimalSeparator(',');
                 dfs.setGroupingSeparator('.');
                 DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
                 df.setGroupingUsed(true);
               
-            detailMontantTotalField.setText(df.format(montantTotal));
+            totalAvoirDetail.setText(df.format(montantAvoir));
+            totalFactureAvDetail.setText(df.format(montantFactureAvoir));
+            totalEcartDetail.setText(df.format(montantEcart));
             
-
-            detailTableSituationAvoir.setItems(listeDetailSituationGlobalAvoir);
-            setColumnPropertiesDetail();
-        
-        
-         
+            
+                dateAvr.setValue(null);
+             clientCombo.getSelectionModel().select(-1);
+             numFactureField.setText("");
+             bonAvrField.setText("");
+          
+   
+    listeAvoirRadio.setSelected(false);
+    detailAvoirRadio.setSelected(false);
+    
+            imprimerBtn.setDisable(true);
+            
 }
         
     }
+
+
+    @FXML
+    private void imprimerBtnOnAction(ActionEvent event) {
+        
+         try {
+               
+               if(listeAvoirRadio.isSelected()== true){
+                      
+               
+          HashMap para = new HashMap();
+            JasperReport report = (JasperReport) JRLoader.loadObject(SutiationGlobalAvoirController.class.getResource(nav.getiReportConsultationAvoirGlobal()));
+
+                para.put("totalFactureAvoir",totalFactureAv.getText());
+                para.put("totalAvoir",totalAvoir.getText());
+                para.put("totalEcart",totalEcart.getText());
+            
+             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listeSituationGlobalAvoir));
+               JasperViewer.viewReport(jp, false);
+            
+                  }else if(detailAvoirRadio.isSelected()== true)  {
+                  
+                       SituationGlobalAvoir situationGlobalAvoir = tableSituationAvoir.getSelectionModel().getSelectedItem();
+                      
+                      if (situationGlobalAvoir !=null){
+                          
+           HashMap para = new HashMap();
+            JasperReport report = (JasperReport) JRLoader.loadObject(SutiationGlobalAvoirController.class.getResource(nav.getiReportConsultationDetailAvoirGlobal()));
+                          
+
+                           para.put("totalDetailFactureAvoir",totalFactureAvDetail.getText());
+                           para.put("totalDetailAvoir",totalAvoirDetail.getText());
+                           para.put("totalDetailEcart",totalEcartDetail.getText());
+                              
+                           JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listeDetailAvoirOulmes));
+               JasperViewer.viewReport(jp, false);
+               
+               
+                      }else{
+                            nav.showAlert(Alert.AlertType.ERROR, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE);
+                            return;
+                      }
+        
+                  }
+               
+        } catch (JRException ex) {
+            Logger.getLogger(SutiationGlobalAvoirController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+
+    }
+
+    @FXML
+    private void listeAvoirRadioOnAction(ActionEvent event) {
+        
+           imprimerBtn.setDisable(false);
+        
+    }
+
+    @FXML
+    private void detailAvoirRadioOnAction(ActionEvent event) {
+        
+           imprimerBtn.setDisable(false);
+    }
+
+    @FXML
+    private void refrechBtnOnAction(ActionEvent event) {
+        
+    
+             totalAvoirDetail.setText("");
+             totalFactureAvDetail.setText("");
+             totalEcartDetail.setText("");
+             
+             codeArtField.clear();
+             LibelleCombo.getSelectionModel().select(-1);  
+             
+             
+             dateAvr.setValue(null);
+             clientCombo.getSelectionModel().select(-1);
+             numFactureField.setText("");
+             bonAvrField.setText("");
+          
+
+    listeAvoirRadio.setSelected(false);
+    detailAvoirRadio.setSelected(false);
+    
+            imprimerBtn.setDisable(true);
+    
+    listeDetailAvoirOulmes.clear();
+    
+        loadDetail();
+        setColumnProperties();
+    
+
+        
+    }
+
+    @FXML
+    private void rechercheMouseClicked(MouseEvent event) {
+        
+        
+        if(codeArtField.getText().isEmpty()){
+            
+                nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.REMPLIR_CHAMPS);
+                
+        }else{
+        
+      BigDecimal montantAvoir = BigDecimal.ZERO;
+      BigDecimal montantFactureAvoir = BigDecimal.ZERO;
+      BigDecimal montantEcart = BigDecimal.ZERO;
+        
+        List <Object[]> listeObjectDetailAvoir =detailAvoirOulmesDAO.findBySitiationGlobalAvoirWithCodeArt(codeArtField.getText());
+
+        System.out.println("listeObjectDetailAvoir     "+listeObjectDetailAvoir.size());
+        
+             listeSituationGlobalAvoir.clear();
+         
+            for(int i=0; i<listeObjectDetailAvoir.size(); i++) {
+
+                    Object[] object=listeObjectDetailAvoir.get(i);
+                   
+                    Produit produit =(Produit)object[0];
+                    BigDecimal avoir = (BigDecimal)object[1]; 
+                    BigDecimal factureAvoir = (BigDecimal)object[2]; 
+                    BigDecimal ecart = (BigDecimal)object[3]; 
+
+
+               SituationGlobalAvoir situationGlobalAvoir = new SituationGlobalAvoir();
+               
+                  situationGlobalAvoir.setProduit(produit);
+                  situationGlobalAvoir.setAvoirQte(avoir);
+                  situationGlobalAvoir.setFactureAvoirQte(factureAvoir);
+                  situationGlobalAvoir.setQteRestee(ecart);
+
+
+                  montantAvoir = montantAvoir.add(situationGlobalAvoir.getAvoirQte()) ;
+                  montantFactureAvoir = montantFactureAvoir.add(situationGlobalAvoir.getFactureAvoirQte()) ;
+                  montantEcart = montantEcart.add(situationGlobalAvoir.getQteRestee()) ;
+                    
+                  listeSituationGlobalAvoir.add(situationGlobalAvoir);
+            }
+            
+     
+        
+                      DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
+                dfs.setDecimalSeparator(',');
+                dfs.setGroupingSeparator('.');
+                DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
+                df.setGroupingUsed(true);
+              
+            totalAvoir.setText(df.format(montantAvoir));
+            totalFactureAv.setText(df.format(montantFactureAvoir));
+            totalEcart.setText(df.format(montantEcart));
+            
+                  tableSituationAvoir.setItems(listeSituationGlobalAvoir);
+        
+                  setColumnProperties();
+                  
+             dateAvr.setValue(null);
+             clientCombo.getSelectionModel().select(-1);
+             numFactureField.setText("");
+             bonAvrField.setText("");
+          
+             totalAvoirDetail.setText("");
+             totalFactureAvDetail.setText("");
+             totalEcartDetail.setText("");
+             
+    listeAvoirRadio.setSelected(false);
+    detailAvoirRadio.setSelected(false);
+    
+            imprimerBtn.setDisable(true);
+    
+    listeDetailAvoirOulmes.clear();
+                  
+        }
+        
+    }
+
+    @FXML
+    private void chargeL0ibelleKeyPressed(KeyEvent event) {
+        
+        
+                          if (event.getCode().equals(KeyCode.ENTER) )
+            {
+
+                        prixOulmes = prixOulmesDAO.findPrixOulmesByCodeArt(codeArtField.getText());
+
+                         LibelleCombo.setValue(prixOulmes.getProduit().getLibelle());
+              }
+        
+    }
+
+    @FXML
+    private void LibelleCombOnAction(ActionEvent event) {
+        
+        
+                 PrixOulmes prixOulmes  = mapPrixOulmes.get(LibelleCombo.getSelectionModel().getSelectedItem());
+
+        if(prixOulmes!=null){
+
+         codeArtField.setText(prixOulmes.getProduit().getCode());
+
+         }
+        
+    }
+
+    @FXML
+    private void rechercheDetailMouseClicked(MouseEvent event) {
+        
+
+        
+           if (clientCombo.getSelectionModel().getSelectedIndex() == -1 &&
+                   numFactureField.getText().equals("") &&
+                   dateAvr.getValue()== null &&
+                   bonAvrField.getText().equals("")
+                   
+                   ){
+ 
+                   nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.REMPLIR_CHAMPS);
+                
+            } else{
+           
+               if (tableSituationAvoir.getSelectionModel().getSelectedIndex()!=-1){
+
+
+            SituationGlobalAvoir situationGlobalAvoir=tableSituationAvoir.getSelectionModel().getSelectedItem();
+
+             String req = "";
+         
+        if(clientCombo.getSelectionModel().getSelectedIndex()!= -1) {
+             
+            ClientMP clientMP = mapClientMP.get(clientCombo.getSelectionModel().getSelectedItem());
+            
+              req= req+" and u.avoirOulmes.client='"+clientMP.getNom()+"'";
+              
+             }
+             
+        if(!bonAvrField.getText().equals("")){
+             
+            String bonAvoir = bonAvrField.getText();
+            
+             req= req+" and u.avoirOulmes.numLivraison='"+bonAvoir+"'";
+
+            }
+             
+        if(!numFactureField.getText().equals("")){
+             
+            String numFact = numFactureField.getText();
+            
+               req= req+" and u.avoirOulmes.numFacture='"+numFact+"'";
+      
+             }
+
+         if(dateAvr.getValue()!= null){
+             
+                         LocalDate localDate=dateAvr.getValue();
+            DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            String dateAvoir = localDate.format(formatters);
+
+               req= req+" and u.avoirOulmes.dateSaisie='"+dateAvoir+"'";
+      
+             }
+                 listeDetailAvoirOulmes.clear();
+             
+            listeDetailAvoirOulmes.addAll(detailAvoirOulmesDAO.findByPrixOulmesWithCodeArt(situationGlobalAvoir.getProduit().getCode(),req));
+
+        detailTableSituationAvoir.setItems(listeDetailAvoirOulmes); 
+        
+        setColumnPropertiesDetail();
+        
+      BigDecimal montantAvoir = BigDecimal.ZERO;
+      BigDecimal montantFactureAvoir = BigDecimal.ZERO;
+      BigDecimal montantEcart = BigDecimal.ZERO;
+
+        for (int i = 0; i < listeDetailAvoirOulmes.size(); i++) {
+            
+            DetailAvoirOulmes detailAvoirOulmes = listeDetailAvoirOulmes.get(i);
+            
+                  montantAvoir = montantAvoir.add(detailAvoirOulmes.getQte()) ;
+                  montantFactureAvoir = montantFactureAvoir.add(detailAvoirOulmes.getQteFactureAvoir()) ;
+                  montantEcart = montantEcart.add(detailAvoirOulmes.getQteEcart()) ;
+
+    }
+                DecimalFormatSymbols dfs = new  DecimalFormatSymbols(Locale.ROOT);
+                dfs.setDecimalSeparator(',');
+                dfs.setGroupingSeparator('.');
+                DecimalFormat df = new DecimalFormat("#,##0.00",dfs);
+                df.setGroupingUsed(true);
+              
+            totalAvoirDetail.setText(df.format(montantAvoir));
+            totalFactureAvDetail.setText(df.format(montantFactureAvoir));
+            totalEcartDetail.setText(df.format(montantEcart));
+
+        
+        
+               }else{
+               
+                   nav.showAlert(Alert.AlertType.WARNING, "Attention", null,Constantes.SELECTIONNER_UNE_LIGNE);
+                   return;
+               }
+        
+           }
+        
+        
+    }
+
     
 }

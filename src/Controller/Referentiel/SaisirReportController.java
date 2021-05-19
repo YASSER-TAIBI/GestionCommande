@@ -71,8 +71,6 @@ public class SaisirReportController implements Initializable {
       @FXML
     private TableColumn<DetailCompte, String> CompteColumn;
     @FXML
-    private Button btnSupprimer;
-    @FXML
     private Button btnValider;
     @FXML
     private Button btnModifier;
@@ -196,24 +194,7 @@ public class SaisirReportController implements Initializable {
           }
     }
 
-    @FXML
-    private void SupprimerFournisseur(ActionEvent event) {
-           if(tableDetailCompte.getSelectionModel().getSelectedItem()==null){
-         
-    
-         nav.showAlert(Alert.AlertType.ERROR, "Erreur", null, Constantes.VERIFICATION_SELECTION_LIGNE);
-        
-     }else {
-       DetailCompte detailCompte=tableDetailCompte.getSelectionModel().getSelectedItem();
-        detailCompteDAO.delete(detailCompte);
-  
-    clear();
-        nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.SUPRIMER_ENREGISTREMENT);
-        
-        setColumnProperties();
-      loadDetail();  
-    }
-    }
+
 
     @FXML
     private void ajouterCompte(ActionEvent event) throws ParseException {
@@ -239,26 +220,8 @@ public class SaisirReportController implements Initializable {
            montantDebitField.setStyle("-fx-border-color: red;");
            nav.showAlert(Alert.AlertType.ERROR, "Succès", null,Constantes.SELECTION_MONTANT);
            return ;
-           }else if (!montantCreditField.getText().equals("")){
+           }else {
          
-       valeurCredit = new BigDecimal(montantCreditField.getText());
-      
-           BigDecimal solde = compteFourMP.getSoldeReport();
-       BigDecimal soldeTotalCredit =solde.subtract(valeurCredit);
-            compteFourMP.setSoldeReport(soldeTotalCredit);
-       
-     }else if (!montantDebitField.getText().equals("")){
-         
-       valeurDebit = new BigDecimal( montantDebitField.getText());
-
-       
-       BigDecimal solde = compteFourMP.getSoldeReport();
-       BigDecimal soldeTotalDebit =solde.add(valeurDebit);
-          compteFourMP.setSoldeReport(soldeTotalDebit);
-          
-         
-       }
-
                 DetailCompte  detailCompte = new DetailCompte();
 
                detailCompte.setDateOperation(new Date());
@@ -274,10 +237,6 @@ public class SaisirReportController implements Initializable {
            detailCompte.setMontantCredit(BigDecimal.ZERO);
        }
                 
-                
-                  detailCompte.setCompteFourMP(compteFourMP);
-
-                 compteDAO.edit(compteFourMP);
                 detailCompteDAO.add(detailCompte);
 
           
@@ -292,20 +251,32 @@ public class SaisirReportController implements Initializable {
     }
         
     }
-
+    }
+    
+    
     @FXML
-    private void ModifierFournisseur(ActionEvent event) {
+    private void ModifierFournisseur(ActionEvent event) throws ParseException {
              if (tableDetailCompte.getSelectionModel().getSelectedItem() != null) {
         
+                     LocalDate localDate=dateCreation.getValue();
+            
+                Date date=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
+       
+                 
          DetailCompte detailCompte=tableDetailCompte.getSelectionModel().getSelectedItem();
          
-       detailCompte.setClientMP(mapClientMP.get(clientCombo.getSelectionModel().getSelectedItem()));
-       detailCompte.setMontantCredit(new BigDecimal(montantCreditField.getText()));
-       detailCompte.setMontantDebit(new BigDecimal(montantDebitField.getText()));
-      
-         
-
-
+               detailCompte.setDateOperation(new Date());
+               detailCompte.setDateBonLivraison(date);
+               detailCompte.setClientMP(mapClientMP.get(clientCombo.getSelectionModel().getSelectedItem()));
+               detailCompte.setDesignation(Constantes.REPORT_SUR_ANNEE+anneeReportCombo.getSelectionModel().getSelectedItem());
+               detailCompte.setUtilisateurCreation(nav.getUtilisateur());
+                if (!montantCreditField.getText().equals("")){
+        detailCompte.setMontantCredit(new BigDecimal(montantCreditField.getText()));
+        detailCompte.setMontantDebit(BigDecimal.ZERO);
+       }else if (!montantDebitField.getText().equals("")){
+           detailCompte.setMontantDebit(new BigDecimal(montantDebitField.getText()));
+           detailCompte.setMontantCredit(BigDecimal.ZERO);
+       }
           detailCompteDAO.edit(detailCompte);
      
       clear();

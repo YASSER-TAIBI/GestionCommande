@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f002493c-aece-4324-a753-2231675ae036">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="35"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="Fournisseur" class="java.lang.String"/>
+	<parameter name="prixBoxMetal" class="java.lang.String"/>
 	<field name="categorieMp.nom" class="java.lang.String"/>
-	<field name="typeFilm.libelle" class="java.lang.String"/>
-	<field name="grammageFilm.libelle" class="java.lang.String"/>
 	<field name="fournisseur.nom" class="java.lang.String"/>
-	<field name="intervalle.libelle" class="java.lang.String"/>
 	<field name="prix" class="java.math.BigDecimal"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -19,12 +17,26 @@
 				<reportElement x="279" y="18" width="245" height="24" backcolor="#8FDFEF" uuid="342ac1a4-cbf2-44be-b489-676752144a61"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="315" y="15" width="177" height="32" uuid="dfc8791e-ae0d-4ae7-8c55-dbd1c597335b"/>
-				<textElement textAlignment="Center" verticalAlignment="Top">
+				<reportElement x="70" y="27" width="14" height="15" uuid="c9026fc0-6e9b-47d5-8fce-7a60d1559971"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Le:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="84" y="28" width="100" height="14" uuid="5fc0bd6c-c101-4a7e-941a-0eff05a4a46b"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="14" width="245" height="32" uuid="df13adac-18f5-456d-9b73-92211e17c94b"/>
+				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="20" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Liste Prix Box Metal]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{prixBoxMetal}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -36,6 +48,13 @@
 				</textElement>
 				<text><![CDATA[Fournisseur: ]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="96" y="9" width="100" height="20" uuid="0a3cab84-2a4e-420b-bb50-c0cdf01abd35"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Fournisseur}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -67,7 +86,41 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="23" splitType="Stretch"/>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="41" y="2" width="238" height="20" uuid="44d56b80-fcee-4e6a-89e7-a8ee81b8518c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{categorieMp.nom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="288" y="2" width="254" height="20" uuid="525cda16-8b1a-46b5-ae98-2d31e78acf92"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fournisseur.nom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="550" y="2" width="211" height="20" uuid="325103f1-fb29-4fff-9a16-7d6b6fffe5f0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prix}]]></textFieldExpression>
+			</textField>
+		</band>
 	</detail>
 	<columnFooter>
 		<band height="60">

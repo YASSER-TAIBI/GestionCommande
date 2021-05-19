@@ -27,6 +27,10 @@ public interface DetailManqueFourDAO {
        
     public List<DetailManqueFour> findAll();
     
+    public List<DetailManqueFour> findByStatutPF();
+      
+    public List<DetailManqueFour> findByStatutMP();
+    
     public List<DetailManqueFour> findDetailManqueFourByNumCom(String numCom);
     
     public DetailManqueFour findDetailManqueFourByNumComAndNumBL(String numCom, String numBl);

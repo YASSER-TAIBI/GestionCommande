@@ -7,6 +7,7 @@ package Controller.Referentiel;
 
 import Utils.Constantes;
 import dao.Entity.SubCategorieMp;
+import dao.Entity.TypeCartonBox;
 import dao.Manager.SubCategorieMPDAO;
 import dao.ManagerImpl.SubCategorieMPAOImpl;
 import function.navigation;
@@ -142,7 +143,9 @@ public class SubCategorieMpController implements Initializable {
         
      }else {
        SubCategorieMp subCategorieMp=tableSubCategorie.getSelectionModel().getSelectedItem();
-        subCategorieMpDAO.delete(subCategorieMp);
+          subCategorieMp.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
+
+            subCategorieMpDAO.edit(subCategorieMp);
     
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null,Constantes.SUPRIMER_ENREGISTREMENT);
         
@@ -164,6 +167,7 @@ public class SubCategorieMpController implements Initializable {
        subCategorieMp.setCode(codeField.getText());
        subCategorieMp.setNom(nomField.getText());
        subCategorieMp.setUnite(unitesField.getText());
+       subCategorieMp.setEtat(Constantes.ETAT_COMMANDE_LANCE);
        subCategorieMp.setUtilisateurCreation(nav.getUtilisateur());
 
       
@@ -196,11 +200,40 @@ public class SubCategorieMpController implements Initializable {
     }
 
     @FXML
-    private void rechercheCodeVilleOnKeyPressed(KeyEvent event) {
+    private void rechercheCodeOnKeyPressed(KeyEvent event) {
+        
+            ObservableList<SubCategorieMp> listeSubCategorieMp=FXCollections.observableArrayList();
+          
+        listeSubCategorieMp.clear();
+   
+        listeSubCategorieMp.addAll(subCategorieMpDAO.findByCodeSubCategorieMp(rechCode.getText()));
+   
+        tableSubCategorie.setItems(listeSubCategorieMp);   
+        
     }
 
     @FXML
-    private void rechercheLibelleVilleOnKeyPressed(KeyEvent event) {
+    private void rechercheLibelleOnKeyPressed(KeyEvent event) {
+        
+              ObservableList<SubCategorieMp> listeSubCategorieMp=FXCollections.observableArrayList();
+          
+        listeSubCategorieMp.clear();
+   
+        listeSubCategorieMp.addAll(subCategorieMpDAO.findBylibelleSubCategorieMp(rechNom.getText()));
+   
+        tableSubCategorie.setItems(listeSubCategorieMp);   
+        
+    }
+
+    @FXML
+    private void rechercheTableMouseClicked(MouseEvent event) {
+        
+                  rechNom.clear();
+            rechCode.clear();
+
+            setColumnProperties();
+            loadDetail();
+        
     }
     
 }

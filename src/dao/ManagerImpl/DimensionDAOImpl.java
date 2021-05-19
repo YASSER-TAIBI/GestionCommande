@@ -57,7 +57,7 @@ public class DimensionDAOImpl implements DimensionDAO  {
         
 	public List<Dimension> findAll() {
             
-            return session.createQuery("select c from Dimension c").list();
+            return session.createQuery("select c from Dimension c where c.etat = 'Lancé'").list();
 		
 		}
 
@@ -65,7 +65,7 @@ public class DimensionDAOImpl implements DimensionDAO  {
     public int getMaxId() {
         
                 int id;
-        Query query= session.createQuery("select Max(id) from Dimension c");
+        Query query= session.createQuery("select Max(id) from Dimension c  where c.etat = 'Lancé'");
         
         if( query.uniqueResult()==null)
             id= 1;
@@ -79,7 +79,7 @@ public class DimensionDAOImpl implements DimensionDAO  {
     
     public List<Dimension>  findDimensionByFamille(String famille) {
 		
-		Query query = session.createQuery("select u from Dimension u where  u.famille=:famille");
+		Query query = session.createQuery("select u from Dimension u where u.famille=:famille and u.etat = 'Lancé'");
 		query.setParameter("famille", famille);
 		
 	return  query.list();
@@ -89,7 +89,7 @@ public class DimensionDAOImpl implements DimensionDAO  {
     
    public List<Dimension>  findDimensionByID(int id) {
 		
-		Query query = session.createQuery("select u from Dimension u where  u.categorieMp.id=:id");
+		Query query = session.createQuery("select u from Dimension u where u.categorieMp.id=:id and u.etat = 'Lancé'");
 		query.setParameter("id", id);
 		
 	return  query.list();
@@ -100,7 +100,7 @@ public class DimensionDAOImpl implements DimensionDAO  {
 	public Dimension findByCode(String code) {
 		// TODO Auto-generated method stub
 		Dimension dimension= new Dimension();
-		Query query= session.createQuery("select c from Dimension c where c.libelle =:code");
+		Query query= session.createQuery("select c from Dimension c where c.libelle =:code and c.etat = 'Lancé'");
 		query.setParameter("code", code);
 		
 		dimension= (Dimension) query.uniqueResult();
@@ -110,7 +110,7 @@ public class DimensionDAOImpl implements DimensionDAO  {
         
               public Dimension findDimensionByCode(String code) {
 		
-		Query query = session.createQuery("select u from Dimension u where  u.code=:code");
+		Query query = session.createQuery("select u from Dimension u where  u.code=:code and u.etat = 'Lancé' ");
 		query.setParameter("code", code);
 	  return (Dimension)  query.uniqueResult();
 	      
@@ -118,7 +118,7 @@ public class DimensionDAOImpl implements DimensionDAO  {
               
                  public List<Dimension> findDimensionByCodeDIM(String code) {
 		
-		Query query = session.createQuery("select u from Dimension u where  u.code=:code");
+		Query query = session.createQuery("select u from Dimension u where  u.code=:code and u.etat = 'Lancé'");
 		query.setParameter("code", code);
                 
 		return  query.list();
@@ -127,11 +127,29 @@ public class DimensionDAOImpl implements DimensionDAO  {
               
                public List<Dimension>  findDimensionByCat(String cat) {
 		
-		Query query = session.createQuery("select u from Dimension u where u.famille=:cat");
+		Query query = session.createQuery("select u from Dimension u where u.famille=:cat and u.etat = 'Lancé'");
 		query.setParameter("cat", cat);
 		
 	return  query.list();
 	      
     }
-              
+         
+               	 public List<Dimension> findByCodeDimension(String code) {
+		
+		Query query = session.createQuery("select u from Dimension u where u.code like:code and u.etat = 'Lancé'");
+		query.setParameter("code","%"+code+"%");
+		
+                return query.list();
+ }
+    
+         	 public List<Dimension> findBylibelleDimension(String lib) {
+		
+		Query query = session.createQuery("select u from Dimension u where u.libelle like:lib and u.etat = 'Lancé'");
+		query.setParameter("lib","%"+lib+"%");
+		
+                return query.list();
+ }
+
+               
+               
 }

@@ -50,6 +50,15 @@ public class Reglement implements Serializable {
     @Column(name="MONTANT_REGLEMENT")
     private BigDecimal montantReglement;
     
+    @Column(name="MONTANT_ECART")
+    private BigDecimal montantEcart;
+    
+    @Column(name="MONTANT_AVANCE")
+    private BigDecimal montantAvance;
+    
+    @Column(name="MONTANT_ANONYME")
+    private BigDecimal montantAnonyme;
+    
     @ManyToOne
      @JoinColumn(name="ID_FOURNISSEUR")
      private Fournisseur fournisseur  ;
@@ -63,6 +72,9 @@ public class Reglement implements Serializable {
     @Column(name="MODE_REGLEMENT")
     private String modeReglement;
 
+    @Column(name="COMMENTAIRES")
+    private String commentaires;
+    
      @ManyToOne
      @JoinColumn(name="ID_CLIENT")
      private ClientMP clientMP  ;
@@ -80,6 +92,22 @@ public class Reglement implements Serializable {
       
     public Utilisateur getUtilisateurCreation() {
         return utilisateurCreation;
+    }
+
+    public BigDecimal getMontantEcart() {
+        return montantEcart;
+    }
+
+    public void setMontantEcart(BigDecimal montantEcart) {
+        this.montantEcart = montantEcart;
+    }
+
+    public BigDecimal getMontantAvance() {
+        return montantAvance;
+    }
+
+    public void setMontantAvance(BigDecimal montantAvance) {
+        this.montantAvance = montantAvance;
     }
 
     public void setUtilisateurCreation(Utilisateur utilisateurCreation) {
@@ -100,6 +128,14 @@ public class Reglement implements Serializable {
 
     public void setNumCritique(String numCritique) {
         this.numCritique = numCritique;
+    }
+
+    public String getCommentaires() {
+        return commentaires;
+    }
+
+    public void setCommentaires(String commentaires) {
+        this.commentaires = commentaires;
     }
 
     public Date getDateEcheance() {
@@ -136,6 +172,14 @@ public class Reglement implements Serializable {
 
     public void setAction(Boolean action) {
         this.action = action;
+    }
+
+    public BigDecimal getMontantAnonyme() {
+        return montantAnonyme;
+    }
+
+    public void setMontantAnonyme(BigDecimal montantAnonyme) {
+        this.montantAnonyme = montantAnonyme;
     }
 
     public Date getDate() {

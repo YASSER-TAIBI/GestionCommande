@@ -9,6 +9,7 @@ import Utils.HibernateUtil;
 import dao.Entity.Grammage;
 import dao.Manager.GrammageDAO;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -55,8 +56,22 @@ public class GrammageDAOImpl implements GrammageDAO  {
 
         
 	public List<Grammage> findAll() {
-		return session.createQuery("select c from Grammage c").list();
+		return session.createQuery("select c from Grammage c where c.etat = 'Lancé'").list();
 		}
 
+    	 public List<Grammage> findByCodeGrammage(String code) {
+		
+		Query query = session.createQuery("select u from Grammage u where u.code like:code and u.etat = 'Lancé'");
+		query.setParameter("code","%"+code+"%");
+		
+                return query.list();
+ }
     
+         	 public List<Grammage> findBylibelleGrammage(String lib) {
+		
+		Query query = session.createQuery("select u from Grammage u where u.libelle like:lib and u.etat = 'Lancé'");
+		query.setParameter("lib","%"+lib+"%");
+		
+                return query.list();
+ }
 }

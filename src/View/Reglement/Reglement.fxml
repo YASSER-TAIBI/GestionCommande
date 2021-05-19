@@ -91,9 +91,9 @@
                   <DatePicker fx:id="dateEcheance" layoutX="761.0" layoutY="4.0" prefHeight="31.0" prefWidth="203.0" promptText="Date d'Echéance" />
                </children>
             </Pane>
-            <Label layoutX="644.0" layoutY="16.0" text="Montant Total: " />
-            <TextField fx:id="montantTotalField" alignment="CENTER" disable="true" layoutX="787.0" layoutY="11.0" prefHeight="31.0" prefWidth="203.0" promptText="montant Total" styleClass="StyleRaduis" />
-            <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="1010.0" layoutY="8.0" onMouseClicked="#calculeMouseClicked" pickOnBounds="true" preserveRatio="true">
+            <Label layoutX="644.0" layoutY="10.0" text="Montant Total: " />
+            <TextField fx:id="montantTotalField" alignment="CENTER" disable="true" layoutX="787.0" layoutY="5.0" prefHeight="31.0" prefWidth="203.0" promptText="montant Total" styleClass="StyleRaduis" />
+            <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="1010.0" layoutY="5.0" onMouseClicked="#calculeMouseClicked" pickOnBounds="true" preserveRatio="true">
                <viewport>
                   <Rectangle2D />
                </viewport>

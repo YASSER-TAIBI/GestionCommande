@@ -6,10 +6,19 @@
 package Controller.Referentiel;
 
 import Utils.Constantes;
+import dao.Entity.Client;
+import dao.Entity.Fournisseur;
+import dao.Entity.HistoriquePrix;
 import dao.Entity.PrixOulmes;
 import dao.Entity.Produit;
+import dao.Manager.ClientDAO;
+import dao.Manager.FournisseurDAO;
+import dao.Manager.HistoriquePrixDAO;
 import dao.Manager.PrixOulmesDAO;
 import dao.Manager.ProduitDAO;
+import dao.ManagerImpl.ClientDAOImpl;
+import dao.ManagerImpl.FournisseurDAOImpl;
+import dao.ManagerImpl.HistoriquePrixDAOImpl;
 import dao.ManagerImpl.PrixOulmesDAOImpl;
 import dao.ManagerImpl.ProduitDAOImpl;
 import function.navigation;
@@ -17,6 +26,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,20 +79,23 @@ public class ModifierPrixOulmesController implements Initializable {
     
     navigation nav = new navigation();
     ProduitDAO produitDAO = new ProduitDAOImpl();
+    FournisseurDAO fournisseurDAO = new FournisseurDAOImpl();
     PrixOulmesDAO prixOulmesDAO = new PrixOulmesDAOImpl();
+    HistoriquePrixDAO historiquePrixDAO = new HistoriquePrixDAOImpl();
+    ClientDAO clientDAO =new ClientDAOImpl();
+     
     private Map<String,Produit> mapProduit=new HashMap<>();
+    private Map<String,Client> mapClient=new HashMap<>();
     
     public ObservableList<PrixOulmes> listePrixOulmesTMP=FXCollections.observableArrayList();
     
-    ObservableList<String> client =FXCollections.observableArrayList(Constantes.CLIENT_MARJANE,Constantes.CLIENT_MINURSO);
+//    ObservableList<String> client =FXCollections.observableArrayList(Constantes.CLIENT_MARJANE,Constantes.CLIENT_MINURSO);
     
     /**
      * Initializes the controller class.
      */
      public PrixOulmes  prixOulmes;
   
-    
-
              public  void chargerLesDonnees(){
 
         artCombo.setValue(prixOulmes.getProduit().getLibelle());
@@ -94,11 +107,6 @@ public class ModifierPrixOulmesController implements Initializable {
         clientCombo.setValue(prixOulmes.getClient());
         lieuLivraisonField.setText(prixOulmes.getLieuLivraison());
         
-        if (prixOulmes.getTypeArticle().equals(Constantes.PACK)){
-         radPack.setSelected(true);
-        }else{
-         radPiece.setSelected(true);
-        }
         
         
 
@@ -107,8 +115,17 @@ public class ModifierPrixOulmesController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         
-        clientCombo.setItems(client);
+//        clientCombo.setItems(client);
         
+       List<Client> listCliient=clientDAO.findAll();
+        
+        listCliient.stream().map((client) -> {
+            clientCombo.getItems().addAll(client.getLibelle());
+            return client;
+        }).forEachOrdered((client) -> {
+            mapClient.put(client.getLibelle(), client);
+        });
+
           List<Produit> listProduit=produitDAO.findAll();
         
         listProduit.stream().map((produit) -> {
@@ -128,25 +145,28 @@ public class ModifierPrixOulmesController implements Initializable {
      }
         else {
               
-  
+              
+              Fournisseur fournisseur = fournisseurDAO.findByFournisseur();
+              
+                                HistoriquePrix historiquePrix = new HistoriquePrix();
+        
+        historiquePrix.setAncienPrix(prixOulmes.getPrix());
+        historiquePrix.setNouveauPrix(new BigDecimal(prixField.getText()));
+        historiquePrix.setFournisseur(fournisseur);
+        historiquePrix.setPrixOulmes(prixOulmes);
+        historiquePrix.setDateCreation(new Date());
+        historiquePrix.setChemin(Constantes.PARAMETRAGE_PRIX);
+        historiquePrix.setUtilisateurCreation(nav.getUtilisateur());
+        
+        historiquePrixDAO.add(historiquePrix);
+        
+ //######################################################################################################################################################################################################################################################################################################################      
+       
+
               prixOulmes.setProduit(mapProduit.get(artCombo.getSelectionModel().getSelectedItem()));
               prixOulmes.setClient(clientCombo.getSelectionModel().getSelectedItem());
               prixOulmes.setConditionnement(new BigDecimal(conditionnementField.getText()));
-              
-              if (prixOulmes.getConditionnementCaisse()== null){
-                  
-                  if (!conditionnementCaisseField.getText().equals("null")){
-                      
-                   prixOulmes.setConditionnementCaisse(new BigDecimal(conditionnementCaisseField.getText()));
-                   
-                  }
-              
-              }else{
-                  
               prixOulmes.setConditionnementCaisse(new BigDecimal(conditionnementCaisseField.getText()));
-              
-              }
-             
               prixOulmes.setRemiseAchat(new BigDecimal(remiseAchatField.getText()));
               prixOulmes.setRemiseAvoir(new BigDecimal(remiseAvoirField.getText()));
               prixOulmes.setLieuLivraison(lieuLivraisonField.getText());

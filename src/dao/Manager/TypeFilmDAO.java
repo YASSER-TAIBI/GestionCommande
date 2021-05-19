@@ -25,7 +25,10 @@ public interface TypeFilmDAO {
 		public  void delete(TypeFilm e); 
 		
 		public List<TypeFilm> findAll();
-    
-    
+
+                
+                public List<TypeFilm> findByCodeTypeFilm(String code);
+
+         	 public List<TypeFilm> findBylibelleTypeFilm(String lib);
 }
 

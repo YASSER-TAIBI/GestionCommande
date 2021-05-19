@@ -11,7 +11,6 @@ import dao.Entity.Fournisseur;
 import java.util.Date;
 
 
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -95,110 +94,97 @@ public class BonLivraisonDAOImpl implements BonLivraisonDAO {
                 return query.list();
  }
      
-        public List<BonLivraison> findFourByRechercheNomReglementOulmes(String four,String clt,String etat,String etat1,String type,String type1) {
+        public List<BonLivraison> findFourByRechercheNomReglementOulmes(String four,String clt,String etat,String etat1) {
 		
-		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and (c.etat=:etat or c.etat =:etat1) and (c.typeBon =:type or c.typeBon =:type1)");
+		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and (c.etat=:etat or c.etat =:etat1)");
 		query.setParameter("four",four);
                 query.setParameter("clt",clt);
                 query.setParameter("etat",etat);
                 query.setParameter("etat1",etat1);
-                query.setParameter("type",type);
-                query.setParameter("type1",type1);
 		
                 return query.list();
  }
      
-         public List<BonLivraison> findNumCommandeByNumLivraisonOulmes(String code, String four,String clt,String etat,String etat1,String type,String type1) {
+         public List<BonLivraison> findNumCommandeByNumLivraisonOulmes(String code, String four,String clt,String etat,String etat1) {
 		
-		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and c.livraisonFour like:code and (c.etat=:etat or c.etat =:etat1) and (c.typeBon =:type or c.typeBon =:type1)");
+		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and c.livraisonFour like:code and (c.etat=:etat or c.etat =:etat1)");
 		query.setParameter("code","%"+code+"%");
                 query.setParameter("four",four);
                 query.setParameter("clt",clt);
                 query.setParameter("etat",etat);
                 query.setParameter("etat1",etat1);
-                query.setParameter("type",type);
-                query.setParameter("type1",type1);
+
 		
                 return query.list();
          }
          
-          public List<BonLivraison> findNumCommandeByDateLivraisonOulmes(Date dateLiv, String four,String clt,String etat,String etat1,String type,String type1) {
+          public List<BonLivraison> findNumCommandeByDateLivraisonOulmes(Date dateLiv, String four,String clt,String etat,String etat1) {
 		
-		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and c.dateLivraison =:dateLiv and (c.etat=:etat or c.etat =:etat1) and (c.typeBon =:type or c.typeBon =:type1)");
+		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and c.dateLivraison =:dateLiv and (c.etat=:etat or c.etat =:etat1)");
 		query.setParameter("dateLiv",dateLiv);
                 query.setParameter("four",four);
                 query.setParameter("clt",clt);
                 query.setParameter("etat",etat);
                 query.setParameter("etat1",etat1);
-                query.setParameter("type",type);
-                query.setParameter("type1",type1);
 		
                 return query.list();
          }
          
-             public List<BonLivraison> findNumCommandeByDateLivraisonAndNumLivraisonOulmes(Date dateLiv, String code, String four,String clt,String etat,String etat1,String type,String type1) {
+             public List<BonLivraison> findNumCommandeByDateLivraisonAndNumLivraisonOulmes(Date dateLiv, String code, String four,String clt,String etat,String etat1) {
 		
-		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and c.dateLivraison =:dateLiv and c.livraisonFour like:code and (c.etat=:etat or c.etat =:etat1) and (c.typeBon =:type or c.typeBon =:type1)");
+		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and c.dateLivraison =:dateLiv and c.livraisonFour like:code and (c.etat=:etat or c.etat =:etat1)");
 		query.setParameter("code","%"+code+"%");
                 query.setParameter("dateLiv",dateLiv);
                 query.setParameter("four",four);
                 query.setParameter("clt",clt);
                 query.setParameter("etat",etat);
                 query.setParameter("etat1",etat1);
-                query.setParameter("type",type);
-                query.setParameter("type1",type1);
 		
                 return query.list();
          }
              
-                             public List<BonLivraison> findNumCommandeByNumFacOulmes(String fac ,String four,String clt,String etat,String etat1,String type,String type1) {
+                             public List<BonLivraison> findNumCommandeByNumFacOulmes(String fac ,String four,String clt,String etat,String etat1) {
 		
-		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and c.numFacture =:fac and (c.etat=:etat or c.etat =:etat1) and (c.typeBon =:type or c.typeBon =:type1)");
+		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and c.numFacture =:fac and (c.etat=:etat or c.etat =:etat1)");
                 query.setParameter("fac",fac);
                 query.setParameter("four",four);
                 query.setParameter("clt",clt);
                 query.setParameter("etat",etat);
                 query.setParameter("etat1",etat1);
-                query.setParameter("type",type);
-                query.setParameter("type1",type1);
 		
                 return query.list();
          }
              
-                         public List<BonLivraison> findNumCommandeByDateLivraisonAndNumFacOulmes(Date dateLiv,String fac ,String four,String clt,String etat,String etat1,String type,String type1) {
+                         public List<BonLivraison> findNumCommandeByDateLivraisonAndNumFacOulmes(Date dateLiv,String fac ,String four,String clt,String etat,String etat1) {
 		
-		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and c.dateLivraison =:dateLiv and c.numFacture =:fac and (c.etat=:etat or c.etat =:etat1) and (c.typeBon =:type or c.typeBon =:type1)");
+		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and c.dateLivraison =:dateLiv and c.numFacture =:fac and (c.etat=:etat or c.etat =:etat1)");
                 query.setParameter("dateLiv",dateLiv);
                 query.setParameter("fac",fac);
                 query.setParameter("four",four);
                 query.setParameter("clt",clt);
                 query.setParameter("etat",etat);
                 query.setParameter("etat1",etat1);
-                query.setParameter("type",type);
-                query.setParameter("type1",type1);
 		
                 return query.list();
          }
           
             
-                        public List<BonLivraison> findNumCommandeByNumLivraisonAndNumFacOulmes( String code,String fac ,String four,String clt,String etat,String etat1,String type,String type1) {
+                        public List<BonLivraison> findNumCommandeByNumLivraisonAndNumFacOulmes( String code,String fac ,String four,String clt,String etat,String etat1) {
 		
-		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and c.numFacture =:fac and c.livraisonFour like:code and (c.etat=:etat or c.etat =:etat1) and (c.typeBon =:type or c.typeBon =:type1)");
+		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and c.numFacture =:fac and c.livraisonFour like:code and (c.etat=:etat or c.etat =:etat1)");
 		query.setParameter("code","%"+code+"%");
                 query.setParameter("fac",fac);
                 query.setParameter("four",four);
                 query.setParameter("clt",clt);
                 query.setParameter("etat",etat);
                 query.setParameter("etat1",etat1);
-                query.setParameter("type",type);
-                query.setParameter("type1",type1);
 		
                 return query.list();
          } 
              
-                public List<BonLivraison> findNumCommandeByDateLivraisonAndNumLivraisonAndNumFacOulmes(Date dateLiv, String code,String fac ,String four,String clt,String etat,String etat1,String type,String type1) {
+                public List<BonLivraison> findNumCommandeByDateLivraisonAndNumLivraisonAndNumFacOulmes(Date dateLiv, String code,String fac ,String four,String clt,String etat,String etat1) {
 		
-		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and c.dateLivraison =:dateLiv and c.numFacture =:fac and c.livraisonFour like:code and (c.etat=:etat or c.etat =:etat1) and (c.typeBon =:type or c.typeBon =:type1)");
+		Query query = session.createQuery("select c from BonLivraison c where c.client=:clt and c.fourisseur=:four and c.dateLivraison =:dateLiv and c.numFacture =:fac and c.livraisonFour like:code and (c.etat=:etat or c.etat =:etat1)");
 		query.setParameter("code","%"+code+"%");
                 query.setParameter("dateLiv",dateLiv);
                 query.setParameter("fac",fac);
@@ -206,8 +192,6 @@ public class BonLivraisonDAOImpl implements BonLivraisonDAO {
                 query.setParameter("clt",clt);
                 query.setParameter("etat",etat);
                 query.setParameter("etat1",etat1);
-                query.setParameter("type",type);
-                query.setParameter("type1",type1);
 		
                 return query.list();
          }
@@ -346,4 +330,13 @@ public class BonLivraisonDAOImpl implements BonLivraisonDAO {
          }
            return query.list();
     }
+                           
+                           
+         public List<BonLivraison> findByNumFactureAndClientAndFourAndEtat(String req) {
+		
+		Query query = session.createQuery("select c from BonLivraison c where c.etat = 'Régler'"+req);
+                return query.list();
+                
+ }  
+        
 }

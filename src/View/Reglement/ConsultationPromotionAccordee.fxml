@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Reglement.ConsultationPromotionAccordeeController">
+   <children>
+      <Pane layoutX="113.0" layoutY="186.0" prefHeight="87.0" prefWidth="1378.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <DatePicker fx:id="dateDebutPromotion" layoutX="315.0" layoutY="48.0" prefHeight="31.0" prefWidth="212.0" promptText="Date Promotion" />
+            <Label layoutX="199.0" layoutY="53.0" text="Date Debut:" />
+            <Label layoutX="237.0" layoutY="14.0" text="Client:" />
+            <Label layoutX="819.0" layoutY="15.0" text="Depot:" />
+            <ComboBox fx:id="depotCombo" layoutX="886.0" layoutY="9.0" onAction="#depotCombOnAction" prefHeight="31.0" prefWidth="212.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <ComboBox fx:id="clientCombo" layoutX="315.0" layoutY="9.0" onAction="#clientCombOnAction" prefHeight="31.0" prefWidth="212.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <DatePicker fx:id="dateFinPromotion" layoutX="886.0" layoutY="48.0" prefHeight="31.0" prefWidth="212.0" promptText="Date Promotion" />
+            <Label layoutX="790.0" layoutY="54.0" text="Date Fin:" />
+            <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="1331.0" layoutY="40.0" onMouseClicked="#ajouterMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
+               </image>
+            </ImageView>
+         </children></Pane>
+      <Pane layoutX="395.0" layoutY="107.0" prefHeight="48.0" prefWidth="811.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="17.0" layoutY="2.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Consultation Promotion Produit Fini" />
+         </children>
+      </Pane>
+      <Pane layoutX="113.0" layoutY="750.0" prefHeight="55.0" prefWidth="1378.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnRefreshGlobal" layoutX="707.0" layoutY="9.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#refreshGlobal" prefHeight="36.0" prefWidth="125.0" text="Rafraîchir" />
+            <RadioButton fx:id="listePromotionRadio" layoutX="26.0" layoutY="7.0" mnemonicParsing="false" onAction="#listePromotionRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Liste Promotion PF">
+               <toggleGroup>
+                  <ToggleGroup fx:id="promotion" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="detailPromotionRadio" layoutX="26.0" layoutY="30.0" mnemonicParsing="false" onAction="#detailPromotionRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Detail Promotion PF" toggleGroup="$promotion" />
+            <Button fx:id="imprimerBtn" layoutX="547.0" layoutY="9.0" mnemonicParsing="false" onAction="#imprimerBtnOnAction" prefHeight="36.0" prefWidth="125.0" text="Imprimer" />
+         </children>
+      </Pane>
+      <TableView fx:id="detailPromotionAccoTable" blendMode="MULTIPLY" layoutX="113.0" layoutY="541.0" prefHeight="202.0" prefWidth="1378.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeArtColumn" prefWidth="155.99998474121094" text="Code" />
+            <TableColumn fx:id="libelleColumn" prefWidth="496.0" text="Libelle" />
+            <TableColumn fx:id="quantiteColumn" prefWidth="223.0" text="Qte" />
+            <TableColumn fx:id="prixColumn" prefWidth="226.0" text="Prix" />
+            <TableColumn fx:id="montantColumn" prefWidth="277.0" text="Montant" />
+         </columns>
+      </TableView>
+      <TableView fx:id="promotionAccoTable" blendMode="MULTIPLY" layoutX="111.0" layoutY="280.0" onMouseClicked="#afficherDetailOnMouseClicked" prefHeight="202.0" prefWidth="1378.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeClientColumn" prefWidth="216.0" text="Code Client" />
+            <TableColumn fx:id="clientColumn" prefWidth="299.0" text="Client" />
+            <TableColumn fx:id="nBonColumn" prefWidth="344.0" text="N° Bon" />
+            <TableColumn fx:id="datePromoColumn" prefWidth="288.0" text="Date Promotion" />
+            <TableColumn fx:id="depotColumn" prefWidth="231.0" text="Depot" />
+         </columns>
+      </TableView>
+      <Pane layoutX="111.0" layoutY="490.0" prefHeight="44.0" prefWidth="1378.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="797.0" layoutY="12.0" text="Libelle:" />
+            <ComboBox fx:id="LibelleCombo" layoutX="883.0" layoutY="6.0" onAction="#LibelleCombOnAction" prefHeight="31.0" prefWidth="234.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <TextField fx:id="codeArtField" alignment="CENTER" layoutX="310.0" layoutY="7.0" onKeyPressed="#chargeL0ibelleKeyPressed" prefHeight="31.0" prefWidth="212.0" promptText="Code Article" styleClass="StyleRaduis" />
+            <Label layoutX="214.0" layoutY="12.0" text="Code ART:" />
+            <ImageView fitHeight="38.0" fitWidth="38.0" layoutX="1328.0" layoutY="3.0" onMouseClicked="#ajouterDetailMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

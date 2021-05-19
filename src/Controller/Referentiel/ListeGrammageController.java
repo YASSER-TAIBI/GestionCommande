@@ -7,6 +7,7 @@ package Controller.Referentiel;
 
 import Utils.Constantes;
 import dao.Entity.Grammage;
+import dao.Entity.TypeCartonBox;
 import dao.Manager.GrammageDAO;
 import dao.ManagerImpl.GrammageDAOImpl;
 import function.navigation;
@@ -99,6 +100,7 @@ public class ListeGrammageController implements Initializable {
        
        grammage.setCode(txtCode.getText());
        grammage.setLibelle(txtLibelle.getText());
+       grammage.setEtat(Constantes.ETAT_COMMANDE_LANCE);
        grammage.setUtilisateurCreation(nav.getUtilisateur());
 
       
@@ -144,8 +146,11 @@ public class ListeGrammageController implements Initializable {
         
      }else {
        Grammage grammage=tableGrammage.getSelectionModel().getSelectedItem();
-        grammageDAO.delete(grammage);
+        
+       grammage.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
     
+       grammageDAO.edit(grammage);
+       
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.SUPRIMER_ENREGISTREMENT);
         
         setColumnProperties();
@@ -167,13 +172,6 @@ public class ListeGrammageController implements Initializable {
  
     }
 
-    @FXML
-    private void rechercheCodeVilleOnKeyPressed(KeyEvent event) {
-    }
-
-    @FXML
-    private void rechercheLibelleVilleOnKeyPressed(KeyEvent event) {
-    }
 
     @FXML
     private void clickChargeOnMouseEntered(MouseEvent event) {
@@ -188,6 +186,43 @@ public class ListeGrammageController implements Initializable {
               txtLibelle.setText(libelleColumn.getCellData(val));
 
           }
+    }
+
+    @FXML
+    private void rechercheCodeOnKeyPressed(KeyEvent event) {
+        
+                ObservableList<Grammage> listeGrammage=FXCollections.observableArrayList();
+          
+        listeGrammage.clear();
+   
+        listeGrammage.addAll(grammageDAO.findByCodeGrammage(codeRechField.getText()));
+   
+        tableGrammage.setItems(listeGrammage);
+        
+        
+    }
+
+    @FXML
+    private void rechercheLibelleOnKeyPressed(KeyEvent event) {
+        
+              ObservableList<Grammage> listeGrammage=FXCollections.observableArrayList();
+          
+        listeGrammage.clear();
+   
+        listeGrammage.addAll(grammageDAO.findBylibelleGrammage(libelleRechField.getText()));
+   
+        tableGrammage.setItems(listeGrammage);
+    }
+
+    @FXML
+    private void rechercheTableMouseClicked(MouseEvent event) {
+        
+              libelleRechField.clear();
+        codeRechField.clear();
+        
+        setColumnProperties();
+        loadDetail();
+        
     }
     
 }

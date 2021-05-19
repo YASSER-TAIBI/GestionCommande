@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.Referentiel.SutiationEmballageController">
+   <children>
+      <TableView fx:id="tableSituationEmballageArt" blendMode="MULTIPLY" layoutX="117.0" layoutY="234.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailOnMouseClicked" prefHeight="201.0" prefWidth="1371.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="codeColumn" prefWidth="86.00003051757812" text="Code" />
+            <TableColumn fx:id="libelleColumn" prefWidth="318.0" text="Libelle" />
+            <TableColumn fx:id="initialColumn" prefWidth="161.0" text="S.Initial" />
+            <TableColumn fx:id="achatColumn" minWidth="0.0" prefWidth="161.0" text="Achat" />
+            <TableColumn fx:id="avoirColumn" minWidth="0.0" prefWidth="161.0" text="Avoir" />
+            <TableColumn fx:id="finalColumn" minWidth="0.0" prefWidth="161.0" text="S.Final" />
+            <TableColumn fx:id="prixColumn" minWidth="0.0" prefWidth="161.0" text="Prix" />
+            <TableColumn fx:id="montantColumn" minWidth="0.0" prefWidth="161.0" text="Montant" />
+         </columns>
+      </TableView>
+      <Pane layoutX="562.0" layoutY="106.0" prefHeight="55.0" prefWidth="488.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="33.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Situation Emballage" />
+         </children>
+      </Pane>
+      <Pane layoutX="120.0" layoutY="445.0" prefHeight="44.0" prefWidth="1371.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label fx:id="monTotal" layoutX="1211.0" layoutY="10.0" prefHeight="24.0" prefWidth="146.0" />
+            <Label layoutX="1092.0" layoutY="14.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Montant Total:" />
+         </children></Pane>
+      <Pane layoutX="117.0" layoutY="726.0" prefHeight="50.0" prefWidth="1371.0" styleClass="pane">
+         <children>
+            <Button fx:id="imprimerBtn" layoutX="541.0" layoutY="5.0" mnemonicParsing="false" onAction="#imprimerBtnOnAction" prefHeight="40.0" prefWidth="125.0" text="Imprimer" />
+            <RadioButton fx:id="listeAvoirRadio" layoutX="37.0" layoutY="4.0" mnemonicParsing="false" onAction="#listeAvoirRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Liste Emballage">
+               <toggleGroup>
+                  <ToggleGroup fx:id="avoir" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="detailEmballageRadio" layoutX="37.0" layoutY="27.0" mnemonicParsing="false" onAction="#detailEmballageRadioOnAction" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Detail Emballage par &quot;Mois&quot;" toggleGroup="$avoir" />
+            <Button fx:id="refrachBtn" layoutX="705.0" layoutY="6.0" mnemonicParsing="false" onAction="#refrechBtnOnAction" prefHeight="40.0" prefWidth="125.0" text="Rafraîchir" />
+            <Label fx:id="monTotalMois" layoutX="1211.0" layoutY="13.0" prefHeight="24.0" prefWidth="146.0" />
+            <Label layoutX="1092.0" layoutY="17.0" styleClass="label4" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Montant Total:" />
+         </children>
+      </Pane>
+      <Pane layoutX="118.0" layoutY="184.0" prefHeight="44.0" prefWidth="1371.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <ImageView fitHeight="36.0" fitWidth="38.0" layoutX="1323.0" layoutY="4.0" onMouseClicked="#rechercheMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../Styles/img/magnifying-glass-1083378_640-ConvertImage.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="736.0" layoutY="12.0" text="Fournisseur:" />
+            <Label layoutX="200.0" layoutY="12.0" text="Client:" />
+            <ComboBox fx:id="fourCombo" layoutX="861.0" layoutY="6.0" onAction="#fourCombOnAction" prefHeight="31.0" prefWidth="228.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+            <ComboBox fx:id="clientCombo" layoutX="274.0" layoutY="6.0" onAction="#clientCombOnAction" prefHeight="31.0" prefWidth="228.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+         </children>
+      </Pane>
+      <TableView fx:id="tableSituationEmballageMois" blendMode="MULTIPLY" layoutX="115.0" layoutY="499.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherDetailOnMouseClicked" prefHeight="217.0" prefWidth="1371.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
+         <columns>
+            <TableColumn fx:id="moisColumn" prefWidth="200.0" text="Mois" />
+            <TableColumn fx:id="initialMoisColumn" prefWidth="200.0" text="S.Initial" />
+            <TableColumn fx:id="achatMoisColumn" minWidth="0.0" prefWidth="200.0" text="Achat" />
+            <TableColumn fx:id="avoirMoisColumn" minWidth="0.0" prefWidth="200.0" text="Avoir" />
+            <TableColumn fx:id="finalMoisColumn" minWidth="0.0" prefWidth="200.0" text="S.Final" />
+            <TableColumn fx:id="prixMoisColumn" minWidth="0.0" prefWidth="171.0" text="Prix" />
+            <TableColumn fx:id="montantMoisColumn" minWidth="0.0" prefWidth="200.0" text="Montant" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

@@ -17,7 +17,7 @@
   <children>
     <AnchorPane fx:id="centrePane" maxHeight="1000.0" maxWidth="2232.0" prefHeight="900.0" prefWidth="1600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
-            <ImageView fitHeight="900.0" fitWidth="1600.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.28118896484375" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fitHeight="900.0" fitWidth="1600.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <image>
                   <Image url="@../Styles/img/GestionCommande_HOME.jpg" />
                </image></ImageView>
@@ -55,7 +55,7 @@
             </ImageView>
       </children>
     </AnchorPane>
-    <AnchorPane fx:id="menuPane" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="78.0" prefWidth="1600.0">
+    <AnchorPane fx:id="menuPane" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="78.0" prefWidth="1600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
         <MenuBar maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="32.0" prefWidth="1600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <menus>
@@ -65,22 +65,28 @@
                           <items>
                               <Menu fx:id="commandeRegionMenu" mnemonicParsing="false" text="Commande Région">
                                 <items>
-                                    <MenuItem fx:id="saisirCommandeRegionMenu" mnemonicParsing="false" onAction="#menuSaisirCommandeRegion" text="Saisir Commande Région" />
+                                    <MenuItem fx:id="saisirCommandeRegionMenu" mnemonicParsing="false" onAction="#menuSaisirCommandeRegion" text="Saisir Commande Région MP" />
+                                    <MenuItem fx:id="saisirCommandeRegionPFMenu" mnemonicParsing="false" onAction="#menuSaisirCommandeRegionPF" text="Saisir Commande Région PF" />
+                                    <MenuItem fx:id="consultationCommandeRegionMPMenu" mnemonicParsing="false" onAction="#menuConsultationCommandeRegionMP" text="Consultation Commande Région MP" />
+                                    <MenuItem fx:id="consultationCommandeRegionPFMenu" mnemonicParsing="false" onAction="#menuConsultationCommandeRegionPF" text="Consultation Commande Région PF" />
                                 </items>
                               </Menu>
-                              <Menu fx:id="saisirCommandeOulmesMenu" mnemonicParsing="false" text="Commande Oulmes">
+                              <Menu fx:id="saisirCommandeOulmesMenu" mnemonicParsing="false" text="Commande PF">
                                 <items>
-                                    <MenuItem fx:id="saisirCommandeOulmesMenu" mnemonicParsing="false" onAction="#menuSaisirOulmes" text="Saisir Commande Oulmes" />
-                                  <MenuItem fx:id="validerCommandeOulmesMenu" mnemonicParsing="false" onAction="#menuValiderOulmesCommande" text="Valider Commande Oulmes" />
-                                    <MenuItem fx:id="envoyerCommandeOulmesMenu" mnemonicParsing="false" onAction="#menuEnvoyerOulmesCommande" text="Envoyer Commande Oulmes" />
+                                    <MenuItem fx:id="saisirCommandeOulmesMenu" mnemonicParsing="false" onAction="#menuSaisirOulmes" text="Saisir Commande PF" />
+                                  <MenuItem fx:id="validerCommandeOulmesMenu" mnemonicParsing="false" onAction="#menuValiderOulmesCommande" text="Valider Commande PF" />
+                                    <MenuItem fx:id="envoyerCommandeOulmesMenu" mnemonicParsing="false" onAction="#menuEnvoyerOulmesCommande" text="Envoyer Commande PF" />
+                                    <MenuItem fx:id="validerCommandeRegionPFMenu" mnemonicParsing="false" onAction="#menuValiderCommandeRegionPF" text="Valider Commande Région PF" />
+                                    <MenuItem fx:id="consultationGlobComOulmesRegionMenu" mnemonicParsing="false" onAction="#menuConsultationGlobComOulmesRegion" text="Consultation Global Commande Région PF" />
                                 </items>
                               </Menu>
-                              <Menu fx:id="commandeSiegeMenu" mnemonicParsing="false" text="Commande Siége">
+                              <Menu fx:id="commandeSiegeMenu" mnemonicParsing="false" text="Commande MP">
                                 <items>
-                            <MenuItem fx:id="saisirCommandeMenu" mnemonicParsing="false" onAction="#menuSaisir" text="Saisir Commande Siége" />
-                                    <MenuItem fx:id="validerCommandeMenu" mnemonicParsing="false" onAction="#menuValiderCommande" text="Valider Commande Siége" />
-                                    <MenuItem fx:id="envoyerCommandeMenu" mnemonicParsing="false" onAction="#menuEnvoyerCommande" text="Envoyer Commande" />
-                                    <MenuItem fx:id="validerCommandeRegionMenu" mnemonicParsing="false" onAction="#menuValiderCommandeRegion" text="Valider Commande Région" />
+                            <MenuItem fx:id="saisirCommandeMenu" mnemonicParsing="false" onAction="#menuSaisir" text="Saisir Commande MP" />
+                                    <MenuItem fx:id="validerCommandeMenu" mnemonicParsing="false" onAction="#menuValiderCommande" text="Valider Commande MP" />
+                                    <MenuItem fx:id="envoyerCommandeMenu" mnemonicParsing="false" onAction="#menuEnvoyerCommande" text="Envoyer Commande MP" />
+                                    <MenuItem fx:id="validerCommandeRegionMenu" mnemonicParsing="false" onAction="#menuValiderCommandeRegion" text="Valider Commande Région MP" />
+                                    <MenuItem fx:id="consultationGlobComRegionMenu" mnemonicParsing="false" onAction="#MenuConsultationGlobComRegion" text="Consultation Global Commande Région MP" />
                                 </items>
                               </Menu>
                           </items>
@@ -97,11 +103,14 @@
             </Menu>
             <Menu fx:id="livraisonMenu" mnemonicParsing="false" text="Livraison">
                      <items>
-                        <MenuItem fx:id="suiviLivraisonMenu" mnemonicParsing="false" onAction="#menuSuiviCommande" text="Suivi Livraison" />
-                        <MenuItem fx:id="suiviLivraisonOulmesMenu" mnemonicParsing="false" onAction="#menuSuiviOulmesCommande" text="Suivi Livraison Oulmes" />
-                        <MenuItem fx:id="situationGlobalCommandeMenu" mnemonicParsing="false" onAction="#menuSituationGlobalCommande" text="Situation Global Commande" />
-                        <MenuItem fx:id="recuCommandeMenu" mnemonicParsing="false" onAction="#menuRecuCommande" text="Reçu Commande" />
-                        <MenuItem fx:id="recuCommandeOulmesMenu" mnemonicParsing="false" onAction="#menuRecuCommandeOulmes" text="Reçu Commande Oulmes" />
+                        <MenuItem fx:id="suiviLivraisonMenu" mnemonicParsing="false" onAction="#menuSuiviCommande" text="Suivi Livraison MP" />
+                        <MenuItem fx:id="suiviLivraisonOulmesMenu" mnemonicParsing="false" onAction="#menuSuiviOulmesCommande" text="Suivi Livraison PF" />
+                        <MenuItem fx:id="situationGlobalCommandeMenu" mnemonicParsing="false" onAction="#menuSituationGlobalCommande" text="Situation Global Commande MP" />
+                        <MenuItem fx:id="situationGlobalCommandePfMenu" mnemonicParsing="false" onAction="#menuSituationGlobalPfCommande" text="Situation Global Commande PF" />
+                        <MenuItem fx:id="recuCommandeMenu" mnemonicParsing="false" onAction="#menuRecuCommande" text="Reçu Commande MP" />
+                        <MenuItem fx:id="recuCommandeOulmesMenu" mnemonicParsing="false" onAction="#menuRecuCommandeOulmes" text="Reçu Commande PF" />
+                        <MenuItem fx:id="annulerCommandeMenu" mnemonicParsing="false" onAction="#menuAnnulerCommande" text="Annuler Commande MP" />
+                        <MenuItem fx:id="annulerCommandeOulmesMenu" mnemonicParsing="false" onAction="#menuAnnulerCommandeOulmes" text="Annuler Commande PF" />
                      </items></Menu>
                   <Menu fx:id="douaneMenu" mnemonicParsing="false" text="Douane">
                      <items>
@@ -110,52 +119,90 @@
                   </Menu>
                   <Menu fx:id="receptionMenu" mnemonicParsing="false" text="Réception">
                     <items>
-                      <MenuItem fx:id="suiviReceptionMenu" mnemonicParsing="false" onAction="#menuSuiviReception" text="Suivi Réception" />
-                        <MenuItem fx:id="suiviReceptionOulmesMenu" mnemonicParsing="false" onAction="#menuSuiviReceptionOulmes" text="Suivi Réception Oulmes" />
+                      <MenuItem fx:id="suiviReceptionMenu" mnemonicParsing="false" onAction="#menuSuiviReception" text="Suivi Réception MP" />
+                        <MenuItem fx:id="suiviReceptionOulmesMenu" mnemonicParsing="false" onAction="#menuSuiviReceptionOulmes" text="Suivi Réception PF" />
                     </items>
                   </Menu>
                   <Menu fx:id="retourGratuiteMenu" mnemonicParsing="false" text="Retour &amp; Manque">
                      <items>
-                        <MenuItem fx:id="suiviRetourGratuiteMenu" mnemonicParsing="false" onAction="#menuSuiviRetour" text="Suivi Retour/Manque " />
-                        <MenuItem fx:id="suiviManqueFourMenu" mnemonicParsing="false" onAction="#menuSuiviManqueFourMenu" text="Suivi Manque &quot;Déclaration Fournisseur&quot;" />
-                        <MenuItem fx:id="consultationBonRetourGratuiteMenu" mnemonicParsing="false" onAction="#menuBonRetGra" text="Consultation Bon Retour/Manque" />
-                        <MenuItem fx:id="consultationManqueMpMenu" mnemonicParsing="false" onAction="#menuconsultationManqueMp" text="Consultation Manque Matière première" />
-                        <MenuItem fx:id="regularisationDesPrixMenu" mnemonicParsing="false" onAction="#menuRegularisationDesPrix" text="Regularisation de Différence des Prix" />
+                        <Menu mnemonicParsing="false" text="Retour &amp; Manque MP">
+                          <items>
+                              <MenuItem fx:id="suiviRetourGratuiteMenu" mnemonicParsing="false" onAction="#menuSuiviRetour" text="Saisir Retour/Manque MP" />
+                              <MenuItem fx:id="consultationBonRetourGratuiteMenu" mnemonicParsing="false" onAction="#menuBonRetGra" text="Suivi Retour/Manque MP" />
+                              <MenuItem fx:id="suiviManqueFourMenu" mnemonicParsing="false" onAction="#menuSuiviManqueFourMenu" text="Suivi Manque &quot;Déclaration Fournisseur&quot; MP" />
+                              <MenuItem fx:id="consultationManqueMpMenu" mnemonicParsing="false" onAction="#menuconsultationManqueMp" text="Consultation Retour/Manque MP" />
+                          </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Retour &amp; Manque PF">
+                          <items>
+                              <MenuItem fx:id="saisirRetourManquePFMenu" mnemonicParsing="false" onAction="#menuSaisirRetourManquePF" text="Saisir Retour/Manque PF" />
+                              <MenuItem fx:id="suiviRetourManquePFMenu" mnemonicParsing="false" onAction="#menuSuiviRetourManquePF" text="Suivi Retour/Manque PF" />
+                              <MenuItem fx:id="suiviManqueFourPFMenu" mnemonicParsing="false" onAction="#menuSuiviManqueFourPFMenu" text="Suivi Manque &quot;Déclaration Fournisseur&quot; PF" />
+                              <MenuItem fx:id="consultationManquePFMenu" mnemonicParsing="false" onAction="#menuConsultationManquePF" text="Consultation Retour/Manque PF" />
+                          </items>
+                        </Menu>
                         <MenuItem fx:id="ConsultationRegularisationPrixMenu" mnemonicParsing="false" onAction="#menuConsultationRegularisationPrix" text="Consultation Regularisation de Différence des Prix" />
+                        <MenuItem fx:id="consultationOffresMenu" mnemonicParsing="false" onAction="#menuconsultationOffres" text="Consultation Offres" />
                      </items>
                   </Menu>
             <Menu fx:id="reglementMenu" mnemonicParsing="false" text="Réglement">
                      <items>
                         <Menu fx:id="reglementMpMenu" mnemonicParsing="false" text="Réglement MP">
                            <items>
-                              <MenuItem fx:id="suiviEtatReglementMenu" mnemonicParsing="false" onAction="#menuEtatReglement" text="Suivi Etat Réglement" />
+                              <MenuItem fx:id="suiviEtatReglementMenu" mnemonicParsing="false" onAction="#menuEtatReglement" text="Suivi Factures Fournisseur" />
                               <MenuItem fx:id="suiviReglementMenu" mnemonicParsing="false" onAction="#menuReglement" text="Suivi Réglement" />
                            </items>
                         </Menu>
-                        <Menu fx:id="reglementOulmesMenu" mnemonicParsing="false" text="Réglement Oulmes">
+                        <Menu fx:id="reglementOulmesMenu" mnemonicParsing="false" text="Réglement PF">
                           <items>
-                              <MenuItem fx:id="suiviEtatReglementOulmesMenu" mnemonicParsing="false" onAction="#menuEtatOulmesReglement" text="Suivi Etat Réglement Oulmes" />
-                              <MenuItem fx:id="suiviReglementOulmesMenu" mnemonicParsing="false" onAction="#menuReglementOulmes" text="Suivi Réglement Oulmes" />
-                              <MenuItem fx:id="avoirOulmesMenu" mnemonicParsing="false" onAction="#menuAvoirOulmes" text="Avoir Oulmes" />
-                              <MenuItem fx:id="factureAvoirOulmesMenu" mnemonicParsing="false" onAction="#menuFactureAvoirOulmes" text="Facture Avoir Oulmes" />
-                              <MenuItem fx:id="situationGlobalAvoirOulmesMenu" mnemonicParsing="false" onAction="#menuSituationGlobalAvoirOulmes" text="Situation Global Avoir &quot;Article&quot; Oulmes" />
-                              <MenuItem fx:id="detailFactureAvoirBonAvoirOulmesMenu" mnemonicParsing="false" onAction="#menuDetailFactureAvoirBonAvoirOulmes" text="Detail Facture Avoir &amp; Bon d'Avoir" />
-                              <MenuItem fx:id="situationGlobalAvoirClientOulmesMenu" mnemonicParsing="false" onAction="#menuSituationGlobalAvoirClientOulmes" text="Situation Global Avoir &quot;Client&quot; Oulmes" />
+                              <MenuItem fx:id="suiviEtatReglementOulmesMenu" mnemonicParsing="false" onAction="#menuEtatOulmesReglement" text="Suivi Factures Fournisseur PF" />
+                              <MenuItem fx:id="suiviReglementOulmesMenu" mnemonicParsing="false" onAction="#menuReglementOulmes" text="Suivi Réglement PF" />
+                              <MenuItem fx:id="avoirOulmesMenu" mnemonicParsing="false" onAction="#menuAvoirOulmes" text="Avoir PF" />
+                              <MenuItem fx:id="ecartAvoirOulmesMenu" mnemonicParsing="false" onAction="#menuEcartAvoirOulmes" text="Ecart Avoir PF" />
+                              <MenuItem fx:id="factureAvoirOulmesMenu" mnemonicParsing="false" onAction="#menuFactureAvoirOulmes" text="Facture Avoir PF" />
+                              <MenuItem fx:id="consultationAvoirOulmesMenu" mnemonicParsing="false" onAction="#menuConsultationAvoirOulmes" text="Consultation Avoir PF" />
+                              <MenuItem fx:id="bonValidationAdminMenu" mnemonicParsing="false" onAction="#menuBonValidationAdmin" text="Bon Validation Administration PF" />
+                              <MenuItem fx:id="situationGlobalAvoirOulmesMenu" mnemonicParsing="false" onAction="#menuSituationGlobalAvoirOulmes" text="Situation Global Avoir &quot;Article&quot; PF" />
+                              <MenuItem fx:id="detailFactureAvoirBonAvoirOulmesMenu" mnemonicParsing="false" onAction="#menuDetailFactureAvoirBonAvoirOulmes" text="Detail Facture Avoir &amp; Bon d'Avoir PF" />
+                              <MenuItem fx:id="situationGlobalAvoirClientOulmesMenu" mnemonicParsing="false" onAction="#menuSituationGlobalAvoirClientOulmes" text="Situation Global Avoir &quot;Client&quot; PF" />
+                              <MenuItem fx:id="remiseFinPeriodeMenu" mnemonicParsing="false" onAction="#menuremiseFinPeriode" text="Suivi Remise Fin Période" />
+                              <Menu fx:id="reglementOulmesMenu1" mnemonicParsing="false" text="Promotion Accordée">
+                                 <items>
+                                    <MenuItem fx:id="promotionAccordeeMenu" mnemonicParsing="false" onAction="#promotionAccordeeOnAction" text="Saisir Promotion Accordée" />
+                                    <MenuItem fx:id="consultationPromotionAccordeeMenu" mnemonicParsing="false" onAction="#consultationPromotionAccordeeOnAction" text="Consultation Promotion Accordée" />
+                                 </items>
+                              </Menu>
                           </items>
                         </Menu>
                         <MenuItem fx:id="reglementReportMenu" mnemonicParsing="false" onAction="#menuReglementReport" text="Réglement Report" />
                         <MenuItem fx:id="consultationReglementMenu" mnemonicParsing="false" onAction="#consultationReglementOnAction" text="Consultation Réglement" />
+                        <MenuItem fx:id="avanceFournisseurMenu" mnemonicParsing="false" onAction="#avanceFournisseurOnAction" text="Avance Fournisseur" />
+                        <MenuItem fx:id="prixMoyenMenu" mnemonicParsing="false" onAction="#prixMoyenOnAction" text="Prix Moyen" />
+                        <MenuItem fx:id="factureMenu" mnemonicParsing="false" onAction="#factureOnAction" text="Facture" />
                      </items></Menu>
                   <Menu fx:id="stockMenu" mnemonicParsing="false" text="Stock">
                     <items>
-                      <MenuItem fx:id="consultationStockMenu" mnemonicParsing="false" onAction="#menuConsultationStock" text="Consultation Stock" />
-                        <MenuItem fx:id="consultationStockOulmesMenu" mnemonicParsing="false" onAction="#menuConsultationStockOulmes" text="Consultation Stock Oulmes" />
+                      <MenuItem fx:id="consultationStockMenu" mnemonicParsing="false" onAction="#menuConsultationStock" text="Consultation Stock MP" />
+                        <MenuItem fx:id="consultationStockOulmesMenu" mnemonicParsing="false" onAction="#menuConsultationStockOulmes" text="Consultation Stock PF" />
+                        <Menu fx:id="materialCommandeEtrangereMenu1" mnemonicParsing="false" text="Emballage">
+                           <items>
+                              <MenuItem fx:id="stockInitialEmballageMenu" mnemonicParsing="false" onAction="#menuStockInitialEmballage" text="Stock Initial Emballage" />
+                              <MenuItem fx:id="situationEmballageMenu" mnemonicParsing="false" onAction="#menuSituationEmballage" text="Situation Emballage" />
+                           </items>
+                        </Menu>
+                        <Menu fx:id="inventaireStockMenu" mnemonicParsing="false" text="Inventaire">
+                           <items>
+                              <MenuItem fx:id="inventaireMenu" mnemonicParsing="false" onAction="#inventaireOnAction" text="Saisir Inventaire" />
+                              <MenuItem fx:id="consultationInventaireMenu" mnemonicParsing="false" onAction="#menuConsultationInventaire" text="Consultation Inventaire" />
+                           </items>
+                        </Menu>
                     </items>
                   </Menu>
                   <Menu fx:id="clientMenu" mnemonicParsing="false" text="Client">
                     <items>
                       <MenuItem fx:id="ajouterClientMenu" mnemonicParsing="false" onAction="#menuAjtClient" text="Ajouter Client" />
                         <MenuItem fx:id="consultationSoldeClientMenu" mnemonicParsing="false" onAction="#consultationSoldeClientOnAction" text="Consultation Solde" />
+                        <MenuItem fx:id="soldeFinAnneeMenu" mnemonicParsing="false" onAction="#menuSoldeFinAnnee" text="Solde Fin d'Année" />
                     </items>
                   </Menu>
                   <Menu fx:id="fournisseurMenu" mnemonicParsing="false" text="Fournisseur">
@@ -197,10 +244,9 @@
                               <MenuItem fx:id="familleArticleEtrangereMenu" mnemonicParsing="false" onAction="#menuFamilleArticleEtrangere" text="Famille Article Etrangere" />
                           </items>
                         </Menu>
-                        <MenuItem fx:id="articleOulmesMenu" mnemonicParsing="false" onAction="#menuMajArticleOulmes" text="Article Oulmes" />
+                        <MenuItem fx:id="articleOulmesMenu" mnemonicParsing="false" onAction="#menuMajArticleOulmes" text="Article Produit Fini" />
                         <MenuItem fx:id="dimensionMenu" mnemonicParsing="false" onAction="#menuDimension" text="Dimension" />
                         <MenuItem fx:id="intervalleMenu" mnemonicParsing="false" onAction="#menuIntervalle" text="Intervalle" />
-                        <MenuItem fx:id="villeMenu" mnemonicParsing="false" onAction="#menuMajVille" text="Ville" />
                         <MenuItem fx:id="compteMenu" mnemonicParsing="false" onAction="#menuCompteUse" text="Compte" />
                         <MenuItem fx:id="saisirReportMenu" mnemonicParsing="false" onAction="#menuSaisirReport" text="Saisir Report" />
                      </items></Menu>
@@ -208,13 +254,21 @@
                      <items>
                         <MenuItem fx:id="prixDimensionFourMenu" mnemonicParsing="false" onAction="#menuPrixDimFour" text="Prix Dimension Fournisseur" />
                         <MenuItem fx:id="consultationPrixCategorieMenu" mnemonicParsing="false" onAction="#menuConsultationPrixCategorie" text="Consultation Prix Categorie" />
+                        <MenuItem fx:id="historiquePrixMenu" mnemonicParsing="false" onAction="#menuHistoriquePrix" text="Historique Prix" />
+                        <MenuItem fx:id="historiquePrixOulmesMenu" mnemonicParsing="false" onAction="#menuHistoriquePrixOulmes" text="Historique Prix Produit Fini" />
+                        <MenuItem fx:id="historiqueAvoirPrixOulmesMenu" mnemonicParsing="false" onAction="#menuHistoriqueAvoirPrixOulmes" text="Historique Avoir Prix Produit Fini" />
+                        <MenuItem fx:id="depotMenu" mnemonicParsing="false" onAction="#menuDepot" text="Depot" />
+                        <MenuItem fx:id="delaiPaiementFourMenu" mnemonicParsing="false" onAction="#menuDelaiPaiementFour" text="Délai Paiement Fournisseurs" />
+                        <MenuItem fx:id="villeMenu" mnemonicParsing="false" onAction="#menuMajVille" text="Ville" />
+                        <MenuItem fx:id="client2Menu" mnemonicParsing="false" onAction="#menuClient2" text="Client 2" />
+                        <MenuItem fx:id="chauffeurMenu" mnemonicParsing="false" onAction="#menuChauffeur" text="Chauffeur" />
                         <MenuItem fx:id="ajouteUtilisateurMenu" mnemonicParsing="false" onAction="#menuAjouUtilisateur" text="Ajouter Utilisateur" />
                         <MenuItem fx:id="gererAuthorisationMenu" mnemonicParsing="false" onAction="#menuGererAuthorisation" text="Gérer Authorisation" />
                      </items>
                   </Menu>
           </menus>
         </MenuBar>
-        <ToolBar layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="1600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0">
+        <ToolBar layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="1600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
           <items>
                   <AnchorPane>
                      <children>

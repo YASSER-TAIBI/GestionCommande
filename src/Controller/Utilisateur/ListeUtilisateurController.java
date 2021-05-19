@@ -29,12 +29,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import dao.Manager.UtilisateurDAO;
+import java.util.Optional;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -147,7 +149,12 @@ public class ListeUtilisateurController implements Initializable {
     
     @FXML
     private void ModifierUtilisateur(ActionEvent event) throws IOException {
-      
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
    
    if (tableUtilisateur.getSelectionModel().getSelectedItem() != null) {
               
@@ -180,13 +187,18 @@ public class ListeUtilisateurController implements Initializable {
         } else {
              nav.showAlert(Alert.AlertType.ERROR, "Erreur",Constantes.SELECTION_ERREUR , Constantes.SELECTION_LIGNE_MODIFIER);
         }
-
+            }
  }
         
    
     @FXML
     private void SupprimerUtilisateur(ActionEvent event) {
-          
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText(Constantes.MESSAGE_ALERT_CONTINUER);
+            alert.setTitle("Confirmation");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
         
      if(tableUtilisateur.getSelectionModel().getSelectedItem()==null){
          
@@ -202,7 +214,7 @@ public class ListeUtilisateurController implements Initializable {
         setColumnProperties();
       loadDetail();  
     }
-
+            }
     }
 
     @FXML

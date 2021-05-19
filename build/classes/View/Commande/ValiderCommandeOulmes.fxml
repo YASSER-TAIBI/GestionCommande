@@ -22,8 +22,9 @@
       <TableView fx:id="tableDetailCommande" blendMode="MULTIPLY" layoutX="241.0" layoutY="584.0" maxWidth="1.7976931348623157E308" onMouseClicked="#afficherChampsOnMouse" prefHeight="232.0" prefWidth="883.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">
          <columns>
             <TableColumn fx:id="codeArticleColumn" prefWidth="168.0" text="code Article" />
-            <TableColumn fx:id="libelleColumn" prefWidth="528.0" text="Libelle" />
-            <TableColumn fx:id="quantiteColumn" prefWidth="187.0" text="Quantite" />
+            <TableColumn fx:id="libelleColumn" prefWidth="363.0" text="Libelle" />
+            <TableColumn fx:id="quantiteColumn" prefWidth="179.0" text="Quantite Pack" />
+            <TableColumn fx:id="quantiteCaisseColumn" prefWidth="173.0" text="Quantite Caisse" />
          </columns>
       </TableView>
       <Pane layoutX="241.0" layoutY="183.0" prefHeight="66.0" prefWidth="1065.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
@@ -40,14 +41,13 @@
       </Pane>
       <Pane layoutX="1136.0" layoutY="584.0" prefHeight="232.0" prefWidth="170.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Button fx:id="btnModifierDC" layoutX="21.0" layoutY="98.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#modifierDetailCommande" prefHeight="38.0" prefWidth="131.0" text="Modifier" />
-            <Button fx:id="btnModifier" layoutX="21.0" layoutY="35.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ValiderCommande" prefHeight="38.0" prefWidth="131.0" text="Valider" />
-            <Button fx:id="btnSupprimerDC" layoutX="20.0" layoutY="160.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#supprimerDetailCommande" prefHeight="38.0" prefWidth="131.0" text="Supprimer" />
+            <Button fx:id="btnModifier" layoutX="21.0" layoutY="62.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ValiderCommande" prefHeight="38.0" prefWidth="131.0" text="Valider" />
+            <Button fx:id="btnSupprimerDC" layoutX="21.0" layoutY="128.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#supprimerDetailCommande" prefHeight="38.0" prefWidth="131.0" text="Supprimer" />
          </children>
       </Pane>
-      <Pane layoutX="517.0" layoutY="99.0" prefHeight="55.0" prefWidth="556.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="467.0" layoutY="99.0" prefHeight="55.0" prefWidth="667.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Label layoutX="24.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Valider Commande Oulmes" />
+            <Label layoutX="12.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Valider Commande Produit Fini" />
          </children>
       </Pane>
       <Pane layoutX="1136.0" layoutY="260.0" prefHeight="232.0" prefWidth="170.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
@@ -59,7 +59,7 @@
       </Pane>
       <Pane layoutX="241.0" layoutY="505.0" prefHeight="66.0" prefWidth="1065.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <TextField fx:id="quantiteField" layoutX="245.0" layoutY="16.0" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="194.0" promptText="Quantité" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
+            <TextField fx:id="quantiteField" disable="true" layoutX="245.0" layoutY="16.0" maxWidth="1.7976931348623157E308" prefHeight="32.0" prefWidth="194.0" promptText="Quantité" styleClass="StyleRaduis" stylesheets="@../Styles/css/FigureDeStyle.css">
                <effect>
                   <Blend />
                </effect>

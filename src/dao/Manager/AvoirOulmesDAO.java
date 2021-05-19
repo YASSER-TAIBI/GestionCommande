@@ -1,6 +1,7 @@
 package dao.Manager;
 
 import dao.Entity.AvoirOulmes;
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -20,16 +21,21 @@ public interface AvoirOulmesDAO {
 
 	public List<Object[]> findBySituationGlobal();
         
-        public List<Object[]> findBySituationGlobalClient();
-        
 	public List<Object[]> findBySituationGlobalArticle(String code);
-        
-        public List<Object[]> findAvoirOulmesByCodeAndClient(String code, String client);
 
-        public List<AvoirOulmes>  findAvoirOulmesByBonAvoir(String bonAv);
+        public List<AvoirOulmes> findAvoirOulmesByBonAvoir(String bonAv, String etat);
 
         public List<AvoirOulmes>  findAvoirOulmesByClient(String client);
 
         public List<AvoirOulmes>  findAvoirOulmesByBonAvoirAndClient(String bonAv ,String client);
         
+        public List<AvoirOulmes>  findAvoirOulmesByBonAvoir();
+        
+        public AvoirOulmes findBonRetourByNumCommAndNumLiv(String bonAvoir) ;
+        
+        public List<AvoirOulmes> findByAllFilter(String etat, String req);
+        
+        public List<Object[]> findBySituationGlobalClient();
+        
+//        public BigDecimal findByLivGMS(int mois);
 }

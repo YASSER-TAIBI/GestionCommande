@@ -4,6 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="Fournisseur" class="java.lang.String"/>
+	<parameter name="prixFilm" class="java.lang.String"/>
 	<field name="categorieMp.nom" class="java.lang.String"/>
 	<field name="typeFilm.libelle" class="java.lang.String"/>
 	<field name="grammageFilm.libelle" class="java.lang.String"/>
@@ -19,12 +20,26 @@
 				<reportElement x="279" y="18" width="245" height="24" backcolor="#8FDFEF" uuid="342ac1a4-cbf2-44be-b489-676752144a61"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="330" y="15" width="141" height="32" uuid="dfc8791e-ae0d-4ae7-8c55-dbd1c597335b"/>
-				<textElement textAlignment="Center" verticalAlignment="Top">
+				<reportElement x="67" y="27" width="14" height="15" uuid="3880e167-dc68-4a8a-a159-467be55854ce"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Le:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="81" y="28" width="100" height="14" uuid="f80c330c-b0f5-4291-83d1-6666e1bfc6c2"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="14" width="245" height="32" uuid="dcda6107-1fe4-43d5-b174-85beede3c84e"/>
+				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="20" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Liste Prix Film]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{prixFilm}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="861325b4-8ea7-4768-8f4d-4e0109abf941">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<parameter name="totalDetailFactureAvoir" class="java.lang.String"/>
+	<parameter name="totalDetailAvoir" class="java.lang.String"/>
+	<parameter name="totalDetailEcart" class="java.lang.String"/>
+	<field name="prixOulmes.produit.code" class="java.lang.String"/>
+	<field name="prixOulmes.produit.libelle" class="java.lang.String"/>
+	<field name="avoirOulmes.client" class="java.lang.String"/>
+	<field name="avoirOulmes.dateSaisie" class="java.util.Date"/>
+	<field name="avoirOulmes.numFacture" class="java.lang.String"/>
+	<field name="avoirOulmes.numLivraison" class="java.lang.String"/>
+	<field name="qte" class="java.math.BigDecimal"/>
+	<field name="qteFactureAvoir" class="java.math.BigDecimal"/>
+	<field name="qteEcart" class="java.math.BigDecimal"/>
+	<title>
+		<band height="57" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="217" y="19" width="372" height="24" backcolor="#8FDFEF" uuid="840dd8ce-517f-4cf2-88fb-a3fe010adc85"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="235" y="16" width="337" height="26" uuid="618cbce6-c596-4aa8-8716-6cf7bbcfc15f"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Consultation Détail Avoir Global "Article]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="26" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="0" y="1" width="802" height="20" backcolor="#8FDFEF" uuid="1f96c44d-f72a-410a-80c6-24f584e90523"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="72" y="1" width="152" height="20" uuid="30cf713d-db5b-46a6-9297-a59f9538169f"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Libelle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="228" y="2" width="67" height="19" uuid="07c0c05d-ba39-4bdf-a91b-ca26e8a2211b"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Client]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="2" width="52" height="19" uuid="88e9b933-d21a-4f69-b2fa-828472b46692"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="540" y="2" width="78" height="19" uuid="b525a6cc-be87-4ded-bb04-7ebb9cc5a06b"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Avoir]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="622" y="2" width="81" height="19" uuid="65713c02-e507-47c1-9a96-38a9749f3fdd"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Facture Avoir]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="708" y="2" width="79" height="19" uuid="37310851-1a9d-4080-9552-1c9c6a763973"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ecart]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="2" width="68" height="19" uuid="9e298a2f-10b1-4e8d-87db-b2bbfdee8391"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date d'Avoir]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="2" width="79" height="19" uuid="a7a865da-2834-4144-aaed-24e8e1e7d19e"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bon Avoir]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="456" y="2" width="79" height="19" uuid="27617d28-2f16-4dd6-aa11-b4a9658867cd"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° Facture]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="228" y="2" width="67" height="20" uuid="2d9172b3-ecd6-4fba-82be-a07214400250"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{avoirOulmes.client}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="16" y="2" width="52" height="20" uuid="6a1f01f5-1f7f-46e1-b516-8222b5715131"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prixOulmes.produit.code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="2" width="152" height="20" uuid="a747900c-bd45-4944-b225-8e123d15e485"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prixOulmes.produit.libelle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="2" width="68" height="20" uuid="88b967c8-bec0-4a88-b7e6-7cc7eec5ac09"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{avoirOulmes.dateSaisie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="456" y="2" width="79" height="20" uuid="ddc5b96b-fc77-4428-ae54-4d55cad1b9fd"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{avoirOulmes.numFacture}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="372" y="2" width="79" height="20" uuid="f3008088-c018-42bd-b3ef-cb521fed776d"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{avoirOulmes.numLivraison}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="540" y="2" width="78" height="20" uuid="8abde431-3a85-423a-b9c2-7075fd309b51"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qte}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="622" y="2" width="81" height="20" uuid="2357ba23-5197-4763-b13e-673bd7dcac08"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qteFactureAvoir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="708" y="2" width="79" height="20" uuid="4ed2c770-abf2-4a82-a35e-9973bc375603"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qteEcart}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="112">
+			<rectangle>
+				<reportElement x="0" y="1" width="802" height="3" backcolor="#8FDFEF" uuid="0e1cdaa7-0a75-4148-a58c-2cb0754ee413"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="555" y="54" width="120" height="18" uuid="bcf3d449-ec59-4531-a01d-567248a78ffc"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Ecart:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="555" y="12" width="120" height="18" uuid="748f5f2a-4aca-4291-9b5d-50cd3445aa26"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Totat Avoir:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="555" y="33" width="120" height="18" uuid="4f958085-af75-4f44-a1a5-f4a3bc4ee22a"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Facture Avoir:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="680" y="33" width="100" height="18" uuid="75a250de-d5bf-46d1-9858-80e89eb0d44c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalDetailFactureAvoir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="680" y="54" width="100" height="18" uuid="93cfa597-aeaf-4bce-8876-1f4547e19d7f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalDetailEcart}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="680" y="12" width="100" height="18" uuid="76f8b762-5e3a-434d-a78d-564f2eb53a8d"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalDetailAvoir}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

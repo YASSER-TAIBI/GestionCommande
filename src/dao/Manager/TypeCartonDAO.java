@@ -22,4 +22,8 @@ public interface TypeCartonDAO {
 		public  void delete(TypeCarton e); 
 		
 		public List<TypeCarton> findAll();
+                
+                public List<TypeCarton> findByCodeTypeCarton(String code);
+		
+         	public List<TypeCarton> findBylibelleTypeCarton(String lib);
 }

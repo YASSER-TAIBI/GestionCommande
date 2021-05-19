@@ -43,17 +43,8 @@ public class CompteFourMP implements Serializable {
     @Column(name="LIBELLE")
     private String libelle;
     
-    @Column(name="MONTANT_CREDIT")
-    private BigDecimal montantCredit;
-    
-    @Column(name="MONTANT_DEBIT")
-    private BigDecimal montantDebit;
-    
-     @Column(name="Solde_Report")
-    private BigDecimal soldeReport;
-
-    @Column(name="SOLDE")
-    private BigDecimal solde;
+    @Column(name="ETAT")
+    private String etat;
 
     @ManyToOne
     @JoinColumn(name="ID_UTIL_CREATION")
@@ -73,6 +64,14 @@ public class CompteFourMP implements Serializable {
 
     public Utilisateur getUtilisateurCreation() {
         return utilisateurCreation;
+    }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
     }
 
     public void setUtilisateurCreation(Utilisateur utilisateurCreation) {
@@ -103,43 +102,5 @@ public class CompteFourMP implements Serializable {
         this.libelle = libelle;
     }
 
-    public BigDecimal getMontantCredit() {
-        return montantCredit;
-    }
-
-    public void setMontantCredit(BigDecimal montantCredit) {
-        this.montantCredit = montantCredit;
-    }
-
-    public BigDecimal getMontantDebit() {
-        return montantDebit;
-    }
-
-    public void setMontantDebit(BigDecimal montantDebit) {
-        this.montantDebit = montantDebit;
-    }
-
-    public BigDecimal getSoldeReport() {
-        return soldeReport;
-    }
-
-    public void setSoldeReport(BigDecimal soldeReport) {
-        this.soldeReport = soldeReport;
-    }
-
-    public BigDecimal getSolde() {
-        return solde;
-    }
-
-    public void setSolde(BigDecimal solde) {
-        this.solde = solde;
-    }
-
-  
     
-        @Transient
-    public BigDecimal getTotal() {
-        BigDecimal result =  getSolde().add(getSoldeReport());
-         return result.setScale(2, RoundingMode.HALF_UP) ;
-    }
 }

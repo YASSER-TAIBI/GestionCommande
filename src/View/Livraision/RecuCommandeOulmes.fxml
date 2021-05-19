@@ -37,7 +37,7 @@
                   <Blend />
                </effect>
             </TextField>
-            <DatePicker layoutX="743.0" layoutY="12.0" prefHeight="31.0" prefWidth="194.0" promptText="Date Creation" />
+            <DatePicker fx:id="dateCreationPicker" layoutX="743.0" layoutY="12.0" onAction="#creationDate" prefHeight="31.0" prefWidth="194.0" promptText="Date Creation" />
             <Label layoutX="159.0" layoutY="18.0" text="N° Commande: " />
             <Label layoutX="598.0" layoutY="18.0" text="Date Création: " />
             <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="447.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
@@ -45,18 +45,22 @@
                   <Image url="@../../Styles/img/Start-Menu-Search-icon.png" />
                </image>
             </ImageView>
+            <ImageView fitHeight="38.0" fitWidth="42.0" layoutX="1077.0" layoutY="17.0" onMouseClicked="#refrechTableMouseClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Styles/img/500px-View-refresh.svg.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
       <Pane layoutX="1181.0" layoutY="645.0" prefHeight="197.0" prefWidth="165.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Button fx:id="btnImprimer" layoutX="15.0" layoutY="79.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="38.0" prefWidth="135.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer" />
-            <Button fx:id="btnRafraichir" layoutX="16.0" layoutY="130.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#rafraichirOnAction" prefHeight="38.0" prefWidth="135.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Rafraîchir" />
-            <Button fx:id="btnEnCours" layoutX="14.0" layoutY="28.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#enCoursOnAction" prefHeight="38.0" prefWidth="135.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="En Cours" />
+            <Button fx:id="btnImprimer" layoutX="15.0" layoutY="112.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="38.0" prefWidth="135.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="Imprimer" />
+            <Button fx:id="btnEnCours" layoutX="14.0" layoutY="46.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#enCoursOnAction" prefHeight="38.0" prefWidth="135.0" stylesheets="@../Styles/css/FigureDeStyle.css" text="En Cours" />
          </children>
       </Pane>
-      <Pane layoutX="536.0" layoutY="99.0" prefHeight="55.0" prefWidth="513.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+      <Pane layoutX="476.0" layoutY="99.0" prefHeight="55.0" prefWidth="614.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
          <children>
-            <Label layoutX="35.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Reçu Commande Oulmes" />
+            <Label layoutX="20.0" layoutY="5.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Reçu Commande Produit Fini" />
          </children>
       </Pane>
       <TableView fx:id="tableReception" blendMode="MULTIPLY" layoutX="220.0" layoutY="643.0" maxWidth="1.7976931348623157E308" prefHeight="197.0" prefWidth="951.0" styleClass="table-row-cell" stylesheets="@../Styles/css/FigureDeStyle.css">

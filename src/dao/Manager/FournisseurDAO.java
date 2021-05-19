@@ -25,7 +25,11 @@ public interface FournisseurDAO {
 		
 		public  void delete(Fournisseur e); 
 		
-		public List<Fournisseur> findAll();
+		public List<Fournisseur> findAllMp();
+                
+                public List<Fournisseur> findAllPF();
+                
+                public List<Fournisseur> findAllPfAndMp();
 
                 public List<Fournisseur> findFourByRechercheNom(String nom);
                 
@@ -36,6 +40,10 @@ public interface FournisseurDAO {
                 public Fournisseur findByFournisseur(String four);
                 
                 public List<Fournisseur> findFourByTypeFour();
+                
+                public Fournisseur findByFournisseur();
+                
+                public Fournisseur findByCompte(int compte);
             
         
            

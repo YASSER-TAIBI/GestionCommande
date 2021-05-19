@@ -57,5 +57,33 @@ public class MagasinDAOImpl implements MagasinDAO {
 		
 		return magasin;
 	}
-	
+
+        
+           public List<Magasin> findByAllDepot(int idDepot) {
+		// TODO Auto-generated method stub
+		Query query= session.createQuery("select c from Magasin c where c.depot.id=:idDepot");
+		query.setParameter("idDepot", idDepot);
+		
+		
+		return query.list();
+	}
+        
+        public List<Magasin> findByDepot(int idDepot) {
+		// TODO Auto-generated method stub
+		Query query= session.createQuery("select c from Magasin c where c.depot.id=:idDepot and c.libelle= 'STOCKAGE MP'");
+		query.setParameter("idDepot", idDepot);
+		
+		
+		return query.list();
+	}
+        
+             public List<Magasin> findByDepotOulmes(int idDepot) {
+		// TODO Auto-generated method stub
+		Query query= session.createQuery("select c from Magasin c where c.depot.id=:idDepot and c.libelle= 'STOCKAGE PF'");
+		query.setParameter("idDepot", idDepot);
+		
+		
+		return query.list();
+	}
+        
 }

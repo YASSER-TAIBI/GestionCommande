@@ -20,5 +20,7 @@ public interface SubCategorieMPDAO {
 	
         public List<SubCategorieMp> SubCategorieMpByBoxCartonAdf();
 
+        public List<SubCategorieMp> findByCodeSubCategorieMp(String code);
 
+        public List<SubCategorieMp> findBylibelleSubCategorieMp(String lib);
 }

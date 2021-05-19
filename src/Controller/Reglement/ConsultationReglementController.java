@@ -11,19 +11,26 @@ import dao.Entity.BonLivraison;
 import dao.Entity.ClientMP;
 import dao.Entity.Fournisseur;
 import dao.Entity.Reglement;
+import dao.Manager.BonLivraisonDAO;
 import dao.Manager.ClientMPDAO;
 import dao.Manager.FournisseurDAO;
 import dao.Manager.ReglementDAO;
+import dao.ManagerImpl.BonLivraisonDAOImpl;
 import dao.ManagerImpl.ClientMPDAOImpl;
 import dao.ManagerImpl.FournisseurDAOImpl;
 import dao.ManagerImpl.ReglementDAOImpl;
 import function.navigation;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -42,6 +49,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -88,6 +96,24 @@ public class ConsultationReglementController implements Initializable {
     private TableColumn<Reglement, String> numChequeColumn;
     @FXML
     private TableColumn<Reglement, Boolean> actionColumn;
+    
+    @FXML
+    private TableView<BonLivraison> tableBonLivraison;
+    @FXML
+    private TableColumn<BonLivraison, String> numLivraisonColumn;
+    @FXML
+    private TableColumn<BonLivraison, Date> dateLivraisonColumn;
+    @FXML
+    private TableColumn<BonLivraison, String> NumFactureColumn;
+    @FXML
+    private TableColumn<BonLivraison, BigDecimal> montantColumn;
+    @FXML
+    private TableColumn<BonLivraison, BigDecimal> montantTVAColumn;
+    @FXML
+    private TableColumn<BonLivraison, BigDecimal> montantTTCColumn;
+    @FXML
+    private TableColumn<BonLivraison, String> etatColumn;
+    
     @FXML
     private ComboBox<String> fourCombo;
     @FXML
@@ -102,18 +128,25 @@ public class ConsultationReglementController implements Initializable {
     private TextField numFactureRech;
     @FXML
     private TextField numChequeRech;
+    @FXML
+    private DatePicker dateReglement;
     
 private Map<String,Fournisseur> mapFournisseur=new HashMap<>();
 private Map<String,ClientMP> mapClientMP=new HashMap<>();
 
   navigation nav = new navigation();
   private final ObservableList<Reglement> listeReglement=FXCollections.observableArrayList();
+  private final ObservableList<BonLivraison> listeBonLivraisons=FXCollections.observableArrayList();
   FournisseurDAO fournisseurDAO = new FournisseurDAOImpl();
   ClientMPDAO clientMPDAO = new ClientMPDAOImpl();
 ReglementDAO  reglementDAO = new ReglementDAOImpl();
 Reglement reglement = new  Reglement();
-  
+  BonLivraisonDAO bonLivraisonDAO = new BonLivraisonDAOImpl();
+BonLivraison bonLivraison = new  BonLivraison();
+
   BigDecimal  montantTotal=BigDecimal.ZERO;
+    
+    
  
 
     /**
@@ -122,7 +155,7 @@ Reglement reglement = new  Reglement();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-            List<Fournisseur> listFournisseur=fournisseurDAO.findAll();
+            List<Fournisseur> listFournisseur=fournisseurDAO.findAllPfAndMp();
         
         listFournisseur.stream().map((fournisseur) -> {
             fourCombo.getItems().addAll(fournisseur.getNom());
@@ -144,6 +177,7 @@ Reglement reglement = new  Reglement();
             
             numChequeRech.setDisable(true);
             numFactureRech.setDisable(true);
+            dateReglement.setDisable(true);
     }    
 
     
@@ -201,12 +235,22 @@ Reglement reglement = new  Reglement();
           actionColumn.setCellFactory(act-> new CheckBoxTableCell<>());
     
           actionColumn.setEditable(true);
-      
-          
+
           tableReglement.setEditable(true);
       
     }
     
+    void setColumnPropertiesDetail() {
+
+      numLivraisonColumn.setCellValueFactory(new PropertyValueFactory<>("livraisonFour"));
+      montantColumn.setCellValueFactory(new PropertyValueFactory<>("montant"));
+      etatColumn.setCellValueFactory(new PropertyValueFactory<>("etat"));
+      dateLivraisonColumn.setCellValueFactory(new PropertyValueFactory<BonLivraison, Date>("dateLivraison"));
+      NumFactureColumn.setCellValueFactory(new PropertyValueFactory<>("numFacture"));
+      montantTVAColumn.setCellValueFactory(new PropertyValueFactory<>("montantTVA"));
+      montantTTCColumn.setCellValueFactory(new PropertyValueFactory<>("montantTTC"));
+
+    }
     
     @FXML
     private void fournisseurOnAction(ActionEvent event) {
@@ -221,21 +265,40 @@ Reglement reglement = new  Reglement();
 
     @FXML
     private void imprimerOnAction(ActionEvent event) {
+        
             try {
-          HashMap para = new HashMap();
+                
+              if (tableReglement.getSelectionModel().getSelectedIndex()!=-1){
+             
+                reglement =tableReglement.getSelectionModel().getSelectedItem();   
+
+              HashMap para = new HashMap();
             JasperReport report = (JasperReport) JRLoader.loadObject(ConsultationReglementController.class.getResource(nav.getiReportBonReglement()));
 
+            para.put("codeRg",reglement.getCodeReglement());
+            para.put("designation",reglement.getDesignation());
+            para.put("dateRg",reglement.getDate());
+            para.put("numFact",reglement.getNumFacture());
+            para.put("modeRg",reglement.getModeReglement());
+            para.put("numCheque",reglement.getNumCritique());
+            para.put("montant",reglement.getMontantReglement());
 
             para.put("Fournisseur",fourCombo.getSelectionModel().getSelectedItem());
             para.put("Client",clientCombo.getSelectionModel().getSelectedItem());
             
             
-             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(tableReglement.getItems()));
+             JasperPrint jp = JasperFillManager.fillReport(report, para, new JRBeanCollectionDataSource(listeBonLivraisons));
                JasperViewer.viewReport(jp, false);
-            
+           }else{
+         
+            nav.showAlert(Alert.AlertType.WARNING, "Attention", null,  Constantes.SELECTIONNER_UNE_LIGNE);
+         } 
+         
         } catch (JRException ex) {
             Logger.getLogger(EnvoyerCommandeController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    
+    
     }
 
     @FXML
@@ -250,9 +313,11 @@ Reglement reglement = new  Reglement();
 
               numChequeRech.setText("");
               numFactureRech.setText("");
+              dateReglement.setValue(null);
               
               numChequeRech.setDisable(true);
               numFactureRech.setDisable(true);
+              dateReglement.setDisable(true);
               
               montantTotalField.setText("");
               
@@ -265,6 +330,8 @@ Reglement reglement = new  Reglement();
               }
         
               tableReglement.getItems().clear();
+              
+              tableBonLivraison.getItems().clear();
     }
 
     @FXML
@@ -279,6 +346,7 @@ Reglement reglement = new  Reglement();
               
                  setColumnProperties();
                   listeReglement.clear();
+                  listeBonLivraisons.clear();
                   
        ClientMP clientMP = mapClientMP.get(clientCombo.getSelectionModel().getSelectedItem());
        Fournisseur fournisseur = mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
@@ -288,6 +356,7 @@ Reglement reglement = new  Reglement();
 
               numChequeRech.setDisable(false);
               numFactureRech.setDisable(false);
+              dateReglement.setDisable(false);
         }
     }
 
@@ -321,9 +390,11 @@ Reglement reglement = new  Reglement();
         
     ObservableList<Reglement> listeReglementRech=FXCollections.observableArrayList();
                    
+    listeBonLivraisons.clear();
+    
     listeReglementRech.clear();
    
-   listeReglementRech.addAll(reglementDAO.findReglementByFacture(numFactureRech.getText(),clientMP.getId(),fournisseur.getId()));
+    listeReglementRech.addAll(reglementDAO.findReglementByFacture(numFactureRech.getText(),clientMP.getId(),fournisseur.getId()));
    
    tableReglement.setItems(listeReglementRech);
     
@@ -332,12 +403,14 @@ Reglement reglement = new  Reglement();
     @FXML
     private void rechercheNumChequeKeyPressed(KeyEvent event) {
                
-          ClientMP clientMP = mapClientMP.get(clientCombo.getSelectionModel().getSelectedItem());
-       Fournisseur fournisseur = mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
+    ClientMP clientMP = mapClientMP.get(clientCombo.getSelectionModel().getSelectedItem());
+    Fournisseur fournisseur = mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
         
     ObservableList<Reglement> listeReglementRech=FXCollections.observableArrayList();
                    
-    listeReglementRech.clear();
+    listeBonLivraisons.clear();
+    
+   listeReglementRech.clear();
    
    listeReglementRech.addAll(reglementDAO.findReglementByCheque(numChequeRech.getText(),clientMP.getId(),fournisseur.getId()));
    
@@ -348,12 +421,98 @@ Reglement reglement = new  Reglement();
     @FXML
     private void rechFactureOnCllicked(MouseEvent event) {
              numChequeRech.setDisable(true);
-        
+             dateReglement.setDisable(true);
     }
 
     @FXML
     private void rechChequeOnCllicked(MouseEvent event) {
              numFactureRech.setDisable(true);
+             dateReglement.setDisable(true);
+    }
+
+    @FXML
+    private void selectionnerToutMouseClicked(MouseEvent event) {
+        
+        
+            ObservableList<Reglement> list=tableReglement.getItems();
+        
+        for (Iterator<Reglement> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(true);
+        }
+
+        tableReglement.refresh(); 
+    }
+
+    @FXML
+    private void deselectionnerToutMouseClicked(MouseEvent event) {
+        
+        
+            ObservableList<Reglement> list=tableReglement.getItems();
+        
+        for (Iterator<Reglement> iterator = list.iterator(); iterator.hasNext();) {
+
+            iterator.next().setAction(false);
+        }
+
+        tableReglement.refresh(); 
+        
+    }
+
+    @FXML
+    private void afficherDetailOnMouseClicked(MouseEvent event) {
+        
+        
+               if (tableReglement.getSelectionModel().getSelectedIndex()!=-1){
+            
+            listeBonLivraisons.clear();
+          
+                    reglement=tableReglement.getSelectionModel().getSelectedItem();   
+            
+             String numFacture = reglement.getNumFacture();
+             String numFactureEspace = numFacture.trim();
+             String numFactureValeur = numFactureEspace.replaceAll(" ","','");
+
+             String req= " and c.client='"+reglement.getClientMP().getNom()+"' and c.fourisseur='"+reglement.getFournisseur().getNom()+"' and c.numFacture in ('"+numFactureValeur+"')";
+
+       listeBonLivraisons.addAll(bonLivraisonDAO.findByNumFactureAndClientAndFourAndEtat(req));
+
+       System.out.println("listeBonLivraisons.size() "+listeBonLivraisons.size());
+       tableBonLivraison.setItems(listeBonLivraisons);
+       
+       setColumnPropertiesDetail();
+
+
+    } 
+        
+        
+    }
+
+    @FXML
+    private void dateReglementOnAction(ActionEvent event) throws ParseException {
+        
+        ClientMP clientMP = mapClientMP.get(clientCombo.getSelectionModel().getSelectedItem());
+        
+       Fournisseur fournisseur = mapFournisseur.get(fourCombo.getSelectionModel().getSelectedItem());
+       
+           LocalDate localDate=dateReglement.getValue();
+           
+             if(localDate!=null){
+
+             Date dateSaisie=new SimpleDateFormat("yyyy-MM-dd").parse(localDate.toString());
+             
+            listeBonLivraisons.clear();
+
+            listeReglement.clear();
+   
+   listeReglement.addAll(reglementDAO.findByFourAndCltAndDateRg(fournisseur.getId(),clientMP.getId(),dateSaisie));
+   
+   tableReglement.setItems(listeReglement);
+   
+   
+             numFactureRech.setDisable(true);
+             numChequeRech.setDisable(true);
+             }
     }
     
     

@@ -12,19 +12,16 @@ import dao.Entity.Dimension;
 import dao.Entity.Magasin;
 import dao.Entity.MatierePremier;
 import dao.Entity.Sequenceur;
-import dao.Entity.StockPF;
 import dao.Manager.CategorieMpDAO;
 import dao.Manager.DepotDAO;
 import dao.Manager.DimensionDAO;
 import dao.Manager.MatierePremiereDAO;
 import dao.Manager.SequenceurDAO;
-import dao.Manager.StockPFDAO;
 import dao.ManagerImpl.CategorieMpDAOImpl;
 import dao.ManagerImpl.DepotDAOImpl;
 import dao.ManagerImpl.DimensionDAOImpl;
 import dao.ManagerImpl.MatierePremierDAOImpl;
 import dao.ManagerImpl.SequenceurDAOImpl;
-import dao.ManagerImpl.StockPFDAOImpl;
 import function.navigation;
 import java.awt.Desktop;
 import java.io.File;
@@ -134,7 +131,6 @@ public class MatierePremierController implements Initializable {
      DimensionDAO dimensionDAO = new DimensionDAOImpl();
      SequenceurDAO sequenceurDAO = new SequenceurDAOImpl();
      DepotDAO depotDAO = new DepotDAOImpl();
-    StockPFDAO stockPFDAO = new StockPFDAOImpl();
     
     
       private Map<String,CategorieMp> mapCategorieMp=new HashMap<>();
@@ -329,7 +325,11 @@ CategorieMp categorieMp = categorieMpDAO.findCategorieMpByCat(CategorieColumn.ge
      }else {
              
        MatierePremier matierePremier=tableMP.getSelectionModel().getSelectedItem();
-        matierePremierDAO.delete(matierePremier);
+       
+         matierePremier.setEtat(Constantes.ETAT_COMMANDE_SUPPRIMER);
+
+            matierePremierDAO.edit(matierePremier);
+       
         
         nav.showAlert(Alert.AlertType.CONFIRMATION, "Succès", null, Constantes.SUPRIMER_ENREGISTREMENT);
         
@@ -354,6 +354,7 @@ CategorieMp categorieMp = categorieMpDAO.findCategorieMpByCat(CategorieColumn.ge
         matierePremier.setCategorieMp(categorieMp);
         matierePremier.setDimension(dimension);
         matierePremier.setNom(nomMpField.getText());
+        matierePremier.setEtat(Constantes.ETAT_COMMANDE_LANCE);
         matierePremier.setValMinMP(new BigDecimal(100).setScale(2));
         matierePremier.setValMaxMP(new BigDecimal(1000000000).setScale(2));
         matierePremier.setUtilisateurCreation(nav.getUtilisateur());
@@ -547,6 +548,18 @@ CategorieMp categorieMp = categorieMpDAO.findCategorieMpByCat(CategorieColumn.ge
 
         }
 
+    }
+
+
+    @FXML
+    private void rechercheTableMouseClicked(MouseEvent event) {
+        
+            rechNom.clear();
+            rechCode.clear();
+
+            setColumnProperties();
+            loadDetail();
+        
     }
     
 }

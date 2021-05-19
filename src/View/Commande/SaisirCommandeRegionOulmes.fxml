@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane id="AnchorPane" prefHeight="900.0" prefWidth="1600.0" styleClass="root" stylesheets="@../../Styles/css/FigureDeStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.commande.SaisirCommandeRegionOulmesController">
+   <children>
+      <Pane layoutX="234.0" layoutY="200.0" prefHeight="100.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <GridPane layoutX="47.0" layoutY="8.0" prefHeight="81.0" prefWidth="926.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="188.0" minWidth="10.0" prefWidth="166.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="259.0" minWidth="10.0" prefWidth="215.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="0.0" prefWidth="16.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="236.0" minWidth="0.0" prefWidth="97.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="358.0" minWidth="10.0" prefWidth="195.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.80000000000007" minWidth="10.0" prefWidth="220.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="41.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="41.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="N Commande: " />
+                  <TextField fx:id="nCommandeField" disable="true" prefHeight="31.0" prefWidth="202.0" styleClass="StyleRaduis" GridPane.columnIndex="1" />
+                  <Label text="Etat: " GridPane.columnIndex="4" />
+                  <TextField fx:id="etatField" alignment="CENTER" disable="true" prefHeight="31.0" prefWidth="129.0" styleClass="StyleRaduis" GridPane.columnIndex="5" />
+                  <Label text="Num Matricule: " GridPane.rowIndex="1" />
+                  <TextField fx:id="numMatriculeField" onKeyReleased="#qteByIntervalleOnAction" prefHeight="31.0" prefWidth="233.0" promptText="Num Matricule" styleClass="StyleRaduis" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label text="Date Chargement: " GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <DatePicker fx:id="dateCharg" prefHeight="31.0" prefWidth="233.0" promptText="Date Chargement" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </children></Pane>
+      <TableView fx:id="detailCommandetable" blendMode="MULTIPLY" layoutX="241.0" layoutY="532.0" prefHeight="216.0" prefWidth="920.0" styleClass="table-row-cell" stylesheets="@../../Styles/css/FigureDeStyle.css">
+        <columns>
+          <TableColumn fx:id="codeArtColumn" prefWidth="157.0" text="Code Article" />
+          <TableColumn fx:id="libelleColumn" prefWidth="513.0" text="Libelle" />
+            <TableColumn fx:id="quantiteColumn" prefWidth="250.0" text="Quantite" />
+        </columns>
+      </TableView>
+      <Pane layoutX="238.0" layoutY="320.0" prefHeight="195.0" prefWidth="1125.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="118.0" layoutY="93.0" text="Quantite:" />
+            <TextField fx:id="quantiteField" layoutX="217.0" layoutY="87.0" onKeyReleased="#qteByIntervalleOnAction" prefHeight="31.0" prefWidth="213.0" promptText="Quantite" styleClass="StyleRaduis" />
+            <DatePicker fx:id="dateSaisie" layoutX="749.0" layoutY="86.0" prefHeight="31.0" prefWidth="215.0" promptText="Date Saisie" />
+            <Label layoutX="624.0" layoutY="92.0" text="Date Saisie:" />
+            <Label fx:id="qteAfficchage" contentDisplay="CENTER" layoutX="430.0" layoutY="88.0" prefHeight="31.0" prefWidth="164.0" />
+            <Button fx:id="ajouterSaisie" layoutX="515.0" layoutY="139.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ajouterSaisieAction" prefHeight="38.0" prefWidth="115.0" text="Ajouter" />
+            <TextField fx:id="codeArtField" layoutX="219.0" layoutY="32.0" onKeyPressed="#chargeL0ibelleKeyPressed" prefHeight="31.0" prefWidth="213.0" styleClass="StyleRaduis" />
+            <Label layoutX="660.0" layoutY="37.0" text="Libelle:" />
+            <Label layoutX="81.0" layoutY="37.0" text="Code Article:" />
+            <ComboBox fx:id="LibelleCombo" layoutX="748.0" layoutY="32.0" onAction="#LibelleComboOnAction" prefHeight="31.0" prefWidth="318.0" promptText="Sélectionner..." styleClass="StyleRaduis" stylesheets="@../../Styles/css/FigureDeStyle.css" />
+         </children></Pane>
+      <Pane layoutX="494.0" layoutY="99.0" prefHeight="48.0" prefWidth="607.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Label layoutX="25.0" layoutY="2.0" prefHeight="44.0" prefWidth="561.0" styleClass="label2" stylesheets="@../../Styles/css/FigureDeStyle.css" text="Saisir Commande Région PF" />
+         </children>
+      </Pane>
+      <Pane layoutX="1182.0" layoutY="533.0" prefHeight="216.0" prefWidth="181.0" styleClass="pane" stylesheets="@../../Styles/css/FigureDeStyle.css">
+         <children>
+            <Button fx:id="btnValiderTout" layoutX="24.0" layoutY="153.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#ValiderToutCommande" prefHeight="38.0" prefWidth="133.0" text="Rafraîchir" />
+            <Button fx:id="validerSaisie" layoutX="24.0" layoutY="25.0" mnemonicParsing="false" onAction="#validerSaisieAction" prefHeight="38.0" prefWidth="133.0" text="Valider" textAlignment="CENTER" />
+            <Button fx:id="imprimerSaisie" layoutX="24.0" layoutY="89.0" mnemonicParsing="false" onAction="#imprimerOnAction" prefHeight="38.0" prefWidth="133.0" text="Imprimer" textAlignment="CENTER" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
